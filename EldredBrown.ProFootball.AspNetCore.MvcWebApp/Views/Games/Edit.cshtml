@@ -1,0 +1,70 @@
+﻿@model Game
+@{
+    ViewData["Title"] = "Edit Game";
+}
+
+<h1>Game</h1>
+
+<h4>Edit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+
+            <div class="form-group">
+                <label asp-for="SeasonId" class="control-label"></label>
+                @Html.DropDownList("SeasonId", null, htmlAttributes: new { @class = "form-control" })
+                <span asp-validation-for="SeasonId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Week" class="control-label"></label>
+                @Html.DropDownList("Week", null, htmlAttributes: new { @class = "form-control" })
+                <span asp-validation-for="Week" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GuestName" class="control-label"></label>
+                @Html.DropDownList("GuestName", null, htmlAttributes: new { @class = "form-control" })
+                <span asp-validation-for="GuestName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GuestScore" class="control-label"></label>
+                <input asp-for="GuestScore" class="form-control" />
+                <span asp-validation-for="GuestScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HostName" class="control-label"></label>
+                @Html.DropDownList("HostName", null, htmlAttributes: new { @class = "form-control" })
+                <span asp-validation-for="HostName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HostScore" class="control-label"></label>
+                <input asp-for="HostScore" class="form-control" />
+                <span asp-validation-for="HostScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsPlayoffGame" class="control-label"></label>
+                <input asp-for="IsPlayoffGame" class="form-control" />
+                <span asp-validation-for="IsPlayoffGame" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

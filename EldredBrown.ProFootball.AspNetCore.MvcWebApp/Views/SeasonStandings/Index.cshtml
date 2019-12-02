@@ -1,0 +1,118 @@
+﻿@model SeasonStandingIndexViewModel
+@{
+    ViewBag.Title = "Standings";
+}
+
+<h1>Standings</h1>
+
+<form>
+    <p>
+        <label class="col-form-label">Season</label>
+        @Html.DropDownList("Seasons", null, htmlAttributes: new
+        {
+            @onchange = "document.location.href='/SeasonStandings/SetSelectedSeasonId?SeasonId=' + this.options[this.selectedIndex].value;"
+        })
+    </p>
+    <p>
+        <label class="col-form-label">Group by Division</label>
+        @Html.CheckBox("GroupByDivision", htmlAttributes: new
+        {
+            @onchange = "document.location.href='/SeasonStandings/SetGroupByDivision?GroupByDivision=' + this.checked;"
+        })
+    </p>
+</form>
+
+@{
+    string previousConference = string.Empty;
+    string previousDivision = string.Empty;
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Team
+            </th>
+            <th style="text-align: right">
+                W
+            </th>
+            <th style="text-align: right">
+                L
+            </th>
+            <th style="text-align: right">
+                T
+            </th>
+            <th style="text-align: right">
+                Pct.
+            </th>
+            <th style="text-align: right">
+                PF
+            </th>
+            <th style="text-align: right">
+                PA
+            </th>
+            <th style="text-align: right">
+                AvgPF
+            </th>
+            <th style="text-align: right">
+                AvgPA
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.SeasonStandings)
+    {
+        if (!string.IsNullOrEmpty(item.Conference) && item.Conference != previousConference)
+        {
+            <tr>
+                <th>
+                    @item.Conference
+                </th>
+            </tr>
+
+            previousConference = item.Conference;
+        }
+        if (ViewBag.GroupByDivision == true && 
+            !string.IsNullOrEmpty(item.Division) && 
+            item.Division != previousDivision)
+        {
+            <tr>
+                <th>
+                    @item.Division
+                </th>
+            </tr>
+
+            previousDivision = item.Division;
+        }
+        <tr>
+            <td>
+                @item.Team
+            </td>
+            <td style="text-align: right">
+                @item.Wins
+            </td>
+            <td style="text-align: right">
+                @item.Losses
+            </td>
+            <td style="text-align: right">
+                @item.Ties
+            </td>
+            <td style="text-align: right">
+                @item.WinningPercentage
+            </td>
+            <td style="text-align: right">
+                @item.PointsFor
+            </td>
+            <td style="text-align: right">
+                @item.PointsAgainst
+            </td>
+            <td style="text-align: right">
+                @item.AvgPointsFor
+            </td>
+            <td style="text-align: right">
+                @item.AvgPointsAgainst
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

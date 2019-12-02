@@ -1,0 +1,53 @@
+﻿@model LeagueListViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label asp-for="Leagues.SingleOrDefault().LongName"></label>
+            </th>
+            <th>
+                <label asp-for="Leagues.SingleOrDefault().ShortName"></label>
+            </th>
+            <th>
+                <label asp-for="Leagues.SingleOrDefault().FirstSeasonId"></label>
+            </th>
+            <th>
+                <label asp-for="Leagues.SingleOrDefault().LastSeasonId"></label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var league in Model.Leagues) {
+        <tr>
+            <td>
+                @league.LongName
+            </td>
+            <td>
+                @league.ShortName
+            </td>
+            <td>
+                @league.FirstSeasonId
+            </td>
+            <td>
+                @league.LastSeasonId
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@league.ID">Details</a>
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@league.ID">Edit</a>
+                <a class="btn btn-primary" asp-action="Delete" asp-route-id="@league.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

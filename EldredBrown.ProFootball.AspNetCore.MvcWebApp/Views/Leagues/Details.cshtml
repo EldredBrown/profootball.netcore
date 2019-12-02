@@ -1,0 +1,46 @@
+﻿@model LeagueDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label asp-for="League.LongName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.League.LongName
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="League.ShortName"></label>
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.League.ShortName
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="League.FirstSeasonId"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.League.FirstSeasonId
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="League.LastSeasonId"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.League.LastSeasonId
+        </dd>
+    </dl>
+</div>
+<div>
+    <p>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.League.ID">Edit</a>
+    </p>
+    <p>
+        <a asp-action="List">Back to List</a>
+    </p>
+</div>
