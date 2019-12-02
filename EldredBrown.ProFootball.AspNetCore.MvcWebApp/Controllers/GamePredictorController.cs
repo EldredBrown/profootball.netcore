@@ -29,6 +29,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             _seasonTeamRepository = seasonTeamRepository;
         }
 
+        // GET: GamePredictor/PredictGame
         /// <summary>
         /// Renders a view of the Game Predictor form.
         /// </summary>
@@ -53,13 +54,16 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             return View();
         }
 
+        // POST: GamePredictor/PredictGame
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         /// <summary>
-        /// Processes the data returned from the Game Predictor form.
+        /// Processes the data posted back from the Game Predictor form.
         /// </summary>
         /// <param name="prediction">A <see cref="GamePrediction"/> object representing the game matchup.</param>
         /// <returns>The rendered view of the Game Predictor form.</returns>
         [HttpPost]
-        public async Task<IActionResult> PredictGame(GamePrediction prediction)
+        public async Task<IActionResult> PredictGame([Bind("GuestSeasonId,GuestName,GuestScore,HostSeasonId,HostName,HostScore")] GamePrediction prediction)
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
 

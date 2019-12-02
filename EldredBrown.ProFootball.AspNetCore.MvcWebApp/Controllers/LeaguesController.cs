@@ -27,7 +27,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// Renders a view of the Leagues list.
         /// </summary>
         /// <returns>The rendered view of the Leagues list.</returns>
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> Index()
         {
             var viewModel = new LeagueListViewModel
             {
@@ -39,13 +39,18 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         }
 
         /// <summary>
-        /// Renders a view of an individual league.
+        /// Renders a view of a selected league.
         /// </summary>
-        /// <returns>The rendered view of the league.</returns>
-        public async Task<IActionResult> Details(int id)
+        /// <param name="id">The ID of the selected league.</param>
+        /// <returns>The rendered view of the selected league.</returns>
+        public async Task<IActionResult> Details(int? id)
         {
-            var league = await _leagueRepository.GetLeague(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var league = await _leagueRepository.GetLeague(id.Value);
             if (league == null)
             {
                 return NotFound();

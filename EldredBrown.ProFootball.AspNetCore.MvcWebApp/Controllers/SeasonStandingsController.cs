@@ -31,10 +31,11 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             _seasonStandingsRepository = seasonStandingsRepository;
         }
 
+        // GET: SeasonStandings
         /// <summary>
-        /// Renders a view of the season stadings home page.
+        /// Renders a view of the SeasonStandings list.
         /// </summary>
-        /// <returns>The rendered view of the season standings home page.</returns>
+        /// <returns>The rendered view of the SeasonStandings list.</returns>
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -58,7 +59,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
         public IActionResult SetSelectedSeasonId(int? seasonId)
         {
-            if (!seasonId.HasValue)
+            if (seasonId == null)
             {
                 return BadRequest();
             }
@@ -75,7 +76,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
         public IActionResult SetGroupByDivision(bool? groupByDivision)
         {
-            if (groupByDivision.HasValue)
+            if (groupByDivision != null)
             {
                 _groupByDivision = groupByDivision.Value;
             }

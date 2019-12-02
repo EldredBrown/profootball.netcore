@@ -43,12 +43,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             _seasonTeamScheduleAveragesRepository = seasonTeamScheduleAveragesRepository;
         }
 
+        // GET: SeasonTeams
         /// <summary>
         /// Renders a view of the SeasonTeams list.
         /// </summary>
         /// <returns>The rendered view of the SeasonTeams list.</returns>
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> Index()
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
             
@@ -62,18 +63,18 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             return View(viewModel);
         }
 
+        // GET: SeasonTeams/Details/5
         /// <summary>
-        /// Renders a view of the details of an individual SeasonTeam.
+        /// Renders a view of a selected seasonTeam.
         /// </summary>
-        /// <param name="seasonId">The season ID of the selected SeasonTeam.</param>
-        /// <param name="teamName">The team name of the selected SeasonTeam.</param>
-        /// <returns>The rendered view of the SeasonTeam's details.</returns>
+        /// <param name="id">The ID of the selected seasonTeam.</param>
+        /// <returns>The rendered view of the selected seasonTeam.</returns>
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
-            if (!id.HasValue)
+            if (id == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var seasonTeam = await _seasonTeamRepository.GetSeasonTeam(id.Value);
@@ -105,14 +106,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
         public IActionResult SetSelectedSeasonId(int? seasonId)
         {
-            if (!seasonId.HasValue)
+            if (seasonId == null)
             {
                 return BadRequest();
             }
 
             _selectedSeasonId = seasonId.Value;
 
-            return RedirectToAction("List");
+            return RedirectToAction("Index");
         }
     }
 }

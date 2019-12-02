@@ -1,4 +1,5 @@
 ﻿@model GamePrediction
+
 @{
     ViewBag.Title = "Predict Game";
 }
@@ -9,7 +10,6 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="form-group">
                 <label asp-for="GuestSeasonId" class="control-label"></label>
                 @Html.DropDownList("GuestSeasonId", null, htmlAttributes: new
@@ -29,7 +29,6 @@
                 @Html.DisplayFor(model => model.GuestScore)
                 <span asp-validation-for="GuestScore" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="HostSeasonId" class="control-label"></label>
                 @Html.DropDownList("HostSeasonId", null, htmlAttributes: new
@@ -49,7 +48,6 @@
                 @Html.DisplayFor(model => model.HostScore)
                 <span asp-validation-for="HostScore" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-lg">Calculate Prediction</button>
             </div>

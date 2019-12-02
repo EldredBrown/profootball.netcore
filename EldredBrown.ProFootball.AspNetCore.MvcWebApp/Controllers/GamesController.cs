@@ -6,12 +6,10 @@ using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 {
-    /// <summary>
-    /// Provides control of the flow of execution for views of game data.
-    /// </summary>
     public class GamesController : Controller
     {
         private readonly ISeasonRepository _seasonRepository;
@@ -25,7 +23,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// Initializes a new instance of the <see cref="GamesController"/> class.
         /// </summary>
         /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
-        /// <param name="weekRepository">The repository by which week data will be accessed.</param>
         /// <param name="gameRepository">The repository by which game data will be accessed.</param>
         /// <param name="teamRepository">The repository by which team data will be accessed.</param>
         public GamesController(
@@ -38,14 +35,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             _teamRepository = teamRepository;
         }
 
+        // GET: Games
         /// <summary>
-        /// Renders a view of the games list.
+        /// Renders a view of the Games list.
         /// </summary>
-        /// <param name="seasonId">The season for which games will be listed.</param>
-        /// <param name="weekId">The week for which games will be listed.</param>
-        /// <returns>The rendered view of the games list.</returns>
+        /// <returns>The rendered view of the Games list.</returns>
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> Index()
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
 
@@ -60,7 +56,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             if (_selectedWeek.HasValue)
             {
                 games = games.Where(g => g.Week == _selectedWeek);
-            }                
+            }
 
             var viewModel = new GameListViewModel
             {
@@ -72,11 +68,34 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             return View(viewModel);
         }
 
+        // GET: Games/Details/5
+        /// <summary>
+        /// Renders a view of a selected game.
+        /// </summary>
+        /// <param name="id">The ID of the selected game.</param>
+        /// <returns>The rendered view of the selected game.</returns>
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var game = await _gameRepository.GetGame(id.Value);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return View(game);
+        }
+
+        // GET: Games/Create
         /// <summary>
         /// Renders a view of the game create form.
         /// </summary>
-        /// <param name="seasonId">The season to which the game will be added.</param>
-        /// <param name="weekId">The week to which the game will be added.</param>
         /// <returns>The rendered view of the game create form.</returns>
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -99,63 +118,43 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             return View();
         }
 
+        // POST: Games/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         /// <summary>
-        /// Adds a new game to the data store.
+        /// Processes the data posted back from the game create form.
         /// </summary>
-        /// <param name="newGame">The game to be added.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
+        /// <param name="game">A <see cref="Game"/> object with the data provided for the new game.</param>
+        /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
-        public async Task<IActionResult> Create(Game newGame)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ID,SeasonId,Week,GuestName,GuestScore,HostName,HostScore,WinnerName,WinnerScore,LoserName,LoserScore,IsPlayoffGame,Notes")] Game game)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View();
-            }
+                await _gameRepository.Add(game);
+                await _gameRepository.SaveChanges();
 
-            await _gameRepository.Add(newGame);
-            await _gameRepository.SaveChanges();
-
-            return RedirectToAction("List");
-        }
-
-        /// <summary>
-        /// Renders a view of the game details.
-        /// </summary>
-        /// <param name="id">The ID of the game to show.</param>
-        /// <returns>The rendered view of the game's details.</returns>
-        [HttpGet]
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (!id.HasValue)
-            {
-                return BadRequest();
-            }
-
-            var game = await _gameRepository.GetGame(id.Value);
-
-            if (game == null)
-            {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
 
             return View(game);
         }
 
+        // GET: Games/Edit/5
+        [HttpGet]
         /// <summary>
         /// Renders a view of the game edit form.
         /// </summary>
-        /// <param name="id">The ID of the game to edit.</param>
         /// <returns>The rendered view of the game edit form.</returns>
-        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (!id.HasValue)
+            if (id == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var game = await _gameRepository.GetGame(id.Value);
-
             if (game == null)
             {
                 return NotFound();
@@ -179,40 +178,61 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             return View(game);
         }
 
+        // POST: Games/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         /// <summary>
-        /// Updates a game in the data store.
+        /// Processes the data posted back from the game edit form.
         /// </summary>
-        /// <param name="updatedGame">The game to update.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
+        /// <param name="game">A <see cref="Game"/> object with the data provided for the updated game.</param>
+        /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
-        public async Task<IActionResult> Edit(Game updatedGame)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,SeasonId,Week,GuestName,GuestScore,HostName,HostScore,WinnerName,WinnerScore,LoserName,LoserScore,IsPlayoffGame,Notes")] Game game)
         {
-            if (!ModelState.IsValid)
+            if (id != game.ID)
             {
-                return View();
+                return NotFound();
             }
 
-            _gameRepository.Edit(updatedGame);
-            await _gameRepository.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _gameRepository.Edit(game);
+                    await _gameRepository.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!(await GameExists(game.ID)))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
 
-            return RedirectToAction("List");
+            return View(game);
         }
 
+        // GET: Games/Delete/5
         /// <summary>
-        /// Renders the game delete form.
+        /// Renders a view of the game delete form.
         /// </summary>
-        /// <param name="id">The ID of the game to delete.</param>
         /// <returns>The rendered view of the game delete form.</returns>
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (!id.HasValue)
+            if (id == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var game = await _gameRepository.GetGame(id.Value);
-
             if (game == null)
             {
                 return NotFound();
@@ -221,22 +241,20 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             return View(game);
         }
 
+        // POST: Games/Delete/5
         /// <summary>
-        /// Deletes a game from the data store.
+        /// Processes the confirmation of intent to delete a game.
         /// </summary>
-        /// <param name="oldGame">The game to delete.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
-        [HttpPost]
-        [ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        /// <param name="id">The ID of the game to delete.</param>
+        /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (id.HasValue)
-            {
-                await _gameRepository.Delete(id.Value);
-                await _gameRepository.SaveChanges();
-            }
+            await _gameRepository.Delete(id);
+            await _gameRepository.SaveChanges();
 
-            return RedirectToAction("List");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
@@ -246,26 +264,31 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
         public IActionResult SetSelectedSeasonId(int? seasonId)
         {
-            if (!seasonId.HasValue)
+            if (seasonId == null)
             {
                 return BadRequest();
             }
 
             _selectedSeasonId = seasonId.Value;
 
-            return RedirectToAction("List");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
         /// Sets the selected week.
         /// </summary>
-        /// <param name="week">The ID of the selected week.</param>
+        /// <param name="week">The selected week.</param>
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
         public IActionResult SetSelectedWeek(int? week)
         {
             _selectedWeek = week;
 
-            return RedirectToAction("List");
+            return RedirectToAction("Index");
+        }
+
+        private async Task<bool> GameExists(int id)
+        {
+            return (await _gameRepository.GetGames()).Any(e => e.ID == id);
         }
     }
 }

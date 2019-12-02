@@ -1,4 +1,5 @@
 ﻿@model SeasonStandingIndexViewModel
+
 @{
     ViewBag.Title = "Standings";
 }
@@ -14,11 +15,13 @@
         })
     </p>
     <p>
-        <label class="col-form-label">Group by Division</label>
-        @Html.CheckBox("GroupByDivision", htmlAttributes: new
-        {
-            @onchange = "document.location.href='/SeasonStandings/SetGroupByDivision?GroupByDivision=' + this.checked;"
-        })
+        <label class="form-check-label">
+            @Html.CheckBox("GroupByDivision", htmlAttributes: new
+            {
+                @onchange = "document.location.href='/SeasonStandings/SetGroupByDivision?GroupByDivision=' + this.checked;"
+            })
+            <label class="col-form-label">Group by Division</label>
+        </label>
     </p>
 </form>
 

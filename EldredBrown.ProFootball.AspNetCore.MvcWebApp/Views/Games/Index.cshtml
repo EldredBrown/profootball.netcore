@@ -1,4 +1,5 @@
 ﻿@model GameListViewModel
+
 @{
     ViewData["Title"] = "Games";
 }
@@ -20,40 +21,40 @@
         <label class="col-form-label">Week</label>
         @Html.DropDownList("Weeks", null, string.Empty, htmlAttributes: new
         {
-            @onchange = "document.location.href='/Games/SetSelectedWeek?WeekId=' + this.options[this.selectedIndex].value;"
+            @onchange = "document.location.href='/Games/SetSelectedWeek?Week=' + this.options[this.selectedIndex].value;"
         })
     </p>
 </form>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Add Game</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>
-                <label asp-for="@Model.Games.FirstOrDefault().SeasonId"></label>
+                <label asp-for="@Model.Games.SingleOrDefault().SeasonId"></label>
             </th>
             <th>
-                <label asp-for="@Model.Games.FirstOrDefault().Week"></label>
+                <label asp-for="@Model.Games.SingleOrDefault().Week"></label>
             </th>
             <th>
-                <label asp-for="@Model.Games.FirstOrDefault().GuestName"></label>
+                <label asp-for="@Model.Games.SingleOrDefault().GuestName"></label>
             </th>
             <th>
-                <label asp-for="@Model.Games.FirstOrDefault().GuestScore"></label>
+                <label asp-for="@Model.Games.SingleOrDefault().GuestScore"></label>
             </th>
             <th>
-                <label asp-for="@Model.Games.FirstOrDefault().HostName"></label>
+                <label asp-for="@Model.Games.SingleOrDefault().HostName"></label>
             </th>
             <th>
-                <label asp-for="@Model.Games.FirstOrDefault().HostScore"></label>
+                <label asp-for="@Model.Games.SingleOrDefault().HostScore"></label>
             </th>
             <th>
-                <label asp-for="@Model.Games.FirstOrDefault().IsPlayoffGame"></label>
+                <label asp-for="@Model.Games.SingleOrDefault().IsPlayoffGame"></label>
             </th>
             <th>
-                <label asp-for="@Model.Games.FirstOrDefault().Notes"></label>
+                <label asp-for="@Model.Games.SingleOrDefault().Notes"></label>
             </th>
             <th></th>
         </tr>
@@ -87,9 +88,9 @@
                 @game.Notes
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@game.ID" class="btn btn-primary">Details</a>
-                <a asp-action="Edit" asp-route-id="@game.ID" class="btn btn-primary">Edit</a>
-                <a asp-action="Delete" asp-route-id="@game.ID" class="btn btn-primary">Delete</a>
+                <a asp-action="Edit" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Edit</a>
+                <a asp-action="Details" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Details</a>
+                <a asp-action="Delete" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Delete</a>
             </td>
         </tr>
     }

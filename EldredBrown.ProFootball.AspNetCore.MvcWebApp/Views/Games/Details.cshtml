@@ -1,13 +1,14 @@
 ﻿@model Game
+
 @{
-    ViewData["Title"] = "Game Details";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Game</h1>
+<h1>Details</h1>
 
-<h4>Details</h4>
-<hr />
 <div>
+    <h4>Game</h4>
+    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             <label asp-for="SeasonId"></label>
@@ -46,6 +47,30 @@
             @Model.HostScore
         </dd>
         <dt class="col-sm-2">
+            <label asp-for="WinnerName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.WinnerName
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="WinnerScore"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.WinnerScore
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="LoserName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.LoserName
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="LoserScore"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.LoserScore
+        </dd>
+        <dt class="col-sm-2">
             <label asp-for="IsPlayoffGame"></label>
         </dt>
         <dd class="col-sm-10">
@@ -64,6 +89,6 @@
         <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Edit</a>
     </p>
     <p>
-        <a asp-action="List">Back to List</a>
+        <a asp-action="Index">Back to List</a>
     </p>
 </div>
