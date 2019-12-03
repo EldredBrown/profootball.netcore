@@ -3,16 +3,16 @@
 namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
     /// <summary>
-    /// Interface for classes that provide access to a <see cref="SeasonTeamScheduleProfile"/> data source.
+    /// Interface for classes that provide access to a <see cref="SeasonTeamScheduleProfile"/> data store.
     /// </summary>
     public interface ISeasonTeamScheduleProfileRepository
     {
         /// <summary>
-        /// Gets the <see cref="SeasonTeamScheduleProfile"/> object with the given season ID and team name.
+        /// Gets a single <see cref="SeasonTeamScheduleProfile"/> entity from the data store by season ID and team name.
         /// </summary>
-        /// <param name="seasonId">The season ID of the object to fetch.</param>
-        /// <param name="teamName">The team name of the object to fetch.</param>
-        /// <returns>The fetched <see cref="SeasonTeamScheduleProfile"/> object.</returns>
+        /// <param name="seasonId">The season ID of the <see cref="SeasonTeamScheduleProfile"/> entity to fetch.</param>
+        /// <param name="teamName">The team name of the <see cref="SeasonTeamScheduleProfile"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="SeasonTeamScheduleProfile"/> entity.</returns>
         SeasonTeamScheduleProfile GetSeasonTeamScheduleProfile(int seasonId, string teamName);
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
     /// <summary>
-    /// Provides CRUD access to an external <see cref="SeasonTeam"/> data source.
+    /// Provides CRUD access to an external <see cref="SeasonTeam"/> data store.
     /// </summary>
     public class SeasonTeamRepository : ISeasonTeamRepository
     {
@@ -22,21 +22,21 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
-        /// Gets the <see cref="SeasonTeam"/> object with the given ID.
+        /// Gets a single <see cref="SeasonTeam"/> entity from the data store by ID.
         /// </summary>
-        /// <param name="id">The ID of the object to fetch.</param>
-        /// <returns>The fetched <see cref="SeasonTeam"/> object.</returns>
+        /// <param name="id">The ID of the <see cref="SeasonTeam"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="SeasonTeam"/> entity.</returns>
         public async Task<SeasonTeam> GetSeasonTeam(int id)
         {
             return await _dbContext.SeasonTeams.FindAsync(id);
         }
 
         /// <summary>
-        /// Gets the <see cref="SeasonTeam"/> object with the given season ID and team name.
+        /// Gets a single <see cref="SeasonTeam"/> entity from the data store by season ID and team name.
         /// </summary>
-        /// <param name="seasonId">The season ID of the object to fetch.</param>
-        /// <param name="teamName">The team name of the object to fetch.</param>
-        /// <returns>The fetched <see cref="SeasonTeam"/> object.</returns>
+        /// <param name="seasonId">The season ID of the <see cref="SeasonTeam"/> entity to fetch.</param>
+        /// <param name="teamName">The team name of the <see cref="SeasonTeam"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="SeasonTeam"/> entity.</returns>
         public async Task<SeasonTeam> GetSeasonTeamBySeasonAndTeam(int seasonId, string teamName)
         {
             return await _dbContext.SeasonTeams
@@ -44,9 +44,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
-        /// Gets all the <see cref="SeasonTeam "/> objects in the data source.
+        /// Gets all <see cref="SeasonTeam "/> entities in the data store.
         /// </summary>
-        /// <returns>An <see cref="IEnumerable{SeasonTeam}"/> of all the fetched objects.</returns>
+        /// <returns>An <see cref="IEnumerable{SeasonTeam}"/> of all fetched entities.</returns>
         public async Task<IEnumerable<SeasonTeam>> GetSeasonTeams()
         {
             return await _dbContext.SeasonTeams.ToListAsync();

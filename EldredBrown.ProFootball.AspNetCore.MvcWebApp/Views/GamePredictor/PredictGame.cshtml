@@ -11,7 +11,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="GuestSeasonId" class="control-label"></label>
+                <label asp-for="GuestSeasonId" class="col-form-label"></label>
                 @Html.DropDownList("GuestSeasonId", null, htmlAttributes: new
                 {
                     @class = "form-control",
@@ -20,17 +20,17 @@
                 <span asp-validation-for="GuestSeasonId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GuestName" class="control-label"></label>
+                <label asp-for="GuestName" class="col-form-label"></label>
                 @Html.DropDownList("GuestName", null, htmlAttributes: new { @class = "form-control" })
                 <span asp-validation-for="GuestName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GuestScore" class="control-label"></label>
+                <label asp-for="GuestScore" class="col-form-label"></label>
                 @Html.DisplayFor(model => model.GuestScore)
                 <span asp-validation-for="GuestScore" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HostSeasonId" class="control-label"></label>
+                <label asp-for="HostSeasonId" class="col-form-label"></label>
                 @Html.DropDownList("HostSeasonId", null, htmlAttributes: new
                 {
                     @class = "form-control",
@@ -39,12 +39,12 @@
                 <span asp-validation-for="HostSeasonId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HostName" class="control-label"></label>
+                <label asp-for="HostName" class="col-form-label"></label>
                 @Html.DropDownList("HostName", null, htmlAttributes: new { @class = "form-control" })
                 <span asp-validation-for="HostName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HostScore" class="control-label"></label>
+                <label asp-for="HostScore" class="col-form-label"></label>
                 @Html.DisplayFor(model => model.HostScore)
                 <span asp-validation-for="HostScore" class="text-danger"></span>
             </div>

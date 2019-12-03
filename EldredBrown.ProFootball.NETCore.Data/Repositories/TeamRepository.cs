@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
     /// <summary>
-    /// Provides CRUD access to an external <see cref="Team"/> data source.
+    /// Provides CRUD access to an external <see cref="Team"/> data store.
     /// </summary>
     public class TeamRepository : ITeamRepository
     {
@@ -22,9 +22,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
-        /// Gets all the <see cref="Team"/> objects in the data source.
+        /// Gets all <see cref="Team"/> entities in the data store.
         /// </summary>
-        /// <returns>An <see cref="IEnumerable{Team}"/> of all the fetched objects.</returns>
+        /// <returns>An <see cref="IEnumerable{Team}"/> of all fetched entities.</returns>
         public async Task<IEnumerable<Team>> GetTeams()
         {
             return await _dbContext.Teams.ToListAsync();

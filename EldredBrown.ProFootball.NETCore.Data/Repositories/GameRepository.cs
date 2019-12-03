@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
     /// <summary>
-    /// Provides CRUD access to an external <see cref="Game"/> data source.
+    /// Provides CRUD access to an external <see cref="Game"/> data store.
     /// </summary>
     public class GameRepository : IGameRepository
     {
@@ -22,22 +22,22 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
-        /// Adds a new game to the data source.
+        /// Adds a <see cref="Game"/> entity to the data store.
         /// </summary>
-        /// <param name="newGame">The game to add to the data source.</param>
-        /// <returns>The <see cref="Game"/> added to the data source.</returns>
-        public async Task<Game> Add(Game newGame)
+        /// <param name="game">The <see cref="Game"/> entity to add.</param>
+        /// <returns>The added <see cref="Game"/> entity.</returns>
+        public async Task<Game> Add(Game game)
         {
-            await _dbContext.AddAsync(newGame);
+            await _dbContext.AddAsync(game);
 
-            return newGame;
+            return game;
         }
 
         /// <summary>
-        /// Deletes an existing game from the data source.
+        /// Deletes a <see cref="Game"/> entity from the data store.
         /// </summary>
-        /// <param name="id">The ID of the game to delete.</param>
-        /// <returns>The <see cref="Game"/> deleted from the data source.</returns>
+        /// <param name="id">The ID of the <see cref="Game"/> entity to delete.</param>
+        /// <returns>The deleted <see cref="Game"/> entity.</returns>
         public async Task<Game> Delete(int id)
         {
             var game = await GetGame(id);
@@ -51,41 +51,41 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
-        /// Updates an existing game in the data source.
+        /// Updates a <see cref="Game"/> entity in the data store.
         /// </summary>
-        /// <param name="updatedGame">The game to update.</param>
-        /// <returns>The <see cref="Game"/> updated in the data source.</returns>
-        public Game Edit(Game updatedGame)
+        /// <param name="game">The <see cref="Game"/> entity to update.</param>
+        /// <returns>The updated <see cref="Game"/> entity.</returns>
+        public Game Edit(Game game)
         {
-            var entity = _dbContext.Games.Attach(updatedGame);
+            var entity = _dbContext.Games.Attach(game);
             entity.State = EntityState.Modified;
 
-            return updatedGame;
+            return game;
         }
 
         /// <summary>
-        /// Gets the <see cref="Game"/> object with the given ID.
+        /// Gets a single <see cref="Game"/> entity from the data store by ID.
         /// </summary>
-        /// <param name="id">The ID of the <see cref="Game"/> object to fetch.</param>
-        /// <returns>The fetched <see cref="Game"/> object.</returns>
+        /// <param name="id">The ID of the <see cref="Game"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="Game"/> entity.</returns>
         public async Task<Game> GetGame(int id)
         {
             return await _dbContext.Games.FindAsync(id);
         }
 
         /// <summary>
-        /// Gets all <see cref="Game"/> objects in the data source.
+        /// Gets all <see cref="Game"/> entities in the data store.
         /// </summary>
-        /// <returns>An <see cref="IEnumerable{Game}"/> of all the fetched objects.</returns>
+        /// <returns>An <see cref="IEnumerable{Game}"/> of all fetched entities.</returns>
         public async Task<IEnumerable<Game>> GetGames()
         {
             return await _dbContext.Games.ToListAsync();
         }
 
         /// <summary>
-        /// Saves all changes made to the data source since the last save.
+        /// Saves changes made to the data store.
         /// </summary>
-        /// <returns>The number of records affected.</returns>
+        /// <returns>The number of entities affected.</returns>
         public async Task<int> SaveChanges()
         {
             return await _dbContext.SaveChangesAsync();

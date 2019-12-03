@@ -23,7 +23,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// </summary>
         /// <param name="seasonRepository"></param>
         /// <param name="seasonTeamRepository"></param>
-        public GamePredictorController(ISeasonRepository seasonRepository, ISeasonTeamRepository seasonTeamRepository)
+        public GamePredictorController(ISeasonRepository seasonRepository,
+            ISeasonTeamRepository seasonTeamRepository)
         {
             _seasonRepository = seasonRepository;
             _seasonTeamRepository = seasonTeamRepository;
