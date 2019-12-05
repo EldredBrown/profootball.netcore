@@ -30,13 +30,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ProFootballDbContext>();
 
             // TODO: 2019-11-30 - The mock repositories need to be added as singletons until they are replaced by repositories for SQL data.
+            services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<ISeasonTeamRepository, SeasonTeamRepository>();
             services.AddSingleton<ISeasonTeamScheduleProfileRepository, MockSeasonTeamScheduleProfileRepository>();
             services.AddSingleton<ISeasonTeamScheduleTotalsRepository, MockSeasonTeamScheduleTotalsRepository>();
             services.AddSingleton<ISeasonTeamScheduleAveragesRepository, MockSeasonTeamScheduleAveragesRepository>();
-            services.AddScoped<IGameRepository, GameRepository>();
-            services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddSingleton<ISeasonStandingsRepository, MockSeasonStandingsRepository>();
 
             services.AddControllersWithViews();

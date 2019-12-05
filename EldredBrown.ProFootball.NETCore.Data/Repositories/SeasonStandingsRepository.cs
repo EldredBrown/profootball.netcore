@@ -6,7 +6,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
     public class SeasonStandingsRepository : ISeasonStandingsRepository
     {
-        public IEnumerable<SeasonStanding> GetSeasonStandings(bool groupByDivision)
+        public IEnumerable<SeasonStanding> GetSeasonStandings(bool groupByDivision = false)
         {
             // TODO: 2019-11-30 - Implement a stored procedure call.
             throw new NotImplementedException();

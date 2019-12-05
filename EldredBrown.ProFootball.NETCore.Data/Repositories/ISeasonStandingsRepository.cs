@@ -13,6 +13,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="groupByDivision">Flag indicating whether to group the results by division.</param>
         /// <returns>An <see cref="IEnumerable{SeasonStanding}"/> of all fetched entities.</returns>
-        IEnumerable<SeasonStanding> GetSeasonStandings(bool groupByDivision);
+        IEnumerable<SeasonStanding> GetSeasonStandings(bool groupByDivision = false);
     }
 }
