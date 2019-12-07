@@ -1,5 +1,6 @@
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -38,6 +39,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp
             services.AddSingleton<ISeasonTeamScheduleTotalsRepository, MockSeasonTeamScheduleTotalsRepository>();
             services.AddSingleton<ISeasonTeamScheduleAveragesRepository, MockSeasonTeamScheduleAveragesRepository>();
             services.AddSingleton<ISeasonStandingsRepository, MockSeasonStandingsRepository>();
+            services.AddScoped<ISharedRepository, SharedRepository>();
+
+            services.AddServiceLibrary();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

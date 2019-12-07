@@ -14,6 +14,9 @@
             @onchange = "document.location.href='/SeasonTeams/SetSelectedSeasonId?SeasonId=' + this.options[this.selectedIndex].value;"
         })
     </p>
+    <p>
+        <a asp-action="RunWeeklyUpdate" class="btn btn-primary btn-lg">Run Weekly Update</a>
+    </p>
 </form>
 
 <table class="table table-striped">

@@ -15,12 +15,15 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
     public class GamesController : ControllerBase
     {
         private readonly IGameRepository _gameRepository;
+        private readonly ISharedRepository _sharedRepository;
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
 
-        public GamesController(IGameRepository gameRepository, IMapper mapper, LinkGenerator linkGenerator)
+        public GamesController(IGameRepository gameRepository, ISharedRepository sharedRepository, IMapper mapper,
+            LinkGenerator linkGenerator)
         {
             _gameRepository = gameRepository;
+            _sharedRepository = sharedRepository;
             _mapper = mapper;
             _linkGenerator = linkGenerator;
         }
@@ -74,7 +77,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _gameRepository.Add(game);
 
-                if (await _gameRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChanges() > 0)
                 {
                     return Created(location, _mapper.Map<GameModel>(game));
                 }
@@ -100,7 +103,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 _mapper.Map(model, game);
 
-                if (await _gameRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChanges() > 0)
                 {
                     return _mapper.Map<GameModel>(game);
                 }
@@ -126,7 +129,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _gameRepository.Delete(id);
 
-                if (await _gameRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChanges() > 0)
                 {
                     return Ok();
                 }

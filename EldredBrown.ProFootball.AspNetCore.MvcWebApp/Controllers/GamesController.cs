@@ -15,6 +15,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameRepository _gameRepository;
         private readonly ITeamRepository _teamRepository;
+        private readonly ISharedRepository _sharedRepository;
 
         private static int _selectedSeasonId = 1920;
         private static int? _selectedWeek;
@@ -28,11 +29,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         public GamesController(
             ISeasonRepository seasonRepository,
             IGameRepository gameRepository,
-            ITeamRepository teamRepository)
+            ITeamRepository teamRepository,
+            ISharedRepository sharedRepository)
         {
             _seasonRepository = seasonRepository;
             _gameRepository = gameRepository;
             _teamRepository = teamRepository;
+            _sharedRepository = sharedRepository;
         }
 
         // GET: Games
@@ -133,7 +136,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _gameRepository.Add(game);
-                await _gameRepository.SaveChanges();
+                await _sharedRepository.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -200,7 +203,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 try
                 {
                     _gameRepository.Edit(game);
-                    await _gameRepository.SaveChanges();
+                    await _sharedRepository.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -252,7 +255,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _gameRepository.Delete(id);
-            await _gameRepository.SaveChanges();
+            await _sharedRepository.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }

@@ -10,14 +10,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
     public interface ISeasonRepository
     {
         /// <summary>
-        /// Gets a single <see cref="Season"/> entity from the data store by ID.
+        /// Gets a single <see cref="Season"/> entity asynchronously from the data store by ID.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Season"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Season"/> entity.</returns>
         Task<Season> GetSeason(int id);
 
         /// <summary>
-        /// Gets all <see cref="Season"/> entities in the data store.
+        /// Gets all <see cref="Season"/> entities in the data store asynchronously.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Season}"/> of all fetched entities.</returns>
         Task<IEnumerable<Season>> GetSeasons();

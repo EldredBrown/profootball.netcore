@@ -42,11 +42,5 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Game}"/> of all fetched entities.</returns>
         Task<IEnumerable<Game>> GetGames();
-
-        /// <summary>
-        /// Saves changes made to the data store.
-        /// </summary>
-        /// <returns>The number of entities affected.</returns>
-        Task<int> SaveChanges();
     }
 }

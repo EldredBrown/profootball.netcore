@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels;
 using EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.SeasonTeams;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -18,6 +19,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         private readonly ISeasonTeamScheduleProfileRepository _seasonTeamScheduleProfileRepository;
         private readonly ISeasonTeamScheduleTotalsRepository _seasonTeamScheduleTotalsRepository;
         private readonly ISeasonTeamScheduleAveragesRepository _seasonTeamScheduleAveragesRepository;
+        private readonly IWeeklyUpdateService _weeklyUpdateService;
 
         private static int _selectedSeasonId = 1920;
 
@@ -34,13 +36,15 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             ISeasonTeamRepository seasonTeamRepository,
             ISeasonTeamScheduleProfileRepository seasonTeamScheduleProfileRepository,
             ISeasonTeamScheduleTotalsRepository seasonTeamScheduleTotalsRepository,
-            ISeasonTeamScheduleAveragesRepository seasonTeamScheduleAveragesRepository)
+            ISeasonTeamScheduleAveragesRepository seasonTeamScheduleAveragesRepository,
+            IWeeklyUpdateService weeklyUpdateService)
         {
             _seasonRepository = seasonRepository;
             _seasonTeamRepository = seasonTeamRepository;
             _seasonTeamScheduleProfileRepository = seasonTeamScheduleProfileRepository;
             _seasonTeamScheduleTotalsRepository = seasonTeamScheduleTotalsRepository;
             _seasonTeamScheduleAveragesRepository = seasonTeamScheduleAveragesRepository;
+            _weeklyUpdateService = weeklyUpdateService;
         }
 
         // GET: SeasonTeams
@@ -113,7 +117,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             _selectedSeasonId = seasonId.Value;
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> RunWeeklyUpdate()
+        {
+            await _weeklyUpdateService.RunWeeklyUpdate();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
