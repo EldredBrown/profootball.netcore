@@ -11,13 +11,13 @@ namespace EldredBrown.ProFootball.NETCore.Services
     /// </summary>
     public class WeeklyUpdateService : IWeeklyUpdateService
     {
+        private readonly ISeasonRepository _seasonRepository;
         private readonly IGameRepository _gameRepository;
-        private readonly IWeekCountRepository _weekCountRepository;
-        private readonly ISeasonLeagueRepository _seasonLeagueRepository;
-        private readonly ISeasonLeagueTotalsRepository _seasonLeagueTotalsRepository;
-        private readonly ISeasonTeamRepository _seasonTeamRepository;
-        private readonly ISeasonTeamScheduleTotalsRepository _seasonTeamScheduleTotalsRepository;
-        private readonly ISeasonTeamScheduleAveragesRepository _seasonTeamScheduleAveragesRepository;
+        private readonly ILeagueSeasonRepository _leagueSeasonRepository;
+        private readonly ILeagueSeasonTotalsRepository _leagueSeasonTotalsRepository;
+        private readonly ITeamSeasonRepository _teamSeasonRepository;
+        private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
+        private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
         private readonly ISharedRepository _sharedRepository;
         private readonly ICalculator _calculator;
 
@@ -28,33 +28,33 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="WeeklyUpdateService"/> class.
         /// </summary>
+        /// <param name="seasonRepository">The repository by which WeekCount data will be accessed.</param>
         /// <param name="gameRepository">The repository by which Game data will be accessed.</param>
-        /// <param name="weekCountRepository">The repository by which WeekCount data will be accessed.</param>
-        /// <param name="seasonLeagueRepository">The repository by which SeasonLeague data will be accessed.</param>
-        /// <param name="seasonLeagueTotalsRepository">The repository by which SeasonLeagueTotals data will be accessed.</param>
-        /// <param name="seasonTeamRepository">The repository by which SeasonTeam data will be accessed.</param>
-        /// <param name="seasonTeamScheduleTotalsRepository">The repository by which SeasonTeamScheduleTotals data will be accessed.</param>
-        /// <param name="seasonTeamScheduleAveragesRepository">The repository by which SeasonTeamScheduleAverages data will be accessed.</param>
+        /// <param name="leagueSeasonRepository">The repository by which LeagueSeason data will be accessed.</param>
+        /// <param name="leagueSeasonTotalsRepository">The repository by which LeagueSeasonTotals data will be accessed.</param>
+        /// <param name="teamSeasonRepository">The repository by which TeamSeason data will be accessed.</param>
+        /// <param name="teamSeasonScheduleTotalsRepository">The repository by which TeamSeasonScheduleTotals data will be accessed.</param>
+        /// <param name="teamSeasonScheduleAveragesRepository">The repository by which TeamSeasonScheduleAverages data will be accessed.</param>
         /// <param name="sharedRepository">The repository by which data will be accessed.</param>
         /// <param name="calculator">The calculator service.</param>
         public WeeklyUpdateService(
+            ISeasonRepository seasonRepository,
             IGameRepository gameRepository,
-            IWeekCountRepository weekCountRepository,
-            ISeasonLeagueRepository seasonLeagueRepository,
-            ISeasonLeagueTotalsRepository seasonLeagueTotalsRepository,
-            ISeasonTeamRepository seasonTeamRepository,
-            ISeasonTeamScheduleTotalsRepository seasonTeamScheduleTotalsRepository,
-            ISeasonTeamScheduleAveragesRepository seasonTeamScheduleAveragesRepository,
+            ILeagueSeasonRepository leagueSeasonRepository,
+            ILeagueSeasonTotalsRepository leagueSeasonTotalsRepository,
+            ITeamSeasonRepository teamSeasonRepository,
+            ITeamSeasonScheduleTotalsRepository teamSeasonScheduleTotalsRepository,
+            ITeamSeasonScheduleAveragesRepository teamSeasonScheduleAveragesRepository,
             ISharedRepository sharedRepository,
             ICalculator calculator)
         {
+            _seasonRepository = seasonRepository;
             _gameRepository = gameRepository;
-            _weekCountRepository = weekCountRepository;
-            _seasonLeagueRepository = seasonLeagueRepository;
-            _seasonLeagueTotalsRepository = seasonLeagueTotalsRepository;
-            _seasonTeamRepository = seasonTeamRepository;
-            _seasonTeamScheduleTotalsRepository = seasonTeamScheduleTotalsRepository;
-            _seasonTeamScheduleAveragesRepository = seasonTeamScheduleAveragesRepository;
+            _leagueSeasonRepository = leagueSeasonRepository;
+            _leagueSeasonTotalsRepository = leagueSeasonTotalsRepository;
+            _teamSeasonRepository = teamSeasonRepository;
+            _teamSeasonScheduleTotalsRepository = teamSeasonScheduleTotalsRepository;
+            _teamSeasonScheduleAveragesRepository = teamSeasonScheduleAveragesRepository;
             _sharedRepository = sharedRepository;
             _calculator = calculator;
         }
@@ -62,7 +62,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Runs a weekly update of the data store.
         /// </summary>
-        public async Task RunWeeklyUpdate()
+        public async Task RunWeeklyUpdate(int seasonId)
         {
             // TODO: 2019-12-06 - Reimplement this using ASP.NET Core.
             //// I experimented with farming this long running operation out to a separate thread to improve UI
@@ -81,9 +81,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
             // These hard-coded values are a bit of a hack at this time, but I intend to make them selectable by the
             // user in the future.
             var leagueName = "APFA";
-            var seasonId = 1920;
 
-            UpdateSeasonLeague(seasonId, leagueName);
+            UpdateLeagueSeason(leagueName, seasonId);
             var srcWeekCount = await UpdateWeekCount(seasonId);
 
             await _sharedRepository.SaveChanges();
@@ -97,67 +96,95 @@ namespace EldredBrown.ProFootball.NETCore.Services
             //    MessageBoxImage.Information);
         }
 
+        private void UpdateLeagueSeason(string leagueName, int seasonId)
+        {
+            var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonId);
+
+            //try
+            //{
+            var leagueSeasonTotals = _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonId);
+            //}
+            //catch (ArgumentNullException ex)
+            //{
+            //    Log.Error($"ArgumentNullException caught in MainWindowService.UpdateLeagueSeason: {ex.Message}");
+
+            //    _sharedService.ShowExceptionMessage(ex);
+
+            //    return;
+            //}
+
+            if (leagueSeasonTotals.TotalGames == null)
+            {
+                return;
+            }
+
+            leagueSeason.TotalGames = leagueSeasonTotals.TotalGames.Value;
+            leagueSeason.TotalPoints = leagueSeasonTotals.TotalPoints.Value;
+            leagueSeason.AveragePoints = _calculator.Divide(
+                leagueSeasonTotals.TotalPoints.Value, leagueSeasonTotals.TotalGames.Value);
+        }
+
         private async Task UpdateRankings()
         {
             // Get the list of TeamSeason objects for the selected season.
-            var seasonTeams = (await _seasonTeamRepository.GetSeasonTeams())
-                .Where(st => st.SeasonId == _selectedSeason);
+            var teamSeasons = (await _teamSeasonRepository.GetTeamSeasons())
+                .Where(ts => ts.SeasonId == _selectedSeason);
 
             // This looks like the place where I want to make maximum use of parallel threading.
-            //Parallel.ForEach(teamSeasons, seasonTeam => UpdateRankingsByTeamSeason(seasonTeam));
+            //Parallel.ForEach(teamSeasons, teamSeason => UpdateRankingsByTeamSeason(teamSeason));
 
             // Iterate through the list of TeamSeason objects.
-            foreach (var seasonTeam in seasonTeams)
+            foreach (var teamSeason in teamSeasons)
             {
-                UpdateRankingsBySeasonTeam(seasonTeam);
+                UpdateRankingsByTeamSeason(teamSeason);
             }
 
             // Save changes.
             await _sharedRepository.SaveChanges();
         }
 
-        private void UpdateRankingsBySeasonTeam(SeasonTeam seasonTeam)
+        private void UpdateRankingsByTeamSeason(TeamSeason teamSeason)
         {
             try
             {
                 lock (_dbLock)
                 {
                     // Get needed stored procedure results.
-                    var seasonTeamScheduleTotals = 
-                        _seasonTeamScheduleTotalsRepository.GetSeasonTeamScheduleTotals(
-                            seasonTeam.SeasonId, seasonTeam.TeamName);
+                    var teamSeasonScheduleTotals = 
+                        _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(
+                            teamSeason.TeamName, teamSeason.SeasonId);
 
-                    var seasonTeamScheduleAverages = 
-                        _seasonTeamScheduleAveragesRepository.GetSeasonTeamScheduleAverages(
-                            seasonTeam.SeasonId, seasonTeam.TeamName);
+                    var teamSeasonScheduleAverages = 
+                        _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(
+                            teamSeason.TeamName, teamSeason.SeasonId);
 
                     // Calculate new rankings.
-                    if (seasonTeamScheduleTotals != null && seasonTeamScheduleAverages != null &&
-                        seasonTeamScheduleTotals.ScheduleGames != null)
+                    if (teamSeasonScheduleTotals != null && teamSeasonScheduleAverages != null &&
+                        teamSeasonScheduleTotals.ScheduleGames != null)
                     {
-                        seasonTeam.OffensiveAverage = _calculator.Divide(
-                            (decimal)seasonTeam.PointsFor, (decimal)seasonTeam.Games);
-                        seasonTeam.DefensiveAverage = _calculator.Divide(
-                            (decimal)seasonTeam.PointsAgainst, (decimal)seasonTeam.Games);
+                        teamSeason.OffensiveAverage = _calculator.Divide(
+                            teamSeason.PointsFor, teamSeason.Games);
+                        teamSeason.DefensiveAverage = _calculator.Divide(
+                            teamSeason.PointsAgainst, teamSeason.Games);
 
-                        seasonTeam.OffensiveFactor = _calculator.Divide(
-                            seasonTeam.OffensiveAverage.Value, seasonTeamScheduleAverages.PointsAgainst.Value);
+                        teamSeason.OffensiveFactor = _calculator.Divide(
+                            teamSeason.OffensiveAverage.Value, teamSeasonScheduleAverages.PointsAgainst.Value);
 
-                        seasonTeam.DefensiveFactor = _calculator.Divide(
-                            seasonTeam.DefensiveAverage.Value, seasonTeamScheduleAverages.PointsFor.Value);
+                        teamSeason.DefensiveFactor = _calculator.Divide(
+                            teamSeason.DefensiveAverage.Value, teamSeasonScheduleAverages.PointsFor.Value);
 
-                        var seasonLeague = _seasonLeagueRepository.GetSeasonLeagues()
-                            .FirstOrDefault(st => 
-                                st.SeasonId == seasonTeam.SeasonId && st.LeagueName == seasonTeam.LeagueName);
+                        var leagueSeason = 
+                            _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
+                                teamSeason.LeagueName, teamSeason.SeasonId);
 
-                        seasonTeam.OffensiveIndex = (seasonTeam.OffensiveAverage + seasonTeam.OffensiveFactor *
-                            seasonLeague.AveragePoints) / 2m;
+                        teamSeason.OffensiveIndex = (teamSeason.OffensiveAverage + teamSeason.OffensiveFactor *
+                            leagueSeason.AveragePoints) / 2m;
 
-                        seasonTeam.DefensiveIndex = (seasonTeam.DefensiveAverage + seasonTeam.DefensiveFactor *
-                            seasonLeague.AveragePoints) / 2m;
+                        teamSeason.DefensiveIndex = (teamSeason.DefensiveAverage + teamSeason.DefensiveFactor *
+                            leagueSeason.AveragePoints) / 2m;
 
-                        seasonTeam.FinalPythagoreanWinningPercentage =
-                            _calculator.CalculatePythagoreanWinningPercentage(seasonTeam);
+                        teamSeason.FinalPythagoreanWinningPercentage =
+                            _calculator.CalculatePythagoreanWinningPercentage(teamSeason);
                     }
                 }
             }
@@ -172,39 +199,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
                     //_sharedService.ShowExceptionMessage(ex, $"InvalidOperationException: {teamSeason.TeamName}");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //_sharedService.ShowExceptionMessage(ex.InnerException, $"Exception: {teamSeason.TeamName}");
             }
-        }
-
-        private void UpdateSeasonLeague(int seasonId, string leagueName)
-        {
-            var seasonLeague = _seasonLeagueRepository.GetSeasonLeagues()
-                .FirstOrDefault(sl => sl.SeasonId == seasonId && sl.LeagueName == leagueName);
-
-            //try
-            //{
-            var seasonLeagueTotals = _seasonLeagueTotalsRepository.GetSeasonLeagueTotals(seasonId, leagueName);
-            //}
-            //catch (ArgumentNullException ex)
-            //{
-            //    Log.Error($"ArgumentNullException caught in MainWindowService.UpdateLeagueSeason: {ex.Message}");
-
-            //    _sharedService.ShowExceptionMessage(ex);
-
-            //    return;
-            //}
-
-            if (seasonLeagueTotals.TotalGames == null)
-            {
-                return;
-            }
-
-            seasonLeague.TotalGames = seasonLeagueTotals.TotalGames.Value;
-            seasonLeague.TotalPoints = seasonLeagueTotals.TotalPoints.Value;
-            seasonLeague.AveragePoints = 
-                (decimal)seasonLeagueTotals.TotalPoints.Value / (decimal)seasonLeagueTotals.TotalGames.Value;
         }
 
         private async Task<int> UpdateWeekCount(int seasonId)
@@ -214,9 +212,9 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 .Select(g => g.Week)
                 .Max();
 
-            var destWeekCount = _weekCountRepository.GetWeekCount(seasonId);
+            var destSeason = await _seasonRepository.GetSeason(seasonId);
 
-            destWeekCount.Count = srcWeekCount;
+            destSeason.NumOfWeeksCompleted = srcWeekCount;
 
             return srcWeekCount;
         }

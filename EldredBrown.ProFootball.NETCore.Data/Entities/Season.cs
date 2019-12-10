@@ -14,5 +14,10 @@
         /// Gets or sets the number of weeks in the current <see cref="Season"/> object.
         /// </summary>
         public int NumOfWeeks { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of weeks completed in the current <see cref="Season"/> object.
+        /// </summary>
+        public int NumOfWeeksCompleted { get; set; }
     }
 }

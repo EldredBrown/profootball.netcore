@@ -34,10 +34,10 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
-            services.AddScoped<ISeasonTeamRepository, SeasonTeamRepository>();
-            services.AddSingleton<ISeasonTeamScheduleProfileRepository, MockSeasonTeamScheduleProfileRepository>();
-            services.AddSingleton<ISeasonTeamScheduleTotalsRepository, MockSeasonTeamScheduleTotalsRepository>();
-            services.AddSingleton<ISeasonTeamScheduleAveragesRepository, MockSeasonTeamScheduleAveragesRepository>();
+            services.AddScoped<ITeamSeasonRepository, TeamSeasonRepository>();
+            services.AddSingleton<ITeamSeasonScheduleProfileRepository, MockTeamSeasonScheduleProfileRepository>();
+            services.AddSingleton<ITeamSeasonScheduleTotalsRepository, MockTeamSeasonScheduleTotalsRepository>();
+            services.AddSingleton<ITeamSeasonScheduleAveragesRepository, MockTeamSeasonScheduleAveragesRepository>();
             services.AddSingleton<ISeasonStandingsRepository, MockSeasonStandingsRepository>();
             services.AddScoped<ISharedRepository, SharedRepository>();
 

@@ -8,12 +8,12 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
     public class League
     {
         /// <summary>
-        /// Gets or sets the ID of the current <see cref="League"/> object.
+        /// Gets or sets the ID of the current <see cref="League"/> entity.
         /// </summary>
         public int ID { get; set; }
 
         /// <summary>
-        /// Gets or sets the long name of the current <see cref="League"/> object.
+        /// Gets or sets the long name of the current <see cref="League"/> entity.
         /// </summary>
         [Required(ErrorMessage = "Please enter a long name.")]
         [StringLength(50)]
@@ -21,7 +21,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         public string LongName { get; set; }
 
         /// <summary>
-        /// Gets or sets the short name of the current <see cref="League"/> object.
+        /// Gets or sets the short name of the current <see cref="League"/> entity.
         /// </summary>
         [Required(ErrorMessage = "Please enter a short name.")]
         [StringLength(5)]
@@ -29,14 +29,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         public string ShortName { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the first season of the current <see cref="League"/> object.
+        /// Gets or sets the ID of the current <see cref="League"/> entity's first season.
         /// </summary>
         [Required(ErrorMessage = "Please enter a first season.")]
         [Display(Name = "First Season")]
         public int FirstSeasonId { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the last season of the current <see cref="League"/> object.
+        /// Gets or sets the ID of the current <see cref="League"/> entity's last season.
         /// </summary>
         [Display(Name = "Last Season")]
         public int? LastSeasonId { get; set; }

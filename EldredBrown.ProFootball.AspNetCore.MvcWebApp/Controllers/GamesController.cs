@@ -4,38 +4,47 @@ using System.Threading.Tasks;
 using EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Games;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 {
+    /// <summary>
+    /// Provides control of the flow of execution for views of game data.
+    /// </summary>
     public class GamesController : Controller
     {
+        private readonly ITeamRepository _teamRepository;
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameRepository _gameRepository;
-        private readonly ITeamRepository _teamRepository;
         private readonly ISharedRepository _sharedRepository;
+        private readonly IGameService _gameService;
 
         private static int _selectedSeasonId = 1920;
         private static int? _selectedWeek;
 
+        private static Game _oldGame;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GamesController"/> class.
         /// </summary>
+        /// <param name="teamRepository">The repository by which team data will be accessed.</param>
         /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
         /// <param name="gameRepository">The repository by which game data will be accessed.</param>
-        /// <param name="teamRepository">The repository by which team data will be accessed.</param>
         public GamesController(
+            ITeamRepository teamRepository,
             ISeasonRepository seasonRepository,
             IGameRepository gameRepository,
-            ITeamRepository teamRepository,
-            ISharedRepository sharedRepository)
+            ISharedRepository sharedRepository,
+            IGameService gameService)
         {
+            _teamRepository = teamRepository;
             _seasonRepository = seasonRepository;
             _gameRepository = gameRepository;
-            _teamRepository = teamRepository;
             _sharedRepository = sharedRepository;
+            _gameService = gameService;
         }
 
         // GET: Games
@@ -56,13 +65,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             }
 
             var games = (await _gameRepository.GetGames()).Where(g => g.SeasonId == _selectedSeasonId);
-            if (_selectedWeek.HasValue)
+            if (_selectedWeek != null)
             {
                 games = games.Where(g => g.Week == _selectedWeek);
             }
 
-            var viewModel = new GameListViewModel
+            var viewModel = new GamesIndexViewModel
             {
+                Title = "Games",
                 Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonId),
                 Weeks = new SelectList(weeks, _selectedWeek),
                 Games = games
@@ -86,7 +96,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             }
 
             var game = await _gameRepository.GetGame(id.Value);
-
             if (game == null)
             {
                 return NotFound();
@@ -114,9 +123,10 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             }
             ViewBag.Week = new SelectList(weeks, _selectedWeek);
 
-            var teams = await _teamRepository.GetTeams();
-            ViewBag.GuestName = new SelectList(teams, "Name", "Name");
-            ViewBag.HostName = new SelectList(teams, "Name", "Name");
+            // TODO: Uncomment this when the slate of teams is finalized.
+            //var teams = await _teamRepository.GetTeams();
+            //ViewBag.GuestName = new SelectList(teams, "Name", "Name");
+            //ViewBag.HostName = new SelectList(teams, "Name", "Name");
 
             return View();
         }
@@ -131,14 +141,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,SeasonId,Week,GuestName,GuestScore,HostName,HostScore,WinnerName,WinnerScore,LoserName,LoserScore,IsPlayoffGame,Notes")] Game game)
+        public async Task<IActionResult> Create([Bind("SeasonId,Week,GuestName,GuestScore,HostName,HostScore,WinnerName,WinnerScore,LoserName,LoserScore,IsPlayoffGame,Notes")] Game game)
         {
             if (ModelState.IsValid)
             {
-                await _gameRepository.Add(game);
-                await _sharedRepository.SaveChanges();
+                await _gameService.AddGame(game);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
 
             return View(game);
@@ -174,9 +183,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             }
             ViewBag.Week = new SelectList(weeks, game.Week);
 
-            var teams = await _teamRepository.GetTeams();
-            ViewBag.GuestName = new SelectList(teams, "Name", "Name", game.GuestName);
-            ViewBag.HostName = new SelectList(teams, "Name", "Name", game.HostName);
+            // TODO: Uncomment this when the slate of teams is finalized.
+            //var teams = await _teamRepository.GetTeams();
+            //ViewBag.GuestName = new SelectList(teams, "Name", "Name");
+            //ViewBag.HostName = new SelectList(teams, "Name", "Name");
+
+            _oldGame = game;
 
             return View(game);
         }
@@ -202,8 +214,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 try
                 {
-                    _gameRepository.Edit(game);
-                    await _sharedRepository.SaveChanges();
+                    await _gameService.EditGame(_oldGame, game);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -254,8 +265,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _gameRepository.Delete(id);
-            await _sharedRepository.SaveChanges();
+            await _gameService.DeleteGame(id);
 
             return RedirectToAction(nameof(Index));
         }
@@ -264,7 +274,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// Sets the selected season ID.
         /// </summary>
         /// <param name="seasonId">The ID of the selected season.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
+        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
         public IActionResult SetSelectedSeasonId(int? seasonId)
         {
             if (seasonId == null)
@@ -274,19 +284,19 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             _selectedSeasonId = seasonId.Value;
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
         /// Sets the selected week.
         /// </summary>
         /// <param name="week">The selected week.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
+        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
         public IActionResult SetSelectedWeek(int? week)
         {
             _selectedWeek = week;
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> GameExists(int id)

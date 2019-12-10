@@ -58,21 +58,25 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets the name of the current <see cref="Game"/> object's winner.
         /// </summary>
+        [DisplayName("Winner")]
         public string WinnerName { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="Game"/> object's winner.
         /// </summary>
+        [DisplayName("Winner Score")]
         public int? WinnerScore { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="Game"/> object's loser.
         /// </summary>
+        [DisplayName("Loser")]
         public string LoserName { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="Game"/> object's loser.
         /// </summary>
+        [DisplayName("Loser Score")]
         public int? LoserScore { get; set; }
 
         /// <summary>

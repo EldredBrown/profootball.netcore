@@ -26,9 +26,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="league">The <see cref="League"/> entity to add.</param>
         /// <returns>The added <see cref="League"/> entity.</returns>
-        public League Add(League league)
+        public async Task<League> Add(League league)
         {
-            _dbContext.Add(league);
+            await _dbContext.AddAsync(league);
 
             return league;
         }

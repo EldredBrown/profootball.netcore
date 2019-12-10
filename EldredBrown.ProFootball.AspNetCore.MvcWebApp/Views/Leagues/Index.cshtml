@@ -1,4 +1,4 @@
-﻿@model LeagueListViewModel
+﻿@model LeaguesIndexViewModel
 
 @{
     ViewData["Title"] = Model.Title;
@@ -28,7 +28,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var league in Model.Leagues) {
+@foreach (var league in Model.Leagues) {
         <tr>
             <td>
                 @league.LongName
@@ -48,6 +48,6 @@
                 <a class="btn btn-primary" asp-action="Delete" asp-route-id="@league.ID">Delete</a>
             </td>
         </tr>
-    }
+}
     </tbody>
 </table>

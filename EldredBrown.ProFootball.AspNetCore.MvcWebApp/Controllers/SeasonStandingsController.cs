@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.SeasonStandings;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
@@ -16,14 +15,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly ISeasonStandingsRepository _seasonStandingsRepository;
 
-        private static int _selectedSeasonId = DateTime.Now.Year;
+        private static int _selectedSeasonId = 1920;
         private static bool _groupByDivision = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SeasonStandingsController"/> class.
         /// </summary>
-        /// <param name="seasonRepository"></param>
-        /// <param name="seasonStandingsRepository"></param>
+        /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
+        /// <param name="seasonStandingsRepository">The repository by which season standings data will be accessed.</param>
         public SeasonStandingsController(ISeasonRepository seasonRepository,
             ISeasonStandingsRepository seasonStandingsRepository)
         {
@@ -42,8 +41,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
             var seasonStandings = _seasonStandingsRepository.GetSeasonStandings(_groupByDivision);
 
-            var viewModel = new SeasonStandingIndexViewModel
+            var viewModel = new SeasonStandingsIndexViewModel
             {
+                Title = "Standings",
                 Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonId),
                 SeasonStandings = seasonStandings,
                 GroupByDivision = _groupByDivision
@@ -56,7 +56,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// Sets the selected season ID.
         /// </summary>
         /// <param name="seasonId">The ID of the selected season.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
+        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
         public IActionResult SetSelectedSeasonId(int? seasonId)
         {
             if (seasonId == null)
@@ -66,14 +66,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             _selectedSeasonId = seasonId.Value;
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
-        /// Sets the groupByDivision flag
+        /// Sets the groupByDivision flag.
         /// </summary>
         /// <param name="groupByDivision">Indicates whether the groupByDivision flag should be set to true or false.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/></returns>
+        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
         public IActionResult SetGroupByDivision(bool? groupByDivision)
         {
             if (groupByDivision != null)
@@ -81,7 +81,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 _groupByDivision = groupByDivision.Value;
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

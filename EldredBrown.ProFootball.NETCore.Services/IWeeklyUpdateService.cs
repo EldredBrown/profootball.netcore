@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
@@ -13,6 +10,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Runs a weekly update of the data store.
         /// </summary>
-        Task RunWeeklyUpdate();
+        Task RunWeeklyUpdate(int seasonId);
     }
 }

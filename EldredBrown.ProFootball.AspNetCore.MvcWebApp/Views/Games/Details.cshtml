@@ -1,92 +1,92 @@
-﻿@model Game
+﻿@model GamesDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Title;
 }
 
-<h1>Details</h1>
+<h1>@Model.Title</h1>
 
 <div>
-    <h4>Game</h4>
+    <h4>Details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            <label asp-for="SeasonId"></label>
+            <label asp-for="Game.SeasonId"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.SeasonId
+            @Model.Game.SeasonId
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="Week"></label>
+            <label asp-for="Game.Week"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.Week
+            @Model.Game.Week
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="GuestName"></label>
+            <label asp-for="Game.GuestName"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.GuestName
+            @Model.Game.GuestName
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="GuestScore"></label>
+            <label asp-for="Game.GuestScore"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.GuestScore
+            @Model.Game.GuestScore
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="HostName"></label>
+            <label asp-for="Game.HostName"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.HostName
+            @Model.Game.HostName
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="HostScore"></label>
+            <label asp-for="Game.HostScore"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.HostScore
+            @Model.Game.HostScore
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="WinnerName"></label>
+            <label asp-for="Game.WinnerName"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.WinnerName
+            @Model.Game.WinnerName
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="WinnerScore"></label>
+            <label asp-for="Game.WinnerScore"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.WinnerScore
+            @Model.Game.WinnerScore
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="LoserName"></label>
+            <label asp-for="Game.LoserName"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.LoserName
+            @Model.Game.LoserName
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="LoserScore"></label>
+            <label asp-for="Game.LoserScore"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.LoserScore
+            @Model.Game.LoserScore
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="IsPlayoffGame"></label>
+            <label asp-for="Game.IsPlayoffGame"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.IsPlayoffGame
+            @Model.Game.IsPlayoffGame
         </dd>
         <dt class="col-sm-2">
-            <label asp-for="Notes"></label>
+            <label asp-for="Game.Notes"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.Notes
+            @Model.Game.Notes
         </dd>
     </dl>
 </div>
 <div>
     <p>
-        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Edit</a>
+        <a asp-action="Edit" asp-route-id="@Model.Game.ID" class="btn btn-primary">Edit</a>
     </p>
     <p>
         <a asp-action="Index">Back to List</a>

@@ -1,10 +1,10 @@
-﻿@model SeasonStandingIndexViewModel
+﻿@model SeasonStandingsIndexViewModel
 
 @{
-    ViewBag.Title = "Standings";
+    ViewBag.Title = Model.Title;
 }
 
-<h1>Standings</h1>
+<h1>@Model.Title</h1>
 
 <form>
     <p>
@@ -63,8 +63,8 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.SeasonStandings)
-    {
+@foreach (var item in Model.SeasonStandings)
+{
         if (!string.IsNullOrEmpty(item.Conference) && item.Conference != previousConference)
         {
             <tr>
@@ -116,6 +116,6 @@
                 @item.AvgPointsAgainst
             </td>
         </tr>
-    }
+}
     </tbody>
 </table>

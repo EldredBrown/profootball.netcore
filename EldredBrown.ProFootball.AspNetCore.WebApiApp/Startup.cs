@@ -29,13 +29,14 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
 
             // TODO: 2019-12-05 - The mock repositories need to be added as singletons until they are replaced by repositories for SQL data.
             services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
-            services.AddScoped<ISeasonTeamRepository, SeasonTeamRepository>();
-            services.AddSingleton<ISeasonTeamScheduleProfileRepository, MockSeasonTeamScheduleProfileRepository>();
-            services.AddSingleton<ISeasonTeamScheduleTotalsRepository, MockSeasonTeamScheduleTotalsRepository>();
-            services.AddSingleton<ISeasonTeamScheduleAveragesRepository, MockSeasonTeamScheduleAveragesRepository>();
+            services.AddScoped<ISeasonRepository, SeasonRepository>();
+            services.AddScoped<ITeamSeasonRepository, TeamSeasonRepository>();
+            services.AddSingleton<ITeamSeasonScheduleProfileRepository, MockTeamSeasonScheduleProfileRepository>();
+            services.AddSingleton<ITeamSeasonScheduleTotalsRepository, MockTeamSeasonScheduleTotalsRepository>();
+            services.AddSingleton<ITeamSeasonScheduleAveragesRepository, MockTeamSeasonScheduleAveragesRepository>();
             services.AddSingleton<ISeasonStandingsRepository, MockSeasonStandingsRepository>();
+            services.AddScoped<ISharedRepository, SharedRepository>();
 
             services.AddAutoMapper(typeof(Startup));
 

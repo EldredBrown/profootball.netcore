@@ -26,9 +26,9 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApi.Controllers
         {
             try
             {
-                var seasonTeams = _seasonStandingsRepository.GetSeasonStandings();
+                var teamSeasons = _seasonStandingsRepository.GetSeasonStandings();
 
-                return _mapper.Map<SeasonStandingsModel[]>(seasonTeams);
+                return _mapper.Map<SeasonStandingsModel[]>(teamSeasons);
             }
             catch (Exception)
             {

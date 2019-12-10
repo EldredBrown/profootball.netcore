@@ -1,0 +1,336 @@
+﻿@model TeamSeasonsDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Team
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.TeamName
+        </dd>
+        <dt class="col-sm-2">
+            Season
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.SeasonId
+        </dd>
+        <dt class="col-sm-2">
+            League
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.LeagueName
+        </dd>
+        <dt class="col-sm-2">
+            Conference
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.ConferenceName
+        </dd>
+        <dt class="col-sm-2">
+            Division
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.DivisionName
+        </dd>
+        <dt class="col-sm-2">
+            Games
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.Games
+        </dd>
+        <dt class="col-sm-2">
+            Wins
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.Wins
+        </dd>
+        <dt class="col-sm-2">
+            Losses
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.Losses
+        </dd>
+        <dt class="col-sm-2">
+            Ties
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.Ties
+        </dd>
+        <dt class="col-sm-2">
+            Winning Percentage
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.WinningPercentage
+        </dd>
+        <dt class="col-sm-2">
+            Points Scored
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.PointsFor
+        </dd>
+        <dt class="col-sm-2">
+            Points Allowed
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.PointsAgainst
+        </dd>
+        <dt class="col-sm-2">
+            Pythagorean Wins
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.PythagoreanWins
+        </dd>
+        <dt class="col-sm-2">
+            Pythagorean Losses
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.PythagoreanLosses
+        </dd>
+        <dt class="col-sm-2">
+            Offensive Average
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.OffensiveAverage
+        </dd>
+        <dt class="col-sm-2">
+            Offensive Factor
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.OffensiveFactor
+        </dd>
+        <dt class="col-sm-2">
+            Offensive Index
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.OffensiveIndex
+        </dd>
+        <dt class="col-sm-2">
+            Defensive Average
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.DefensiveAverage
+        </dd>
+        <dt class="col-sm-2">
+            Defensive Factor
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.DefensiveFactor
+        </dd>
+        <dt class="col-sm-2">
+            Defensive Index
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.DefensiveIndex
+        </dd>
+        <dt class="col-sm-2">
+            Final Pyth Win Pct.
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TeamSeason.FinalPythagoreanWinningPercentage
+        </dd>
+    </dl>
+</div>
+
+@if (Model.TeamSeasonScheduleProfile != null)
+{
+    <h5>Team Season Schedule Profile</h5>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Opponent
+                </th>
+                <th style="text-align: right">
+                    GPF
+                </th>
+                <th style="text-align: right">
+                    GPA
+                </th>
+                <th style="text-align: right">
+                    OW
+                </th>
+                <th style="text-align: right">
+                    OL
+                </th>
+                <th style="text-align: right">
+                    OT
+                </th>
+                <th style="text-align: right">
+                    OWPct
+                </th>
+                <th style="text-align: right">
+                    OWG
+                </th>
+                <th style="text-align: right">
+                    OWPF
+                </th>
+                <th style="text-align: right">
+                    OWPA
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var opponent in Model.TeamSeasonScheduleProfile.Opponents)
+    {
+            <tr>
+                <td>
+                    @opponent.Name
+                </td>
+                <td style="text-align: right">
+                    @opponent.GamePointsFor
+                </td>
+                <td style="text-align: right">
+                    @opponent.GamePointsAgainst
+                </td>
+                <td style="text-align: right">
+                    @opponent.Wins
+                </td>
+                <td style="text-align: right">
+                    @opponent.Losses
+                </td>
+                <td style="text-align: right">
+                    @opponent.Ties
+                </td>
+                <td style="text-align: right">
+                    @opponent.WinningPercentage
+                </td>
+                <td style="text-align: right">
+                    @opponent.WeightedGames
+                </td>
+                <td style="text-align: right">
+                    @opponent.WeightedPointsFor
+                </td>
+                <td style="text-align: right">
+                    @opponent.WeightedPointsAgainst
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+}
+
+@if (Model.TeamSeasonScheduleTotals != null)
+{
+    <h5>Team Season Schedule Totals</h5>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="text-align: right">
+                    G
+                </th>
+                <th style="text-align: right">
+                    PF
+                </th>
+                <th style="text-align: right">
+                    PA
+                </th>
+                <th style="text-align: right">
+                    SW
+                </th>
+                <th style="text-align: right">
+                    SL
+                </th>
+                <th style="text-align: right">
+                    ST
+                </th>
+                <th style="text-align: right">
+                    SWPct
+                </th>
+                <th style="text-align: right">
+                    SG
+                </th>
+                <th style="text-align: right">
+                    SPF
+                </th>
+                <th style="text-align: right">
+                    SPA
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.Games
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.PointsFor
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.PointsAgainst
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.ScheduleWins
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.ScheduleLosses
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.ScheduleTies
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.ScheduleWinningPercentage
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.ScheduleGames
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.SchedulePointsFor
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleTotals.SchedulePointsAgainst
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@if (Model.TeamSeasonScheduleAverages != null)
+{
+    <h5>Team Season Schedule Averages</h5>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="text-align: right">
+                    PF
+                </th>
+                <th style="text-align: right">
+                    PA
+                </th>
+                <th style="text-align: right">
+                    SPF
+                </th>
+                <th style="text-align: right">
+                    SPA
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleAverages.PointsFor
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleAverages.PointsAgainst
+                </td>
+                <td style="text-align: right;">
+                    @Model.TeamSeasonScheduleAverages.SchedulePointsFor
+                </td>
+                <td style="text-align: right">
+                    @Model.TeamSeasonScheduleAverages.SchedulePointsAgainst
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

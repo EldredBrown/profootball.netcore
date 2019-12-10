@@ -1,12 +1,12 @@
 ﻿@model Game
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Game";
 }
 
-<h1>Create</h1>
+<h1>Game</h1>
 
-<h4>Game</h4>
+<h4>Create</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,7 +24,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="GuestName" class="col-form-label"></label>
-                @Html.DropDownList("GuestName", null, htmlAttributes: new { @class = "form-control" })
+                <input asp-for="GuestName" class="form-control" />
+                @* @Html.DropDownList("GuestName", null, htmlAttributes: new { @class = "form-control" })*@
                 <span asp-validation-for="GuestName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,7 +35,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="HostName" class="col-form-label"></label>
-                @Html.DropDownList("HostName", null, htmlAttributes: new { @class = "form-control" })
+                <input asp-for="HostName" class="form-control" />
+                @* @Html.DropDownList("HostName", null, htmlAttributes: new { @class = "form-control" })*@
                 <span asp-validation-for="HostName" class="text-danger"></span>
             </div>
             <div class="form-group">

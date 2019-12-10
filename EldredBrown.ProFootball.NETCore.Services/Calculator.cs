@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
@@ -10,82 +8,83 @@ namespace EldredBrown.ProFootball.NETCore.Services
         private const double _exponent = 2.37;
 
         /// <summary>
-        /// Adds two values
+        /// Adds two values.
         /// </summary>
-        /// <param name="lVal"></param>
-        /// <param name="rVal"></param>
-        /// <returns></returns>
-        public virtual double Add(double lVal, double rVal)
+        /// <param name="x">The first operand.</param>
+        /// <param name="y">The second operand.</param>
+        /// <returns>The result of x + y.</returns>
+        public virtual int Add(int x, int y)
         {
-            return lVal + rVal;
+            return x + y;
         }
 
         /// <summary>
-        /// Calculates a team's winning percentage for the selected season
+        /// Subtracts the second value from the first.
         /// </summary>
-        /// <param name="seasonTeam"></param>
-        /// <returns></returns>
-        public virtual decimal? CalculateWinningPercentage(SeasonTeam seasonTeam)
+        /// <param name="x">The first operand.</param>
+        /// <param name="y">The second operand.</param>
+        /// <returns>The result of x - y.</returns>
+		public virtual int Subtract(int x, int y)
         {
-            var result = Divide((2 * seasonTeam.Wins + seasonTeam.Ties), (2 * seasonTeam.Games));
-            return result;
+            return x - y;
         }
 
         /// <summary>
-        /// Calculates a team's Pythagorean Winning Percentage
+        /// Multiplies two values.
         /// </summary>
-        /// <param name = "pointsFor"></param>
-        /// <param name = "pointsAgainst"></param>
-        /// <returns></returns>
-        public virtual decimal? CalculatePythagoreanWinningPercentage(SeasonTeam seasonTeam)
+        /// <param name="x">The first operand.</param>
+        /// <param name="y">The second operand.</param>
+        /// <returns>The result of x * y.</returns>
+		public virtual decimal Multiply(decimal x, decimal y)
         {
-            var numerator = Math.Pow(seasonTeam.PointsFor, _exponent);
-            var denominator = 
-                Math.Pow(seasonTeam.PointsFor, _exponent) + Math.Pow(seasonTeam.PointsAgainst, _exponent);
-            var pct = Divide((decimal)numerator, (decimal)denominator);
-            return pct;
+            return x * y;
         }
 
         /// <summary>
         /// Divides the numerator by the denominator.
         /// </summary>
-        /// <param name="numerator">The numerator in this operation.</param>
-        /// <param name="denominator">The denominator in this operation.</param>
-        /// <returns>The result of the division operation; null if the denominator is zero.</returns>
-        public virtual decimal? Divide(decimal numerator, decimal denominator)
+        /// <param name="x">The numerator.</param>
+        /// <param name="y">The denominator.</param>
+        /// <returns>The result of x / y; null if the denominator is zero.</returns>
+        public virtual decimal? Divide(decimal x, decimal y)
         {
             // Rather than throw an error for division by zero, 
             // this will return a default result of null if division by zero occurs.
             decimal? result = null;
 
-            if (denominator != 0)
+            if (y != 0)
             {
-                result = numerator / denominator;
+                result = x / y;
             }
 
             return result;
         }
 
         /// <summary>
-        /// Multiplies two values
+        /// Calculates a team's winning percentage for the selected season.
         /// </summary>
-        /// <param name="lVal"></param>
-        /// <param name="rVal"></param>
-        /// <returns></returns>
-		public virtual double Multiply(double lVal, double rVal)
+        /// <param name="teamSeason">The <see cref="TeamSeason"/> object for which a winning percentage will be calculated.</param>
+        /// <returns>The <see cref="TeamSeason"/> object's winning percentage.</returns>
+        public virtual decimal? CalculateWinningPercentage(TeamSeason teamSeason)
         {
-            return lVal * rVal;
+            var result = Divide(2 * teamSeason.Wins + teamSeason.Ties, 2 * teamSeason.Games);
+
+            return result;
         }
 
         /// <summary>
-        /// Subtracts the second value from the first
+        /// Calculates a team's Pythagorean Winning Percentage.
         /// </summary>
-        /// <param name="lVal"></param>
-        /// <param name="rVal"></param>
-        /// <returns></returns>
-		public virtual double Subtract(double lVal, double rVal)
+        /// <param name="teamSeason">The <see cref="TeamSeason"/> object for which a Pythagorean winning percentage will be calculated.</param>
+        /// <returns>The <see cref="TeamSeason"/> object's Pythagorean winning percentage.</returns>
+        public virtual decimal? CalculatePythagoreanWinningPercentage(TeamSeason teamSeason)
         {
-            return lVal - rVal;
+            var x = (decimal)Math.Pow(teamSeason.PointsFor, _exponent);
+            var y = 
+                (decimal)(Math.Pow(teamSeason.PointsFor, _exponent) + Math.Pow(teamSeason.PointsAgainst, _exponent));
+            var pct = Divide(x, y);
+
+            return pct;
         }
     }
 }

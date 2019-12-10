@@ -13,21 +13,21 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     public class GamePredictorController : Controller
     {
         private readonly ISeasonRepository _seasonRepository;
-        private readonly ISeasonTeamRepository _seasonTeamRepository;
+        private readonly ITeamSeasonRepository _teamSeasonRepository;
 
         private static int _guestSeasonId = 1920;
         private static int _hostSeasonId = 1920;
 
         /// <summary>
-        /// Initializes an instance of the <see cref="GamePredictorController"/> class.
+        /// Initializes a new instance of the <see cref="GamePredictorController"/> class.
         /// </summary>
-        /// <param name="seasonRepository"></param>
-        /// <param name="seasonTeamRepository"></param>
+        /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
+        /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
         public GamePredictorController(ISeasonRepository seasonRepository,
-            ISeasonTeamRepository seasonTeamRepository)
+            ITeamSeasonRepository teamSeasonRepository)
         {
             _seasonRepository = seasonRepository;
-            _seasonTeamRepository = seasonTeamRepository;
+            _teamSeasonRepository = teamSeasonRepository;
         }
 
         // GET: GamePredictor/PredictGame
@@ -42,13 +42,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             ViewBag.GuestSeasonId = new SelectList(seasons, "ID", "ID", _guestSeasonId);
 
-            var guests = (await _seasonTeamRepository.GetSeasonTeams())
+            var guests = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(st => st.SeasonId == _guestSeasonId);
             ViewBag.GuestName = new SelectList(guests, "TeamName", "TeamName");
 
             ViewBag.HostSeasonId = new SelectList(seasons, "ID", "ID", _hostSeasonId);
 
-            var hosts = (await _seasonTeamRepository.GetSeasonTeams())
+            var hosts = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(st => st.SeasonId == _hostSeasonId);
             ViewBag.HostName = new SelectList(hosts, "TeamName", "TeamName");
 
@@ -72,20 +72,20 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             ViewBag.GuestSeasonId = new SelectList(seasons, "ID", "ID", _guestSeasonId);
 
-            var guests = (await _seasonTeamRepository.GetSeasonTeams())
+            var guests = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(st => st.SeasonId == _guestSeasonId);
-            var guest = await _seasonTeamRepository.GetSeasonTeamBySeasonAndTeam(
-                _guestSeasonId, prediction.GuestName);
+            var guest = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
+                prediction.GuestName, _guestSeasonId);
             ViewBag.GuestName = new SelectList(guests, "TeamName", "TeamName", guest.TeamName);
 
             _hostSeasonId = prediction.HostSeasonId;
 
             ViewBag.HostSeasonId = new SelectList(seasons, "ID", "ID", _hostSeasonId);
 
-            var hosts = (await _seasonTeamRepository.GetSeasonTeams())
+            var hosts = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(st => st.SeasonId == _hostSeasonId);
-            var host = await _seasonTeamRepository.GetSeasonTeamBySeasonAndTeam(
-                _hostSeasonId, prediction.HostName);
+            var host = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
+                prediction.HostName, _hostSeasonId);
             ViewBag.HostName = new SelectList(hosts, "TeamName", "TeamName", host.TeamName);
 
             return View(prediction);
@@ -99,17 +99,17 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the Game Predictor form.</returns>
         public IActionResult ApplyFilter(int? guestSeasonId, int? hostSeasonId)
         {
-            if (guestSeasonId.HasValue)
+            if (guestSeasonId != null)
             {
                 _guestSeasonId = guestSeasonId.Value;
             }
 
-            if (hostSeasonId.HasValue)
+            if (hostSeasonId != null)
             {
                 _hostSeasonId = hostSeasonId.Value;
             }
 
-            return RedirectToAction("PredictGame");
+            return RedirectToAction(nameof(PredictGame));
         }
     }
 }

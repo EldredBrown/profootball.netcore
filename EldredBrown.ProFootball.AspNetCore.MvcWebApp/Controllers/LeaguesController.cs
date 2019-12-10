@@ -29,7 +29,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the Leagues list.</returns>
         public async Task<IActionResult> Index()
         {
-            var viewModel = new LeagueListViewModel
+            var viewModel = new LeaguesIndexViewModel
             {
                 Title = "Leagues",
                 Leagues = await _leagueRepository.GetLeagues()
@@ -56,7 +56,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var viewModel = new LeagueDetailsViewModel
+            var viewModel = new LeaguesDetailsViewModel
             {
                 Title = "League",
                 League = league

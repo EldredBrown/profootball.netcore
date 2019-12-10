@@ -1,0 +1,102 @@
+﻿@model TeamSeasonsIndexViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<form>
+    <p>
+        <label class="col-form-label">Season</label>
+        @Html.DropDownList("Seasons", null, htmlAttributes: new
+        {
+            @onchange = "document.location.href='/TeamSeasons/SetSelectedSeasonId?SeasonId=' + this.options[this.selectedIndex].value;"
+        })
+    </p>
+    <p>
+        <a asp-action="RunWeeklyUpdate" class="btn btn-primary btn-lg">Run Weekly Update</a>
+    </p>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>W</th>
+            <th>L</th>
+            <th>T</th>
+            <th>Pct</th>
+            <th>PF</th>
+            <th>PA</th>
+            <th>PythW</th>
+            <th>PythL</th>
+            <th>OA</th>
+            <th>OF</th>
+            <th>OI</th>
+            <th>DA</th>
+            <th>DF</th>
+            <th>DI</th>
+            <th>FinPythPct</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var teamSeason in Model.TeamSeasons)
+{
+        <tr>
+            <td>
+                @teamSeason.TeamName
+            </td>
+            <td>
+                @teamSeason.Wins
+            </td>
+            <td>
+                @teamSeason.Losses
+            </td>
+            <td>
+                @teamSeason.Ties
+            </td>
+            <td>
+                @teamSeason.WinningPercentage
+            </td>
+            <td>
+                @teamSeason.PointsFor
+            </td>
+            <td>
+                @teamSeason.PointsAgainst
+            </td>
+            <td>
+                @teamSeason.PythagoreanWins
+            </td>
+            <td>
+                @teamSeason.PythagoreanLosses
+            </td>
+            <td>
+                @teamSeason.OffensiveAverage
+            </td>
+            <td>
+                @teamSeason.OffensiveFactor
+            </td>
+            <td>
+                @teamSeason.OffensiveIndex
+            </td>
+            <td>
+                @teamSeason.DefensiveAverage
+            </td>
+            <td>
+                @teamSeason.DefensiveFactor
+            </td>
+            <td>
+                @teamSeason.DefensiveIndex
+            </td>
+            <td>
+                @teamSeason.FinalPythagoreanWinningPercentage
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@teamSeason.ID" class="btn btn-primary">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

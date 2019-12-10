@@ -1,10 +1,10 @@
-﻿@model GameListViewModel
+﻿@model GamesIndexViewModel
 
 @{
-    ViewData["Title"] = "Games";
+    ViewData["Title"] = Model.Title;
 }
 
-<h1>Games</h1>
+<h1>@Model.Title</h1>
 
 <form>
     <p>
@@ -60,8 +60,8 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var game in Model.Games)
-    {
+@foreach (var game in Model.Games)
+{
         <tr>
             <td>
                 @game.SeasonId
@@ -93,6 +93,6 @@
                 <a asp-action="Delete" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Delete</a>
             </td>
         </tr>
-    }
+}
     </tbody>
 </table>

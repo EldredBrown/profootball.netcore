@@ -15,7 +15,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.1")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -121,6 +121,96 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Games");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            GuestName = "St. Paul Ideals",
+                            GuestScore = 0,
+                            HostName = "Rock Island Independents",
+                            HostScore = 48,
+                            IsPlayoffGame = false,
+                            SeasonId = 1920,
+                            Week = 1
+                        },
+                        new
+                        {
+                            ID = 2,
+                            GuestName = "Pitcairn Quakers",
+                            GuestScore = 0,
+                            HostName = "Canton Bulldogs",
+                            HostScore = 48,
+                            IsPlayoffGame = false,
+                            SeasonId = 1920,
+                            Week = 2
+                        },
+                        new
+                        {
+                            ID = 3,
+                            GuestName = "West Buffalo",
+                            GuestScore = 6,
+                            HostName = "Buffalo All-Americans",
+                            HostScore = 32,
+                            IsPlayoffGame = false,
+                            SeasonId = 1920,
+                            Week = 2
+                        },
+                        new
+                        {
+                            ID = 4,
+                            GuestName = "Wheeling Stogies",
+                            GuestScore = 0,
+                            HostName = "Akron Pros",
+                            HostScore = 43,
+                            IsPlayoffGame = false,
+                            SeasonId = 1920,
+                            Week = 2
+                        },
+                        new
+                        {
+                            ID = 5,
+                            GuestName = "Muncie Flyers",
+                            GuestScore = 0,
+                            HostName = "Rock Island Independents",
+                            HostScore = 45,
+                            IsPlayoffGame = false,
+                            SeasonId = 1920,
+                            Week = 2
+                        },
+                        new
+                        {
+                            ID = 6,
+                            GuestName = "All Buffalo",
+                            GuestScore = 0,
+                            HostName = "Rochester Jeffersons",
+                            HostScore = 10,
+                            IsPlayoffGame = false,
+                            SeasonId = 1920,
+                            Week = 2
+                        },
+                        new
+                        {
+                            ID = 7,
+                            GuestName = "Columbus Panhandles",
+                            GuestScore = 0,
+                            HostName = "Dayton Triangles",
+                            HostScore = 14,
+                            IsPlayoffGame = false,
+                            SeasonId = 1920,
+                            Week = 2
+                        },
+                        new
+                        {
+                            ID = 8,
+                            GuestName = "Moline Universal Tractors",
+                            GuestScore = 0,
+                            HostName = "Decatur Staleys",
+                            HostScore = 20,
+                            IsPlayoffGame = false,
+                            SeasonId = 1920,
+                            Week = 2
+                        });
                 });
 
             modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.League", b =>
@@ -148,12 +238,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasAlternateKey("LongName")
-                        .HasName("AlternateKey_LongName");
-
-                    b.HasAlternateKey("ShortName")
-                        .HasName("AlternateKey_ShortName");
-
                     b.ToTable("Leagues");
 
                     b.HasData(
@@ -164,55 +248,10 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                             LastSeasonId = 1921,
                             LongName = "American Professional Football Association",
                             ShortName = "APFA"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            FirstSeasonId = 1922,
-                            LongName = "National Football League",
-                            ShortName = "NFL"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            FirstSeasonId = 1946,
-                            LastSeasonId = 1949,
-                            LongName = "All-America Football Conference",
-                            ShortName = "AAFC"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            FirstSeasonId = 1960,
-                            LastSeasonId = 1969,
-                            LongName = "American Football League",
-                            ShortName = "AFL"
                         });
                 });
 
-            modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.Season", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("NumOfWeeks")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Seasons");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1920,
-                            NumOfWeeks = 13
-                        });
-                });
-
-            modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.SeasonLeague", b =>
+            modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.LeagueSeason", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -236,7 +275,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("SeasonLeagues");
+                    b.ToTable("LeagueSeasons");
 
                     b.HasData(
                         new
@@ -246,10 +285,192 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                             SeasonId = 1920,
                             TotalGames = 0,
                             TotalPoints = 0
+                        },
+                        new
+                        {
+                            ID = 2,
+                            LeagueName = "American Professional Football Association",
+                            SeasonId = 1921,
+                            TotalGames = 0,
+                            TotalPoints = 0
                         });
                 });
 
-            modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.SeasonTeam", b =>
+            modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.Season", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("NumOfWeeks")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumOfWeeksCompleted")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Seasons");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1920,
+                            NumOfWeeks = 13,
+                            NumOfWeeksCompleted = 0
+                        },
+                        new
+                        {
+                            ID = 1921,
+                            NumOfWeeks = 13,
+                            NumOfWeeksCompleted = 0
+                        });
+                });
+
+            modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.Team", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Teams");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Name = "Akron Pros"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Name = "Buffalo All-Americans"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Name = "Canton Bulldogs"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Name = "Chicago Cardinals"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Name = "Chicago Tigers"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Name = "Cleveland Tigers"
+                        },
+                        new
+                        {
+                            ID = 7,
+                            Name = "Columbus Panhandles"
+                        },
+                        new
+                        {
+                            ID = 8,
+                            Name = "Dayton Triangles"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            Name = "Decatur Staleys"
+                        },
+                        new
+                        {
+                            ID = 10,
+                            Name = "Detroit Heralds"
+                        },
+                        new
+                        {
+                            ID = 11,
+                            Name = "Hammond Pros"
+                        },
+                        new
+                        {
+                            ID = 12,
+                            Name = "Muncie Flyers"
+                        },
+                        new
+                        {
+                            ID = 13,
+                            Name = "Rochester Jeffersons"
+                        },
+                        new
+                        {
+                            ID = 14,
+                            Name = "Rock Island Independents"
+                        },
+                        new
+                        {
+                            ID = 15,
+                            Name = "Chicago Staleys"
+                        },
+                        new
+                        {
+                            ID = 16,
+                            Name = "Cincinnati Celts"
+                        },
+                        new
+                        {
+                            ID = 17,
+                            Name = "Cleveland Indians"
+                        },
+                        new
+                        {
+                            ID = 18,
+                            Name = "Detroit Tigers"
+                        },
+                        new
+                        {
+                            ID = 19,
+                            Name = "Evansville Crimson Giants"
+                        },
+                        new
+                        {
+                            ID = 20,
+                            Name = "Green Bay Packers"
+                        },
+                        new
+                        {
+                            ID = 21,
+                            Name = "Louisville Brocks"
+                        },
+                        new
+                        {
+                            ID = 22,
+                            Name = "Minneapolis Marines"
+                        },
+                        new
+                        {
+                            ID = 23,
+                            Name = "New York Brickley Giants"
+                        },
+                        new
+                        {
+                            ID = 24,
+                            Name = "Tonawanda Kardex"
+                        },
+                        new
+                        {
+                            ID = 25,
+                            Name = "Washington Senators"
+                        });
+                });
+
+            modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.TeamSeason", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -321,7 +542,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("SeasonTeams");
+                    b.ToTable("TeamSeasons");
 
                     b.HasData(
                         new
@@ -533,93 +754,321 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                             TeamName = "Rock Island Independents",
                             Ties = 0,
                             Wins = 0
-                        });
-                });
-
-            modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.Team", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Teams");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Name = "Akron Pros"
                         },
                         new
                         {
-                            ID = 2,
-                            Name = "Buffalo All-Americans"
+                            ID = 15,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Akron Pros",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 3,
-                            Name = "Canton Bulldogs"
+                            ID = 16,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Buffalo All-Americans",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 4,
-                            Name = "Chicago Cardinals"
+                            ID = 17,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Canton Bulldogs",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 5,
-                            Name = "Chicago Tigers"
+                            ID = 18,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Chicago Cardinals",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 6,
-                            Name = "Cleveland Tigers"
+                            ID = 19,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Chicago Staleys",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 7,
-                            Name = "Columbus Panhandles"
+                            ID = 20,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Cincinnati Celts",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 8,
-                            Name = "Dayton Triangles"
+                            ID = 21,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Cleveland Indians",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 9,
-                            Name = "Decatur Staleys"
+                            ID = 22,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Columbus Panhandles",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 10,
-                            Name = "Detroit Heralds"
+                            ID = 23,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Dayton Triangles",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 11,
-                            Name = "Hammond Pros"
+                            ID = 24,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Detroit Tigers",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 12,
-                            Name = "Muncie Flyers"
+                            ID = 25,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Evansville Crimson Giants",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 13,
-                            Name = "Rochester Jeffersons"
+                            ID = 26,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Green Bay Packers",
+                            Ties = 0,
+                            Wins = 0
                         },
                         new
                         {
-                            ID = 14,
-                            Name = "Rock Island Independents"
+                            ID = 27,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Hammond Pros",
+                            Ties = 0,
+                            Wins = 0
+                        },
+                        new
+                        {
+                            ID = 28,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Louisville Brocks",
+                            Ties = 0,
+                            Wins = 0
+                        },
+                        new
+                        {
+                            ID = 29,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Minneapolis Marines",
+                            Ties = 0,
+                            Wins = 0
+                        },
+                        new
+                        {
+                            ID = 30,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Muncie Flyers",
+                            Ties = 0,
+                            Wins = 0
+                        },
+                        new
+                        {
+                            ID = 31,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "New York Brickley Giants",
+                            Ties = 0,
+                            Wins = 0
+                        },
+                        new
+                        {
+                            ID = 32,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Rochester Jeffersons",
+                            Ties = 0,
+                            Wins = 0
+                        },
+                        new
+                        {
+                            ID = 33,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Rock Island Independents",
+                            Ties = 0,
+                            Wins = 0
+                        },
+                        new
+                        {
+                            ID = 34,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Tonawanda Kardex",
+                            Ties = 0,
+                            Wins = 0
+                        },
+                        new
+                        {
+                            ID = 35,
+                            Games = 0,
+                            LeagueName = "American Professional Football Association",
+                            Losses = 0,
+                            PointsAgainst = 0,
+                            PointsFor = 0,
+                            PythagoreanLosses = 0m,
+                            PythagoreanWins = 0m,
+                            SeasonId = 1921,
+                            TeamName = "Washington Senators",
+                            Ties = 0,
+                            Wins = 0
                         });
                 });
 
