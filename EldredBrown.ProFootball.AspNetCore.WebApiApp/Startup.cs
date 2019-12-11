@@ -32,10 +32,10 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<ITeamSeasonRepository, TeamSeasonRepository>();
-            services.AddSingleton<ITeamSeasonScheduleProfileRepository, MockTeamSeasonScheduleProfileRepository>();
-            services.AddSingleton<ITeamSeasonScheduleTotalsRepository, MockTeamSeasonScheduleTotalsRepository>();
-            services.AddSingleton<ITeamSeasonScheduleAveragesRepository, MockTeamSeasonScheduleAveragesRepository>();
-            services.AddSingleton<ISeasonStandingsRepository, MockSeasonStandingsRepository>();
+            services.AddScoped<ITeamSeasonScheduleProfileRepository, TeamSeasonScheduleProfileRepository>();
+            services.AddScoped<ITeamSeasonScheduleTotalsRepository, TeamSeasonScheduleTotalsRepository>();
+            services.AddScoped<ITeamSeasonScheduleAveragesRepository, TeamSeasonScheduleAveragesRepository>();
+            services.AddScoped<ISeasonStandingsRepository, SeasonStandingsRepository>();
             services.AddScoped<ISharedRepository, SharedRepository>();
 
             services.AddAutoMapper(typeof(Startup));

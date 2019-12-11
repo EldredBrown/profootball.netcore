@@ -1,4 +1,6 @@
-﻿using EldredBrown.ProFootball.NETCore.Data.Entities;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
@@ -8,11 +10,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
     public interface ITeamSeasonScheduleProfileRepository
     {
         /// <summary>
-        /// Gets a single <see cref="TeamSeasonScheduleProfile"/> entity from the data store by team name and season ID.
+        /// Gets a single team season schedule profile (<see cref="IEnumerable{OpponentProfile}"/>) from the data store by team name and season ID.
         /// </summary>
         /// <param name="teamName">The team name of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
         /// <param name="seasonId">The season ID of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
-        /// <returns>The fetched <see cref="TeamSeasonScheduleProfile"/> entity.</returns>
-        TeamSeasonScheduleProfile GetTeamSeasonScheduleProfile(string teamName, int seasonId);
+        /// <returns>The fetched <see cref="IEnumerable{OpponentProfile}"/> collection.</returns>
+        Task<IEnumerable<TeamSeasonOpponentProfile>> GetTeamSeasonScheduleProfile(string teamName, int seasonId);
     }
 }

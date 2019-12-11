@@ -14,7 +14,7 @@
             @onchange = "document.location.href='/SeasonStandings/SetSelectedSeasonId?SeasonId=' + this.options[this.selectedIndex].value;"
         })
     </p>
-    <p>
+    @*<p>
         <label class="form-check-label">
             @Html.CheckBox("GroupByDivision", htmlAttributes: new
             {
@@ -22,12 +22,12 @@
             })
             <label class="col-form-label">Group by Division</label>
         </label>
-    </p>
+    </p>*@
 </form>
 
 @{
-    string previousConference = string.Empty;
-    string previousDivision = string.Empty;
+    var previousConference = string.Empty;
+    var previousDivision = string.Empty;
 }
 
 <table class="table table-bordered table-striped">
@@ -36,86 +36,86 @@
             <th>
                 Team
             </th>
-            <th style="text-align: right">
+            <th class="text-right">
                 W
             </th>
-            <th style="text-align: right">
+            <th class="text-right">
                 L
             </th>
-            <th style="text-align: right">
+            <th class="text-right">
                 T
             </th>
-            <th style="text-align: right">
+            <th class="text-right">
                 Pct.
             </th>
-            <th style="text-align: right">
+            <th class="text-right">
                 PF
             </th>
-            <th style="text-align: right">
+            <th class="text-right">
                 PA
             </th>
-            <th style="text-align: right">
+            <th class="text-right">
                 AvgPF
             </th>
-            <th style="text-align: right">
+            <th class="text-right">
                 AvgPA
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.SeasonStandings)
-{
-        if (!string.IsNullOrEmpty(item.Conference) && item.Conference != previousConference)
+        @foreach (var item in Model.SeasonStandings)
         {
-            <tr>
-                <th>
-                    @item.Conference
-                </th>
-            </tr>
+            if (!string.IsNullOrEmpty(item.Conference) && item.Conference != previousConference)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Conference)
+                    </th>
+                </tr>
 
-            previousConference = item.Conference;
-        }
-        if (ViewBag.GroupByDivision == true && 
-            !string.IsNullOrEmpty(item.Division) && 
-            item.Division != previousDivision)
-        {
-            <tr>
-                <th>
-                    @item.Division
-                </th>
-            </tr>
+                previousConference = item.Conference;
+            }
+            if (ViewBag.GroupByDivision == true &&
+                !string.IsNullOrEmpty(item.Division) &&
+                item.Division != previousDivision)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Division)
+                    </th>
+                </tr>
 
-            previousDivision = item.Division;
+                previousDivision = item.Division;
+            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Team)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Wins)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Losses)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Ties)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.WinningPercentage)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.PointsFor)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.PointsAgainst)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.AvgPointsFor)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.AvgPointsAgainst)
+                </td>
+            </tr>
         }
-        <tr>
-            <td>
-                @item.Team
-            </td>
-            <td style="text-align: right">
-                @item.Wins
-            </td>
-            <td style="text-align: right">
-                @item.Losses
-            </td>
-            <td style="text-align: right">
-                @item.Ties
-            </td>
-            <td style="text-align: right">
-                @item.WinningPercentage
-            </td>
-            <td style="text-align: right">
-                @item.PointsFor
-            </td>
-            <td style="text-align: right">
-                @item.PointsAgainst
-            </td>
-            <td style="text-align: right">
-                @item.AvgPointsFor
-            </td>
-            <td style="text-align: right">
-                @item.AvgPointsAgainst
-            </td>
-        </tr>
-}
     </tbody>
 </table>

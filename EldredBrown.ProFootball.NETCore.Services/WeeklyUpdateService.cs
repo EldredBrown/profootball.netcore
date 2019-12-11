@@ -136,29 +136,27 @@ namespace EldredBrown.ProFootball.NETCore.Services
             // Iterate through the list of TeamSeason objects.
             foreach (var teamSeason in teamSeasons)
             {
-                UpdateRankingsByTeamSeason(teamSeason);
+                await UpdateRankingsByTeamSeason(teamSeason);
             }
 
             // Save changes.
             await _sharedRepository.SaveChanges();
         }
 
-        private void UpdateRankingsByTeamSeason(TeamSeason teamSeason)
+        private async Task UpdateRankingsByTeamSeason(TeamSeason teamSeason)
         {
             try
             {
+                var teamSeasonScheduleTotals =
+                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(
+                        teamSeason.TeamName, teamSeason.SeasonId);
+
+                var teamSeasonScheduleAverages =
+                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(
+                        teamSeason.TeamName, teamSeason.SeasonId);
+
                 lock (_dbLock)
                 {
-                    // Get needed stored procedure results.
-                    var teamSeasonScheduleTotals = 
-                        _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(
-                            teamSeason.TeamName, teamSeason.SeasonId);
-
-                    var teamSeasonScheduleAverages = 
-                        _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(
-                            teamSeason.TeamName, teamSeason.SeasonId);
-
-                    // Calculate new rankings.
                     if (teamSeasonScheduleTotals != null && teamSeasonScheduleAverages != null &&
                         teamSeasonScheduleTotals.ScheduleGames != null)
                     {

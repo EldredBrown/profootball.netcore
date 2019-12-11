@@ -101,7 +101,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            return View(game);
+            var viewModel = new GamesDetailsViewModel
+            {
+                Title = "Game",
+                Game = game
+            };
+
+            return View(viewModel);
         }
 
         // GET: Games/Create

@@ -23,7 +23,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// </summary>
         /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
         /// <param name="seasonStandingsRepository">The repository by which season standings data will be accessed.</param>
-        public SeasonStandingsController(ISeasonRepository seasonRepository,
+        public SeasonStandingsController(
+            ISeasonRepository seasonRepository,
             ISeasonStandingsRepository seasonStandingsRepository)
         {
             _seasonRepository = seasonRepository;
@@ -39,7 +40,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
-            var seasonStandings = _seasonStandingsRepository.GetSeasonStandings(_groupByDivision);
+            var seasonStandings = await _seasonStandingsRepository.GetSeasonStandings(_selectedSeasonId,
+                _groupByDivision);
 
             var viewModel = new SeasonStandingsIndexViewModel
             {

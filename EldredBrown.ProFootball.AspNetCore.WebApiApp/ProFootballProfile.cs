@@ -12,7 +12,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApi
             CreateMap<Season, SeasonModel>().ReverseMap();
             CreateMap<Game, GameModel>().ReverseMap();
             CreateMap<TeamSeason, TeamSeasonModel>().ReverseMap();
-            CreateMap<TeamSeasonScheduleProfile, TeamSeasonScheduleProfileModel>().ReverseMap();
+            CreateMap<TeamSeasonOpponentProfile, OpponentProfileModel>().ReverseMap();
             CreateMap<TeamSeasonScheduleTotals, TeamSeasonScheduleTotalsModel>().ReverseMap();
             CreateMap<TeamSeasonScheduleAverages, TeamSeasonScheduleAveragesModel>().ReverseMap();
         }

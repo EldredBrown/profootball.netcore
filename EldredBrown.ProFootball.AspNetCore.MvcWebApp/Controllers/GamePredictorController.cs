@@ -43,13 +43,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             ViewBag.GuestSeasonId = new SelectList(seasons, "ID", "ID", _guestSeasonId);
 
             var guests = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(st => st.SeasonId == _guestSeasonId);
+                .Where(ts => ts.SeasonId == _guestSeasonId);
             ViewBag.GuestName = new SelectList(guests, "TeamName", "TeamName");
 
             ViewBag.HostSeasonId = new SelectList(seasons, "ID", "ID", _hostSeasonId);
 
             var hosts = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(st => st.SeasonId == _hostSeasonId);
+                .Where(ts => ts.SeasonId == _hostSeasonId);
             ViewBag.HostName = new SelectList(hosts, "TeamName", "TeamName");
 
             return View();
@@ -73,7 +73,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             ViewBag.GuestSeasonId = new SelectList(seasons, "ID", "ID", _guestSeasonId);
 
             var guests = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(st => st.SeasonId == _guestSeasonId);
+                .Where(ts => ts.SeasonId == _guestSeasonId);
             var guest = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
                 prediction.GuestName, _guestSeasonId);
             ViewBag.GuestName = new SelectList(guests, "TeamName", "TeamName", guest.TeamName);
@@ -83,7 +83,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             ViewBag.HostSeasonId = new SelectList(seasons, "ID", "ID", _hostSeasonId);
 
             var hosts = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(st => st.SeasonId == _hostSeasonId);
+                .Where(ts => ts.SeasonId == _hostSeasonId);
             var host = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
                 prediction.HostName, _hostSeasonId);
             ViewBag.HostName = new SelectList(hosts, "TeamName", "TeamName", host.TeamName);

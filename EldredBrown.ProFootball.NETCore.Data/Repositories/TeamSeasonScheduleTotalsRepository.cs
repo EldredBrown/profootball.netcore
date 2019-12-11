@@ -1,13 +1,36 @@
-﻿using EldredBrown.ProFootball.NETCore.Data.Entities;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using EldredBrown.ProFootball.NETCore.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
+    /// <summary>
+    /// Provides read access to the GetTeamSeasonScheduleTotals stored procedure.
+    /// </summary>
     public class TeamSeasonScheduleTotalsRepository : ITeamSeasonScheduleTotalsRepository
     {
-        public TeamSeasonScheduleTotals GetTeamSeasonScheduleTotals(string teamName, int seasonId)
+        private readonly ProFootballDbContext _dbContext;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TeamSeasonScheduleTotalsRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">The <see cref="ProFootballDbContext"/> representing the database.</param>
+        public TeamSeasonScheduleTotalsRepository(ProFootballDbContext dbContext)
         {
-            // TODO: 2019-11-30 - Implement a stored procedure call.
-            throw new System.NotImplementedException();
+            _dbContext = dbContext;
+        }
+
+        /// <summary>
+        /// Gets a single <see cref="TeamSeasonScheduleTotals"/> entity from the data store by team name and season ID.
+        /// </summary>
+        /// <param name="teamName">The team name of the <see cref="TeamSeasonScheduleTotals"/> entity to fetch.</param>
+        /// <param name="seasonId">The season ID of the <see cref="TeamSeasonScheduleTotals"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="TeamSeasonScheduleTotals"/> entity.</returns>
+        public async Task<TeamSeasonScheduleTotals> GetTeamSeasonScheduleTotals(string teamName, int seasonId)
+        {
+            return (await _dbContext.TeamSeasonScheduleTotals.FromSqlInterpolated(
+                $"GetTeamSeasonScheduleTotals {teamName}, {seasonId}").ToListAsync()).FirstOrDefault();
         }
     }
 }

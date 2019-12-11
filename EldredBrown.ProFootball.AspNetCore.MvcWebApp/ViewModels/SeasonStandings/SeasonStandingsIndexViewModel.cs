@@ -22,7 +22,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.SeasonStanding
         /// <summary>
         /// Gets or sets the collection of season standings for the current view model.
         /// </summary>
-        public IEnumerable<SeasonStanding> SeasonStandings { get; set; }
+        public IEnumerable<SeasonTeamStanding> SeasonStandings { get; set; }
 
         /// <summary>
         /// Gets or sets the flag that indicates whether the standings are to be sorted by division.

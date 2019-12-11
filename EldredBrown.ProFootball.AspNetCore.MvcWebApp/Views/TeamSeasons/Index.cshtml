@@ -42,61 +42,61 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var teamSeason in Model.TeamSeasons)
-{
-        <tr>
-            <td>
-                @teamSeason.TeamName
-            </td>
-            <td>
-                @teamSeason.Wins
-            </td>
-            <td>
-                @teamSeason.Losses
-            </td>
-            <td>
-                @teamSeason.Ties
-            </td>
-            <td>
-                @teamSeason.WinningPercentage
-            </td>
-            <td>
-                @teamSeason.PointsFor
-            </td>
-            <td>
-                @teamSeason.PointsAgainst
-            </td>
-            <td>
-                @teamSeason.PythagoreanWins
-            </td>
-            <td>
-                @teamSeason.PythagoreanLosses
-            </td>
-            <td>
-                @teamSeason.OffensiveAverage
-            </td>
-            <td>
-                @teamSeason.OffensiveFactor
-            </td>
-            <td>
-                @teamSeason.OffensiveIndex
-            </td>
-            <td>
-                @teamSeason.DefensiveAverage
-            </td>
-            <td>
-                @teamSeason.DefensiveFactor
-            </td>
-            <td>
-                @teamSeason.DefensiveIndex
-            </td>
-            <td>
-                @teamSeason.FinalPythagoreanWinningPercentage
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@teamSeason.ID" class="btn btn-primary">Details</a>
-            </td>
-        </tr>
-}
+        @foreach (var teamSeason in Model.TeamSeasons)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => teamSeason.TeamName)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.Wins)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.Losses)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.Ties)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.WinningPercentage)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.PointsFor)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.PointsAgainst)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.PythagoreanWins)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.PythagoreanLosses)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.OffensiveAverage)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.OffensiveFactor)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.OffensiveIndex)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.DefensiveAverage)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.DefensiveFactor)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.DefensiveIndex)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => teamSeason.FinalPythagoreanWinningPercentage)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@teamSeason.ID" class="btn btn-primary btn-sm">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

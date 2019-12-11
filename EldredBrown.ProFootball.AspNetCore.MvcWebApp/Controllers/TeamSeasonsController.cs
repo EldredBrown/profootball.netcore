@@ -8,9 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 {
-    /// <summary>
-    /// Provides control of the flow of execution for views of team season data.
-    /// </summary>
     public class TeamSeasonsController : Controller
     {
         private readonly ISeasonRepository _seasonRepository;
@@ -48,14 +45,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
         // GET: TeamSeasons
         /// <summary>
-        /// Renders a view of the team seasons list.
+        /// Renders a view of the team seasons index.
         /// </summary>
-        /// <returns>The rendered view of the team seasons list.</returns>
+        /// <returns>The rendered view of the team seasons index.</returns>
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
-            
+
             var viewModel = new TeamSeasonsIndexViewModel
             {
                 Title = "Teams",
@@ -94,42 +91,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 Title = "Team Season",
                 TeamSeason = teamSeason,
                 TeamSeasonScheduleProfile = 
-                    _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonId),
+                    await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonId),
                 TeamSeasonScheduleTotals = 
-                    _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonId),
+                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonId),
                 TeamSeasonScheduleAverages =
-                    _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonId)
+                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonId)
             };
 
             return View(viewModel);
-        }
-
-        /// <summary>
-        /// Sets the selected season ID.
-        /// </summary>
-        /// <param name="seasonId">The ID of the selected season.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
-        public IActionResult SetSelectedSeasonId(int? seasonId)
-        {
-            if (seasonId == null)
-            {
-                return BadRequest();
-            }
-
-            _selectedSeasonId = seasonId.Value;
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        /// <summary>
-        /// Runs a weekly update of the team season table.
-        /// </summary>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
-        public async Task<IActionResult> RunWeeklyUpdate()
-        {
-            await _weeklyUpdateService.RunWeeklyUpdate(_selectedSeasonId);
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
@@ -23,19 +24,19 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApi.Controllers
         }
 
         // TODO: Figure out how to bind to multiple parameters.
-        [HttpGet("{seasonId, teamName}")]
-        public ActionResult<TeamSeasonScheduleProfileModel> Get(string teamName, int seasonId)
+        [HttpGet("{teamName, seasonId}")]
+        public async Task<ActionResult<OpponentProfileModel[]>> Get(string teamName, int seasonId)
         {
             try
             {
                 var teamSeasonScheduleProfile = 
-                    _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonId);
+                    await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonId);
                 if (teamSeasonScheduleProfile == null)
                 {
                     return NotFound();
                 }
 
-                return _mapper.Map<TeamSeasonScheduleProfileModel>(teamSeasonScheduleProfile);
+                return _mapper.Map<OpponentProfileModel[]>(teamSeasonScheduleProfile);
             }
             catch (Exception)
             {
