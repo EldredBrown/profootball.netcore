@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 {
     [DbContext(typeof(ProFootballDbContext))]
-    [Migration("20191217041852_UnseededAllTables")]
-    partial class UnseededAllTables
+    [Migration("20191220095127_spGetTeamSeasonScheduleProfile")]
+    partial class spGetTeamSeasonScheduleProfile
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,8 +160,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal?>("AveragePoints")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("AveragePoints")
+                        .HasColumnType("float");
 
                     b.Property<string>("LeagueName")
                         .HasColumnType("nvarchar(max)");
@@ -200,11 +200,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 
             modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.SeasonTeamStanding", b =>
                 {
-                    b.Property<decimal?>("AvgPointsAgainst")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("AvgPointsAgainst")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("AvgPointsFor")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("AvgPointsFor")
+                        .HasColumnType("float");
 
                     b.Property<string>("Conference")
                         .HasColumnType("nvarchar(max)");
@@ -227,8 +227,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<int>("Ties")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("WinningPercentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("WinningPercentage")
+                        .HasColumnType("float");
 
                     b.Property<int>("Wins")
                         .HasColumnType("int");
@@ -261,20 +261,20 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<string>("ConferenceName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("DefensiveAverage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("DefensiveAverage")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("DefensiveFactor")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("DefensiveFactor")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("DefensiveIndex")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("DefensiveIndex")
+                        .HasColumnType("float");
 
                     b.Property<string>("DivisionName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("FinalPythagoreanWinningPercentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("FinalPythagoreanWinningPercentage")
+                        .HasColumnType("float");
 
                     b.Property<int>("Games")
                         .HasColumnType("int");
@@ -285,14 +285,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<int>("Losses")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("OffensiveAverage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("OffensiveAverage")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("OffensiveFactor")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("OffensiveFactor")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("OffensiveIndex")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("OffensiveIndex")
+                        .HasColumnType("float");
 
                     b.Property<int>("PointsAgainst")
                         .HasColumnType("int");
@@ -300,11 +300,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<int>("PointsFor")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("PythagoreanLosses")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("PythagoreanLosses")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("PythagoreanWins")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("PythagoreanWins")
+                        .HasColumnType("float");
 
                     b.Property<int>("SeasonId")
                         .HasColumnType("int");
@@ -315,8 +315,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<int>("Ties")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("WinningPercentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("WinningPercentage")
+                        .HasColumnType("float");
 
                     b.Property<int>("Wins")
                         .HasColumnType("int");
@@ -352,8 +352,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<int?>("OpponentWeightedPointsFor")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("OpponentWinningPercentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("OpponentWinningPercentage")
+                        .HasColumnType("float");
 
                     b.Property<int?>("OpponentWins")
                         .HasColumnType("int");
@@ -363,17 +363,17 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 
             modelBuilder.Entity("EldredBrown.ProFootball.NETCore.Data.Entities.TeamSeasonScheduleAverages", b =>
                 {
-                    b.Property<decimal?>("PointsAgainst")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("PointsAgainst")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("PointsFor")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("PointsFor")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("SchedulePointsAgainst")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("SchedulePointsAgainst")
+                        .HasColumnType("float");
 
-                    b.Property<decimal?>("SchedulePointsFor")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("SchedulePointsFor")
+                        .HasColumnType("float");
 
                     b.ToTable("TeamSeasonScheduleAverages");
                 });
@@ -404,8 +404,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<int?>("ScheduleTies")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("ScheduleWinningPercentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("ScheduleWinningPercentage")
+                        .HasColumnType("float");
 
                     b.Property<int?>("ScheduleWins")
                         .HasColumnType("int");

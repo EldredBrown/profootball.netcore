@@ -5,6 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191114075156_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191114075156_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191114075458_SeededLeaguesData.cs" />
+    <Compile Remove="Migrations\20191114075458_SeededLeaguesData.Designer.cs" />
+    <Compile Remove="Migrations\20191210091022_AddedAndSeededAllTables.cs" />
+    <Compile Remove="Migrations\20191210091022_AddedAndSeededAllTables.Designer.cs" />
+    <Compile Remove="Migrations\20191217041852_UnseededAllTables.cs" />
+    <Compile Remove="Migrations\20191217041852_UnseededAllTables.Designer.cs" />
+    <Compile Remove="Migrations\20191219064230_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191219064230_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191220072346_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191220072346_InitialMigration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
@@ -12,6 +27,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

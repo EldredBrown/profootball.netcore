@@ -165,7 +165,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 else
                 {
                     teamSeason.PythagoreanWins = _calculator.Multiply(pythPct.Value, teamSeason.Games);
-                    teamSeason.PythagoreanLosses = _calculator.Multiply((1m - pythPct.Value), teamSeason.Games);
+                    teamSeason.PythagoreanLosses = _calculator.Multiply((1d - pythPct.Value), teamSeason.Games);
                 }
             }
         }

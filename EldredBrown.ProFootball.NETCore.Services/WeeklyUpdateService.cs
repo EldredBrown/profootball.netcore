@@ -176,10 +176,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
                                 teamSeason.LeagueName, teamSeason.SeasonId);
 
                         teamSeason.OffensiveIndex = (teamSeason.OffensiveAverage + teamSeason.OffensiveFactor *
-                            leagueSeason.AveragePoints) / 2m;
+                            leagueSeason.AveragePoints) / 2d;
 
                         teamSeason.DefensiveIndex = (teamSeason.DefensiveAverage + teamSeason.DefensiveFactor *
-                            leagueSeason.AveragePoints) / 2m;
+                            leagueSeason.AveragePoints) / 2d;
 
                         teamSeason.FinalPythagoreanWinningPercentage =
                             _calculator.CalculatePythagoreanWinningPercentage(teamSeason);

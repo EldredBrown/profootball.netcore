@@ -12,7 +12,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         public int? OpponentTies { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:#.000}")]
-        public decimal? OpponentWinningPercentage { get; set; }
+        public double? OpponentWinningPercentage { get; set; }
 
         public int? OpponentWeightedGames { get; set; }
         public int? OpponentWeightedPointsFor { get; set; }

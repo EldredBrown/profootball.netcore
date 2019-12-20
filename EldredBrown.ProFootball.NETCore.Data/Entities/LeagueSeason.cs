@@ -1,4 +1,6 @@
-﻿namespace EldredBrown.ProFootball.NETCore.Data.Entities
+﻿using System.ComponentModel;
+
+namespace EldredBrown.ProFootball.NETCore.Data.Entities
 {
     /// <summary>
     /// Represents a pro football league for one season.
@@ -23,16 +25,18 @@
         /// <summary>
         /// Gets or sets the total games of the current <see cref="LeagueSeason"/> object.
         /// </summary>
+        [DefaultValue(0)]
         public int TotalGames { get; set; }
 
         /// <summary>
         /// Gets or sets the total points of the current <see cref="LeagueSeason"/> object.
         /// </summary>
+        [DefaultValue(0)]
         public int TotalPoints { get; set; }
 
         /// <summary>
         /// Gets or sets the average points of the current <see cref="LeagueSeason"/> object.
         /// </summary>
-        public decimal? AveragePoints { get; set; }
+        public double? AveragePoints { get; set; }
     }
 }

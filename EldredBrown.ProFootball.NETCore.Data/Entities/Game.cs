@@ -83,6 +83,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the value indicating whether the current <see cref="Game"/> object is a playoff game.
         /// </summary>
         [DisplayName("Playoff Game?")]
+        [DefaultValue(false)]
         public bool IsPlayoffGame { get; set; }
 
         /// <summary>

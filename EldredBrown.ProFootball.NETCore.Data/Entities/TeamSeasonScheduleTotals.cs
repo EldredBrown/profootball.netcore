@@ -41,7 +41,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the schedule winning percentage of the current <see cref="TeamSeasonScheduleTotals"/> object.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:#.000}")]
-        public decimal? ScheduleWinningPercentage { get; set; }
+        public double? ScheduleWinningPercentage { get; set; }
 
         /// <summary>
         /// Gets or sets the total schedule games of the current <see cref="TeamSeasonScheduleTotals"/> object.

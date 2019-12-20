@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace EldredBrown.ProFootball.NETCore.Data.Entities
 {
@@ -45,21 +46,25 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets the number of games played by the current <see cref="TeamSeason"/>.
         /// </summary>
+        [DefaultValue(0)]
         public int Games { get; set; }
 
         /// <summary>
         /// Gets or sets the number of games won by the current <see cref="TeamSeason"/>.
         /// </summary>
+        [DefaultValue(0)]
         public int Wins { get; set; }
 
         /// <summary>
         /// Gets or sets the number of games lost by the current <see cref="TeamSeason"/>.
         /// </summary>
+        [DefaultValue(0)]
         public int Losses { get; set; }
 
         /// <summary>
         /// Gets or sets the number of games tied by the current <see cref="TeamSeason"/>.
         /// </summary>
+        [DefaultValue(0)]
         public int Ties { get; set; }
 
         /// <summary>
@@ -67,18 +72,20 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:#.000}")]
         [Display(Name = "Winning Pct.")]
-        public decimal? WinningPercentage { get; set; }
+        public double? WinningPercentage { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="TeamSeason"/>.
         /// </summary>
         [Display(Name = "Points For")]
+        [DefaultValue(0)]
         public int PointsFor { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored against the current <see cref="TeamSeason"/>.
         /// </summary>
         [Display(Name = "Points Against")]
+        [DefaultValue(0)]
         public int PointsAgainst { get; set; }
 
         /// <summary>
@@ -86,62 +93,64 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N1}")]
         [Display(Name = "Expected Wins")]
-        public decimal PythagoreanWins { get; set; }
+        [DefaultValue(0)]
+        public double PythagoreanWins { get; set; }
 
         /// <summary>
         /// Gets or sets the Pythagorean losses for the current <see cref="TeamSeason"/>.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N1}")]
         [Display(Name = "Expected Losses")]
-        public decimal PythagoreanLosses { get; set; }
+        [DefaultValue(0)]
+        public double PythagoreanLosses { get; set; }
 
         /// <summary>
         /// Gets or sets the offensive average of the current <see cref="TeamSeason"/>.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N2}")]
         [Display(Name = "Offensive Average")]
-        public decimal? OffensiveAverage { get; set; }
+        public double? OffensiveAverage { get; set; }
 
         /// <summary>
         /// Gets or sets the offensive factor of the current <see cref="TeamSeason"/>.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:#.000}")]
         [Display(Name = "Offensive Factor")]
-        public decimal? OffensiveFactor { get; set; }
+        public double? OffensiveFactor { get; set; }
 
         /// <summary>
         /// Gets or sets the offensive index of the current <see cref="TeamSeason"/>.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N2}")]
         [Display(Name = "Offensive Index")]
-        public decimal? OffensiveIndex { get; set; }
+        public double? OffensiveIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the defensive average of the current <see cref="TeamSeason"/>.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N2}")]
         [Display(Name = "Defensive Average")]
-        public decimal? DefensiveAverage { get; set; }
+        public double? DefensiveAverage { get; set; }
 
         /// <summary>
         /// Gets or sets the defensive factor of the current <see cref="TeamSeason"/>.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:#.000}")]
         [Display(Name = "Defensive Factor")]
-        public decimal? DefensiveFactor { get; set; }
+        public double? DefensiveFactor { get; set; }
 
         /// <summary>
         /// Gets or sets the defensive index of the current <see cref="TeamSeason"/>.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N2}")]
         [Display(Name = "Defensive Index")]
-        public decimal? DefensiveIndex { get; set; }
+        public double? DefensiveIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the final Pythagorean winning percentage of the current <see cref="TeamSeason"/>.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:#.000}")]
         [Display(Name = "Final Exp. Win Pct.")]
-        public decimal? FinalPythagoreanWinningPercentage { get; set; }
+        public double? FinalPythagoreanWinningPercentage { get; set; }
     }
 }

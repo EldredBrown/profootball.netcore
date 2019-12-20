@@ -31,4 +31,8 @@
     <Resource Include="wwwroot\images\Football.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
 </Project>

@@ -12,15 +12,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         public int Ties { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:#.000}")]
-        public decimal? WinningPercentage { get; set; }
+        public double? WinningPercentage { get; set; }
 
         public int PointsFor { get; set; }
         public int PointsAgainst { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        public decimal? AvgPointsFor { get; set; }
+        public double? AvgPointsFor { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        public decimal? AvgPointsAgainst { get; set; }
+        public double? AvgPointsAgainst { get; set; }
     }
 }

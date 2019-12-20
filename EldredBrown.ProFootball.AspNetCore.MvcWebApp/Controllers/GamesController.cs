@@ -57,11 +57,15 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
 
-            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonId);
             var weeks = new List<int>();
-            for (int i = 1; i <= selectedSeason.NumOfWeeks; i++)
+
+            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonId);
+            if (selectedSeason != null)
             {
-                weeks.Add(i);
+                for (int i = 1; i <= selectedSeason.NumOfWeeks; i++)
+                {
+                    weeks.Add(i);
+                }
             }
 
             var games = (await _gameRepository.GetGames()).Where(g => g.SeasonId == _selectedSeasonId);

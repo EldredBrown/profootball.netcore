@@ -11,24 +11,24 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the average points scored of the current <see cref="TeamSeasonScheduleAverages"/> object.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        public decimal? PointsFor { get; set; }
+        public double? PointsFor { get; set; }
 
         /// <summary>
         /// Gets or sets the average points allowed of the current <see cref="TeamSeasonScheduleAverages"/> object.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        public decimal? PointsAgainst { get; set; }
+        public double? PointsAgainst { get; set; }
 
         /// <summary>
         /// Gets or sets the schedule average points scored of the current <see cref="TeamSeasonScheduleAverages"/> object.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        public decimal? SchedulePointsFor { get; set; }
+        public double? SchedulePointsFor { get; set; }
 
         /// <summary>
         /// Gets or sets the schedule average points allowed of the current <see cref="TeamSeasonScheduleAverages"/> object.
         /// </summary>
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        public decimal? SchedulePointsAgainst { get; set; }
+        public double? SchedulePointsAgainst { get; set; }
     }
 }
