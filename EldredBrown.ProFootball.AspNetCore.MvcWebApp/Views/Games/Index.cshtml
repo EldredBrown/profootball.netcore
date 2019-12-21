@@ -57,36 +57,36 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var game in Model.Games)
-        {
-            <tr>
-                <td class="text-right">
-                    @Html.DisplayFor(modelItem => game.SeasonId)
-                </td>
-                <td class="text-right">
-                    @Html.DisplayFor(modelItem => game.Week)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => game.GuestName)
-                </td>
-                <td class="text-right">
-                    @Html.DisplayFor(modelItem => game.GuestScore)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => game.HostName)
-                </td>
-                <td class="text-right">
-                    @Html.DisplayFor(modelItem => game.HostScore)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => game.IsPlayoffGame)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Edit</a>
-                    <a asp-action="Details" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Details</a>
-                    <a asp-action="Delete" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
+@foreach (var game in Model.Games)
+{
+        <tr>
+            <td class="text-right">
+                @Html.DisplayFor(modelItem => game.SeasonId)
+            </td>
+            <td class="text-right">
+                @Html.DisplayFor(modelItem => game.Week)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => game.GuestName)
+            </td>
+            <td class="text-right">
+                @Html.DisplayFor(modelItem => game.GuestScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => game.HostName)
+            </td>
+            <td class="text-right">
+                @Html.DisplayFor(modelItem => game.HostScore)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => game.IsPlayoffGame)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Edit</a>
+                <a asp-action="Details" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Details</a>
+                <a asp-action="Delete" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

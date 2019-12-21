@@ -64,20 +64,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// </summary>
         public async Task RunWeeklyUpdate(int seasonId)
         {
-            // TODO: 2019-12-06 - Reimplement this using ASP.NET Core.
-            //// I experimented with farming this long running operation out to a separate thread to improve UI
-            //// responsiveness, but I eventually concluded that I actually DON'T want the UI to be responsive while
-            //// this update operation is running. An attempt to view data that's in the process of changing may
-            //// cause the application to crash, and the data won't mean anything, anyway.
-            //var dlgResult = _sharedService.ShowMessageBox(
-            //    "This operation may make the UI unresponsive for a minute or two. Are you sure you want to continue?",
-            //    WpfGlobals.Constants.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            //if (dlgResult == MessageBoxResult.No)
-            //{
-            //    return;
-            //}
-
             // These hard-coded values are a bit of a hack at this time, but I intend to make them selectable by the
             // user in the future.
             var leagueName = "APFA";
@@ -91,28 +77,13 @@ namespace EldredBrown.ProFootball.NETCore.Services
             {
                 await UpdateRankings();
             }
-
-            //_sharedService.ShowMessageBox("Weekly update completed.", WpfGlobals.Constants.AppName, MessageBoxButton.OK,
-            //    MessageBoxImage.Information);
         }
 
         private void UpdateLeagueSeason(string leagueName, int seasonId)
         {
             var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonId);
 
-            //try
-            //{
             var leagueSeasonTotals = _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonId);
-            //}
-            //catch (ArgumentNullException ex)
-            //{
-            //    Log.Error($"ArgumentNullException caught in MainWindowService.UpdateLeagueSeason: {ex.Message}");
-
-            //    _sharedService.ShowExceptionMessage(ex);
-
-            //    return;
-            //}
-
             if (leagueSeasonTotals.TotalGames == null)
             {
                 return;
@@ -126,20 +97,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
         private async Task UpdateRankings()
         {
-            // Get the list of TeamSeason objects for the selected season.
             var teamSeasons = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(ts => ts.SeasonId == _selectedSeason);
 
-            // This looks like the place where I want to make maximum use of parallel threading.
-            //Parallel.ForEach(teamSeasons, teamSeason => UpdateRankingsByTeamSeason(teamSeason));
-
-            // Iterate through the list of TeamSeason objects.
             foreach (var teamSeason in teamSeasons)
             {
                 await UpdateRankingsByTeamSeason(teamSeason);
             }
 
-            // Save changes.
             await _sharedRepository.SaveChanges();
         }
 

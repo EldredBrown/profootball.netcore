@@ -21,5 +21,26 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Season}"/> of all fetched entities.</returns>
         Task<IEnumerable<Season>> GetSeasons();
+
+        /// <summary>
+        /// Adds a <see cref="Season"/> entity to the data store.
+        /// </summary>
+        /// <param name="season">The <see cref="Season"/> entity to add.</param>
+        /// <returns>The added <see cref="Season"/> entity.</returns>
+        Task<Season> Add(Season season);
+
+        /// <summary>
+        /// Updates a <see cref="Season"/> entity in the data store.
+        /// </summary>
+        /// <param name="season">The <see cref="Season"/> entity to update.</param>
+        /// <returns>The updated <see cref="Season"/> entity.</returns>
+        Season Edit(Season season);
+
+        /// <summary>
+        /// Deletes a <see cref="Season"/> entity from the data store.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="Season"/> entity to delete.</param>
+        /// <returns>The deleted <see cref="Season"/> entity.</returns>
+        Task<Season> Delete(int id);
     }
 }

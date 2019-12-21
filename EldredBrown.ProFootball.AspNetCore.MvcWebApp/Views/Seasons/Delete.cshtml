@@ -1,0 +1,43 @@
+﻿@model Season
+
+@{
+    ViewData["Title"] = "Season";
+}
+
+<h1>Season</h1>
+
+<h4>Delete</h4>
+<hr />
+<div>
+    <h3>Are you sure you want to delete this?</h3>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumOfWeeks)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumOfWeeks)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumOfWeeksCompleted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumOfWeeksCompleted)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <p>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </p>
+        <p>
+            <a asp-action="Index">Back to List</a>
+        </p>
+    </form>
+</div>

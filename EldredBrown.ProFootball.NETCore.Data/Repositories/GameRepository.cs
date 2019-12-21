@@ -22,6 +22,25 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
+        /// Gets all <see cref="Game"/> entities in the data store.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{Game}"/> of all fetched entities.</returns>
+        public async Task<IEnumerable<Game>> GetGames()
+        {
+            return await _dbContext.Games.ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets a single <see cref="Game"/> entity from the data store by ID.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="Game"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="Game"/> entity.</returns>
+        public async Task<Game> GetGame(int id)
+        {
+            return await _dbContext.Games.FindAsync(id);
+        }
+
+        /// <summary>
         /// Adds a <see cref="Game"/> entity to the data store.
         /// </summary>
         /// <param name="game">The <see cref="Game"/> entity to add.</param>
@@ -29,6 +48,19 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         public async Task<Game> Add(Game game)
         {
             await _dbContext.AddAsync(game);
+
+            return game;
+        }
+
+        /// <summary>
+        /// Updates a <see cref="Game"/> entity in the data store.
+        /// </summary>
+        /// <param name="game">The <see cref="Game"/> entity to update.</param>
+        /// <returns>The updated <see cref="Game"/> entity.</returns>
+        public Game Edit(Game game)
+        {
+            var entity = _dbContext.Games.Attach(game);
+            entity.State = EntityState.Modified;
 
             return game;
         }
@@ -48,38 +80,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
             }
 
             return game;
-        }
-
-        /// <summary>
-        /// Updates a <see cref="Game"/> entity in the data store.
-        /// </summary>
-        /// <param name="game">The <see cref="Game"/> entity to update.</param>
-        /// <returns>The updated <see cref="Game"/> entity.</returns>
-        public Game Edit(Game game)
-        {
-            var entity = _dbContext.Games.Attach(game);
-            entity.State = EntityState.Modified;
-
-            return game;
-        }
-
-        /// <summary>
-        /// Gets a single <see cref="Game"/> entity from the data store by ID.
-        /// </summary>
-        /// <param name="id">The ID of the <see cref="Game"/> entity to fetch.</param>
-        /// <returns>The fetched <see cref="Game"/> entity.</returns>
-        public async Task<Game> GetGame(int id)
-        {
-            return await _dbContext.Games.FindAsync(id);
-        }
-
-        /// <summary>
-        /// Gets all <see cref="Game"/> entities in the data store.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{Game}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<Game>> GetGames()
-        {
-            return await _dbContext.Games.ToListAsync();
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
@@ -28,7 +30,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp
                 options.UseSqlServer(Configuration.GetConnectionString("ProFootballDb"));
             });
 
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ProFootballDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(opts => opts.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ProFootballDbContext>();
 
             // TODO: 2019-11-30 - The mock repositories need to be added as singletons until they are replaced by repositories for SQL data.
             services.AddScoped<ITeamRepository, TeamRepository>();
@@ -48,7 +52,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -76,6 +80,26 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp
 
                 endpoints.MapRazorPages();
             });
+
+            CreateUserRole(services).Wait();
+        }
+
+        private async Task CreateUserRole(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            var roleCheck = await roleManager.RoleExistsAsync("Admin");
+            if (!roleCheck)
+            {
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            var user = await userManager.FindByEmailAsync("eldred.brown@outlook.com");
+            if (user != null)
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
         }
     }
 }

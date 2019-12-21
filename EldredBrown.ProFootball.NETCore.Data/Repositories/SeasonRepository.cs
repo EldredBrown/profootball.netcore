@@ -22,6 +22,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
+        /// Gets all <see cref="Season"/> entities in the data store.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{Season}"/> of all fetched entities.</returns>
+        public async Task<IEnumerable<Season>> GetSeasons()
+        {
+            return await _dbContext.Seasons.ToListAsync();
+        }
+
+        /// <summary>
         /// Gets a single <see cref="Season"/> entity from the data store by ID.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Season"/> entity to fetch.</param>
@@ -32,12 +41,45 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
-        /// Gets all <see cref="Season"/> entities in the data store.
+        /// Adds a <see cref="Season"/> entity to the data store.
         /// </summary>
-        /// <returns>An <see cref="IEnumerable{Season}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<Season>> GetSeasons()
+        /// <param name="season">The <see cref="Season"/> entity to add.</param>
+        /// <returns>The added <see cref="Season"/> entity.</returns>
+        public async Task<Season> Add(Season season)
         {
-            return await _dbContext.Seasons.ToListAsync();
+            await _dbContext.AddAsync(season);
+
+            return season;
+        }
+
+        /// <summary>
+        /// Updates a <see cref="Season"/> entity in the data store.
+        /// </summary>
+        /// <param name="season">The <see cref="Season"/> entity to update.</param>
+        /// <returns>The updated <see cref="Season"/> entity.</returns>
+        public Season Edit(Season season)
+        {
+            var entity = _dbContext.Seasons.Attach(season);
+            entity.State = EntityState.Modified;
+
+            return season;
+        }
+
+        /// <summary>
+        /// Deletes a <see cref="Season"/> entity from the data store.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="Season"/> entity to delete.</param>
+        /// <returns>The deleted <see cref="Season"/> entity.</returns>
+        public async Task<Season> Delete(int id)
+        {
+            var season = await GetSeason(id);
+
+            if (season != null)
+            {
+                _dbContext.Seasons.Remove(season);
+            }
+
+            return season;
         }
     }
 }

@@ -33,6 +33,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <param name="teamRepository">The repository by which team data will be accessed.</param>
         /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
         /// <param name="gameRepository">The repository by which game data will be accessed.</param>
+        /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
+        /// <param name="gameService">The service for processing Game data.</param>
         public GamesController(
             ITeamRepository teamRepository,
             ISeasonRepository seasonRepository,
@@ -87,7 +89,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
         // GET: Games/Details/5
         /// <summary>
-        /// Renders a view of a selected game.
+        /// Renders a view of the details of a selected game.
         /// </summary>
         /// <param name="id">The ID of the selected game.</param>
         /// <returns>The rendered view of the selected game.</returns>

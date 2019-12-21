@@ -100,5 +100,19 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             return View(viewModel);
         }
+
+        // TeamSeasons/RunWeeklyUpdate
+        /// <summary>
+        /// Runs a weekly update of the TeamSeasons list.
+        /// </summary>
+        /// <param name="seasonId">The season for which the update will be run.</param>
+        /// <returns>The rendered view of the team seasons index.</returns>
+        [HttpGet]
+        public async Task<IActionResult> RunWeeklyUpdate()
+        {
+            await _weeklyUpdateService.RunWeeklyUpdate(_selectedSeasonId);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
