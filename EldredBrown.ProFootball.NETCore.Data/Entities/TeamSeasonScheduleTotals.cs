@@ -46,16 +46,19 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets the total schedule games of the current <see cref="TeamSeasonScheduleTotals"/> object.
         /// </summary>
-        public int? ScheduleGames { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        public double? ScheduleGames { get; set; }
 
         /// <summary>
         /// Gets or sets the total schedule points scored of the current <see cref="TeamSeasonScheduleTotals"/> object.
         /// </summary>
-        public int? SchedulePointsFor { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        public double? SchedulePointsFor { get; set; }
 
         /// <summary>
         /// Gets or sets the total schedule points allowed of the current <see cref="TeamSeasonScheduleTotals"/> object.
         /// </summary>
-        public int? SchedulePointsAgainst { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        public double? SchedulePointsAgainst { get; set; }
     }
 }

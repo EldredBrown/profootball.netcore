@@ -143,7 +143,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1920, 1"),
-                    NumOfWeeks = table.Column<int>(nullable: false, defaultValue: 0),
+                    NumOfWeeks = table.Column<int>(nullable: false),
                     NumOfWeeksCompleted = table.Column<int>(nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
@@ -202,8 +202,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     WinningPercentage = table.Column<double>(nullable: true),
                     PointsFor = table.Column<int>(nullable: false, defaultValue: 0),
                     PointsAgainst = table.Column<int>(nullable: false, defaultValue: 0),
-                    PythagoreanWins = table.Column<double>(nullable: false, defaultValue: 0),
-                    PythagoreanLosses = table.Column<double>(nullable: false, defaultValue: 0),
+                    PythagoreanWins = table.Column<double>(nullable: false, defaultValue: 0d),
+                    PythagoreanLosses = table.Column<double>(nullable: false, defaultValue: 0d),
                     OffensiveAverage = table.Column<double>(nullable: true),
                     OffensiveFactor = table.Column<double>(nullable: true),
                     OffensiveIndex = table.Column<double>(nullable: true),
@@ -241,9 +241,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     OpponentLosses = table.Column<int>(nullable: true),
                     OpponentTies = table.Column<int>(nullable: true),
                     OpponentWinningPercentage = table.Column<double>(nullable: true),
-                    OpponentWeightedGames = table.Column<int>(nullable: true),
-                    OpponentWeightedPointsFor = table.Column<int>(nullable: true),
-                    OpponentWeightedPointsAgainst = table.Column<int>(nullable: true)
+                    OpponentWeightedGames = table.Column<double>(nullable: true),
+                    OpponentWeightedPointsFor = table.Column<double>(nullable: true),
+                    OpponentWeightedPointsAgainst = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -260,9 +260,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     ScheduleLosses = table.Column<int>(nullable: true),
                     ScheduleTies = table.Column<int>(nullable: true),
                     ScheduleWinningPercentage = table.Column<double>(nullable: true),
-                    ScheduleGames = table.Column<int>(nullable: true),
-                    SchedulePointsFor = table.Column<int>(nullable: true),
-                    SchedulePointsAgainst = table.Column<int>(nullable: true)
+                    ScheduleGames = table.Column<double>(nullable: true),
+                    SchedulePointsFor = table.Column<double>(nullable: true),
+                    SchedulePointsAgainst = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {

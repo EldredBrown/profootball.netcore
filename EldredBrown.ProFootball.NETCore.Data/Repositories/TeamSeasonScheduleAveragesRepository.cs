@@ -30,7 +30,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         public async Task<TeamSeasonScheduleAverages> GetTeamSeasonScheduleAverages(string teamName, int seasonId)
         {
             return (await _dbContext.TeamSeasonScheduleAverages.FromSqlInterpolated(
-                $"GetTeamSeasonScheduleAverages {teamName}, {seasonId}").ToListAsync()).FirstOrDefault();
+                $"sp_GetTeamSeasonScheduleAverages {teamName}, {seasonId}").ToListAsync()).FirstOrDefault();
         }
     }
 }

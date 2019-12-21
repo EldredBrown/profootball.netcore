@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 {
     [DbContext(typeof(ProFootballDbContext))]
-    [Migration("20191220095127_spGetTeamSeasonScheduleProfile")]
-    partial class spGetTeamSeasonScheduleProfile
+    [Migration("20191221050142_TeamSeasonsProcsAndFuncs")]
+    partial class TeamSeasonsProcsAndFuncs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -343,14 +343,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<int?>("OpponentTies")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OpponentWeightedGames")
-                        .HasColumnType("int");
+                    b.Property<double?>("OpponentWeightedGames")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("OpponentWeightedPointsAgainst")
-                        .HasColumnType("int");
+                    b.Property<double?>("OpponentWeightedPointsAgainst")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("OpponentWeightedPointsFor")
-                        .HasColumnType("int");
+                    b.Property<double?>("OpponentWeightedPointsFor")
+                        .HasColumnType("float");
 
                     b.Property<double?>("OpponentWinningPercentage")
                         .HasColumnType("float");
@@ -389,17 +389,17 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<int?>("PointsFor")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ScheduleGames")
-                        .HasColumnType("int");
+                    b.Property<double?>("ScheduleGames")
+                        .HasColumnType("float");
 
                     b.Property<int?>("ScheduleLosses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SchedulePointsAgainst")
-                        .HasColumnType("int");
+                    b.Property<double?>("SchedulePointsAgainst")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("SchedulePointsFor")
-                        .HasColumnType("int");
+                    b.Property<double?>("SchedulePointsFor")
+                        .HasColumnType("float");
 
                     b.Property<int?>("ScheduleTies")
                         .HasColumnType("int");

@@ -15,7 +15,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets the number of weeks in the current <see cref="Season"/> object.
         /// </summary>
-        [DefaultValue(0)]
         public int NumOfWeeks { get; set; }
 
         /// <summary>

@@ -14,6 +14,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="groupByDivision">Flag indicating whether to group the results by division.</param>
         /// <returns>An <see cref="IEnumerable{SeasonStanding}"/> of all fetched entities.</returns>
-        Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandings(int seasonId, bool groupByDivision = false);
+        Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandings(int seasonId);
     }
 }

@@ -27,11 +27,10 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="seasonId">The ID of the season for which standings will be fetched.</param>
         /// <param name="groupByDivision">Flag indicating whether to group the results by division.</param>
         /// <returns>An <see cref="IEnumerable{SeasonStanding}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandings(int seasonId,
-            bool groupByDivision = false)
+        public async Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandings(int seasonId)
         {
             return (await _dbContext.SeasonStandings.FromSqlInterpolated(
-                $"GetSeasonStandings {seasonId}, {groupByDivision}").ToListAsync());
+                $"sp_GetSeasonStandings {seasonId}").ToListAsync());
         }
     }
 }

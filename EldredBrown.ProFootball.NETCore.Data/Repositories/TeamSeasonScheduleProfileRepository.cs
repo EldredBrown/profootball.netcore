@@ -31,7 +31,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
             string teamName, int seasonId)
         {
             return await _dbContext.TeamSeasonScheduleProfile.FromSqlInterpolated(
-                $"GetTeamSeasonScheduleProfile {teamName}, {seasonId}").ToListAsync();
+                $"sp_GetTeamSeasonScheduleProfile {teamName}, {seasonId}").ToListAsync();
         }
     }
 }

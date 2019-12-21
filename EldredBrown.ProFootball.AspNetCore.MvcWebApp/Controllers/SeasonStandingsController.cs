@@ -40,15 +40,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         public async Task<IActionResult> Index()
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
-            var seasonStandings = await _seasonStandingsRepository.GetSeasonStandings(_selectedSeasonId,
-                _groupByDivision);
 
             var viewModel = new SeasonStandingsIndexViewModel
             {
                 Title = "Standings",
                 Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonId),
-                SeasonStandings = seasonStandings,
-                GroupByDivision = _groupByDivision
+                SeasonStandings = await _seasonStandingsRepository.GetSeasonStandings(_selectedSeasonId)
             };
 
             return View(viewModel);
