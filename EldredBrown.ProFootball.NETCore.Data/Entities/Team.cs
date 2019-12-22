@@ -6,12 +6,12 @@
     public class Team
     {
         /// <summary>
-        /// Gets or sets the ID of the current <see cref="Team"/> object.
+        /// Gets or sets the ID of the current <see cref="Team"/> entity.
         /// </summary>
         public int ID { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the current <see cref="Team"/> object.
+        /// Gets or sets the name of the current <see cref="Team"/> entity.
         /// </summary>
         public string Name { get; set; }
     }

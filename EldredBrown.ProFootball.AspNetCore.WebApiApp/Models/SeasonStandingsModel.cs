@@ -2,7 +2,7 @@
 {
     public class SeasonStandingsModel
     {
-        public int SeasonId { get; set; }
+        public int SeasonYear { get; set; }
         public string Team { get; set; }
         public string Conference { get; set; }
         public string Division { get; set; }

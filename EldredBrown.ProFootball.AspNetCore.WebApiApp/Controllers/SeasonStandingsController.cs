@@ -22,11 +22,11 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<SeasonStandingsModel[]> Get(int seasonId)
+        public ActionResult<SeasonStandingsModel[]> Get(int seasonYear)
         {
             try
             {
-                var teamSeasons = _seasonStandingsRepository.GetSeasonStandings(seasonId);
+                var teamSeasons = _seasonStandingsRepository.GetSeasonStandings(seasonYear);
 
                 return _mapper.Map<SeasonStandingsModel[]>(teamSeasons);
             }

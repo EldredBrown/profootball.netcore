@@ -62,14 +62,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Runs a weekly update of the data store.
         /// </summary>
-        public async Task RunWeeklyUpdate(int seasonId)
+        public async Task RunWeeklyUpdate(int seasonYear)
         {
             // These hard-coded values are a bit of a hack at this time, but I intend to make them selectable by the
             // user in the future.
             var leagueName = "APFA";
 
-            UpdateLeagueSeason(leagueName, seasonId);
-            var srcWeekCount = await UpdateWeekCount(seasonId);
+            UpdateLeagueSeason(leagueName, seasonYear);
+            var srcWeekCount = await UpdateWeekCount(seasonYear);
 
             await _sharedRepository.SaveChanges();
 
@@ -79,11 +79,11 @@ namespace EldredBrown.ProFootball.NETCore.Services
             }
         }
 
-        private void UpdateLeagueSeason(string leagueName, int seasonId)
+        private void UpdateLeagueSeason(string leagueName, int seasonYear)
         {
-            var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonId);
+            var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear);
 
-            var leagueSeasonTotals = _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonId);
+            var leagueSeasonTotals = _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear);
             if (leagueSeasonTotals.TotalGames == null)
             {
                 return;
@@ -98,7 +98,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         private async Task UpdateRankings()
         {
             var teamSeasons = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonId == _selectedSeason);
+                .Where(ts => ts.SeasonYear == _selectedSeason);
 
             foreach (var teamSeason in teamSeasons)
             {
@@ -114,11 +114,11 @@ namespace EldredBrown.ProFootball.NETCore.Services
             {
                 var teamSeasonScheduleTotals =
                     await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(
-                        teamSeason.TeamName, teamSeason.SeasonId);
+                        teamSeason.TeamName, teamSeason.SeasonYear);
 
                 var teamSeasonScheduleAverages =
                     await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(
-                        teamSeason.TeamName, teamSeason.SeasonId);
+                        teamSeason.TeamName, teamSeason.SeasonYear);
 
                 lock (_dbLock)
                 {
@@ -138,7 +138,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
                         var leagueSeason = 
                             _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
-                                teamSeason.LeagueName, teamSeason.SeasonId);
+                                teamSeason.LeagueName, teamSeason.SeasonYear);
 
                         teamSeason.OffensiveIndex = (teamSeason.OffensiveAverage + teamSeason.OffensiveFactor *
                             leagueSeason.AveragePoints) / 2d;
@@ -168,14 +168,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
             }
         }
 
-        private async Task<int> UpdateWeekCount(int seasonId)
+        private async Task<int> UpdateWeekCount(int seasonYear)
         {
             var srcWeekCount = (await _gameRepository.GetGames())
-                .Where(g => g.SeasonId == seasonId)
+                .Where(g => g.SeasonYear == seasonYear)
                 .Select(g => g.Week)
                 .Max();
 
-            var destSeason = await _seasonRepository.GetSeason(seasonId);
+            var destSeason = await _seasonRepository.GetSeason(seasonYear);
 
             destSeason.NumOfWeeksCompleted = srcWeekCount;
 

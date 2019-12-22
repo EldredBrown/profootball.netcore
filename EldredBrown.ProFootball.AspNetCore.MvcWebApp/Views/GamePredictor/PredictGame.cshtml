@@ -11,13 +11,13 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="GuestSeasonId" class="col-form-label"></label>
-                @Html.DropDownList("GuestSeasonId", null, htmlAttributes: new
+                <label asp-for="GuestSeasonYear" class="col-form-label"></label>
+                @Html.DropDownList("GuestSeasonYear", null, htmlAttributes: new
                 {
                     @class = "form-control",
-                    @onchange = "document.location.href='/GamePredictor/ApplyFilter?GuestSeasonId=' + this.options[this.selectedIndex].value;"
+                    @onchange = "document.location.href='/GamePredictor/ApplyFilter?GuestSeasonYear=' + this.options[this.selectedIndex].value;"
                 })
-                <span asp-validation-for="GuestSeasonId" class="text-danger"></span>
+                <span asp-validation-for="GuestSeasonYear" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="GuestName" class="col-form-label"></label>
@@ -30,13 +30,13 @@
                 <span asp-validation-for="GuestScore" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HostSeasonId" class="col-form-label"></label>
-                @Html.DropDownList("HostSeasonId", null, htmlAttributes: new
+                <label asp-for="HostSeasonYear" class="col-form-label"></label>
+                @Html.DropDownList("HostSeasonYear", null, htmlAttributes: new
                 {
                     @class = "form-control",
-                    @onchange = "document.location.href='/GamePredictor/ApplyFilter?HostSeasonId=' + this.options[this.selectedIndex].value;"
+                    @onchange = "document.location.href='/GamePredictor/ApplyFilter?HostSeasonYear=' + this.options[this.selectedIndex].value;"
                 })
-                <span asp-validation-for="HostSeasonId" class="text-danger"></span>
+                <span asp-validation-for="HostSeasonYear" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HostName" class="col-form-label"></label>

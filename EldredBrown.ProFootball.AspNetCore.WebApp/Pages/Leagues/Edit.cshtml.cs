@@ -10,10 +10,12 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
     public class EditModel : PageModel
     {
         private readonly ILeagueRepository _leagueRepository;
+        private readonly ISharedRepository _sharedRepository;
 
-        public EditModel(ILeagueRepository leagueRepository)
+        public EditModel(ILeagueRepository leagueRepository, ISharedRepository sharedRepository)
         {
             _leagueRepository = leagueRepository;
+            _sharedRepository = sharedRepository;
         }
 
         [BindProperty]
@@ -44,11 +46,11 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
                 return Page();
             }
 
-            _leagueRepository.Update(League);
+            _leagueRepository.Edit(League);
 
             try
             {
-                await _leagueRepository.Commit();
+                await _sharedRepository.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {

@@ -8,10 +8,10 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
     public class GamePrediction
     {
         /// <summary>
-        /// Gets or sets the guest season ID of the current <see cref="GamePrediction"/> entity.
+        /// Gets or sets the guest season year of the current <see cref="GamePrediction"/> entity.
         /// </summary>
         [DisplayName("Guest Season")]
-        public int GuestSeasonId { get; set; }
+        public int GuestSeasonYear { get; set; }
 
         /// <summary>
         /// Gets or sets the guest name of the current <see cref="GamePrediction"/> entity.
@@ -26,10 +26,10 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         public int GuestScore { get; set; }
 
         /// <summary>
-        /// Gets or sets the host season ID of the current <see cref="GamePrediction"/> entity.
+        /// Gets or sets the host season year of the current <see cref="GamePrediction"/> entity.
         /// </summary>
         [DisplayName("Host Season")]
-        public int HostSeasonId { get; set; }
+        public int HostSeasonYear { get; set; }
 
         /// <summary>
         /// Gets or sets the host name of the current <see cref="GamePrediction"/> entity.

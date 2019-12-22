@@ -24,4 +24,12 @@
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Leagues\Create.cshtml" />
+    <None Include="Views\Leagues\Delete.cshtml" />
+    <None Include="Views\Leagues\Details.cshtml" />
+    <None Include="Views\Leagues\Edit.cshtml" />
+    <None Include="Views\Leagues\Index.cshtml" />
+  </ItemGroup>
+
 </Project>

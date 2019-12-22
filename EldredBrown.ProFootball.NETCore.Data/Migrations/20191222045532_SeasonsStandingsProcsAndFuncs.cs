@@ -2,7 +2,7 @@
 
 namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 {
-    public partial class spGetSeasonStandings : Migration
+    public partial class SeasonsStandingsProcsAndFuncs : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE sp_GetSeasonStandings 
-	@seasonId int
+	@seasonYear int
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -38,7 +38,7 @@ BEGIN
 			ELSE CAST(PointsAgainst AS float) / CAST(Games AS float)
 		END AS AvgPointsAgainst
 	FROM dbo.TeamSeasons
-	WHERE SeasonId = @seasonId
+	WHERE SeasonYear = @seasonYear
 	ORDER BY WinningPercentage DESC, Wins DESC, Team ASC
 END
 GO");

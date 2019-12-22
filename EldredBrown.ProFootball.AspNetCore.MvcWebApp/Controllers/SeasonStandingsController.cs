@@ -15,7 +15,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly ISeasonStandingsRepository _seasonStandingsRepository;
 
-        private static int _selectedSeasonId = 1920;
+        private static int _selectedSeasonYear = 1920;
         private static bool _groupByDivision = false;
 
         /// <summary>
@@ -39,13 +39,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
+            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
 
             var viewModel = new SeasonStandingsIndexViewModel
             {
                 Title = "Standings",
-                Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonId),
-                SeasonStandings = await _seasonStandingsRepository.GetSeasonStandings(_selectedSeasonId)
+                Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonYear),
+                SeasonStandings = await _seasonStandingsRepository.GetSeasonStandings(_selectedSeasonYear)
             };
 
             return View(viewModel);
@@ -54,16 +54,16 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <summary>
         /// Sets the selected season ID.
         /// </summary>
-        /// <param name="seasonId">The ID of the selected season.</param>
+        /// <param name="seasonYear">The ID of the selected season.</param>
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
-        public IActionResult SetSelectedSeasonId(int? seasonId)
+        public IActionResult SetSelectedSeasonYear(int? seasonYear)
         {
-            if (seasonId == null)
+            if (seasonYear == null)
             {
                 return BadRequest();
             }
 
-            _selectedSeasonId = seasonId.Value;
+            _selectedSeasonYear = seasonYear.Value;
 
             return RedirectToAction(nameof(Index));
         }

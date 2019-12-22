@@ -17,7 +17,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Models
         /// <summary>
         /// Gets or sets the ID of the current <see cref="TeamSeasonModel"/> object's season.
         /// </summary>
-        public int SeasonId { get; set; }
+        public int SeasonYear { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="TeamSeasonModel"/> object's league.

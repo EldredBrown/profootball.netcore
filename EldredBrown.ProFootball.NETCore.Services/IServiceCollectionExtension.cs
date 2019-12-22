@@ -10,7 +10,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IWeeklyUpdateService, WeeklyUpdateService>();
 
-            services.AddSingleton<ILeagueSeasonRepository, MockLeagueSeasonRepository>();
             services.AddSingleton<ILeagueSeasonTotalsRepository, MockLeagueSeasonTotalsRepository>();
 
             services.AddScoped<ICalculator, Calculator>();

@@ -34,10 +34,11 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ProFootballDbContext>();
 
-            // TODO: 2019-11-30 - The mock repositories need to be added as singletons until they are replaced by repositories for SQL data.
+            services.AddScoped<ILeagueRepository, LeagueRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<ILeagueSeasonRepository, LeagueSeasonRepository>();
             services.AddScoped<ITeamSeasonRepository, TeamSeasonRepository>();
             services.AddScoped<ITeamSeasonScheduleProfileRepository, TeamSeasonScheduleProfileRepository>();
             services.AddScoped<ITeamSeasonScheduleTotalsRepository, TeamSeasonScheduleTotalsRepository>();

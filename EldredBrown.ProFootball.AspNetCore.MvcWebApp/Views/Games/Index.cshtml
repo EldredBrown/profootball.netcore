@@ -11,7 +11,7 @@
         <label class="col-form-label">Season</label>
         @Html.DropDownList("Seasons", null, htmlAttributes: new
         {
-            @onchange = "document.location.href='/Games/SetSelectedSeasonId?SeasonId=' + this.options[this.selectedIndex].value;"
+            @onchange = "document.location.href='/Games/SetSelectedSeasonYear?SeasonYear=' + this.options[this.selectedIndex].value;"
         })
     </p>
 </form>
@@ -33,7 +33,7 @@
     <thead>
         <tr>
             <th class="text-right">
-                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().SeasonId)
+                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().SeasonYear)
             </th>
             <th class="text-right">
                 @Html.DisplayNameFor(model => model.Games.SingleOrDefault().Week)
@@ -61,7 +61,7 @@
 {
         <tr>
             <td class="text-right">
-                @Html.DisplayFor(modelItem => game.SeasonId)
+                @Html.DisplayFor(modelItem => game.SeasonYear)
             </td>
             <td class="text-right">
                 @Html.DisplayFor(modelItem => game.Week)

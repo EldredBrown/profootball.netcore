@@ -29,16 +29,16 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         public string ShortName { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the current <see cref="League"/> entity's first season.
+        /// Gets or sets the year of the current <see cref="League"/> entity's first season.
         /// </summary>
         [Required(ErrorMessage = "Please enter a first season.")]
         [Display(Name = "First Season")]
-        public int FirstSeasonId { get; set; }
+        public int FirstSeasonYear { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the current <see cref="League"/> entity's last season.
+        /// Gets or sets the year of the current <see cref="League"/> entity's last season.
         /// </summary>
         [Display(Name = "Last Season")]
-        public int? LastSeasonId { get; set; }
+        public int? LastSeasonYear { get; set; }
     }
 }

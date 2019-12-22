@@ -4,12 +4,31 @@
 
 <h1>Admin</h1>
 
-<div>
-    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-        <ul class="navbar-nav flex-grow-1">
-            <li class="nav-item">
-                <a asp-area="" asp-controller="Seasons" asp-action="Index" class="nav-link text-dark">Seasons</a>
-            </li>
-        </ul>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Leagues" asp-action="Index"
+                       class="nav-link text-dark">Leagues</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Teams" asp-action="Index"
+                       class="nav-link text-dark">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Seasons" asp-action="Index"
+                       class="nav-link text-dark">Seasons</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="LeagueSeasons" asp-action="Index"
+                       class="nav-link text-dark">League Seasons</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="TeamSeasonsAdmin" asp-action="Index"
+                       class="nav-link text-dark">Team Seasons</a>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
+</nav>

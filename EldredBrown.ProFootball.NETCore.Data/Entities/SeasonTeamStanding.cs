@@ -8,17 +8,17 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
     public class SeasonTeamStanding
     {
         /// <summary>
-        /// Gets or sets the name of the team of the current <see cref="SeasonTeamStanding"/> entity.
+        /// Gets or sets the name the current <see cref="SeasonTeamStanding"/> entity's team.
         /// </summary>
         public string Team { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the conference of the current <see cref="SeasonTeamStanding"/> entity.
+        /// Gets or sets the name of the current <see cref="SeasonTeamStanding"/> entity's conference.
         /// </summary>
         public string Conference { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the division of the current <see cref="SeasonTeamStanding"/> entity.
+        /// Gets or sets the name of the current <see cref="SeasonTeamStanding"/> entity's division.
         /// </summary>
         public string Division { get; set; }
 

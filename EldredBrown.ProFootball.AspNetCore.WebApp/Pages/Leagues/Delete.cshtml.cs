@@ -9,10 +9,12 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
     public class DeleteModel : PageModel
     {
         private readonly ILeagueRepository _leagueRepository;
+        private readonly ISharedRepository _sharedRepository;
 
-        public DeleteModel(ILeagueRepository leagueRepository)
+        public DeleteModel(ILeagueRepository leagueRepository, ISharedRepository sharedRepository)
         {
             _leagueRepository = leagueRepository;
+            _sharedRepository = sharedRepository;
         }
 
         [BindProperty]
@@ -46,7 +48,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
             if (League != null)
             {
                 await _leagueRepository.Delete(League.ID);
-                await _leagueRepository.Commit();
+                await _sharedRepository.SaveChanges();
             }
 
             return RedirectToPage("./Index");

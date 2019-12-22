@@ -10,6 +10,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Runs a weekly update of the data store.
         /// </summary>
-        Task RunWeeklyUpdate(int seasonId);
+        Task RunWeeklyUpdate(int seasonYear);
     }
 }

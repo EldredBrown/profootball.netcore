@@ -15,8 +15,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         private readonly ISeasonRepository _seasonRepository;
         private readonly ITeamSeasonRepository _teamSeasonRepository;
 
-        private static int _guestSeasonId = 1920;
-        private static int _hostSeasonId = 1920;
+        private static int _guestSeasonYear = 1920;
+        private static int _hostSeasonYear = 1920;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamePredictorController"/> class.
@@ -38,18 +38,18 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> PredictGame()
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
+            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
 
-            ViewBag.GuestSeasonId = new SelectList(seasons, "ID", "ID", _guestSeasonId);
+            ViewBag.GuestSeasonYear = new SelectList(seasons, "ID", "ID", _guestSeasonYear);
 
             var guests = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonId == _guestSeasonId);
+                .Where(ts => ts.SeasonYear == _guestSeasonYear);
             ViewBag.GuestName = new SelectList(guests, "TeamName", "TeamName");
 
-            ViewBag.HostSeasonId = new SelectList(seasons, "ID", "ID", _hostSeasonId);
+            ViewBag.HostSeasonYear = new SelectList(seasons, "ID", "ID", _hostSeasonYear);
 
             var hosts = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonId == _hostSeasonId);
+                .Where(ts => ts.SeasonYear == _hostSeasonYear);
             ViewBag.HostName = new SelectList(hosts, "TeamName", "TeamName");
 
             return View();
@@ -64,28 +64,28 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <param name="prediction">A <see cref="GamePrediction"/> object representing the game matchup.</param>
         /// <returns>The rendered view of the Game Predictor form.</returns>
         [HttpPost]
-        public async Task<IActionResult> PredictGame([Bind("GuestSeasonId,GuestName,GuestScore,HostSeasonId,HostName,HostScore")] GamePrediction prediction)
+        public async Task<IActionResult> PredictGame([Bind("GuestSeasonYear,GuestName,GuestScore,HostSeasonYear,HostName,HostScore")] GamePrediction prediction)
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
+            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
 
-            _guestSeasonId = prediction.GuestSeasonId;
+            _guestSeasonYear = prediction.GuestSeasonYear;
 
-            ViewBag.GuestSeasonId = new SelectList(seasons, "ID", "ID", _guestSeasonId);
+            ViewBag.GuestSeasonYear = new SelectList(seasons, "ID", "ID", _guestSeasonYear);
 
             var guests = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonId == _guestSeasonId);
+                .Where(ts => ts.SeasonYear == _guestSeasonYear);
             var guest = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
-                prediction.GuestName, _guestSeasonId);
+                prediction.GuestName, _guestSeasonYear);
             ViewBag.GuestName = new SelectList(guests, "TeamName", "TeamName", guest.TeamName);
 
-            _hostSeasonId = prediction.HostSeasonId;
+            _hostSeasonYear = prediction.HostSeasonYear;
 
-            ViewBag.HostSeasonId = new SelectList(seasons, "ID", "ID", _hostSeasonId);
+            ViewBag.HostSeasonYear = new SelectList(seasons, "ID", "ID", _hostSeasonYear);
 
             var hosts = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonId == _hostSeasonId);
+                .Where(ts => ts.SeasonYear == _hostSeasonYear);
             var host = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
-                prediction.HostName, _hostSeasonId);
+                prediction.HostName, _hostSeasonYear);
             ViewBag.HostName = new SelectList(hosts, "TeamName", "TeamName", host.TeamName);
 
             return View(prediction);
@@ -94,19 +94,19 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <summary>
         /// Applies a filter to listed guest or host data.
         /// </summary>
-        /// <param name="guestSeasonId">The season for which possible guests will be shown.</param>
-        /// <param name="hostSeasonId">The season for which possible hosts will be shown.</param>
+        /// <param name="guestSeasonYear">The season for which possible guests will be shown.</param>
+        /// <param name="hostSeasonYear">The season for which possible hosts will be shown.</param>
         /// <returns>The rendered view of the Game Predictor form.</returns>
-        public IActionResult ApplyFilter(int? guestSeasonId, int? hostSeasonId)
+        public IActionResult ApplyFilter(int? guestSeasonYear, int? hostSeasonYear)
         {
-            if (guestSeasonId != null)
+            if (guestSeasonYear != null)
             {
-                _guestSeasonId = guestSeasonId.Value;
+                _guestSeasonYear = guestSeasonYear.Value;
             }
 
-            if (hostSeasonId != null)
+            if (hostSeasonYear != null)
             {
-                _hostSeasonId = hostSeasonId.Value;
+                _hostSeasonYear = hostSeasonYear.Value;
             }
 
             return RedirectToAction(nameof(PredictGame));

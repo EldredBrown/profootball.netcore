@@ -11,8 +11,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets a single <see cref="LeagueSeasonTotals"/> entity from the data store by league name and season ID.
         /// </summary>
         /// <param name="leagueName">The league name of the <see cref="LeagueSeasonTotals"/> entity to fetch.</param>
-        /// <param name="seasonId">The season ID of the <see cref="LeagueSeasonTotals"/> entity to fetch.</param>
+        /// <param name="seasonYear">The season year of the <see cref="LeagueSeasonTotals"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeasonTotals"/> entity.</returns>
-        LeagueSeasonTotals GetLeagueSeasonTotals(string leagueName, int seasonId);
+        LeagueSeasonTotals GetLeagueSeasonTotals(string leagueName, int seasonYear);
     }
 }

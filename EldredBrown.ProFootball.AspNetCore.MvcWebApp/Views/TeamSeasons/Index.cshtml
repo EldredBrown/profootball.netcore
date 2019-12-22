@@ -11,7 +11,7 @@
         <label class="col-form-label">Season</label>
         @Html.DropDownList("Seasons", null, htmlAttributes: new
         {
-            @onchange = "document.location.href='/TeamSeasons/SetSelectedSeasonId?SeasonId=' + this.options[this.selectedIndex].value;"
+            @onchange = "document.location.href='/TeamSeasons/SetSelectedSeasonYear?SeasonYear=' + this.options[this.selectedIndex].value;"
         })
     </p>
     <p>

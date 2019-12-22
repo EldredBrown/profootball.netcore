@@ -55,8 +55,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     LongName = table.Column<string>(nullable: true),
                     ShortName = table.Column<string>(nullable: true),
                     LeagueName = table.Column<string>(nullable: true),
-                    FirstSeasonId = table.Column<int>(nullable: false),
-                    LastSeasonId = table.Column<int>(nullable: true)
+                    FirstSeasonYear = table.Column<int>(nullable: false),
+                    LastSeasonYear = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,8 +72,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     LeagueName = table.Column<string>(nullable: true),
                     ConferenceName = table.Column<string>(nullable: true),
-                    FirstSeasonId = table.Column<int>(nullable: false),
-                    LastSeasonId = table.Column<int>(nullable: true)
+                    FirstSeasonYear = table.Column<int>(nullable: false),
+                    LastSeasonYear = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,7 +86,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SeasonId = table.Column<int>(nullable: false),
+                    SeasonYear = table.Column<int>(nullable: false),
                     Week = table.Column<int>(nullable: false),
                     GuestName = table.Column<string>(nullable: false),
                     GuestScore = table.Column<int>(nullable: false),
@@ -112,8 +112,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LongName = table.Column<string>(maxLength: 50, nullable: false),
                     ShortName = table.Column<string>(maxLength: 5, nullable: false),
-                    FirstSeasonId = table.Column<int>(nullable: false),
-                    LastSeasonId = table.Column<int>(nullable: true)
+                    FirstSeasonYear = table.Column<int>(nullable: false),
+                    LastSeasonYear = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -127,7 +127,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LeagueName = table.Column<string>(nullable: true),
-                    SeasonId = table.Column<int>(nullable: false),
+                    SeasonYear = table.Column<int>(nullable: false),
                     TotalGames = table.Column<int>(nullable: false, defaultValue: 0),
                     TotalPoints = table.Column<int>(nullable: false, defaultValue: 0),
                     AveragePoints = table.Column<double>(nullable: true)
@@ -142,7 +142,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1920, 1"),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Year = table.Column<int>(nullable: false),
                     NumOfWeeks = table.Column<int>(nullable: false),
                     NumOfWeeksCompleted = table.Column<int>(nullable: false, defaultValue: 0)
                 },
@@ -191,7 +192,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TeamName = table.Column<string>(nullable: true),
-                    SeasonId = table.Column<int>(nullable: false),
+                    SeasonYear = table.Column<int>(nullable: false),
                     LeagueName = table.Column<string>(nullable: true),
                     ConferenceName = table.Column<string>(nullable: true),
                     DivisionName = table.Column<string>(nullable: true),

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.Data.Repositories
@@ -9,24 +10,52 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
     public interface ILeagueSeasonRepository
     {
         /// <summary>
-        /// Gets a single <see cref="LeagueSeason"/> entity in the data store by ID.
-        /// </summary>
-        /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to fetch.</param>
-        /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        LeagueSeason GetLeagueSeason(int id);
-
-        /// <summary>
-        /// Gets a single <see cref="LeagueSeason"/> entity in the data store by league name and season ID.
-        /// </summary>
-        /// <param name="leagueName">The league name of the <see cref="LeagueSeason"/> entity to fetch.</param>
-        /// <param name="seasonId">The season id of the <see cref="LeagueSeason"/> entity to fetch.</param>
-        /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        LeagueSeason GetLeagueSeasonByLeagueAndSeason(string leagueName, int seasonId);
-
-        /// <summary>
         /// Gets all <see cref="LeagueSeason"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{LeagueSeason}"/> of all fetched entities.</returns>
-        IEnumerable<LeagueSeason> GetLeagueSeasons();
+        Task<IEnumerable<LeagueSeason>> GetLeagueSeasons();
+
+        /// <summary>
+        /// Gets a single <see cref="LeagueSeason"/> entity from the data store by ID.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
+        Task<LeagueSeason> GetLeagueSeason(int id);
+
+        /// <summary>
+        /// Gets a single <see cref="LeagueSeason"/> entity from the data store by league name and season year.
+        /// </summary>
+        /// <param name="leagueName">The name of the league of the <see cref="LeagueSeason"/> entity to fetch.</param>
+        /// <param name="seasonYear">The year of the season of the <see cref="LeagueSeason"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
+        LeagueSeason GetLeagueSeasonByLeagueAndSeason(string leagueName, int seasonYear);
+
+        /// <summary>
+        /// Adds a <see cref="LeagueSeason"/> entity to the data store.
+        /// </summary>
+        /// <param name="leagueSeason">The <see cref="LeagueSeason"/> entity to add.</param>
+        /// <returns>The added <see cref="LeagueSeason"/> entity.</returns>
+        Task<LeagueSeason> Add(LeagueSeason leagueSeason);
+
+        /// <summary>
+        /// Updates a <see cref="LeagueSeason"/> entity in the data store.
+        /// </summary>
+        /// <param name="leagueSeason">The <see cref="LeagueSeason"/> to update.</param>
+        /// <returns>The updated <see cref="LeagueSeason"/> entity.</returns>
+        LeagueSeason Edit(LeagueSeason leagueSeason);
+
+        /// <summary>
+        /// Deletes a <see cref="LeagueSeason"/> entity from the data store.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to delete.</param>
+        /// <returns>The deleted <see cref="LeagueSeason"/> entity.</returns>
+        Task<LeagueSeason> Delete(int id);
+
+        /// <summary>
+        /// Checks to verify whether a specific <see cref="LeagueSeason"/> entity exists in the data store.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to verify.</param>
+        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        Task<bool> LeagueSeasonExists(int id);
     }
 }

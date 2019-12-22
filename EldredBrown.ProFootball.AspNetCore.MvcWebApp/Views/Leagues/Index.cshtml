@@ -13,16 +13,16 @@
     <thead>
         <tr>
             <th>
-                <label asp-for="Leagues.SingleOrDefault().LongName"></label>
+                @Html.DisplayNameFor(model => model.Leagues.SingleOrDefault().LongName)
             </th>
             <th>
-                <label asp-for="Leagues.SingleOrDefault().ShortName"></label>
+                @Html.DisplayNameFor(model => model.Leagues.SingleOrDefault().ShortName)
             </th>
             <th>
-                <label asp-for="Leagues.SingleOrDefault().FirstSeasonId"></label>
+                @Html.DisplayNameFor(model => model.Leagues.SingleOrDefault().FirstSeasonYear)
             </th>
             <th>
-                <label asp-for="Leagues.SingleOrDefault().LastSeasonId"></label>
+                @Html.DisplayNameFor(model => model.Leagues.SingleOrDefault().LastSeasonYear)
             </th>
             <th></th>
         </tr>
@@ -31,21 +31,21 @@
 @foreach (var league in Model.Leagues) {
         <tr>
             <td>
-                @league.LongName
+                @Html.DisplayFor(modelItem => league.LongName)
             </td>
             <td>
-                @league.ShortName
+                @Html.DisplayFor(modelItem => league.ShortName)
             </td>
             <td>
-                @league.FirstSeasonId
+                @Html.DisplayFor(modelItem => league.FirstSeasonYear)
             </td>
             <td>
-                @league.LastSeasonId
+                @Html.DisplayFor(modelItem => league.LastSeasonYear)
             </td>
             <td>
-                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@league.ID">Edit</a>
-                <a class="btn btn-primary" asp-action="Details" asp-route-id="@league.ID">Details</a>
-                <a class="btn btn-primary" asp-action="Delete" asp-route-id="@league.ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@league.ID" class="btn btn-primary btn-sm">Edit</a>
+                <a asp-action="Details" asp-route-id="@league.ID" class="btn btn-primary btn-sm">Details</a>
+                <a asp-action="Delete" asp-route-id="@league.ID" class="btn btn-primary btn-sm">Delete</a>
             </td>
         </tr>
 }

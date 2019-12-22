@@ -21,6 +21,18 @@
     <Compile Remove="Migrations\20191220094125_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20191220095127_spGetTeamSeasonScheduleProfile.cs" />
     <Compile Remove="Migrations\20191220095127_spGetTeamSeasonScheduleProfile.Designer.cs" />
+    <Compile Remove="Migrations\20191221044936_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191221044936_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191221050142_TeamSeasonsProcsAndFuncs.cs" />
+    <Compile Remove="Migrations\20191221050142_TeamSeasonsProcsAndFuncs.Designer.cs" />
+    <Compile Remove="Migrations\20191221055418_spGetSeasonStandings.cs" />
+    <Compile Remove="Migrations\20191221055418_spGetSeasonStandings.Designer.cs" />
+    <Compile Remove="Migrations\20191222002759_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191222002759_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191222003201_TeamSeasonsProcsAndFuncs.cs" />
+    <Compile Remove="Migrations\20191222003201_TeamSeasonsProcsAndFuncs.Designer.cs" />
+    <Compile Remove="Migrations\20191222003339_SeasonsStandingsProcsAndFuncs.cs" />
+    <Compile Remove="Migrations\20191222003339_SeasonsStandingsProcsAndFuncs.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

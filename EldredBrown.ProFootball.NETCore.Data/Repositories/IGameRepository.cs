@@ -42,5 +42,12 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="id">The ID of the <see cref="Game"/> entity to delete.</param>
         /// <returns>The deleted <see cref="Game"/> entity.</returns>
         Task<Game> Delete(int id);
+
+        /// <summary>
+        /// Checks to verify whether a specific <see cref="Game"/> entity exists in the data store.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="Game"/> entity to verify.</param>
+        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        Task<bool> GameExists(int id);
     }
 }

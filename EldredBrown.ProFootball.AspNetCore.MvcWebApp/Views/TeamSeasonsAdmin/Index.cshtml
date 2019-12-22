@@ -1,0 +1,48 @@
+﻿@model TeamSeasonsIndexViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamSeasons.SingleOrDefault().TeamName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamSeasons.SingleOrDefault().SeasonYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeamSeasons.SingleOrDefault().LeagueName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var teamSeason in Model.TeamSeasons)
+{
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => teamSeason.TeamName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => teamSeason.SeasonYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => teamSeason.LeagueName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@teamSeason.ID" class="btn btn-primary btn-sm">Edit</a>
+                <a asp-action="Details" asp-route-id="@teamSeason.ID" class="btn btn-primary btn-sm">Details</a>
+                <a asp-action="Delete" asp-route-id="@teamSeason.ID" class="btn btn-primary btn-sm">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

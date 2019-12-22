@@ -26,10 +26,10 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FirstSeasonId")
+                    b.Property<int>("FirstSeasonYear")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LastSeasonId")
+                    b.Property<int?>("LastSeasonYear")
                         .HasColumnType("int");
 
                     b.Property<string>("LeagueName")
@@ -56,10 +56,10 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<string>("ConferenceName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FirstSeasonId")
+                    b.Property<int>("FirstSeasonYear")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LastSeasonId")
+                    b.Property<int?>("LastSeasonYear")
                         .HasColumnType("int");
 
                     b.Property<string>("LeagueName")
@@ -106,7 +106,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SeasonId")
+                    b.Property<int>("SeasonYear")
                         .HasColumnType("int");
 
                     b.Property<int>("Week")
@@ -130,10 +130,10 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FirstSeasonId")
+                    b.Property<int>("FirstSeasonYear")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LastSeasonId")
+                    b.Property<int?>("LastSeasonYear")
                         .HasColumnType("int");
 
                     b.Property<string>("LongName")
@@ -164,7 +164,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<string>("LeagueName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SeasonId")
+                    b.Property<int>("SeasonYear")
                         .HasColumnType("int");
 
                     b.Property<int>("TotalGames")
@@ -189,6 +189,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("NumOfWeeksCompleted")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -304,7 +307,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     b.Property<double>("PythagoreanWins")
                         .HasColumnType("float");
 
-                    b.Property<int>("SeasonId")
+                    b.Property<int>("SeasonYear")
                         .HasColumnType("int");
 
                     b.Property<string>("TeamName")

@@ -12,8 +12,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets a single <see cref="TeamSeasonScheduleAverages"/> entity from the data store by team name and season ID.
         /// </summary>
         /// <param name="teamName">The team name of the <see cref="TeamSeasonScheduleAverages"/> entity to fetch.</param>
-        /// <param name="seasonId">The season ID of the <see cref="TeamSeasonScheduleAverages"/> entity to fetch.</param>
+        /// <param name="seasonYear">The season year of the <see cref="TeamSeasonScheduleAverages"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="TeamSeasonScheduleAverages"/> entity.</returns>
-        Task<TeamSeasonScheduleAverages> GetTeamSeasonScheduleAverages(string teamName, int seasonId);
+        Task<TeamSeasonScheduleAverages> GetTeamSeasonScheduleAverages(string teamName, int seasonYear);
     }
 }

@@ -81,5 +81,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 
             return season;
         }
+
+        /// <summary>
+        /// Checks to verify whether a specific <see cref="Season"/> entity exists in the data store.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="Season"/> entity to verify.</param>
+        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        public async Task<bool> SeasonExists(int id)
+        {
+            return await _dbContext.Seasons.AnyAsync(s => s.ID == id);
+        }
     }
 }

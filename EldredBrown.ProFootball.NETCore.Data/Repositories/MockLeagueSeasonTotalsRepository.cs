@@ -11,7 +11,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
             _leagueSeasonTotals = InitializeData();
         }
 
-        public LeagueSeasonTotals GetLeagueSeasonTotals(string leagueName, int seasonId)
+        public LeagueSeasonTotals GetLeagueSeasonTotals(string leagueName, int seasonYear)
         {
             return _leagueSeasonTotals;
         }

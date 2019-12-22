@@ -16,13 +16,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     /// </summary>
     public class GamesController : Controller
     {
+        private readonly IGameRepository _gameRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly ISeasonRepository _seasonRepository;
-        private readonly IGameRepository _gameRepository;
         private readonly ISharedRepository _sharedRepository;
         private readonly IGameService _gameService;
 
-        private static int _selectedSeasonId = 1920;
+        private static int _selectedSeasonYear = 1920;
         private static int? _selectedWeek;
 
         private static Game _oldGame;
@@ -30,21 +30,21 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="GamesController"/> class.
         /// </summary>
+        /// <param name="gameRepository">The repository by which game data will be accessed.</param>
         /// <param name="teamRepository">The repository by which team data will be accessed.</param>
         /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
-        /// <param name="gameRepository">The repository by which game data will be accessed.</param>
         /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
         /// <param name="gameService">The service for processing Game data.</param>
         public GamesController(
+            IGameRepository gameRepository,
             ITeamRepository teamRepository,
             ISeasonRepository seasonRepository,
-            IGameRepository gameRepository,
             ISharedRepository sharedRepository,
             IGameService gameService)
         {
+            _gameRepository = gameRepository;
             _teamRepository = teamRepository;
             _seasonRepository = seasonRepository;
-            _gameRepository = gameRepository;
             _sharedRepository = sharedRepository;
             _gameService = gameService;
         }
@@ -57,11 +57,11 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
+            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
 
             var weeks = new List<int>();
 
-            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonId);
+            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonYear);
             if (selectedSeason != null)
             {
                 for (int i = 1; i <= selectedSeason.NumOfWeeks; i++)
@@ -70,7 +70,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 }
             }
 
-            var games = (await _gameRepository.GetGames()).Where(g => g.SeasonId == _selectedSeasonId);
+            var games = (await _gameRepository.GetGames()).Where(g => g.SeasonYear == _selectedSeasonYear);
             if (_selectedWeek != null)
             {
                 games = games.Where(g => g.Week == _selectedWeek);
@@ -79,7 +79,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             var viewModel = new GamesIndexViewModel
             {
                 Title = "Games",
-                Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonId),
+                Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonYear),
                 Weeks = new SelectList(weeks, _selectedWeek),
                 Games = games
             };
@@ -124,10 +124,10 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.ID);
-            ViewBag.SeasonId = new SelectList(seasons, "ID", "ID", _selectedSeasonId);
+            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
+            ViewBag.SeasonYear = new SelectList(seasons, "ID", "ID", _selectedSeasonYear);
 
-            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonId);
+            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonYear);
             var weeks = new List<int>();
             for (int i = 1; i <= selectedSeason.NumOfWeeks; i++)
             {
@@ -153,7 +153,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SeasonId,Week,GuestName,GuestScore,HostName,HostScore,WinnerName,WinnerScore,LoserName,LoserScore,IsPlayoffGame,Notes")] Game game)
+        public async Task<IActionResult> Create([Bind("SeasonYear,Week,GuestName,GuestScore,HostName,HostScore,WinnerName,WinnerScore,LoserName,LoserScore,IsPlayoffGame,Notes")] Game game)
         {
             if (ModelState.IsValid)
             {
@@ -185,9 +185,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             }
 
             var seasons = await _seasonRepository.GetSeasons();
-            ViewBag.SeasonId = new SelectList(seasons, "ID", "ID", game.SeasonId);
+            ViewBag.SeasonYear = new SelectList(seasons, "ID", "ID", game.SeasonYear);
 
-            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonId);
+            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonYear);
             var weeks = new List<int>();
             for (int i = 1; i <= selectedSeason.NumOfWeeks; i++)
             {
@@ -215,7 +215,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,SeasonId,Week,GuestName,GuestScore,HostName,HostScore,WinnerName,WinnerScore,LoserName,LoserScore,IsPlayoffGame,Notes")] Game game)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,SeasonYear,Week,GuestName,GuestScore,HostName,HostScore,WinnerName,WinnerScore,LoserName,LoserScore,IsPlayoffGame,Notes")] Game game)
         {
             if (id != game.ID)
             {
@@ -230,7 +230,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!(await GameExists(game.ID)))
+                    if (!await _gameRepository.GameExists(game.ID))
                     {
                         return NotFound();
                     }
@@ -285,16 +285,16 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <summary>
         /// Sets the selected season ID.
         /// </summary>
-        /// <param name="seasonId">The ID of the selected season.</param>
+        /// <param name="SeasonYear">The ID of the selected season.</param>
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
-        public IActionResult SetSelectedSeasonId(int? seasonId)
+        public IActionResult SetSelectedSeasonYear(int? SeasonYear)
         {
-            if (seasonId == null)
+            if (SeasonYear == null)
             {
                 return BadRequest();
             }
 
-            _selectedSeasonId = seasonId.Value;
+            _selectedSeasonYear = SeasonYear.Value;
 
             return RedirectToAction(nameof(Index));
         }
@@ -309,11 +309,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             _selectedWeek = week;
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private async Task<bool> GameExists(int id)
-        {
-            return (await _gameRepository.GetGames()).Any(e => e.ID == id);
         }
     }
 }

@@ -10,6 +10,12 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
     public interface ITeamSeasonRepository
     {
         /// <summary>
+        /// Gets all <see cref="TeamSeason "/> entities in the data store.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
+        Task<IEnumerable<TeamSeason>> GetTeamSeasons();
+
+        /// <summary>
         /// Gets a single <see cref="TeamSeason"/> entity from the data store by ID.
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to fetch.</param>
@@ -20,14 +26,36 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets a single <see cref="TeamSeason"/> entity from the data store by team name and season ID.
         /// </summary>
         /// <param name="teamName">The team name of the <see cref="TeamSeason"/> entity to fetch.</param>
-        /// <param name="seasonId">The season ID of the <see cref="TeamSeason"/> entity to fetch.</param>
+        /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="TeamSeason"/> entity.</returns>
-        Task<TeamSeason> GetTeamSeasonByTeamAndSeason(string teamName, int seasonId);
+        Task<TeamSeason> GetTeamSeasonByTeamAndSeason(string teamName, int seasonYear);
 
         /// <summary>
-        /// Gets all <see cref="TeamSeason "/> entities in the data store.
+        /// Adds a <see cref="TeamSeason"/> entity to the data store.
         /// </summary>
-        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
-        Task<IEnumerable<TeamSeason>> GetTeamSeasons();
+        /// <param name="teamSeason">The <see cref="TeamSeason"/> entity to add.</param>
+        /// <returns>The added <see cref="TeamSeason"/> entity.</returns>
+        Task<TeamSeason> Add(TeamSeason teamSeason);
+
+        /// <summary>
+        /// Updates a <see cref="TeamSeason"/> entity in the data store.
+        /// </summary>
+        /// <param name="teamSeason">The <see cref="TeamSeason"/> to update.</param>
+        /// <returns>The updated <see cref="TeamSeason"/> entity.</returns>
+        TeamSeason Edit(TeamSeason teamSeason);
+
+        /// <summary>
+        /// Deletes a <see cref="TeamSeason"/> entity from the data store.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to delete.</param>
+        /// <returns>The deleted <see cref="TeamSeason"/> entity.</returns>
+        Task<TeamSeason> Delete(int id);
+
+        /// <summary>
+        /// Checks to verify whether a specific <see cref="TeamSeason"/> entity exists in the data store.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to verify.</param>
+        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        Task<bool> TeamSeasonExists(int id);
     }
 }

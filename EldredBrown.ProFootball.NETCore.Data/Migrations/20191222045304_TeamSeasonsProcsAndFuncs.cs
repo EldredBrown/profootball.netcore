@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace EldredBrown.ProFootball.NETCore.Data.Migrations
 {
 	public partial class TeamSeasonsProcsAndFuncs : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+	{
+		protected override void Up(MigrationBuilder migrationBuilder)
+		{
 			CreateFnGetGamesByTeamAndSeason(migrationBuilder);
 			CreateFnGetTeamSeasonOpponentProfiles(migrationBuilder);
 			CreateFnGetTeamSeasonScheduleProfile(migrationBuilder);
@@ -36,9 +35,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE FUNCTION fn_GetGamesByTeamAndSeason
 (	
-	-- Add the parameters for the function here
 	@teamName nvarchar(max),
-	@seasonId int
+	@seasonYear int
 )
 RETURNS TABLE 
 AS
@@ -55,7 +53,7 @@ RETURN
 		LoserName,
 		LoserScore
 	FROM dbo.Games
-	WHERE GuestName = @teamName AND SeasonId = @seasonId
+	WHERE GuestName = @teamName AND SeasonYear = @seasonYear
 	UNION
 	SELECT
 		ID,
@@ -68,7 +66,7 @@ RETURN
 		LoserName,
 		LoserScore
 	FROM dbo.Games
-	WHERE HostName = @teamName AND SeasonId = @seasonId
+	WHERE HostName = @teamName AND SeasonYear = @seasonYear
 )
 GO");
 		}
@@ -82,9 +80,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE FUNCTION fn_GetTeamSeasonOpponentProfiles
 (	
-	-- Add the parameters for the function here
 	@teamName nvarchar(max), 
-	@seasonId int
+	@seasonYear int
 )
 RETURNS TABLE
 AS
@@ -117,7 +114,7 @@ RETURN
 		END AS OpponentGames,
         ts.PointsFor - gbts.OpponentScore AS OpponentPointsFor,
         ts.PointsAgainst - gbts.TeamScore AS OpponentPointsAgainst
-	FROM dbo.fn_GetGamesByTeamAndSeason(@teamName, @seasonId) AS gbts
+	FROM dbo.fn_GetGamesByTeamAndSeason(@teamName, @seasonYear) AS gbts
 		LEFT JOIN dbo.TeamSeasons AS ts ON gbts.OpponentName = ts.TeamName
 )
 GO");
@@ -133,7 +130,7 @@ GO
 CREATE FUNCTION fn_GetTeamSeasonScheduleProfile 
 (	
 	@teamName nvarchar(max), 
-	@seasonId int
+	@seasonYear int
 )
 RETURNS TABLE 
 AS
@@ -168,9 +165,9 @@ RETURN
 			ELSE CAST(tsop.OpponentPointsAgainst AS float) * CAST(s.NumOfWeeksCompleted AS float) / CAST(tsop.OpponentGames AS float)
 		END AS OpponentWeightedPointsAgainst
 	FROM
-		dbo.fn_GetTeamSeasonOpponentProfiles(@teamName, @seasonId) AS tsop,
+		dbo.fn_GetTeamSeasonOpponentProfiles(@teamName, @seasonYear) AS tsop,
 		dbo.Seasons AS s
-	WHERE s.ID = @seasonId
+	WHERE s.ID = @seasonYear
 )
 GO");
 		}
@@ -185,7 +182,7 @@ GO
 CREATE FUNCTION fn_GetTeamSeasonScheduleTotals 
 (	
 	@teamName nvarchar(max), 
-	@seasonId int
+	@seasonYear int
 )
 RETURNS TABLE 
 AS
@@ -202,7 +199,7 @@ RETURN
 		SUM(OpponentWeightedPointsFor) AS SchedulePointsFor,
 		SUM(OpponentWeightedPointsAgainst) AS SchedulePointsAgainst
 	FROM
-		dbo.fn_GetTeamSeasonScheduleProfile(@teamName, @seasonId)
+		dbo.fn_GetTeamSeasonScheduleProfile(@teamName, @seasonYear)
 )
 GO");
 		}
@@ -216,7 +213,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE sp_GetTeamSeasonScheduleAverages 
 	@teamName nvarchar(max), 
-	@seasonId int
+	@seasonYear int
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -246,7 +243,7 @@ BEGIN
 			ELSE
 				SchedulePointsAgainst / ScheduleGames
 		END AS SchedulePointsAgainst
-	FROM dbo.fn_GetTeamSeasonScheduleTotals(@teamName, @seasonId)
+	FROM dbo.fn_GetTeamSeasonScheduleTotals(@teamName, @seasonYear)
 END
 GO");
 		}
@@ -260,7 +257,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE sp_GetTeamSeasonScheduleProfile 
 	@teamName nvarchar(max), 
-	@seasonId int
+	@seasonYear int
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -278,7 +275,7 @@ BEGIN
 		OpponentWeightedPointsFor,
 		OpponentWeightedPointsAgainst
 	FROM
-		dbo.fn_GetTeamSeasonScheduleProfile(@teamName, @seasonId)
+		dbo.fn_GetTeamSeasonScheduleProfile(@teamName, @seasonYear)
 	ORDER BY ID
 END
 GO");
@@ -293,7 +290,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE sp_GetTeamSeasonScheduleTotals
 	@teamName nvarchar(max), 
-	@seasonId int
+	@seasonYear int
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -314,7 +311,7 @@ BEGIN
 		SchedulePointsFor,
 		SchedulePointsAgainst
 	FROM
-		dbo.fn_GetTeamSeasonScheduleTotals(@teamName, @seasonId)
+		dbo.fn_GetTeamSeasonScheduleTotals(@teamName, @seasonYear)
 END
 GO");
 		}

@@ -143,14 +143,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
         private async Task EditScoringData(Game game, Operation operation)
         {
-            await EditScoringDataByTeamSeason(game.GuestName, game.SeasonId, operation, game.GuestScore, game.HostScore);
-            await EditScoringDataByTeamSeason(game.HostName, game.SeasonId, operation, game.HostScore, game.GuestScore);
+            await EditScoringDataByTeamSeason(game.GuestName, game.SeasonYear, operation, game.GuestScore, game.HostScore);
+            await EditScoringDataByTeamSeason(game.HostName, game.SeasonYear, operation, game.HostScore, game.GuestScore);
         }
 
-        private async Task EditScoringDataByTeamSeason(string teamName, int seasonId, Operation operation,
+        private async Task EditScoringDataByTeamSeason(string teamName, int seasonYear, Operation operation,
             int teamScore, int opponentScore)
         {
-            var teamSeason = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(teamName, seasonId);
+            var teamSeason = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(teamName, seasonYear);
             if (teamSeason != null)
             {
                 teamSeason.PointsFor = operation(teamSeason.PointsFor, teamScore);
@@ -203,15 +203,15 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
         private async Task EditWinLossData(Game game, Operation operation)
         {
-            var seasonId = game.SeasonId;
+            var seasonYear = game.SeasonYear;
 
-            var guestSeason = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, seasonId);
+            var guestSeason = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, seasonYear);
             if (guestSeason != null)
             {
                 guestSeason.Games = operation(guestSeason.Games, 1);
             }
 
-            var hostSeason = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, seasonId);
+            var hostSeason = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, seasonYear);
             if (hostSeason != null)
             {
                 hostSeason.Games = operation(hostSeason.Games, 1);
@@ -236,14 +236,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
             {
                 // Game is not a tie (has a winner and a loser).
                 var winnerSeason = 
-                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.WinnerName, seasonId);
+                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.WinnerName, seasonYear);
                 if (winnerSeason != null)
                 {
                     winnerSeason.Wins = operation(winnerSeason.Wins, 1);
                 }
 
                 var loserSeason = 
-                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.LoserName, seasonId);
+                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.LoserName, seasonYear);
                 if (loserSeason != null)
                 {
                     loserSeason.Losses = operation(loserSeason.Losses, 1);

@@ -12,8 +12,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <summary>
         /// Gets all <see cref="SeasonTeamStanding"/> entities in the data store.
         /// </summary>
-        /// <param name="groupByDivision">Flag indicating whether to group the results by division.</param>
+        /// <param name="seasonYear">The season year of the <see cref="SeasonTeamStanding"/> entity to fetch.</param>
         /// <returns>An <see cref="IEnumerable{SeasonStanding}"/> of all fetched entities.</returns>
-        Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandings(int seasonId);
+        Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandings(int seasonYear);
     }
 }

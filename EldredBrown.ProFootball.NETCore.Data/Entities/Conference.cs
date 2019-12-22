@@ -26,13 +26,13 @@
         public string LeagueName { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the current <see cref="Conference"/> entity's first season.
+        /// Gets or sets the year of the current <see cref="Conference"/> entity's first season.
         /// </summary>
-        public int FirstSeasonId { get; set; }
+        public int FirstSeasonYear { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the current <see cref="Conference"/> entity's last season.
+        /// Gets or sets the year of the current <see cref="Conference"/> entity's last season.
         /// </summary>
-        public int? LastSeasonId { get; set; }
+        public int? LastSeasonYear { get; set; }
     }
 }

@@ -24,13 +24,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApi.Controllers
         }
 
         // TODO: Figure out how to bind to multiple parameters.
-        [HttpGet("{teamName, seasonId}")]
-        public async Task<ActionResult<OpponentProfileModel[]>> Get(string teamName, int seasonId)
+        [HttpGet("{teamName, seasonYear}")]
+        public async Task<ActionResult<OpponentProfileModel[]>> Get(string teamName, int seasonYear)
         {
             try
             {
                 var teamSeasonScheduleProfile = 
-                    await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonId);
+                    await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonYear);
                 if (teamSeasonScheduleProfile == null)
                 {
                     return NotFound();

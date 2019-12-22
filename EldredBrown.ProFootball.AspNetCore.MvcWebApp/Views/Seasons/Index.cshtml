@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Seasons.SingleOrDefault().ID)
+                @Html.DisplayNameFor(model => model.Seasons.SingleOrDefault().Year)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Seasons.SingleOrDefault().NumOfWeeks)
@@ -28,7 +28,7 @@
 @foreach (var season in Model.Seasons) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => season.ID)
+                @Html.DisplayFor(modelItem => season.Year)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => season.NumOfWeeks)

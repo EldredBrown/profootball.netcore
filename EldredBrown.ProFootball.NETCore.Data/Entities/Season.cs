@@ -13,6 +13,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         public int ID { get; set; }
 
         /// <summary>
+        /// Gets or sets the year of the current <see cref="Season"/> entity.
+        /// </summary>
+        public int Year { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of weeks in the current <see cref="Season"/> entity.
         /// </summary>
         [DisplayName("Weeks")]

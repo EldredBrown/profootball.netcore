@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Seasons;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
@@ -81,15 +80,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// </summary>
         /// <returns>The rendered view of the season create form.</returns>
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            int nextId = 1920;
-            var seasons = await _seasonRepository.GetSeasons();
-            if (seasons.Any())
-            {
-                nextId = seasons.Max(s => s.ID) + 1;
-            }
-            ViewBag.ID = nextId;
             return View();
         }
 
@@ -103,7 +95,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NumOfWeeks,NumOfWeeksCompleted")] Season season)
+        public async Task<IActionResult> Create([Bind("Year,NumOfWeeks,NumOfWeeksCompleted")] Season season)
         {
             if (ModelState.IsValid)
             {
@@ -148,7 +140,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,NumOfWeeks,NumOfWeeksCompleted")] Season season)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Year,NumOfWeeks,NumOfWeeksCompleted")] Season season)
         {
             if (id != season.ID)
             {
@@ -164,7 +156,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await SeasonExists(season.ID))
+                    if (!await _seasonRepository.SeasonExists(season.ID))
                     {
                         return NotFound();
                     }
@@ -185,6 +177,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// Renders a view of the season delete form.
         /// </summary>
         /// <returns>The rendered view of the season delete form.</returns>
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -215,11 +208,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             await _sharedRepository.SaveChanges();
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private async Task<bool> SeasonExists(int id)
-        {
-            return (await _seasonRepository.GetSeasons()).Any(e => e.ID == id);
         }
     }
 }
