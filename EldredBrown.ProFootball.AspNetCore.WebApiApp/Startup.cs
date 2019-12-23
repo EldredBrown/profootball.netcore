@@ -27,11 +27,12 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
                 options.UseSqlServer(Configuration.GetConnectionString("ProFootballDb"));
             });
 
-            // TODO: 2019-12-05 - The mock repositories need to be added as singletons until they are replaced by repositories for SQL data.
+            services.AddScoped<ILeagueRepository, LeagueRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
+            services.AddScoped<ILeagueSeasonRepository, LeagueSeasonRepository>();
             services.AddScoped<ITeamSeasonRepository, TeamSeasonRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<ITeamSeasonScheduleProfileRepository, TeamSeasonScheduleProfileRepository>();
             services.AddScoped<ITeamSeasonScheduleTotalsRepository, TeamSeasonScheduleTotalsRepository>();
             services.AddScoped<ITeamSeasonScheduleAveragesRepository, TeamSeasonScheduleAveragesRepository>();

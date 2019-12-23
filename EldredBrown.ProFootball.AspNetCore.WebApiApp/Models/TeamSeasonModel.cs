@@ -1,14 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Models
+﻿namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Models
 {
+    /// <summary>
+    /// Represents a model of a pro football team season.
+    /// </summary>
     public class TeamSeasonModel
     {
-        /// <summary>
-        /// Gets or sets the ID of the current <see cref="TeamSeasonModel"/> object.
-        /// </summary>
-        public int ID { get; set; }
-
         /// <summary>
         /// Gets or sets the name of the current <see cref="TeamSeasonModel"/> object's team.
         /// </summary>
@@ -47,7 +43,6 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Models
         /// <summary>
         /// Gets or sets the winning percentage of the current <see cref="TeamSeasonModel"/>.
         /// </summary>
-        [DisplayFormat(DataFormatString = "{0:#.000}")]
         public decimal? WinningPercentage { get; set; }
     }
 }

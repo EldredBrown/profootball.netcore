@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Routing;
 
 namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 {
+    /// <summary>
+    /// Provides control of access to game data.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class GamesController : ControllerBase
@@ -19,8 +22,15 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
 
-        public GamesController(IGameRepository gameRepository, ISharedRepository sharedRepository, IMapper mapper,
-            LinkGenerator linkGenerator)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GamesController"/> class.
+        /// </summary>
+        /// <param name="gameRepository">The repository by which game data will be accessed.</param>
+        /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
+        /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
+        /// <param name="linkGenerator">The <see cref="LinkGenerator"/> object used to generate URLs.</param>
+        public GamesController(IGameRepository gameRepository, ISharedRepository sharedRepository,
+            IMapper mapper, LinkGenerator linkGenerator)
         {
             _gameRepository = gameRepository;
             _sharedRepository = sharedRepository;
@@ -28,8 +38,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             _linkGenerator = linkGenerator;
         }
 
+        // GET: api/Games
+        /// <summary>
+        /// Gets a collection of all games from the data store.
+        /// </summary>
+        /// <returns>A response representing the result of the operation.</returns>
         [HttpGet]
-        public async Task<ActionResult<GameModel[]>> Get()
+        public async Task<ActionResult<GameModel[]>> GetGames()
         {
             try
             {
@@ -43,8 +58,14 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
         }
 
+        // GET: api/Games/5
+        /// <summary>
+        /// Gets a single game from the data store by ID.
+        /// </summary>
+        /// <param name="id">The ID of the game to fetch.</param>
+        /// <returns>A response representing the result of the operation.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<GameModel>> Get(int id)
+        public async Task<ActionResult<GameModel>> GetGame(int id)
         {
             try
             {
@@ -62,8 +83,16 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
         }
 
+        // POST: api/Games
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Posts (adds) a new game to the data store.
+        /// </summary>
+        /// <param name="model">A <see cref="GameModel"/> representing the game to add.</param>
+        /// <returns>A response representing the result of the operation.</returns>
         [HttpPost]
-        public async Task<ActionResult<GameModel>> Post(GameModel model)
+        public async Task<ActionResult<Game>> PostGame(GameModel model)
         {
             try
             {
@@ -90,8 +119,17 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             return BadRequest();
         }
 
+        // PUT: api/Games/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// Puts (updates) changes to a game in the data store.
+        /// </summary>
+        /// <param name="id">The ID of the game to update.</param>
+        /// <param name="model">A <see cref="GameModel"/> representing the game to update.</param>
+        /// <returns>A response representing the result of the operation.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<GameModel>> Put(int id, GameModel model)
+        public async Task<ActionResult<GameModel>> PutGame(int id, GameModel model)
         {
             try
             {
@@ -116,8 +154,14 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             return BadRequest();
         }
 
+        // DELETE: api/Games/5
+        /// <summary>
+        /// Deletes a game from the data store.
+        /// </summary>
+        /// <param name="id">The ID of the game to delete.</param>
+        /// <returns>A response representing the result of the operation.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult<Game>> DeleteGame(int id)
         {
             try
             {

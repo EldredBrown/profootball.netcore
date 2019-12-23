@@ -11,46 +11,46 @@ using Microsoft.AspNetCore.Routing;
 namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 {
     /// <summary>
-    /// Provides control of access to team data.
+    /// Provides control of access to league season data.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamsController : ControllerBase
+    public class LeagueSeasonsController : ControllerBase
     {
-        private readonly ITeamRepository _teamRepository;
+        private readonly ILeagueSeasonRepository _leagueSeasonRepository;
         private readonly ISharedRepository _sharedRepository;
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TeamsController"/> class.
+        /// Initializes a new instance of the <see cref="LeagueSeasonsController"/> class.
         /// </summary>
-        /// <param name="teamRepository">The repository by which team data will be accessed.</param>
+        /// <param name="leagueSeasonRepository">The repository by which league season data will be accessed.</param>
         /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
         /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
         /// <param name="linkGenerator">The <see cref="LinkGenerator"/> object used to generate URLs.</param>
-        public TeamsController(ITeamRepository teamRepository, ISharedRepository sharedRepository,
+        public LeagueSeasonsController(ILeagueSeasonRepository leagueSeasonRepository, ISharedRepository sharedRepository,
             IMapper mapper, LinkGenerator linkGenerator)
         {
-            _teamRepository = teamRepository;
+            _leagueSeasonRepository = leagueSeasonRepository;
             _sharedRepository = sharedRepository;
             _mapper = mapper;
             _linkGenerator = linkGenerator;
         }
 
-        // GET: api/Teams
+        // GET: api/LeagueSeasons
         /// <summary>
-        /// Gets a collection of all teams from the data store.
+        /// Gets a collection of all league seasons from the data store.
         /// </summary>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpGet]
-        public async Task<ActionResult<TeamModel[]>> GetTeams()
+        public async Task<ActionResult<LeagueSeasonModel[]>> GetLeagueSeasons()
         {
             try
             {
-                var teams = await _teamRepository.GetTeams();
+                var leagueSeasons = await _leagueSeasonRepository.GetLeagueSeasons();
 
-                return _mapper.Map<TeamModel[]>(teams);
+                return _mapper.Map<LeagueSeasonModel[]>(leagueSeasons);
             }
             catch (Exception)
             {
@@ -58,24 +58,24 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
         }
 
-        // GET: api/Teams/5
+        // GET: api/LeagueSeasons/5
         /// <summary>
-        /// Gets a single team from the data store by ID.
+        /// Gets a single league season from the data store by ID.
         /// </summary>
-        /// <param name="id">The ID of the team to fetch.</param>
+        /// <param name="id">The ID of the league season to fetch.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<TeamModel>> GetTeam(int id)
+        public async Task<ActionResult<LeagueSeasonModel>> GetLeagueSeason(int id)
         {
             try
             {
-                var team = await _teamRepository.GetTeam(id);
-                if (team == null)
+                var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id);
+                if (leagueSeason == null)
                 {
                     return NotFound();
                 }
 
-                return _mapper.Map<TeamModel>(team);
+                return _mapper.Map<LeagueSeasonModel>(leagueSeason);
             }
             catch (Exception)
             {
@@ -83,32 +83,32 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
         }
 
-        // POST: api/Teams
+        // POST: api/LeagueSeasons
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         /// <summary>
-        /// Posts (adds) a new team to the data store.
+        /// Posts (adds) a new league season to the data store.
         /// </summary>
-        /// <param name="model">A <see cref="TeamModel"/> representing the team to add.</param>
+        /// <param name="model">A <see cref="LeagueSeasonModel"/> representing the league season to add.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpPost]
-        public async Task<ActionResult<Team>> PostTeam(TeamModel model)
+        public async Task<ActionResult<LeagueSeason>> PostLeagueSeason(LeagueSeasonModel model)
         {
             try
             {
-                var location = _linkGenerator.GetPathByAction("GetTeam", "Teams", new { id = -1 });
+                var location = _linkGenerator.GetPathByAction("GetLeagueSeason", "LeagueSeasons", new { id = -1 });
                 if (string.IsNullOrWhiteSpace(location))
                 {
                     return BadRequest("Could not use ID");
                 }
 
-                var team = _mapper.Map<Team>(model);
+                var leagueSeason = _mapper.Map<LeagueSeason>(model);
 
-                await _teamRepository.Add(team);
+                await _leagueSeasonRepository.Add(leagueSeason);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
-                    return Created(location, _mapper.Map<TeamModel>(team));
+                    return Created(location, _mapper.Map<LeagueSeasonModel>(leagueSeason));
                 }
             }
             catch (Exception)
@@ -119,31 +119,31 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             return BadRequest();
         }
 
-        // PUT: api/Teams/5
+        // PUT: api/LeagueSeasons/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         /// <summary>
-        /// Puts (updates) changes to a team in the data store.
+        /// Puts (updates) changes to a league season in the data store.
         /// </summary>
-        /// <param name="id">The ID of the team to update.</param>
-        /// <param name="model">A <see cref="TeamModel"/> representing the team to update.</param>
+        /// <param name="id">The ID of the league season to update.</param>
+        /// <param name="model">A <see cref="LeagueSeasonModel"/> representing the league season to update.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<TeamModel>> PutTeam(int id, TeamModel model)
+        public async Task<ActionResult<LeagueSeasonModel>> PutLeagueSeason(int id, LeagueSeasonModel model)
         {
             try
             {
-                var team = await _teamRepository.GetTeam(id);
-                if (team == null)
+                var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id);
+                if (leagueSeason == null)
                 {
-                    return NotFound($"Could not find team with ID of {id}");
+                    return NotFound($"Could not find leagueSeason with ID of {id}");
                 }
 
-                _mapper.Map(model, team);
+                _mapper.Map(model, leagueSeason);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
-                    return _mapper.Map<TeamModel>(team);
+                    return _mapper.Map<LeagueSeasonModel>(leagueSeason);
                 }
             }
             catch (Exception)
@@ -154,24 +154,24 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             return BadRequest();
         }
 
-        // DELETE: api/Teams/5
+        // DELETE: api/LeagueSeasons/5
         /// <summary>
-        /// Deletes a team from the data store.
+        /// Deletes a league season from the data store.
         /// </summary>
-        /// <param name="id">The ID of the team to delete.</param>
+        /// <param name="id">The ID of the league season to delete.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Team>> DeleteTeam(int id)
+        public async Task<ActionResult<LeagueSeason>> DeleteLeagueSeason(int id)
         {
             try
             {
-                var team = await _teamRepository.GetTeam(id);
-                if (team == null)
+                var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id);
+                if (leagueSeason == null)
                 {
-                    return NotFound($"Could not find team with ID of {id}");
+                    return NotFound($"Could not find leagueSeason with ID of {id}");
                 }
 
-                await _teamRepository.Delete(id);
+                await _leagueSeasonRepository.Delete(id);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {

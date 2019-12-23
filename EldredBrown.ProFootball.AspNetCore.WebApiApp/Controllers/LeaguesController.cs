@@ -11,46 +11,46 @@ using Microsoft.AspNetCore.Routing;
 namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 {
     /// <summary>
-    /// Provides control of access to team data.
+    /// Provides control of access to league data.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamsController : ControllerBase
+    public class LeaguesController : ControllerBase
     {
-        private readonly ITeamRepository _teamRepository;
+        private readonly ILeagueRepository _leagueRepository;
         private readonly ISharedRepository _sharedRepository;
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TeamsController"/> class.
+        /// Initializes a new instance of the <see cref="LeaguesController"/> class.
         /// </summary>
-        /// <param name="teamRepository">The repository by which team data will be accessed.</param>
+        /// <param name="leagueRepository">The repository by which league data will be accessed.</param>
         /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
         /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
         /// <param name="linkGenerator">The <see cref="LinkGenerator"/> object used to generate URLs.</param>
-        public TeamsController(ITeamRepository teamRepository, ISharedRepository sharedRepository,
+        public LeaguesController(ILeagueRepository leagueRepository, ISharedRepository sharedRepository,
             IMapper mapper, LinkGenerator linkGenerator)
         {
-            _teamRepository = teamRepository;
+            _leagueRepository = leagueRepository;
             _sharedRepository = sharedRepository;
             _mapper = mapper;
             _linkGenerator = linkGenerator;
         }
 
-        // GET: api/Teams
+        // GET: api/Leagues
         /// <summary>
-        /// Gets a collection of all teams from the data store.
+        /// Gets a collection of all leagues from the data store.
         /// </summary>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpGet]
-        public async Task<ActionResult<TeamModel[]>> GetTeams()
+        public async Task<ActionResult<LeagueModel[]>> GetLeagues()
         {
             try
             {
-                var teams = await _teamRepository.GetTeams();
+                var leagues = await _leagueRepository.GetLeagues();
 
-                return _mapper.Map<TeamModel[]>(teams);
+                return _mapper.Map<LeagueModel[]>(leagues);
             }
             catch (Exception)
             {
@@ -58,24 +58,24 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
         }
 
-        // GET: api/Teams/5
+        // GET: api/Leagues/5
         /// <summary>
-        /// Gets a single team from the data store by ID.
+        /// Gets a single league from the data store by ID.
         /// </summary>
-        /// <param name="id">The ID of the team to fetch.</param>
+        /// <param name="id">The ID of the league to fetch.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<TeamModel>> GetTeam(int id)
+        public async Task<ActionResult<LeagueModel>> GetLeague(int id)
         {
             try
             {
-                var team = await _teamRepository.GetTeam(id);
-                if (team == null)
+                var league = await _leagueRepository.GetLeague(id);
+                if (league == null)
                 {
                     return NotFound();
                 }
 
-                return _mapper.Map<TeamModel>(team);
+                return _mapper.Map<LeagueModel>(league);
             }
             catch (Exception)
             {
@@ -83,32 +83,32 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
         }
 
-        // POST: api/Teams
+        // POST: api/Leagues
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         /// <summary>
-        /// Posts (adds) a new team to the data store.
+        /// Posts (adds) a new league to the data store.
         /// </summary>
-        /// <param name="model">A <see cref="TeamModel"/> representing the team to add.</param>
+        /// <param name="model">A <see cref="LeagueModel"/> representing the league to add.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpPost]
-        public async Task<ActionResult<Team>> PostTeam(TeamModel model)
+        public async Task<ActionResult<League>> PostLeague(LeagueModel model)
         {
             try
             {
-                var location = _linkGenerator.GetPathByAction("GetTeam", "Teams", new { id = -1 });
+                var location = _linkGenerator.GetPathByAction("GetLeague", "Leagues", new { id = -1 });
                 if (string.IsNullOrWhiteSpace(location))
                 {
                     return BadRequest("Could not use ID");
                 }
 
-                var team = _mapper.Map<Team>(model);
+                var league = _mapper.Map<League>(model);
 
-                await _teamRepository.Add(team);
+                await _leagueRepository.Add(league);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
-                    return Created(location, _mapper.Map<TeamModel>(team));
+                    return Created(location, _mapper.Map<LeagueModel>(league));
                 }
             }
             catch (Exception)
@@ -119,31 +119,31 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             return BadRequest();
         }
 
-        // PUT: api/Teams/5
+        // PUT: api/Leagues/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         /// <summary>
-        /// Puts (updates) changes to a team in the data store.
+        /// Puts (updates) changes to a league in the data store.
         /// </summary>
-        /// <param name="id">The ID of the team to update.</param>
-        /// <param name="model">A <see cref="TeamModel"/> representing the team to update.</param>
+        /// <param name="id">The ID of the league to update.</param>
+        /// <param name="model">A <see cref="LeagueModel"/> representing the league to update.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<TeamModel>> PutTeam(int id, TeamModel model)
+        public async Task<ActionResult<LeagueModel>> PutLeague(int id, LeagueModel model)
         {
             try
             {
-                var team = await _teamRepository.GetTeam(id);
-                if (team == null)
+                var league = await _leagueRepository.GetLeague(id);
+                if (league == null)
                 {
-                    return NotFound($"Could not find team with ID of {id}");
+                    return NotFound($"Could not find league with ID of {id}");
                 }
 
-                _mapper.Map(model, team);
+                _mapper.Map(model, league);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
-                    return _mapper.Map<TeamModel>(team);
+                    return _mapper.Map<LeagueModel>(league);
                 }
             }
             catch (Exception)
@@ -154,24 +154,24 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             return BadRequest();
         }
 
-        // DELETE: api/Teams/5
+        // DELETE: api/Leagues/5
         /// <summary>
-        /// Deletes a team from the data store.
+        /// Deletes a league from the data store.
         /// </summary>
-        /// <param name="id">The ID of the team to delete.</param>
+        /// <param name="id">The ID of the league to delete.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Team>> DeleteTeam(int id)
+        public async Task<ActionResult<League>> DeleteLeague(int id)
         {
             try
             {
-                var team = await _teamRepository.GetTeam(id);
-                if (team == null)
+                var league = await _leagueRepository.GetLeague(id);
+                if (league == null)
                 {
-                    return NotFound($"Could not find team with ID of {id}");
+                    return NotFound($"Could not find league with ID of {id}");
                 }
 
-                await _teamRepository.Delete(id);
+                await _leagueRepository.Delete(id);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {

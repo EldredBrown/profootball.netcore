@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace EldredBrown.ProFootball.AspNetCore.WebApi.Controllers
+namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 {
+    /// <summary>
+    /// Provides control of access to team season schedule averages data.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TeamSeasonScheduleAveragesController : ControllerBase
@@ -15,6 +18,11 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApi.Controllers
         private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TeamSeasonScheduleAveragesController"/> class.
+        /// </summary>
+        /// <param name="teamSeasonScheduleAveragesRepository">The repository by which team season schedule averages data will be accessed.</param>
+        /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
         public TeamSeasonScheduleAveragesController(
             ITeamSeasonScheduleAveragesRepository teamSeasonScheduleAveragesRepository, IMapper mapper)
         {
@@ -22,9 +30,15 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApi.Controllers
             _mapper = mapper;
         }
 
-        // TODO: Figure out how to bind to multiple parameters.
-        [HttpGet("{seasonYear, teamName}")]
-        public ActionResult<TeamSeasonScheduleAveragesModel> Get(string teamName, int seasonYear)
+        /// <summary>
+        /// Gets a single team season schedule averages entity from the data store by team name and season year.
+        /// </summary>
+        /// <param name="teamName">The name of the team for which team season schedule averages data will be fetched.</param>
+        /// <param name="seasonYear">The year of the season for which team season schedule averages data will be fetched.</param>
+        /// <returns>A response representing the result of the operation.</returns>
+        [HttpGet("{teamName}/{seasonYear}")]
+        public ActionResult<TeamSeasonScheduleAveragesModel> GetTeamSeasonScheduleAverages(string teamName,
+            int seasonYear)
         {
             try
             {

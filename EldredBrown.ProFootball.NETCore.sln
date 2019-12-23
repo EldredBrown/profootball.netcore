@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.Asp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.NETCore.Data", "EldredBrown.ProFootball.NETCore.Data\EldredBrown.ProFootball.NETCore.Data.csproj", "{ADF05D87-FF34-40F7-A026-BE61FD89927A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.AspNetCore.WebApi", "EldredBrown.ProFootball.AspNetCore.WebApiApp\EldredBrown.ProFootball.AspNetCore.WebApi.csproj", "{BCD36B4A-62B0-4920-9095-5D5C0F69FA81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.AspNetCore.WebApiApp", "EldredBrown.ProFootball.AspNetCore.WebApiApp\EldredBrown.ProFootball.AspNetCore.WebApiApp.csproj", "{BCD36B4A-62B0-4920-9095-5D5C0F69FA81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EldredBrown.ProFootball.NETCore.Services", "EldredBrown.ProFootball.NETCore.Services\EldredBrown.ProFootball.NETCore.Services.csproj", "{E5127994-3879-4148-80E9-E3F154C82425}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.NETCore.Services", "EldredBrown.ProFootball.NETCore.Services\EldredBrown.ProFootball.NETCore.Services.csproj", "{E5127994-3879-4148-80E9-E3F154C82425}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

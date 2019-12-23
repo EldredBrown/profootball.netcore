@@ -3,7 +3,7 @@
 namespace EldredBrown.ProFootball.NETCore.Data.Entities
 {
     /// <summary>
-    /// Represents a pro football league for one season.
+    /// Represents a season for a pro football league.
     /// </summary>
     public class LeagueSeason
     {

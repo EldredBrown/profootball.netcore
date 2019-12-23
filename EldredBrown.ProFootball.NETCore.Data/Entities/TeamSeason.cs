@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace EldredBrown.ProFootball.NETCore.Data.Entities
 {
     /// <summary>
-    /// Represents a pro football team for one season.
+    /// Represents a season for a pro football team.
     /// </summary>
     public class TeamSeason
     {
