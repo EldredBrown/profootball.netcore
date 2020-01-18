@@ -1,25 +1,25 @@
 ﻿@model TeamSeasonsIndexViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Team Seasons";
 }
 
-<h1>@Model.Title</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TeamSeasons.SingleOrDefault().TeamName)
+                <label asp-for="TeamSeasons.SingleOrDefault().TeamName"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeamSeasons.SingleOrDefault().SeasonYear)
+                <label asp-for="TeamSeasons.SingleOrDefault().SeasonYear"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeamSeasons.SingleOrDefault().LeagueName)
+                <label asp-for="TeamSeasons.SingleOrDefault().LeagueName"></label>
             </th>
             <th></th>
         </tr>
@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => teamSeason.LeagueName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@teamSeason.ID" class="btn btn-primary btn-sm">Edit</a>
-                <a asp-action="Details" asp-route-id="@teamSeason.ID" class="btn btn-primary btn-sm">Details</a>
-                <a asp-action="Delete" asp-route-id="@teamSeason.ID" class="btn btn-primary btn-sm">Delete</a>
+                <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@teamSeason.ID">Edit</a>
+                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@teamSeason.ID">Details</a>
+                <a class="btn btn-primary btn-sm" asp-action="Delete" asp-route-id="@teamSeason.ID">Delete</a>
             </td>
         </tr>
 }

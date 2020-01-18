@@ -6,6 +6,11 @@
     public class TeamSeasonModel
     {
         /// <summary>
+        /// Gets or sets the ID of the current <see cref="TeamSeasonModel"/> object.
+        /// </summary>
+        public int ID { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the current <see cref="TeamSeasonModel"/> object's team.
         /// </summary>
         public string TeamName { get; set; }

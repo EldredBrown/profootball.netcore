@@ -29,8 +29,8 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
         /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
         /// <param name="linkGenerator">The <see cref="LinkGenerator"/> object used to generate URLs.</param>
-        public LeagueSeasonsController(ILeagueSeasonRepository leagueSeasonRepository, ISharedRepository sharedRepository,
-            IMapper mapper, LinkGenerator linkGenerator)
+        public LeagueSeasonsController(ILeagueSeasonRepository leagueSeasonRepository,
+            ISharedRepository sharedRepository, IMapper mapper, LinkGenerator linkGenerator)
         {
             _leagueSeasonRepository = leagueSeasonRepository;
             _sharedRepository = sharedRepository;

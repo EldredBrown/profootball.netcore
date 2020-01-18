@@ -1,57 +1,52 @@
 ﻿@model GamesIndexViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Games";
 }
 
-<h1>@Model.Title</h1>
+<h1>@ViewData["Title"]</h1>
 
 <form>
-    <p>
+    <div class="form-group">
         <label class="col-form-label">Season</label>
-        @Html.DropDownList("Seasons", null, htmlAttributes: new
-        {
-            @onchange = "document.location.href='/Games/SetSelectedSeasonYear?SeasonYear=' + this.options[this.selectedIndex].value;"
-        })
-    </p>
-</form>
-
-<form>
-    <p>
+        <select onchange="document.location.href=`/Games/SetSelectedSeasonYear?SeasonYear=${this.options[this.selectedIndex].value}`;"
+                asp-for="SelectedSeasonYear" asp-items="Model.Seasons">
+        </select>
+    </div>
+    <div class="form-group">
         <label class="col-form-label">Week</label>
-        @Html.DropDownList("Weeks", null, string.Empty, htmlAttributes: new
-        {
-            @onchange = "document.location.href='/Games/SetSelectedWeek?Week=' + this.options[this.selectedIndex].value;"
-        })
-    </p>
+        <select onchange = "document.location.href=`/Games/SetSelectedWeek?Week=${this.options[this.selectedIndex].value}`;"
+                asp-for="SelectedWeek" asp-items="Model.Weeks">
+        </select>
+    </div>
 </form>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 <table class="table table-striped">
     <thead>
         <tr>
             <th class="text-right">
-                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().SeasonYear)
+                <label asp-for="Games.SingleOrDefault().SeasonYear"></label>
             </th>
             <th class="text-right">
-                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().Week)
+                <label asp-for="Games.SingleOrDefault().Week"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().GuestName)
+                <label asp-for="Games.SingleOrDefault().GuestName"></label>
             </th>
             <th class="text-right">
-                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().GuestScore)
+                <label asp-for="Games.SingleOrDefault().GuestScore"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().HostName)
+                <label asp-for="Games.SingleOrDefault().HostName"></label>
             </th>
             <th class="text-right">
-                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().HostScore)
+                <label asp-for="Games.SingleOrDefault().HostScore"></label>
             </th>
             <th class="text-center">
-                @Html.DisplayNameFor(model => model.Games.SingleOrDefault().IsPlayoffGame)
+                <label asp-for="Games.SingleOrDefault().IsPlayoffGame"></label>
             </th>
             <th></th>
         </tr>
@@ -82,9 +77,9 @@
                 @Html.DisplayFor(modelItem => game.IsPlayoffGame)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Edit</a>
-                <a asp-action="Details" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Details</a>
-                <a asp-action="Delete" asp-route-id="@game.ID" class="btn btn-primary btn-sm">Delete</a>
+                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@game.ID">Details</a>
+                <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@game.ID">Edit</a>
+                <a class="btn btn-primary btn-sm" asp-action="Delete" asp-route-id="@game.ID">Delete</a>
             </td>
         </tr>
 }

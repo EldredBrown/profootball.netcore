@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
@@ -37,13 +38,14 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// <param name="seasonYear">The year of the season for which team season schedule averages data will be fetched.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpGet("{teamName}/{seasonYear}")]
-        public ActionResult<TeamSeasonScheduleAveragesModel> GetTeamSeasonScheduleAverages(string teamName,
+        public async Task<ActionResult<TeamSeasonScheduleAveragesModel>> GetTeamSeasonScheduleAverages(string teamName,
             int seasonYear)
         {
             try
             {
                 var teamSeasonScheduleAverages =
-                    _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear);
+                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear);
+
                 if (teamSeasonScheduleAverages == null)
                 {
                     return NotFound();

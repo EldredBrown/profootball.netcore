@@ -46,7 +46,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
                 return Page();
             }
 
-            _leagueRepository.Edit(League);
+            _leagueRepository.Update(League);
 
             try
             {

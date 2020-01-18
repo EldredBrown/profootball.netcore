@@ -9,11 +9,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Leagues
     public class LeaguesIndexViewModel
     {
         /// <summary>
-        /// Gets or sets the title for the current <see cref="LeaguesIndexViewModel"/> object.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
         /// Gets or sets the collection of leagues for the current <see cref="LeaguesIndexViewModel"/> object.
         /// </summary>
         public IEnumerable<League> Leagues { get; set; }

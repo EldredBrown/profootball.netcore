@@ -9,11 +9,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Seasons
     public class SeasonsIndexViewModel
     {
         /// <summary>
-        /// Gets or sets the title for the current <see cref="SeasonsIndexViewModel"/> object.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
         /// Gets or sets the collection of seasons for the current <see cref="SeasonsIndexViewModel"/> object.
         /// </summary>
         public IEnumerable<Season> Seasons { get; set; }

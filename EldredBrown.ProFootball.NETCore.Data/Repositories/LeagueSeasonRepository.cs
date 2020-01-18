@@ -67,7 +67,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="leagueSeason">The <see cref="LeagueSeason"/> to update.</param>
         /// <returns>The updated <see cref="LeagueSeason"/> entity.</returns>
-        public LeagueSeason Edit(LeagueSeason leagueSeason)
+        public LeagueSeason Update(LeagueSeason leagueSeason)
         {
             var entity = _dbContext.LeagueSeasons.Attach(leagueSeason);
             entity.State = EntityState.Modified;

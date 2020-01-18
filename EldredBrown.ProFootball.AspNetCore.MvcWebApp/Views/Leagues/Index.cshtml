@@ -1,28 +1,28 @@
 ﻿@model LeaguesIndexViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Leagues";
 }
 
-<h1>@Model.Title</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Leagues.SingleOrDefault().LongName)
+                <label asp-for="Leagues.SingleOrDefault().LongName"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Leagues.SingleOrDefault().ShortName)
+                <label asp-for="Leagues.SingleOrDefault().ShortName"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Leagues.SingleOrDefault().FirstSeasonYear)
+                <label asp-for="Leagues.SingleOrDefault().FirstSeasonYear"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Leagues.SingleOrDefault().LastSeasonYear)
+                <label asp-for="Leagues.SingleOrDefault().LastSeasonYear"></label>
             </th>
             <th></th>
         </tr>
@@ -43,9 +43,9 @@
                 @Html.DisplayFor(modelItem => league.LastSeasonYear)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@league.ID" class="btn btn-primary btn-sm">Edit</a>
-                <a asp-action="Details" asp-route-id="@league.ID" class="btn btn-primary btn-sm">Details</a>
-                <a asp-action="Delete" asp-route-id="@league.ID" class="btn btn-primary btn-sm">Delete</a>
+                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@league.ID">Details</a>
+                <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@league.ID">Edit</a>
+                <a class="btn btn-primary btn-sm" asp-action="Delete" asp-route-id="@league.ID">Delete</a>
             </td>
         </tr>
 }

@@ -22,6 +22,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
+        /// Gets all <see cref="TeamSeason "/> entities in the data store.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
+        public async Task<IEnumerable<TeamSeason>> GetTeamSeasons()
+        {
+            return await _dbContext.TeamSeasons.ToListAsync();
+        }
+
+        /// <summary>
         /// Gets a single <see cref="TeamSeason"/> entity from the data store by ID.
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to fetch.</param>
@@ -44,15 +53,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
-        /// Gets all <see cref="TeamSeason "/> entities in the data store.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<TeamSeason>> GetTeamSeasons()
-        {
-            return await _dbContext.TeamSeasons.ToListAsync();
-        }
-
-        /// <summary>
         /// Adds a <see cref="TeamSeason"/> entity to the data store.
         /// </summary>
         /// <param name="teamSeason">The <see cref="TeamSeason"/> entity to add.</param>
@@ -69,7 +69,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="teamSeason">The <see cref="TeamSeason"/> to update.</param>
         /// <returns>The updated <see cref="TeamSeason"/> entity.</returns>
-        public TeamSeason Edit(TeamSeason teamSeason)
+        public TeamSeason Update(TeamSeason teamSeason)
         {
             var entity = _dbContext.TeamSeasons.Attach(teamSeason);
             entity.State = EntityState.Modified;

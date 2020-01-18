@@ -1,44 +1,45 @@
 ﻿@model LeaguesDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "League";
 }
 
-<h1>@Model.Title</h1>
+<h1>@ViewData["Title"]</h1>
 
+<h4>Details</h4>
+<hr />
 <div>
-    <h4>Details</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.League.LongName)
+            <label asp-for="League.LongName"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.League.LongName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.League.ShortName)
+            <label asp-for="League.ShortName"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.League.ShortName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.League.FirstSeasonYear)
+            <label asp-for="League.FirstSeasonYear"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.League.FirstSeasonYear)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.League.LastSeasonYear)
+            <label asp-for="League.LastSeasonYear"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.League.LastSeasonYear)
         </dd>
     </dl>
 </div>
+
 <div>
     <p>
-        <a asp-action="Edit" asp-route-id="@Model.League.ID" class="btn btn-primary">Edit</a>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.League.ID">Edit</a>
     </p>
     <p>
         <a asp-action="Index">Back to List</a>

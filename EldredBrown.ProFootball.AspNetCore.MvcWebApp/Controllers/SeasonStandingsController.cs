@@ -43,8 +43,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             var viewModel = new SeasonStandingsIndexViewModel
             {
-                Title = "Standings",
-                Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonYear),
+                Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear),
+                SelectedSeasonYear = _selectedSeasonYear,
                 SeasonStandings = await _seasonStandingsRepository.GetSeasonStandings(_selectedSeasonYear)
             };
 

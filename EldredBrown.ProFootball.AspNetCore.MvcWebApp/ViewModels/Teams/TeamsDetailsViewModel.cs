@@ -8,11 +8,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Teams
     public class TeamsDetailsViewModel
     {
         /// <summary>
-        /// Gets or sets the title for the current <see cref="TeamsDetailsViewModel"/> object.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
         /// Gets or sets the team of the current <see cref="TeamsDetailsViewModel"/> object.
         /// </summary>
         public Team Team { get; set; }

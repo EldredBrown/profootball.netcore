@@ -38,7 +38,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var viewModel = new LeaguesIndexViewModel
             {
-                Title = "Leagues",
                 Leagues = await _leagueRepository.GetLeagues()
             };
 
@@ -67,7 +66,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             var viewModel = new LeaguesDetailsViewModel
             {
-                Title = "League",
                 League = league
             };
 
@@ -151,7 +149,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 try
                 {
-                    _leagueRepository.Edit(league);
+                    _leagueRepository.Update(league);
                     await _sharedRepository.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)

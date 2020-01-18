@@ -40,7 +40,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var viewModel = new TeamSeasonsIndexViewModel
             {
-                Title = "Team Seasons",
                 TeamSeasons = await _teamSeasonRepository.GetTeamSeasons()
             };
 
@@ -69,7 +68,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             var viewModel = new TeamSeasonsDetailsViewModel
             {
-                Title = "Team Season",
                 TeamSeason = teamSeason
             };
 
@@ -153,7 +151,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 try
                 {
-                    _teamSeasonRepository.Edit(teamSeason);
+                    _teamSeasonRepository.Update(teamSeason);
                     await _sharedRepository.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)

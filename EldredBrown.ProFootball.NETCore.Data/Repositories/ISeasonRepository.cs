@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="season">The <see cref="Season"/> entity to update.</param>
         /// <returns>The updated <see cref="Season"/> entity.</returns>
-        Season Edit(Season season);
+        Season Update(Season season);
 
         /// <summary>
         /// Deletes a <see cref="Season"/> entity from the data store.

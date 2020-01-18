@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -21,6 +23,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         private readonly ISharedRepository _sharedRepository;
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
+        private readonly IGameService _gameService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamesController"/> class.
@@ -30,12 +33,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
         /// <param name="linkGenerator">The <see cref="LinkGenerator"/> object used to generate URLs.</param>
         public GamesController(IGameRepository gameRepository, ISharedRepository sharedRepository,
-            IMapper mapper, LinkGenerator linkGenerator)
+            IMapper mapper, LinkGenerator linkGenerator, IGameService gameService)
         {
             _gameRepository = gameRepository;
             _sharedRepository = sharedRepository;
             _mapper = mapper;
             _linkGenerator = linkGenerator;
+            _gameService = gameService;
         }
 
         // GET: api/Games
@@ -104,7 +108,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 var game = _mapper.Map<Game>(model);
 
-                await _gameRepository.Add(game);
+                await _gameService.AddGame(game);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
@@ -129,17 +133,21 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// <param name="model">A <see cref="GameModel"/> representing the game to update.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<GameModel>> PutGame(int id, GameModel model)
+        public async Task<ActionResult<GameModel>> PutGame(int id, Dictionary<string, GameModel> models)
         {
             try
             {
+                var oldGame = _mapper.Map<Game>(models["oldGame"]);
+
                 var game = await _gameRepository.GetGame(id);
                 if (game == null)
                 {
                     return NotFound($"Could not find game with ID of {id}");
                 }
 
-                _mapper.Map(model, game);
+                _mapper.Map(models["game"], game);
+
+                await _gameService.EditGame(oldGame, game);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
@@ -171,7 +179,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                     return NotFound($"Could not find game with ID of {id}");
                 }
 
-                await _gameRepository.Delete(id);
+                await _gameService.DeleteGame(id);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {

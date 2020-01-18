@@ -9,11 +9,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.TeamSeasons
     public class TeamSeasonsDetailsViewModel
     {
         /// <summary>
-        /// Gets or sets the title for the current view model.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
         /// Gets or sets the team season of the current view model.
         /// </summary>
         public TeamSeason TeamSeason { get; set; }

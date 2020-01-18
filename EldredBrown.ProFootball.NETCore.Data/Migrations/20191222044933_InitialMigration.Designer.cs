@@ -187,7 +187,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("NumOfWeeks")
+                    b.Property<int>("NumOfWeeksScheduled")
                         .HasColumnType("int");
 
                     b.Property<int>("NumOfWeeksCompleted")

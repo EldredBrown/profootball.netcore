@@ -6,6 +6,11 @@
     public class LeagueModel
     {
         /// <summary>
+        /// Gets or sets the ID of the current <see cref="LeagueModel"/> object.
+        /// </summary>
+        public int ID { get; set; }
+
+        /// <summary>
         /// Gets or sets the long name of the current <see cref="LeagueModel"/> object.
         /// </summary>
         public string LongName { get; set; }

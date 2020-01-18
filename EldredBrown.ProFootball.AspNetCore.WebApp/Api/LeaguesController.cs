@@ -40,11 +40,23 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Api
             return league;
         }
 
+        // POST: api/Leagues
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPost]
+        public async Task<ActionResult<League>> CreateLeague(League league)
+        {
+            _context.Leagues.Add(league);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetLeague", new { id = league.ID }, league);
+        }
+
         // PUT: api/Leagues/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLeague(int id, League league)
+        public async Task<IActionResult> UpdateLeague(int id, League league)
         {
             if (id != league.ID)
             {
@@ -70,18 +82,6 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Api
             }
 
             return NoContent();
-        }
-
-        // POST: api/Leagues
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<League>> PostLeague(League league)
-        {
-            _context.Leagues.Add(league);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetLeague", new { id = league.ID }, league);
         }
 
         // DELETE: api/Leagues/5
