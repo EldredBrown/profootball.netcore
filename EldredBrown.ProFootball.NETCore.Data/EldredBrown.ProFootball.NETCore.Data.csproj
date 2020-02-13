@@ -33,6 +33,8 @@
     <Compile Remove="Migrations\20191222003201_TeamSeasonsProcsAndFuncs.Designer.cs" />
     <Compile Remove="Migrations\20191222003339_SeasonsStandingsProcsAndFuncs.cs" />
     <Compile Remove="Migrations\20191222003339_SeasonsStandingsProcsAndFuncs.Designer.cs" />
+    <Compile Remove="Migrations\20200207071413_Season_NumOfWeeksScheduled.cs" />
+    <Compile Remove="Migrations\20200207071413_Season_NumOfWeeksScheduled.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,43 +16,43 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets the year of the current <see cref="Game"/> entity's season.
         /// </summary>
-        [Required(ErrorMessage = "A season is required.")]
         [DisplayName("Season")]
+        [Required(ErrorMessage = "Please enter a season.")]
         public int SeasonYear { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the current <see cref="Game"/> entity's week.
         /// </summary>
-        [Required(ErrorMessage = "A week is required.")]
         [DisplayName("Week")]
+        [Required(ErrorMessage = "Please enter a week.")]
         public int Week { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="Game"/> entity's guest.
         /// </summary>
-        [Required(ErrorMessage = "A guest is required.")]
         [DisplayName("Guest")]
+        [Required(ErrorMessage = "Please enter a guest.")]
         public string GuestName { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="Game"/> entity's guest.
         /// </summary>
-        [Required(ErrorMessage = "The guest's score is required.")]
         [DisplayName("Guest Score")]
+        [Required(ErrorMessage = "Please enter the guest's score.")]
         public int GuestScore { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="Game"/> entity's host.
         /// </summary>
-        [Required(ErrorMessage = "A host is required.")]
         [DisplayName("Host")]
+        [Required(ErrorMessage = "Please enter a host.")]
         public string HostName { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="Game"/> entity's host.
         /// </summary>
-        [Required(ErrorMessage = "The host's score is required.")]
         [DisplayName("Host Score")]
+        [Required(ErrorMessage = "Please enter the host's score.")]
         public int HostScore { get; set; }
 
         /// <summary>

@@ -79,7 +79,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             selectedGame.IsPlayoffGame = newGame.IsPlayoffGame;
             selectedGame.Notes = newGame.Notes;
 
-            _gameRepository.Edit(selectedGame);
+            _gameRepository.Update(selectedGame);
 
             await EditGameInTeams(oldGame, newGame);
 

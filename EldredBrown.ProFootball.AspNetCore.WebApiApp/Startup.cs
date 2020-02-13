@@ -1,6 +1,7 @@
 using AutoMapper;
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,8 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
 {
     public class Startup
     {
+        private readonly string _myAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,6 +25,17 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_myAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44317")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             services.AddDbContextPool<ProFootballDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("ProFootballDb"));
@@ -39,6 +53,8 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
             services.AddScoped<ISeasonStandingsRepository, SeasonStandingsRepository>();
             services.AddScoped<ISharedRepository, SharedRepository>();
 
+            services.AddServiceLibrary();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
@@ -51,6 +67,8 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(_myAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
 

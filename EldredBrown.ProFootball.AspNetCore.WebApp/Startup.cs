@@ -28,6 +28,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp
             });
 
             services.AddScoped<ILeagueRepository, LeagueRepository>();
+            services.AddScoped<ISharedRepository, SharedRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

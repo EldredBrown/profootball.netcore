@@ -59,14 +59,22 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
 
-            var weeks = new List<int>();
+            var weeks = new List<int?>();
 
-            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonYear);
+            var selectedSeason = (await _seasonRepository.GetSeasons())
+                .FirstOrDefault(s => s.Year == _selectedSeasonYear);
             if (selectedSeason != null)
             {
-                for (int i = 1; i <= selectedSeason.NumOfWeeks; i++)
+                for (int i = 0; i <= selectedSeason.NumOfWeeksScheduled; i++)
                 {
-                    weeks.Add(i);
+                    if (i == 0)
+                    {
+                        weeks.Add(null);
+                    }
+                    else
+                    {
+                        weeks.Add(i);
+                    }
                 }
             }
 
@@ -75,12 +83,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 games = games.Where(g => g.Week == _selectedWeek);
             }
+            games = games.ToList();
 
             var viewModel = new GamesIndexViewModel
             {
-                Title = "Games",
-                Seasons = new SelectList(seasons, "ID", "ID", _selectedSeasonYear),
+                Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear),
+                SelectedSeasonYear = _selectedSeasonYear,
                 Weeks = new SelectList(weeks, _selectedWeek),
+                SelectedWeek = _selectedWeek,
                 Games = games
             };
 
@@ -109,7 +119,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             var viewModel = new GamesDetailsViewModel
             {
-                Title = "Game",
                 Game = game
             };
 
@@ -125,15 +134,17 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         public async Task<IActionResult> Create()
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
-            ViewBag.SeasonYear = new SelectList(seasons, "ID", "ID", _selectedSeasonYear);
+            ViewBag.Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear);
 
-            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonYear);
+            var selectedSeason = (await _seasonRepository.GetSeasons())
+                .FirstOrDefault(s => s.Year == _selectedSeasonYear);
             var weeks = new List<int>();
-            for (int i = 1; i <= selectedSeason.NumOfWeeks; i++)
+            for (int i = 1; i <= selectedSeason.NumOfWeeksScheduled; i++)
             {
                 weeks.Add(i);
             }
-            ViewBag.Week = new SelectList(weeks, _selectedWeek);
+            var selectedWeek = _selectedWeek ?? 1;
+            ViewBag.Weeks = new SelectList(weeks, selectedWeek);
 
             // TODO: Uncomment this when the slate of teams is finalized.
             //var teams = await _teamRepository.GetTeams();
@@ -185,15 +196,16 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             }
 
             var seasons = await _seasonRepository.GetSeasons();
-            ViewBag.SeasonYear = new SelectList(seasons, "ID", "ID", game.SeasonYear);
+            ViewBag.Seasons = new SelectList(seasons, "Year", "Year", game.SeasonYear);
 
-            var selectedSeason = await _seasonRepository.GetSeason(_selectedSeasonYear);
+            var selectedSeason = (await _seasonRepository.GetSeasons())
+                .FirstOrDefault(s => s.Year == _selectedSeasonYear);
             var weeks = new List<int>();
-            for (int i = 1; i <= selectedSeason.NumOfWeeks; i++)
+            for (int i = 1; i <= selectedSeason.NumOfWeeksScheduled; i++)
             {
                 weeks.Add(i);
             }
-            ViewBag.Week = new SelectList(weeks, game.Week);
+            ViewBag.Weeks = new SelectList(weeks, game.Week);
 
             // TODO: Uncomment this when the slate of teams is finalized.
             //var teams = await _teamRepository.GetTeams();
@@ -283,18 +295,18 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         }
 
         /// <summary>
-        /// Sets the selected season ID.
+        /// Sets the selected season year.
         /// </summary>
-        /// <param name="SeasonYear">The ID of the selected season.</param>
-        /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
-        public IActionResult SetSelectedSeasonYear(int? SeasonYear)
+        /// <param name="seasonYear">The season year to which the selected season year will be set.</param>
+        /// <returns>The rendered view of the team seasons index.</returns>
+        public IActionResult SetSelectedSeasonYear(int? seasonYear)
         {
-            if (SeasonYear == null)
+            if (seasonYear == null)
             {
                 return BadRequest();
             }
 
-            _selectedSeasonYear = SeasonYear.Value;
+            _selectedSeasonYear = seasonYear.Value;
 
             return RedirectToAction(nameof(Index));
         }

@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
 {

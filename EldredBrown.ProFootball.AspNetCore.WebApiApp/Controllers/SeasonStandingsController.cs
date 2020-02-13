@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
@@ -29,17 +30,18 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             _mapper = mapper;
         }
 
+        // GET: api/SeasonStandings/1920
         /// <summary>
         /// Gets the season standings from the data store by season year.
         /// </summary>
         /// <param name="seasonYear">The year of the season for which season standings data will be fetched.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpGet("{seasonYear}")]
-        public ActionResult<SeasonTeamStandingModel[]> GetSeasonStandings(int seasonYear)
+        public async Task<ActionResult<SeasonTeamStandingModel[]>> GetSeasonStandings(int seasonYear)
         {
             try
             {
-                var seasonStandings = _seasonStandingsRepository.GetSeasonStandings(seasonYear);
+                var seasonStandings = await _seasonStandingsRepository.GetSeasonStandings(seasonYear);
 
                 return _mapper.Map<SeasonTeamStandingModel[]>(seasonStandings);
             }

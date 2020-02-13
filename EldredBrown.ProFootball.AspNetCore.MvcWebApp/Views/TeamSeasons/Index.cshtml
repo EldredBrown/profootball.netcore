@@ -1,43 +1,74 @@
 ﻿@model TeamSeasonsIndexViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Team Seasons";
 }
 
-<h1>@Model.Title</h1>
+<h1>@ViewData["Title"]</h1>
 
 <form>
-    <p>
+    <div class="form-group">
         <label class="col-form-label">Season</label>
-        @Html.DropDownList("Seasons", null, htmlAttributes: new
-        {
-            @onchange = "document.location.href='/TeamSeasons/SetSelectedSeasonYear?SeasonYear=' + this.options[this.selectedIndex].value;"
-        })
-    </p>
+        <select onchange="document.location.href=`/TeamSeasons/SetSelectedSeasonYear?SeasonYear=${this.options[this.selectedIndex].value}`;"
+                asp-for="SelectedSeasonYear" asp-items="Model.Seasons">
+        </select >
+    </div>
     <p>
-        <a asp-action="RunWeeklyUpdate" class="btn btn-primary btn-lg">Run Weekly Update</a>
+        <a class="btn btn-primary btn-lg" asp-action="RunWeeklyUpdate">Run Weekly Update</a>
     </p>
 </form>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>W</th>
-            <th>L</th>
-            <th>T</th>
-            <th>Pct</th>
-            <th>PF</th>
-            <th>PA</th>
-            <th>PythW</th>
-            <th>PythL</th>
-            <th>OA</th>
-            <th>OF</th>
-            <th>OI</th>
-            <th>DA</th>
-            <th>DF</th>
-            <th>DI</th>
-            <th>FinPythPct</th>
+            <th>
+                <label>Name</label>
+            </th>
+            <th>
+                <label>W</label>
+            </th>
+            <th>
+                <label>L</label>
+            </th>
+            <th>
+                <label>T</label>
+            </th>
+            <th>
+                <label>Pct</label>
+            </th>
+            <th>
+                <label>PF</label>
+            </th>
+            <th>
+                <label>PA</label>
+            </th>
+            <th>
+                <label>PythW</label>
+            </th>
+            <th>
+                <label>PythL</label>
+            </th>
+            <th>
+                <label>OA</label>
+            </th>
+            <th>
+                <label>OF</label>
+            </th>
+            <th>
+                <label>OI</label>
+            </th>
+            <th>
+                <label>DA</label>
+            </th>
+            <th>
+                <label>DF</label>
+            </th>
+            <th>
+                <label>DI</label>
+            </th>
+            <th>
+                <label>FinPythPct</label>
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -94,7 +125,7 @@
                 @Html.DisplayFor(modelItem => teamSeason.FinalPythagoreanWinningPercentage)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@teamSeason.ID" class="btn btn-primary btn-sm">Details</a>
+                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@teamSeason.ID">Details</a>
             </td>
         </tr>
 }

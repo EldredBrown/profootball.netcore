@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="game">The <see cref="Game"/> entity to update.</param>
         /// <returns>The updated <see cref="Game"/> entity.</returns>
-        Game Edit(Game game);
+        Game Update(Game game);
 
         /// <summary>
         /// Deletes a <see cref="Game"/> entity from the data store.

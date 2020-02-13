@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace EldredBrown.ProFootball.NETCore.Data.Entities
 {
@@ -16,12 +17,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the name of the current <see cref="LeagueSeason"/> entity's league.
         /// </summary>
         [DisplayName("League")]
+        [StringLength(50)]
+        [Required(ErrorMessage = "Please enter a league name.")]
         public string LeagueName { get; set; }
 
         /// <summary>
         /// Gets or sets the year of the current <see cref="LeagueSeason"/> entity's season.
         /// </summary>
         [DisplayName("Season")]
+        [Required(ErrorMessage = "Please enter a year.")]
         public int SeasonYear { get; set; }
 
         /// <summary>

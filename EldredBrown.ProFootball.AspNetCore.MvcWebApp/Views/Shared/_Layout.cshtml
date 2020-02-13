@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">AspNetCore.MvcWebApp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AspNetCore.MvcWebApp</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,35 +19,35 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="Home" asp-action="Index"
-                               class="nav-link text-dark">Home</a>
+                            <a class="nav-link text-dark"
+                               asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="TeamSeasons" asp-action="Index"
-                               class="nav-link text-dark">Teams</a>
+                            <a class="nav-link text-dark"
+                               asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="Games" asp-action="Index"
-                               class="nav-link text-dark">Games</a>
+                            <a class="nav-link text-dark"
+                               asp-area="" asp-controller="TeamSeasons" asp-action="Index">Teams</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="SeasonStandings" asp-action="Index"
-                               class="nav-link text-dark">Standings</a>
+                            <a class="nav-link text-dark"
+                               asp-area="" asp-controller="Games" asp-action="Index">Games</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="GamePredictor" asp-action="PredictGame"
-                               class="nav-link text-dark">Predict Game</a>
+                            <a class="nav-link text-dark"
+                               asp-area="" asp-controller="SeasonStandings" asp-action="Index">Standings</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy"
-                               class="nav-link text-dark">Privacy</a>
+                            <a class="nav-link text-dark"
+                               asp-area="" asp-controller="GamePredictor" asp-action="PredictGame">Predict Game</a>
                         </li>
                         <partial name="_LoginPartial" />
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a asp-area="" asp-controller="Admin" asp-action="Index"
-                                   class="nav-link text-dark">Admin</a>
+                                <a class="nav-link text-dark"
+                                   asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
                             </li>
                         }
                     </ul>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace EldredBrown.ProFootball.NETCore.Data.Entities
 {
@@ -15,13 +16,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets the year of the current <see cref="Season"/> entity.
         /// </summary>
+        [Required(ErrorMessage = "Please enter a year.")]
         public int Year { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of weeks in the current <see cref="Season"/> entity.
+        /// Gets or sets the number of weeks scheduled in the current <see cref="Season"/> entity.
         /// </summary>
-        [DisplayName("Weeks")]
-        public int NumOfWeeks { get; set; }
+        [DisplayName("Weeks Scheduled")]
+        [DefaultValue(0)]
+        public int NumOfWeeksScheduled { get; set; }
 
         /// <summary>
         /// Gets or sets the number of weeks completed in the current <see cref="Season"/> entity.

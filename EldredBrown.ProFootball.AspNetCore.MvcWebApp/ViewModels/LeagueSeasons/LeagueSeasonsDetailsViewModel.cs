@@ -8,11 +8,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.LeagueSeasons
     public class LeagueSeasonsDetailsViewModel
     {
         /// <summary>
-        /// Gets or sets the title for the current <see cref="LeagueSeasonsDetailsViewModel"/> object.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
         /// Gets or sets the league of the current <see cref="LeagueSeasonsDetailsViewModel"/> object.
         /// </summary>
         public LeagueSeason LeagueSeason { get; set; }

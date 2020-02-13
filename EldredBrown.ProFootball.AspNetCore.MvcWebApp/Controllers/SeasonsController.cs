@@ -38,7 +38,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var viewModel = new SeasonsIndexViewModel
             {
-                Title = "Seasons",
                 Seasons = await _seasonRepository.GetSeasons()
             };
 
@@ -95,7 +94,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Year,NumOfWeeks,NumOfWeeksCompleted")] Season season)
+        public async Task<IActionResult> Create([Bind("Year,NumOfWeeksScheduled,NumOfWeeksCompleted")] Season season)
         {
             if (ModelState.IsValid)
             {
@@ -140,7 +139,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered <see cref="ActionResult"/> object.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Year,NumOfWeeks,NumOfWeeksCompleted")] Season season)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Year,NumOfWeeksScheduled,NumOfWeeksCompleted")] Season season)
         {
             if (id != season.ID)
             {
@@ -151,7 +150,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 try
                 {
-                    _seasonRepository.Edit(season);
+                    _seasonRepository.Update(season);
                     await _sharedRepository.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)

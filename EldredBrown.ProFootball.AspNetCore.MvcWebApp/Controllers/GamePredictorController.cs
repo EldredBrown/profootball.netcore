@@ -40,17 +40,17 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
 
-            ViewBag.GuestSeasonYear = new SelectList(seasons, "ID", "ID", _guestSeasonYear);
+            ViewBag.GuestSeasons = new SelectList(seasons, "Year", "Year", _guestSeasonYear);
 
             var guests = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(ts => ts.SeasonYear == _guestSeasonYear);
-            ViewBag.GuestName = new SelectList(guests, "TeamName", "TeamName");
+            ViewBag.Guests = new SelectList(guests, "TeamName", "TeamName");
 
-            ViewBag.HostSeasonYear = new SelectList(seasons, "ID", "ID", _hostSeasonYear);
+            ViewBag.HostSeasons = new SelectList(seasons, "Year", "Year", _hostSeasonYear);
 
             var hosts = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(ts => ts.SeasonYear == _hostSeasonYear);
-            ViewBag.HostName = new SelectList(hosts, "TeamName", "TeamName");
+            ViewBag.Hosts = new SelectList(hosts, "TeamName", "TeamName");
 
             return View();
         }
@@ -70,23 +70,23 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             _guestSeasonYear = prediction.GuestSeasonYear;
 
-            ViewBag.GuestSeasonYear = new SelectList(seasons, "ID", "ID", _guestSeasonYear);
+            ViewBag.GuestSeasons = new SelectList(seasons, "Year", "Year", _guestSeasonYear);
 
             var guests = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(ts => ts.SeasonYear == _guestSeasonYear);
             var guest = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
                 prediction.GuestName, _guestSeasonYear);
-            ViewBag.GuestName = new SelectList(guests, "TeamName", "TeamName", guest.TeamName);
+            ViewBag.Guests = new SelectList(guests, "TeamName", "TeamName", guest.TeamName);
 
             _hostSeasonYear = prediction.HostSeasonYear;
 
-            ViewBag.HostSeasonYear = new SelectList(seasons, "ID", "ID", _hostSeasonYear);
+            ViewBag.HostSeasons = new SelectList(seasons, "Year", "Year", _hostSeasonYear);
 
             var hosts = (await _teamSeasonRepository.GetTeamSeasons())
                 .Where(ts => ts.SeasonYear == _hostSeasonYear);
             var host = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
                 prediction.HostName, _hostSeasonYear);
-            ViewBag.HostName = new SelectList(hosts, "TeamName", "TeamName", host.TeamName);
+            ViewBag.Hosts = new SelectList(hosts, "TeamName", "TeamName", host.TeamName);
 
             return View(prediction);
         }

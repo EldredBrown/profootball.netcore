@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EldredBrown.ProFootball.NETCore.Data\EldredBrown.ProFootball.NETCore.Data.csproj" />
+    <ProjectReference Include="..\EldredBrown.ProFootball.NETCore.Services\EldredBrown.ProFootball.NETCore.Services.csproj" />
   </ItemGroup>
 
 </Project>

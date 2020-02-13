@@ -29,8 +29,8 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <returns>An <see cref="IEnumerable{SeasonStanding}"/> of all fetched entities.</returns>
         public async Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandings(int seasonYear)
         {
-            return (await _dbContext.SeasonStandings.FromSqlInterpolated(
-                $"sp_GetSeasonStandings {seasonYear}").ToListAsync());
+            return await _dbContext.SeasonStandings.FromSqlInterpolated(
+                $"sp_GetSeasonStandings {seasonYear}").ToListAsync();
         }
     }
 }

@@ -126,7 +126,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LeagueName = table.Column<string>(nullable: true),
+                    LeagueName = table.Column<string>(maxLength: 50, nullable: false),
                     SeasonYear = table.Column<int>(nullable: false),
                     TotalGames = table.Column<int>(nullable: false, defaultValue: 0),
                     TotalPoints = table.Column<int>(nullable: false, defaultValue: 0),
@@ -144,7 +144,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Year = table.Column<int>(nullable: false),
-                    NumOfWeeks = table.Column<int>(nullable: false),
+                    NumOfWeeksScheduled = table.Column<int>(nullable: false, defaultValue: 0),
                     NumOfWeeksCompleted = table.Column<int>(nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
@@ -178,7 +178,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -191,9 +191,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TeamName = table.Column<string>(nullable: true),
+                    TeamName = table.Column<string>(nullable: false),
                     SeasonYear = table.Column<int>(nullable: false),
-                    LeagueName = table.Column<string>(nullable: true),
+                    LeagueName = table.Column<string>(maxLength: 50, nullable: false),
                     ConferenceName = table.Column<string>(nullable: true),
                     DivisionName = table.Column<string>(nullable: true),
                     Games = table.Column<int>(nullable: false, defaultValue: 0),

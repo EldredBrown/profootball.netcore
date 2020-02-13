@@ -8,11 +8,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Games
     public class GamesDetailsViewModel
     {
         /// <summary>
-        /// Gets or sets the title for the current view model.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
         /// Gets or sets the game of the current view model.
         /// </summary>
         public Game Game { get; set; }

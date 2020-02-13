@@ -2,41 +2,42 @@
 @model DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "League";
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
+<h4>Details</h4>
+<hr />
 <div>
-    <h4>League</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.League.LongName)
+            <label asp-for="League.LongName"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.League.LongName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.League.ShortName)
+            <label asp-for="League.ShortName"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.League.ShortName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.League.FirstSeasonYear)
+            <label asp-for="League.FirstSeasonYear"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.League.FirstSeasonYear)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.League.LastSeasonYear)
+            <label asp-for="League.LastSeasonYear"></label>"
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.League.LastSeasonYear)
         </dd>
     </dl>
 </div>
+
 <div>
     <p>
         <a class="btn btn-primary" asp-page="Edit" asp-route-id="@Model.League.ID">Edit</a>

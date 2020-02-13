@@ -15,24 +15,24 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets the long name of the current <see cref="League"/> entity.
         /// </summary>
-        [Required(ErrorMessage = "Please enter a long name.")]
-        [StringLength(50)]
         [Display(Name = "Long Name")]
+        [StringLength(50)]
+        [Required(ErrorMessage = "Please enter a long name.")]
         public string LongName { get; set; }
 
         /// <summary>
         /// Gets or sets the short name of the current <see cref="League"/> entity.
         /// </summary>
-        [Required(ErrorMessage = "Please enter a short name.")]
-        [StringLength(5)]
         [Display(Name = "Short Name")]
+        [StringLength(5)]
+        [Required(ErrorMessage = "Please enter a short name.")]
         public string ShortName { get; set; }
 
         /// <summary>
         /// Gets or sets the year of the current <see cref="League"/> entity's first season.
         /// </summary>
-        [Required(ErrorMessage = "Please enter a first season.")]
         [Display(Name = "First Season")]
+        [Required(ErrorMessage = "Please enter a first season.")]
         public int FirstSeasonYear { get; set; }
 
         /// <summary>

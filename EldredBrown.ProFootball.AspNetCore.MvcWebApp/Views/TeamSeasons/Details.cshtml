@@ -1,137 +1,137 @@
 ﻿@model TeamSeasonsDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Team Season";
 }
 
-<h1>@Model.Title</h1>
+<h1>@ViewData["Title"]</h1>
 
+<h4>Details</h4>
+<hr />
 <div>
-    <h4>Details</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.TeamName)
+            <label asp-for="TeamSeason.TeamName"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.TeamName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.SeasonYear)
+            <label asp-for="TeamSeason.SeasonYear"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.SeasonYear)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.LeagueName)
+            <label asp-for="TeamSeason.LeagueName"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.LeagueName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.ConferenceName)
+            <label asp-for="TeamSeason.ConferenceName"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.ConferenceName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.DivisionName)
+            <label asp-for="TeamSeason.DivisionName"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.DivisionName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.Games)
+            <label asp-for="TeamSeason.Games"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.Games)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.Wins)
+            <label asp-for="TeamSeason.Wins"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.Wins)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.Losses)
+            <label asp-for="TeamSeason.Losses"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.Losses)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.Ties)
+            <label asp-for="TeamSeason.Ties"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.Ties)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.WinningPercentage)
+            <label asp-for="TeamSeason.WinningPercentage"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.WinningPercentage)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.PointsFor)
+            <label asp-for="TeamSeason.PointsFor"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.PointsFor)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.PointsAgainst)
+            <label asp-for="TeamSeason.PointsAgainst"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.PointsAgainst)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.PythagoreanWins)
+            <label asp-for="TeamSeason.PythagoreanWins"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.PythagoreanWins)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.PythagoreanLosses)
+            <label asp-for="TeamSeason.PythagoreanLosses"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.PythagoreanLosses)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.OffensiveAverage)
+            <label asp-for="TeamSeason.OffensiveAverage"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.OffensiveAverage)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.OffensiveFactor)
+            <label asp-for="TeamSeason.OffensiveFactor"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.OffensiveFactor)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.OffensiveIndex)
+            <label asp-for="TeamSeason.OffensiveIndex"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.OffensiveIndex)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.DefensiveAverage)
+            <label asp-for="TeamSeason.DefensiveAverage"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.DefensiveAverage)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.DefensiveFactor)
+            <label asp-for="TeamSeason.DefensiveFactor"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.DefensiveFactor)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.DefensiveIndex)
+            <label asp-for="TeamSeason.DefensiveIndex"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.DefensiveIndex)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TeamSeason.FinalPythagoreanWinningPercentage)
+            <label asp-for="TeamSeason.FinalPythagoreanWinningPercentage"></label>
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TeamSeason.FinalPythagoreanWinningPercentage)
@@ -146,73 +146,73 @@
         <thead>
             <tr>
                 <th>
-                    Opponent
+                    <label>Opponent</label>
                 </th>
                 <th class="text-right">
-                    GPF
+                    <label>GPF</label>
                 </th>
                 <th class="text-right">
-                    GPA
+                    <label>GPA</label>
                 </th>
                 <th class="text-right">
-                    OW
+                    <label>OW</label>
                 </th>
                 <th class="text-right">
-                    OL
+                    <label>OL</label>
                 </th>
                 <th class="text-right">
-                    OT
+                    <label>OT</label>
                 </th>
                 <th class="text-right">
-                    OWPct
+                    <label>OWPct</label>
                 </th>
                 <th class="text-right">
-                    OWG
+                    <label>OWG</label>
                 </th>
                 <th class="text-right">
-                    OWPF
+                    <label>OWPF</label>
                 </th>
                 <th class="text-right">
-                    OWPA
+                    <label>OWPA</label>
                 </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var opponentProfile in Model.TeamSeasonScheduleProfile)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => opponentProfile.Opponent)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.GamePointsFor)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.GamePointsAgainst)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.OpponentWins)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.OpponentLosses)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.OpponentTies)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.OpponentWinningPercentage)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.OpponentWeightedGames)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.OpponentWeightedPointsFor)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => opponentProfile.OpponentWeightedPointsAgainst)
-                    </td>
-                </tr>
-            }
+    @foreach (var opponentProfile in Model.TeamSeasonScheduleProfile)
+    {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => opponentProfile.Opponent)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.GamePointsFor)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.GamePointsAgainst)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.OpponentWins)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.OpponentLosses)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.OpponentTies)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.OpponentWinningPercentage)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.OpponentWeightedGames)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.OpponentWeightedPointsFor)
+                </td>
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => opponentProfile.OpponentWeightedPointsAgainst)
+                </td>
+            </tr>
+    }
         </tbody>
     </table>
 }
@@ -224,34 +224,34 @@
         <thead>
             <tr>
                 <th class="text-right">
-                    G
+                    <label>G</label>
                 </th>
                 <th class="text-right">
-                    PF
+                    <label>PF</label>
                 </th>
                 <th class="text-right">
-                    PA
+                    <label>PA</label>
                 </th>
                 <th class="text-right">
-                    SW
+                    <label>SW</label>
                 </th>
                 <th class="text-right">
-                    SL
+                    <label>SL</label>
                 </th>
                 <th class="text-right">
-                    ST
+                    <label>ST</label>
                 </th>
                 <th class="text-right">
-                    SWPct
+                    <label>SWPct</label>
                 </th>
                 <th class="text-right">
-                    SG
+                    <label>SG</label>
                 </th>
                 <th class="text-right">
-                    SPF
+                    <label>SPF</label>
                 </th>
                 <th class="text-right">
-                    SPA
+                    <label>SPA</label>
                 </th>
             </tr>
         </thead>
@@ -299,16 +299,16 @@
         <thead>
             <tr>
                 <th class="text-right">
-                    PF
+                    <label>PF</label>
                 </th>
                 <th class="text-right">
-                    PA
+                    <label>PA</label>
                 </th>
                 <th class="text-right">
-                    SPF
+                    <label>SPF</label>
                 </th>
                 <th class="text-right">
-                    SPA
+                    <label>SPA</label>
                 </th>
             </tr>
         </thead>

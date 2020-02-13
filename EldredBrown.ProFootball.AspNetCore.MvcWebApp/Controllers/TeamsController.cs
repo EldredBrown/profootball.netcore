@@ -38,7 +38,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var viewModel = new TeamsIndexViewModel
             {
-                Title = "Teams",
                 Teams = await _teamRepository.GetTeams()
             };
 
@@ -67,7 +66,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             var viewModel = new TeamsDetailsViewModel
             {
-                Title = "Team",
                 Team = team
             };
 
@@ -151,7 +149,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 try
                 {
-                    _teamRepository.Edit(team);
+                    _teamRepository.Update(team);
                     await _sharedRepository.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)

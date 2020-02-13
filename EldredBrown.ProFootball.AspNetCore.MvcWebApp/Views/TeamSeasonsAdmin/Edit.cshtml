@@ -11,25 +11,25 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
-                <label asp-for="TeamName" class="control-label"></label>
-                <input asp-for="TeamName" class="form-control" />
-                <span asp-validation-for="TeamName" class="text-danger"></span>
+                <label class="control-label" asp-for="TeamName"></label>
+                <input class="form-control" asp-for="TeamName" />
+                <span class="text-danger" asp-validation-for="TeamName"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SeasonYear" class="control-label"></label>
-                <input asp-for="SeasonYear" class="form-control" />
-                <span asp-validation-for="SeasonYear" class="text-danger"></span>
+                <label class="control-label" asp-for="SeasonYear"></label>
+                <input class="form-control" asp-for="SeasonYear" />
+                <span class="text-danger" asp-validation-for="SeasonYear"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LeagueName" class="control-label"></label>
-                <input asp-for="LeagueName" class="form-control" />
-                <span asp-validation-for="LeagueName" class="text-danger"></span>
+                <label class="control-label" asp-for="LeagueName"></label>
+                <input class="form-control" asp-for="LeagueName" />
+                <span class="text-danger" asp-validation-for="LeagueName"></span>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button class="btn btn-primary" type="submit">Save</button>
             </div>
         </form>
     </div>
