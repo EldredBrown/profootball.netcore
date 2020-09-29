@@ -19,7 +19,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
         private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
         private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
         private readonly ISharedRepository _sharedRepository;
-        private readonly ICalculator _calculator;
 
         private object _dbLock = new object();
 
@@ -36,7 +35,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="teamSeasonScheduleTotalsRepository">The repository by which TeamSeasonScheduleTotals data will be accessed.</param>
         /// <param name="teamSeasonScheduleAveragesRepository">The repository by which TeamSeasonScheduleAverages data will be accessed.</param>
         /// <param name="sharedRepository">The repository by which data will be accessed.</param>
-        /// <param name="calculator">The calculator service.</param>
         public WeeklyUpdateService(
             ISeasonRepository seasonRepository,
             IGameRepository gameRepository,
@@ -45,8 +43,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             ITeamSeasonRepository teamSeasonRepository,
             ITeamSeasonScheduleTotalsRepository teamSeasonScheduleTotalsRepository,
             ITeamSeasonScheduleAveragesRepository teamSeasonScheduleAveragesRepository,
-            ISharedRepository sharedRepository,
-            ICalculator calculator)
+            ISharedRepository sharedRepository)
         {
             _seasonRepository = seasonRepository;
             _gameRepository = gameRepository;
@@ -56,7 +53,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
             _teamSeasonScheduleTotalsRepository = teamSeasonScheduleTotalsRepository;
             _teamSeasonScheduleAveragesRepository = teamSeasonScheduleAveragesRepository;
             _sharedRepository = sharedRepository;
-            _calculator = calculator;
         }
 
         /// <summary>
@@ -89,10 +85,22 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 return;
             }
 
-            leagueSeason.TotalGames = leagueSeasonTotals.TotalGames.Value;
-            leagueSeason.TotalPoints = leagueSeasonTotals.TotalPoints.Value;
-            leagueSeason.AveragePoints = _calculator.Divide(
-                leagueSeasonTotals.TotalPoints.Value, leagueSeasonTotals.TotalGames.Value);
+            leagueSeason.UpdateGamesAndPoints(leagueSeasonTotals.TotalGames.Value,
+                leagueSeasonTotals.TotalPoints.Value);
+        }
+
+        private async Task<int> UpdateWeekCount(int seasonYear)
+        {
+            var srcWeekCount = (await _gameRepository.GetGames())
+                .Where(g => g.SeasonYear == seasonYear)
+                .Select(g => g.Week)
+                .Max();
+
+            var destSeason = await _seasonRepository.GetSeason(seasonYear);
+
+            destSeason.NumOfWeeksCompleted = srcWeekCount;
+
+            return srcWeekCount;
         }
 
         private async Task UpdateRankings()
@@ -102,13 +110,13 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
             foreach (var teamSeason in teamSeasons)
             {
-                await UpdateRankingsByTeamSeason(teamSeason);
+                await UpdateRankingsForTeamSeason(teamSeason);
             }
 
             await _sharedRepository.SaveChanges();
         }
 
-        private async Task UpdateRankingsByTeamSeason(TeamSeason teamSeason)
+        private async Task UpdateRankingsForTeamSeason(TeamSeason teamSeason)
         {
             try
             {
@@ -125,29 +133,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
                     if (teamSeasonScheduleTotals != null && teamSeasonScheduleAverages != null &&
                         teamSeasonScheduleTotals.ScheduleGames != null)
                     {
-                        teamSeason.OffensiveAverage = _calculator.Divide(
-                            teamSeason.PointsFor, teamSeason.Games);
-                        teamSeason.DefensiveAverage = _calculator.Divide(
-                            teamSeason.PointsAgainst, teamSeason.Games);
-
-                        teamSeason.OffensiveFactor = _calculator.Divide(
-                            teamSeason.OffensiveAverage.Value, teamSeasonScheduleAverages.PointsAgainst.Value);
-
-                        teamSeason.DefensiveFactor = _calculator.Divide(
-                            teamSeason.DefensiveAverage.Value, teamSeasonScheduleAverages.PointsFor.Value);
-
-                        var leagueSeason = 
+                        var leagueSeason =
                             _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
                                 teamSeason.LeagueName, teamSeason.SeasonYear);
 
-                        teamSeason.OffensiveIndex = (teamSeason.OffensiveAverage + teamSeason.OffensiveFactor *
-                            leagueSeason.AveragePoints) / 2d;
-
-                        teamSeason.DefensiveIndex = (teamSeason.DefensiveAverage + teamSeason.DefensiveFactor *
-                            leagueSeason.AveragePoints) / 2d;
-
-                        teamSeason.FinalPythagoreanWinningPercentage =
-                            _calculator.CalculatePythagoreanWinningPercentage(teamSeason);
+                        teamSeason.UpdateRankings(teamSeasonScheduleAverages.PointsFor,
+                            teamSeasonScheduleAverages.PointsAgainst, leagueSeason.AveragePoints);
                     }
                 }
             }
@@ -166,20 +157,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
             {
                 //_sharedService.ShowExceptionMessage(ex.InnerException, $"Exception: {teamSeason.TeamName}");
             }
-        }
-
-        private async Task<int> UpdateWeekCount(int seasonYear)
-        {
-            var srcWeekCount = (await _gameRepository.GetGames())
-                .Where(g => g.SeasonYear == seasonYear)
-                .Select(g => g.Week)
-                .Max();
-
-            var destSeason = await _seasonRepository.GetSeason(seasonYear);
-
-            destSeason.NumOfWeeksCompleted = srcWeekCount;
-
-            return srcWeekCount;
         }
     }
 }

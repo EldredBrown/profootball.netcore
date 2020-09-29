@@ -19,7 +19,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// </summary>
         /// <param name="oldGame">The <see cref="Game"/> entity containing data to remove from the data store.</param>
         /// <param name="newGame">The <see cref="Game"/> entity containing data to add to the data store.</param>
-        Task EditGame(Game oldGame, Game newGame);
+        Task EditGame(Game newGame, Game oldGame);
 
         /// <summary>
         /// Deletes a <see cref="Game"/> entity from the data store.

@@ -1,6 +1,6 @@
 ﻿import { getData } from "../../data/repository.js";
 
-let guestOrHost = {
+const guestOrHost = {
     guest: 1,
     host: 2
 };

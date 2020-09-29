@@ -139,19 +139,19 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             {
                 var oldGame = _mapper.Map<Game>(models["oldGame"]);
 
-                var game = await _gameRepository.GetGame(id);
-                if (game == null)
+                var newGame = await _gameRepository.GetGame(id);
+                if (newGame == null)
                 {
                     return NotFound($"Could not find game with ID of {id}");
                 }
 
-                _mapper.Map(models["game"], game);
+                _mapper.Map(models["newGame"], newGame);
 
-                await _gameService.EditGame(oldGame, game);
+                await _gameService.EditGame(newGame, oldGame);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
-                    return _mapper.Map<GameModel>(game);
+                    return _mapper.Map<GameModel>(newGame);
                 }
             }
             catch (Exception)
