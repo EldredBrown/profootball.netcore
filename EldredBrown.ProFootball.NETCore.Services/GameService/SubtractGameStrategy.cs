@@ -15,19 +15,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
         {
         }
 
-        protected override async Task EditScoringDataForTeamSeason(string teamName, int seasonYear, int teamScore,
-            int opponentScore)
-        {
-            var teamSeason = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(teamName, seasonYear);
-            if (teamSeason != null)
-            {
-                teamSeason.PointsFor -= teamScore;
-                teamSeason.PointsAgainst -= opponentScore;
-
-                teamSeason.CalculatePythagoreanWinsAndLosses();
-            }
-        }
-
         protected override void UpdateGamesForTeamSeasons(TeamSeason guestSeason, TeamSeason hostSeason)
         {
             if (guestSeason != null)
@@ -42,7 +29,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         }
 
         protected override async Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeason guestSeason,
-            TeamSeason hostSeason, Game game, int seasonYear)
+            TeamSeason hostSeason, Game game)
         {
             if (game.IsTie())
             {
@@ -58,6 +45,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
             }
             else
             {
+                var seasonYear = game.SeasonYear;
+
                 var winnerSeason =
                     await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.WinnerName, seasonYear);
                 if (winnerSeason != null)
@@ -71,6 +60,17 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 {
                     loserSeason.Losses--;
                 }
+            }
+        }
+
+        protected override void EditScoringDataForTeamSeason(TeamSeason teamSeason, int teamScore, int opponentScore)
+        {
+            if (teamSeason != null)
+            {
+                teamSeason.PointsFor -= teamScore;
+                teamSeason.PointsAgainst -= opponentScore;
+
+                teamSeason.CalculatePythagoreanWinsAndLosses();
             }
         }
     }
