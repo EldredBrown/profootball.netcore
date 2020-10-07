@@ -90,55 +90,5 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets any notes for the current <see cref="Game"/> entity.
         /// </summary>
         public string Notes { get; set; }
-
-        /// <summary>
-        /// Decides the winner and loser of the current <see cref="Game"/> entity.
-        /// </summary>
-        public void DecideWinnerAndLoser()
-        {
-            if (GuestScore > HostScore)
-            {
-                WinnerName = GuestName;
-                WinnerScore = GuestScore;
-                LoserName = HostName;
-                LoserScore = HostScore;
-            }
-            else if (HostScore > GuestScore)
-            {
-                WinnerName = HostName;
-                WinnerScore = HostScore;
-                LoserName = GuestName;
-                LoserScore = GuestScore;
-            }
-            else
-            {
-                WinnerName = null;
-                LoserName = null;
-            }
-        }
-
-        /// <summary>
-        /// Edits the current <see cref="Game"/> entity with data from another <see cref="Game"/> entity.
-        /// </summary>
-        /// <param name="source">The outside <see cref="Game"/> entity from which data will be imported.</param>
-        public void Edit(Game source)
-        {
-            Week = source.Week;
-            GuestName = source.GuestName;
-            GuestScore = source.GuestScore;
-            HostName = source.HostName;
-            HostScore = source.HostScore;
-            WinnerName = source.WinnerName;
-            WinnerScore = source.WinnerScore;
-            LoserName = source.LoserName;
-            LoserScore = source.LoserScore;
-            IsPlayoff = source.IsPlayoff;
-            Notes = source.Notes;
-        }
-
-        public bool IsTie()
-        {
-            return GuestScore == HostScore;
-        }
     }
 }
