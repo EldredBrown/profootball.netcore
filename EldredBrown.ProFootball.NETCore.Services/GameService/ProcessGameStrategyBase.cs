@@ -2,22 +2,35 @@
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Data.Utilities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
     public class ProcessGameStrategyBase
     {
+        protected readonly IGameUtility _gameUtility;
+        protected readonly ITeamSeasonUtility _teamSeasonUtility;
         protected readonly ITeamSeasonRepository _teamSeasonRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessGameStrategyBase"/> class.
         /// </summary>
+        /// <param name="gameUtility">The utility by which Game entity data will be accessed.</param>
+        /// <param name="teamSeasonUtility">The utility by which TeamSeason entity data will be accessed.</param>
         /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
-        public ProcessGameStrategyBase(ITeamSeasonRepository teamSeasonRepository)
+        public ProcessGameStrategyBase(IGameUtility gameUtility, ITeamSeasonUtility teamSeasonUtility,
+            ITeamSeasonRepository teamSeasonRepository)
         {
+            _gameUtility = gameUtility;
+            _teamSeasonUtility = teamSeasonUtility;
             _teamSeasonRepository = teamSeasonRepository;
         }
 
+        /// <summary>
+        /// Processes a <see cref="Game"/> entity into the Teams data store.
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
         public virtual async Task ProcessGame(Game game)
         {
             var seasonYear = game.SeasonYear;
@@ -52,12 +65,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
         {
             if (guestSeason != null)
             {
-                guestSeason.CalculateWinningPercentage();
+                _teamSeasonUtility.CalculateWinningPercentage(guestSeason);
             }
 
             if (hostSeason != null)
             {
-                hostSeason.CalculateWinningPercentage();
+                _teamSeasonUtility.CalculateWinningPercentage(hostSeason);
             }
         }
 

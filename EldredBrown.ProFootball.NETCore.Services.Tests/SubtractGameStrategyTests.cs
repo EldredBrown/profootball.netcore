@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Data.Utilities;
 using FakeItEasy;
 using NUnit.Framework;
 
@@ -9,33 +10,43 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
     [TestFixture]
     public class SubtractGameStrategyTests
     {
+        private IGameUtility _gameUtility;
+        private ITeamSeasonUtility _teamSeasonUtility;
         private ITeamSeasonRepository _teamSeasonRepository;
 
         [SetUp]
         public void Setup()
         {
+            _gameUtility = A.Fake<IGameUtility>();
+            _teamSeasonUtility = A.Fake<ITeamSeasonUtility>();
             _teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
         }
 
         [Test]
         public async Task ProcessGame_UpdatesTiesForTeamSeasonsWhenGameIsATie()
         {
-            var strategy = new SubtractGameStrategy(_teamSeasonRepository);
+            var strategy = new SubtractGameStrategy(_gameUtility, _teamSeasonUtility, _teamSeasonRepository);
+
+            A.CallTo(() => _gameUtility.IsTie(A<Game>.Ignored)).Returns(true);
 
             var game = new Game
             {
                 GuestName = "Guest",
-                GuestScore = 3,
                 HostName = "Host",
-                HostScore = 3
             };
+
+            TeamSeason guestSeason = null;
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, A<int>.Ignored))
+                .Returns(guestSeason);
+
+            TeamSeason hostSeason = null;
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, A<int>.Ignored))
+                .Returns(hostSeason);
 
             await strategy.ProcessGame(game);
 
-
             var seasonYear = game.SeasonYear;
 
-            // Update games for the guest's season and the host's season.
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, seasonYear))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, seasonYear))
@@ -49,27 +60,123 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         [Test]
         public async Task ProcessGame_UpdatesWinsAndLossesForTeamSeasonsWhenGameIsNotATie()
         {
-            var strategy = new SubtractGameStrategy(_teamSeasonRepository);
+            var strategy = new SubtractGameStrategy(_gameUtility, _teamSeasonUtility, _teamSeasonRepository);
+
+            A.CallTo(() => _gameUtility.IsTie(A<Game>.Ignored)).Returns(false);
 
             var game = new Game
             {
                 GuestName = "Guest",
-                GuestScore = 3,
                 HostName = "Host",
-                HostScore = 7,
-                WinnerName = "Host",
-                LoserName = "Guest"
+                WinnerName = "Winner",
+                LoserName = "Loser"
             };
+
+            TeamSeason guestSeason = null;
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, A<int>.Ignored))
+                .Returns(guestSeason);
+
+            TeamSeason hostSeason = null;
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, A<int>.Ignored))
+                .Returns(hostSeason);
 
             await strategy.ProcessGame(game);
 
             var seasonYear = game.SeasonYear;
 
-            // Update games for the guest's season and the host's season.
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, seasonYear))
-                .MustHaveHappenedTwiceExactly();
+                .MustHaveHappened();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, seasonYear))
-                .MustHaveHappenedTwiceExactly();
+                .MustHaveHappened();
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.WinnerName, seasonYear))
+                .MustHaveHappened();
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.LoserName, seasonYear))
+                .MustHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculateWinningPercentage(guestSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculateWinningPercentage(hostSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(guestSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(hostSeason)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task ProcessGame_DoesNotCalculateWinningPercentagesOrPythagoreanWinsLossesWhenGuestSeasonAndHostSeasonAreNull()
+        {
+            var strategy = new SubtractGameStrategy(_gameUtility, _teamSeasonUtility, _teamSeasonRepository);
+
+            var game = new Game
+            {
+                GuestName = "Guest",
+                HostName = "Host"
+            };
+
+            TeamSeason guestSeason = null;
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, A<int>.Ignored))
+                .Returns(guestSeason);
+
+            TeamSeason hostSeason = null;
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, A<int>.Ignored))
+                .Returns(hostSeason);
+
+            await strategy.ProcessGame(game);
+
+            A.CallTo(() => _teamSeasonUtility.CalculateWinningPercentage(guestSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculateWinningPercentage(hostSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(guestSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(hostSeason)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task ProcessGame_CalculatesGuestWinningPercentagesAndPythagoreanWinsLossesWhenGuestSeasonIsNotNull()
+        {
+            var strategy = new SubtractGameStrategy(_gameUtility, _teamSeasonUtility, _teamSeasonRepository);
+
+            var game = new Game
+            {
+                GuestName = "Guest",
+                HostName = "Host"
+            };
+
+            var guestSeason = new TeamSeason();
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, A<int>.Ignored))
+                .Returns(guestSeason);
+
+            TeamSeason hostSeason = null;
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, A<int>.Ignored))
+                .Returns(hostSeason);
+
+            await strategy.ProcessGame(game);
+
+            A.CallTo(() => _teamSeasonUtility.CalculateWinningPercentage(guestSeason)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculateWinningPercentage(hostSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(guestSeason)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(hostSeason)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task ProcessGame_CalculatesHostWinningPercentagesAndPythagoreanWinsLossesWhenHostSeasonIsNotNull()
+        {
+            var strategy = new SubtractGameStrategy(_gameUtility, _teamSeasonUtility, _teamSeasonRepository);
+
+            var game = new Game
+            {
+                GuestName = "Guest",
+                HostName = "Host"
+            };
+
+            TeamSeason guestSeason = null;
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, A<int>.Ignored))
+                .Returns(guestSeason);
+
+            var hostSeason = new TeamSeason();
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, A<int>.Ignored))
+                .Returns(hostSeason);
+
+            await strategy.ProcessGame(game);
+
+            A.CallTo(() => _teamSeasonUtility.CalculateWinningPercentage(guestSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculateWinningPercentage(hostSeason)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(guestSeason)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(hostSeason)).MustHaveHappened();
         }
     }
 }

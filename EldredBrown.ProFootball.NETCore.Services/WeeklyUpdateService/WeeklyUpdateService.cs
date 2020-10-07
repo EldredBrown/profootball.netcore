@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Data.Utilities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
@@ -13,8 +14,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
     {
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameRepository _gameRepository;
+        private readonly ILeagueSeasonUtility _leagueSeasonUtility;
         private readonly ILeagueSeasonRepository _leagueSeasonRepository;
         private readonly ILeagueSeasonTotalsRepository _leagueSeasonTotalsRepository;
+        private readonly ITeamSeasonUtility _teamSeasonUtility;
         private readonly ITeamSeasonRepository _teamSeasonRepository;
         private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
         private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
@@ -29,8 +32,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// </summary>
         /// <param name="seasonRepository">The repository by which WeekCount data will be accessed.</param>
         /// <param name="gameRepository">The repository by which Game data will be accessed.</param>
+        /// <param name="leagueSeasonUtility">The utility by which <see cref="LeagueSeason"/> entity data will be accessed.</param>
         /// <param name="leagueSeasonRepository">The repository by which LeagueSeason data will be accessed.</param>
         /// <param name="leagueSeasonTotalsRepository">The repository by which LeagueSeasonTotals data will be accessed.</param>
+        /// <param name="teamSeasonUtility">The utility by which <see cref="TeamSeason"/> entity data will be accessed.</param>
         /// <param name="teamSeasonRepository">The repository by which TeamSeason data will be accessed.</param>
         /// <param name="teamSeasonScheduleTotalsRepository">The repository by which TeamSeasonScheduleTotals data will be accessed.</param>
         /// <param name="teamSeasonScheduleAveragesRepository">The repository by which TeamSeasonScheduleAverages data will be accessed.</param>
@@ -38,8 +43,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
         public WeeklyUpdateService(
             ISeasonRepository seasonRepository,
             IGameRepository gameRepository,
+            ILeagueSeasonUtility leagueSeasonUtility,
             ILeagueSeasonRepository leagueSeasonRepository,
             ILeagueSeasonTotalsRepository leagueSeasonTotalsRepository,
+            ITeamSeasonUtility teamSeasonUtility,
             ITeamSeasonRepository teamSeasonRepository,
             ITeamSeasonScheduleTotalsRepository teamSeasonScheduleTotalsRepository,
             ITeamSeasonScheduleAveragesRepository teamSeasonScheduleAveragesRepository,
@@ -47,8 +54,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
         {
             _seasonRepository = seasonRepository;
             _gameRepository = gameRepository;
+            _leagueSeasonUtility = leagueSeasonUtility;
             _leagueSeasonRepository = leagueSeasonRepository;
             _leagueSeasonTotalsRepository = leagueSeasonTotalsRepository;
+            _teamSeasonUtility = teamSeasonUtility;
             _teamSeasonRepository = teamSeasonRepository;
             _teamSeasonScheduleTotalsRepository = teamSeasonScheduleTotalsRepository;
             _teamSeasonScheduleAveragesRepository = teamSeasonScheduleAveragesRepository;
@@ -77,15 +86,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
         private void UpdateLeagueSeason(string leagueName, int seasonYear)
         {
-            var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear);
-
             var leagueSeasonTotals = _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear);
             if (leagueSeasonTotals.TotalGames == null)
             {
                 return;
             }
 
-            leagueSeason.UpdateGamesAndPoints(leagueSeasonTotals.TotalGames.Value,
+            var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear);
+            _leagueSeasonUtility.UpdateGamesAndPoints(leagueSeason, leagueSeasonTotals.TotalGames.Value,
                 leagueSeasonTotals.TotalPoints.Value);
         }
 
@@ -137,7 +145,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                             _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
                                 teamSeason.LeagueName, teamSeason.SeasonYear);
 
-                        teamSeason.UpdateRankings(teamSeasonScheduleAverages.PointsFor,
+                        _teamSeasonUtility.UpdateRankings(teamSeason, teamSeasonScheduleAverages.PointsFor,
                             teamSeasonScheduleAverages.PointsAgainst, leagueSeason.AveragePoints);
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Data.Utilities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
@@ -9,9 +10,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="SubtractGameStrategy"/> class.
         /// </summary>
+        /// <param name="gameUtility">The <see cref="IGameUtility"/> object that will modify <see cref="Game"/> entity data.</param>
+        /// <param name="teamSeasonUtility">The <see cref="ITeamSeasonUtility"/> object that will modify <see cref="TeamSeason"/> entity data.</param>
         /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
-        public SubtractGameStrategy(ITeamSeasonRepository teamSeasonRepository)
-            : base(teamSeasonRepository)
+        public SubtractGameStrategy(IGameUtility gameUtility, ITeamSeasonUtility teamSeasonUtility,
+            ITeamSeasonRepository teamSeasonRepository)
+            : base(gameUtility, teamSeasonUtility, teamSeasonRepository)
         {
         }
 
@@ -31,7 +35,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         protected override async Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeason guestSeason,
             TeamSeason hostSeason, Game game)
         {
-            if (game.IsTie())
+            if (_gameUtility.IsTie(game))
             {
                 if (guestSeason != null)
                 {
@@ -70,7 +74,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 teamSeason.PointsFor -= teamScore;
                 teamSeason.PointsAgainst -= opponentScore;
 
-                teamSeason.CalculatePythagoreanWinsAndLosses();
+                _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(teamSeason);
             }
         }
     }

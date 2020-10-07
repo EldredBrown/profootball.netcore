@@ -8,7 +8,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         private static NullGameStrategy _instance;
 
         private NullGameStrategy()
-            : base(null)
+            : base(null, null, null)
         {
         }
 

@@ -9,8 +9,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
     /// </summary>
     public class TeamSeason
     {
-        private const double _exponent = 2.37;
-
         /// <summary>
         /// Gets or sets the ID of the current <see cref="TeamSeason"/> entity.
         /// </summary>
@@ -158,77 +156,5 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         [DisplayFormat(DataFormatString = "{0:#.000}")]
         [Display(Name = "Final Exp. Win Pct.")]
         public double? FinalPythagoreanWinningPercentage { get; set; }
-
-        /// <summary>
-        /// Calculates and updates the current <see cref="TeamSeason"/> entity's Final Pythagorean Winning Percentage.
-        /// </summary>
-        public void CalculateFinalPythagoreanWinningPercentage()
-        {
-            FinalPythagoreanWinningPercentage = CalculatePythagoreanWinningPercentage(OffensiveIndex.Value, DefensiveIndex.Value);
-        }
-
-        /// <summary>
-        /// Calculates and updates the current <see cref="TeamSeason"/> entity's Pythagorean wins and losses.
-        /// </summary>
-        public void CalculatePythagoreanWinsAndLosses()
-        {
-            var pythPct = CalculatePythagoreanWinningPercentage(PointsFor, PointsAgainst);
-
-            if (pythPct.HasValue)
-            {
-                PythagoreanWins = pythPct.Value * Games;
-                PythagoreanLosses = (1d - pythPct.Value) * Games;
-            }
-            else
-            {
-                PythagoreanWins = 0;
-                PythagoreanLosses = 0;
-            }
-        }
-
-        /// <summary>
-        /// Calculates and updates the current <see cref="TeamSeason"/> entity's winning percentage.
-        /// </summary>
-        public void CalculateWinningPercentage()
-        {
-            WinningPercentage = Divide((2 * Wins + Ties), (2 * Games));
-        }
-
-        public void UpdateRankings(double? teamSeasonScheduleAveragePointsFor, double? teamSeasonScheduleAveragePointsAgainst,
-            double? leagueSeasonAveragePoints)
-        {
-            OffensiveAverage = Divide(PointsFor, Games);
-            DefensiveAverage = Divide(PointsAgainst, Games);
-
-            OffensiveFactor = Divide(OffensiveAverage.Value, teamSeasonScheduleAveragePointsAgainst.Value);
-            DefensiveFactor = Divide(DefensiveAverage.Value, teamSeasonScheduleAveragePointsFor.Value);
-
-            OffensiveIndex = (OffensiveAverage + OffensiveFactor * leagueSeasonAveragePoints) / 2d;
-            DefensiveIndex = (DefensiveAverage + DefensiveFactor * leagueSeasonAveragePoints) / 2d;
-
-            CalculateFinalPythagoreanWinningPercentage();
-        }
-
-        private double? CalculatePythagoreanWinningPercentage(double pointsFor, double pointsAgainst)
-        {
-            var a = Math.Pow(pointsFor, _exponent);
-            var b = (Math.Pow(pointsFor, _exponent) + Math.Pow(pointsAgainst, _exponent));
-
-            double? result = Divide(a, b);
-
-            return result;
-        }
-
-        private double? Divide(double a, double b)
-        {
-            double? result = null;
-
-            if (b != 0)
-            {
-                result = a / b;
-            }
-
-            return result;
-        }
     }
 }

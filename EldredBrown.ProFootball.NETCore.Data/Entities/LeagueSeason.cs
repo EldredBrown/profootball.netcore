@@ -47,22 +47,5 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// </summary>
         [DisplayName("Average Points")]
         public double? AveragePoints { get; set; }
-
-        /// <summary>
-        /// Updates the games and points totals of the current <see cref="LeagueSeason"/> entity."
-        /// </summary>
-        /// <param name="totalGames">The value to be updated to the current <see cref="LeagueSeason"/> entity's total games.</param>
-        /// <param name="totalPoints">The value to be updated to the current <see cref="LeagueSeason"/> entity's total points.</param>
-        public void UpdateGamesAndPoints(int totalGames, int totalPoints)
-        {
-            TotalGames = totalGames;
-            TotalPoints = totalPoints;
-
-            AveragePoints = null;
-            if (totalGames != 0)
-            {
-                AveragePoints = totalPoints / totalGames;
-            }
-        }
     }
 }

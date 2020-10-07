@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Data.Utilities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
@@ -9,18 +10,22 @@ namespace EldredBrown.ProFootball.NETCore.Services
     /// </summary>
     public class GameService : IGameService
     {
+        private readonly IGameUtility _gameUtility;
         private readonly IGameRepository _gameRepository;
         private readonly IProcessGameStrategyFactory _processGameStrategyFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameService"/> class.
         /// </summary>
+        /// <param name="gameUtility">The utility by which game entity object data will be accessed.</param>
         /// <param name="gameRepository">The repository by which game data will be accessed.</param>
         /// <param name="processGameStrategyFactory">The factory that will initialize the needed <see cref="ProcessGameStrategyBase"/> subclass.</param>
         public GameService(
+            IGameUtility gameUtility,
             IGameRepository gameRepository,
             IProcessGameStrategyFactory processGameStrategyFactory)
         {
+            _gameUtility = gameUtility;
             _gameRepository = gameRepository;
             _processGameStrategyFactory = processGameStrategyFactory;
         }
@@ -31,7 +36,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="newGame">The <see cref="Game"/> entity to add to the data store.</param>
         public async Task AddGame(Game newGame)
         {
-            newGame.DecideWinnerAndLoser();
+            _gameUtility.DecideWinnerAndLoser(newGame);
 
             await _gameRepository.Add(newGame);
 
@@ -45,11 +50,11 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="oldGame">The <see cref="Game"/> entity containing data to remove from the data store.</param>
         public async Task EditGame(Game newGame, Game oldGame)
         {
-            newGame.DecideWinnerAndLoser();
+            _gameUtility.DecideWinnerAndLoser(newGame);
 
             var selectedGame = await _gameRepository.GetGame(newGame.ID);
 
-            selectedGame.Edit(newGame);
+            _gameUtility.Edit(selectedGame, newGame);
 
             _gameRepository.Update(selectedGame);
 

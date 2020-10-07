@@ -1,17 +1,25 @@
 ﻿using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Data.Utilities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
     public class ProcessGameStrategyFactory : IProcessGameStrategyFactory
     {
+        private readonly IGameUtility _gameUtility;
+        private readonly ITeamSeasonUtility _teamSeasonUtility;
         private readonly ITeamSeasonRepository _teamSeasonRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessGameStrategyFactory"/> class.
         /// </summary>
-        /// <param name="teamSeasonRepository">The repository by which teamSeason data will be accessed.</param>
-        public ProcessGameStrategyFactory(ITeamSeasonRepository teamSeasonRepository)
+        /// <param name="gameUtility">The utility by which Game entity data will be accessed.</param>
+        /// <param name="teamSeasonUtility">The utility by which TeamSeason entity data will be accessed.</param>
+        /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
+        public ProcessGameStrategyFactory(IGameUtility gameUtility, ITeamSeasonUtility teamSeasonUtility,
+            ITeamSeasonRepository teamSeasonRepository)
         {
+            _gameUtility = gameUtility;
+            _teamSeasonUtility = teamSeasonUtility;
             _teamSeasonRepository = teamSeasonRepository;
         }
 
@@ -24,8 +32,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
         {
             ProcessGameStrategyBase processGameStrategy = direction switch
             {
-                Direction.Up => new AddGameStrategy(_teamSeasonRepository),
-                Direction.Down => new SubtractGameStrategy(_teamSeasonRepository),
+                Direction.Up => new AddGameStrategy(_gameUtility, _teamSeasonUtility, _teamSeasonRepository),
+                Direction.Down => new SubtractGameStrategy(_gameUtility, _teamSeasonUtility, _teamSeasonRepository),
                 _ => NullGameStrategy.Instance
             };
 
