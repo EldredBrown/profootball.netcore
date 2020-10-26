@@ -19,7 +19,7 @@ async function loadPage() {
     await loadGameDetails(renderGameDetails);
 }
 
-async function putGame(game) {
+async function putGame(newGame) {
     const url = `${api}/Games/${id}`;
 
     await fetch(url, {
@@ -29,7 +29,7 @@ async function putGame(game) {
         },
         body: JSON.stringify({
             "oldGame": oldGame,
-            "game": game
+            "newGame": newGame
         })
     }).then(async response => {
         console.log(await response);

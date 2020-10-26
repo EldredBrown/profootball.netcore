@@ -1,6 +1,6 @@
-﻿import { GamesControl } from "../../control-modules/games";
-import { postData } from "../../data/repository";
-import { loadPartial, validateInput } from "./shared";
+﻿import { GamesControl } from "../../control-modules/games.js";
+import { postData } from "../../data/repository.js";
+import { loadPartial, validateInput } from "./shared.js";
 
 async function createGame() {
     let game = validateInput();
