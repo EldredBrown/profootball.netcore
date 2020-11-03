@@ -2,7 +2,7 @@
 import { postData } from "../../data/repository.js";
 import { validateInput } from "./shared.js";
 
-async function createLeagueSeason() {
+const createLeagueSeason = async () => {
     let leagueSeason = validateInput();
 
     if (!leagueSeason) {
@@ -12,11 +12,11 @@ async function createLeagueSeason() {
     await postData("LeagueSeasons", leagueSeason);
 
     return leagueSeason;
-}
+};
 
-async function loadPage() {
+const loadPage = async () => {
     await loadSeasons();
-}
+};
 
 $("form").submit(async function (e) {
     e.preventDefault();

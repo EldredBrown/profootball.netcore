@@ -84,7 +84,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// </summary>
         [DisplayName("Playoff Game?")]
         [DefaultValue(false)]
-        public bool IsPlayoffGame { get; set; }
+        public bool IsPlayoff { get; set; }
 
         /// <summary>
         /// Gets or sets any notes for the current <see cref="Game"/> entity.

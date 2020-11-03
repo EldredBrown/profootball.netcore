@@ -3,13 +3,13 @@ import { getData } from "../../data/repository.js";
 
 const id = getIdParam();
 
-async function loadPage() {
+const loadPage = async () => {
     await loadTeamSeasonDetails(id);
-}
+};
 
-async function loadTeamSeasonDetails(id) {
+const loadTeamSeasonDetails = async (id) => {
     let teamSeason = await getData(`TeamSeasons/${id}`);
     renderDetails("#team-season-details", teamSeason, "#team-season");
-}
+};
 
 loadPage();

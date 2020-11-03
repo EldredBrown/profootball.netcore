@@ -3,8 +3,8 @@ import { loadGameDetails } from "./shared.js";
 
 const id = getIdParam();
 
-async function loadPage() {
+const loadPage = async () => {
     await loadGameDetails(id);
-}
+};
 
 loadPage();

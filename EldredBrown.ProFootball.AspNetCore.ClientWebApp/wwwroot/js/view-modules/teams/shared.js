@@ -2,12 +2,12 @@
 import { getData } from "../../data/repository.js";
 import { Team } from "../../data/models/team.js";
 
-async function loadTeamDetails(id) {
+const loadTeamDetails = async (id) => {
     let team = await getData(`Teams/${id}`);
     renderDetails("#team-details", team, "#team");
-}
+};
 
-function validateInput(teamId = 0) {
+const validateInput = (teamId = 0) => {
     let inputValid = true;
 
     $("#validation-summary li").remove();
@@ -15,7 +15,7 @@ function validateInput(teamId = 0) {
     let name = $("#name").val();
     if (name) {
         $("#validation-for-name").text("");
-    } else {        
+    } else {
         $("#validation-for-name").text(emptyStringErrorMessage);
         $("#validation-summary").append("<li>Please enter a name.</li>");
         inputValid = false;
@@ -26,6 +26,6 @@ function validateInput(teamId = 0) {
     }
 
     return new Team(teamId, name);
-}
+};
 
 export { loadTeamDetails, validateInput };

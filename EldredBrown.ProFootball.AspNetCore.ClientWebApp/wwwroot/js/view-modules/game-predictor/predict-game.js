@@ -1,6 +1,6 @@
 ﻿import { getData } from "../../data/repository.js";
 
-let guestOrHost = {
+const guestOrHost = {
     guest: 1,
     host: 2
 };
@@ -9,32 +9,32 @@ const firstYear = 1920;
 
 let teamSeasonsCache = null;
 
-async function loadPage() {
+const loadPage = async () => {
     await loadSeasons();
 
     await loadTeamNames(guestOrHost.guest);
     await loadTeamNames(guestOrHost.host);
-}
+};
 
-async function loadSeasons() {
+const loadSeasons = async () => {
     let seasons = await getData("Seasons");
 
     if (seasons) {
         renderSeasons(guestOrHost.guest, seasons);
         renderSeasons(guestOrHost.host, seasons);
     }
-}
+};
 
-async function loadTeamNames(guestOrHost, year = firstYear) {
+const loadTeamNames = async (guestOrHost, year = firstYear) => {
     if (!teamSeasonsCache) {
         teamSeasonsCache = await getData("TeamSeasons");
     }
 
     let teamSeasons = teamSeasonsCache.filter(ts => ts.seasonYear === year);
     renderTeamNames(guestOrHost, teamSeasons);
-}
+};
 
-function renderSeasons(team, seasons) {
+const renderSeasons = (team, seasons) => {
     let templateTag;
     let selectTag;
 
@@ -64,9 +64,9 @@ function renderSeasons(team, seasons) {
     selectTag.append(html);
 
     selectTag.val(firstYear);
-}
+};
 
-function renderTeamNames(team, teamSeasons) {
+const renderTeamNames = (team, teamSeasons) => {
     let templateTagId;
     let selectTagId;
 
@@ -96,7 +96,7 @@ function renderTeamNames(team, teamSeasons) {
 
     let html = templateScript(context);
     $(selectTagId).append(html);
-}
+};
 
 $("form").submit(function (e) {
     e.preventDefault();

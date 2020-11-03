@@ -4,23 +4,23 @@ import { validateInput } from "./shared.js";
 
 const id = getIdParam();
 
-async function loadPage() {
+const loadPage = async () => {
     await loadSeasonDetails(id, renderSeasonDetails);
-}
+};
 
-async function loadSeasonDetails() {
+const loadSeasonDetails = async () => {
     let season = await getData(`Seasons/${id}`);
     renderSeasonDetails(season);
-}
+};
 
-function renderSeasonDetails(season) {
+const renderSeasonDetails = (season) => {
     $("#year").val(season.year);
     $("#weeks-scheduled").val(season.numOfWeeksScheduled);
     $("#weeks-completed").val(season.numOfWeeksCompleted);
     $("#weeks-completed").prop("max", season.numOfWeeksScheduled);
-}
+};
 
-async function updateSeason() {
+const updateSeason = async () => {
     let season = validateInput(id);
 
     if (!season) {
@@ -30,7 +30,7 @@ async function updateSeason() {
     await putData(`Seasons/${id}`, season);
 
     return season;
-}
+};
 
 $("form").submit(async function (e) {
     e.preventDefault();

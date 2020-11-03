@@ -1,4 +1,4 @@
-﻿async function getData(resource) {
+﻿const getData = async (resource) => {
     const url = `${api}/${resource}`;
 
     let data = null;
@@ -12,17 +12,17 @@
     });
 
     return data;
-}
+};
 
-async function postData(resource, data) {
+const postData = async (resource, data) => {
     await postOrPutData(resource, "POST", data);
-}
+};
 
-async function putData(resource, data) {
+const putData = async (resource, data) => {
     await postOrPutData(resource, "PUT", data);
-}
+};
 
-async function deleteData(resource) {
+const deleteData = async (resource) => {
     const url = `${api}/${resource}`;
 
     await fetch(url, {
@@ -32,9 +32,9 @@ async function deleteData(resource) {
     }).catch(async error => {
         console.log(await error);
     });
-}
+};
 
-async function postOrPutData(resource, httpVerb, data) {
+const postOrPutData = async (resource, httpVerb, data) => {
     const url = `${api}/${resource}`;
 
     await fetch(url, {
@@ -48,6 +48,6 @@ async function postOrPutData(resource, httpVerb, data) {
     }).catch(async error => {
         console.log(await error);
     });
-}
+};
 
 export { getData, postData, putData, deleteData };

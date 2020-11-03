@@ -4,21 +4,21 @@ import { League } from "../../data/models/league.js";
 
 let seasonsCache = null;
 
-async function loadLeagueDetails(id) {
+const loadLeagueDetails = async (id) => {
     let league = await getData(`Leagues/${id}`);
     renderDetails("#league-details", league, "#league");
-}
+};
 
-async function loadSeasons() {
+const loadSeasons = async () => {
     seasonsCache = await getData("Seasons");
 
     if (seasonsCache) {
         renderSeasons("first");
         renderSeasons("last");
     }
-}
+};
 
-function renderSeasons(firstOrLast) {
+const renderSeasons = (firstOrLast) => {
     $(`#${firstOrLast}-season option`).remove();
 
     let template = $(`#${firstOrLast}-season-year`).html();
@@ -45,9 +45,9 @@ function renderSeasons(firstOrLast) {
 
     let html = templateScript(context);
     $(`#${firstOrLast}-season`).append(html);
-}
+};
 
-function validateInput(leagueId = 0) {
+const validateInput = (leagueId = 0) => {
     let inputValid = true;
 
     $("#validation-summary li").remove();
@@ -55,7 +55,7 @@ function validateInput(leagueId = 0) {
     let longName = $("#long-name").val();
     if (longName) {
         $("#validation-for-long-name").text("");
-    } else {        
+    } else {
         $("#validation-for-long-name").text(emptyStringErrorMessage);
         $("#validation-summary").append("<li>Please enter a long name.</li>");
         inputValid = false;
@@ -87,7 +87,7 @@ function validateInput(leagueId = 0) {
     }
 
     return new League(leagueId, longName, shortName, firstSeasonYear, lastSeasonYear);
-}
+};
 
 $("#first-season").change(function (e) {
     e.preventDefault();

@@ -33,6 +33,11 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
                         builder.WithOrigins("https://localhost:44317")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
+
+                        // 2020-03-06: Hack for now just to verify that this works.
+                        builder.WithOrigins("http://localhost:8080")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
             });
 

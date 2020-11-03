@@ -4,9 +4,9 @@ import { loadLeagueDetails } from "./shared.js";
 
 const id = getIdParam();
 
-async function loadPage() {
+const loadPage = async () => {
     await loadLeagueDetails(id);
-}
+};
 
 $("form").submit(function (e) {
     e.preventDefault();

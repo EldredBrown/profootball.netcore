@@ -7,19 +7,19 @@ const id = getIdParam();
 
 let oldGame = null;
 
-async function loadGameDetails() {
+const loadGameDetails = async () => {
     let game = await getData(`Games/${id}`);
     renderGameDetails(game);
 
     oldGame = game;
-}
+};
 
-async function loadPage() {
+const loadPage = async () => {
     await loadPartial();
     await loadGameDetails(renderGameDetails);
-}
+};
 
-async function putGame(game) {
+const putGame = async (newGame) => {
     const url = `${api}/Games/${id}`;
 
     await fetch(url, {
@@ -29,16 +29,16 @@ async function putGame(game) {
         },
         body: JSON.stringify({
             "oldGame": oldGame,
-            "game": game
+            "newGame": newGame
         })
     }).then(async response => {
         console.log(await response);
     }).catch(async error => {
         console.log(await error);
     });
-}
+};
 
-function renderGameDetails(game) {
+const renderGameDetails = (game) => {
     $("#season").val(game.seasonYear);
     $("#week").val(game.week);
     $("#guest-name").val(game.guestName);
@@ -47,9 +47,9 @@ function renderGameDetails(game) {
     $("#host-score").val(game.hostScore);
     $("#is-playoff-game")[0].checked = game.isPlayoffGame;
     $("#notes").val(game.notes);
-}
+};
 
-async function updateGame() {
+const updateGame = async () => {
     let game = validateInput(id);
 
     if (!game) {
@@ -59,7 +59,7 @@ async function updateGame() {
     await putGame(game);
 
     return game;
-}
+};
 
 $("form").submit(async function (e) {
     e.preventDefault();

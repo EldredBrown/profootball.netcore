@@ -96,7 +96,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Migrations
                     WinnerScore = table.Column<int>(nullable: true),
                     LoserName = table.Column<string>(nullable: true),
                     LoserScore = table.Column<int>(nullable: true),
-                    IsPlayoffGame = table.Column<bool>(nullable: false, defaultValue: false),
+                    IsPlayoff = table.Column<bool>(nullable: false, defaultValue: false),
                     Notes = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

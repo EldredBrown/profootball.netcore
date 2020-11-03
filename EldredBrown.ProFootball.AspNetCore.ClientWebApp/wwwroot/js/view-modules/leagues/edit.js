@@ -4,26 +4,26 @@ import { loadSeasons, renderSeasons, validateInput } from "./shared.js";
 
 const id = getIdParam();
 
-async function loadLeagueDetails() {
+const loadLeagueDetails = async () => {
     let league = await getData(`Leagues/${id}`);
     renderLeagueDetails(league);
-}
+};
 
-async function loadPage() {
+const loadPage = async () => {
     await loadSeasons();
     await loadLeagueDetails(id, renderLeagueDetails);
-}
+};
 
-function renderLeagueDetails(league) {
+const renderLeagueDetails = (league) => {
     $("#long-name").val(league.longName);
     $("#short-name").val(league.shortName);
     $("#first-season").val(league.firstSeasonYear);
 
     renderSeasons("last");
     $("#last-season").val(league.lastSeasonYear);
-}
+};
 
-async function updateLeague() {
+const updateLeague = async () => {
     let league = validateInput(id);
 
     if (!league) {
@@ -33,7 +33,7 @@ async function updateLeague() {
     await putData(`Leagues/${id}`, league);
 
     return league;
-}
+};
 
 $("form").submit(async function (e) {
     e.preventDefault();
