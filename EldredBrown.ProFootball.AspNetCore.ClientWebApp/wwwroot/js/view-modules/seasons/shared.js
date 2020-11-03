@@ -4,12 +4,12 @@ import { Season } from "../../data/models/season.js";
 
 let maxWeeksCompleted = 0;
 
-async function loadSeasonDetails(id) {
+const loadSeasonDetails = async (id) => {
     let season = await getData(`Seasons/${id}`);
     renderDetails("#season-details", season, "#season");
-}
+};
 
-function validateInput(seasonId = 0) {
+const validateInput = (seasonId = 0) => {
     let inputValid = true;
 
     $("#validation-summary li").remove();
@@ -32,7 +32,7 @@ function validateInput(seasonId = 0) {
     }
 
     return new Season(seasonId, year, numOfWeeksScheduled, numOfWeeksCompleted);
-}
+};
 
 $("#weeks-scheduled").change(function (e) {
     e.preventDefault();

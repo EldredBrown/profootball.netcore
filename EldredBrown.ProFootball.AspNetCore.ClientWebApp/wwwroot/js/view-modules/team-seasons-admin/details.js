@@ -3,8 +3,8 @@ import { loadTeamSeasonDetails } from "./shared.js";
 
 const id = getIdParam();
 
-async function loadPage() {
+const loadPage = async () => {
     await loadTeamSeasonDetails(id);
-}
+};
 
 loadPage();

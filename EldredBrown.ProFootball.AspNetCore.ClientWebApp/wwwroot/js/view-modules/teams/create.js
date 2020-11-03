@@ -1,7 +1,7 @@
 ﻿import { postData } from "../../data/repository.js";
 import { validateInput } from "./shared.js";
 
-async function createTeam() {
+const createTeam = async () => {
     let team = validateInput();
 
     if (!team) {
@@ -11,7 +11,7 @@ async function createTeam() {
     await postData("Teams", team);
 
     return team;
-}
+};
 
 $("form").submit(async function (e) {
     e.preventDefault();

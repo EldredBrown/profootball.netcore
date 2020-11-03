@@ -1,17 +1,17 @@
 ﻿import { getData } from "../../data/repository.js";
 
-async function loadLeagues() {
+const loadLeagues = async () => {
     let leagues = await getData("Leagues");
     if (leagues) {
         renderLeagues(leagues);
     }
-}
+};
 
-async function loadPage() {
+const loadPage = async () => {
     await loadLeagues();
-}
+};
 
-function renderLeagues(data) {
+const renderLeagues = (data) => {
     $("#leagues-body tr").remove();
 
     let template = $("#league-row").html();
@@ -23,6 +23,6 @@ function renderLeagues(data) {
 
     let html = templateScript(context);
     $("#leagues-body").append(html);
-}
+};
 
 loadPage();

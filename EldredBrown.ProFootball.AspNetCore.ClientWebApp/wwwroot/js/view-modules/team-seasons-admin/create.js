@@ -1,7 +1,7 @@
 ﻿import { postData } from "../../data/repository.js";
 import { loadPartial, validateInput } from "./shared.js";
 
-async function createTeamSeason() {
+const createTeamSeason = async () => {
     let teamSeason = validateInput();
 
     if (!teamSeason) {
@@ -11,11 +11,11 @@ async function createTeamSeason() {
     await postData("TeamSeasons", teamSeason);
 
     return teamSeason;
-}
+};
 
-async function loadPage() {
+const loadPage = async () => {
     loadPartial();
-}
+};
 
 $("form").submit(async function (e) {
     e.preventDefault();

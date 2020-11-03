@@ -3,18 +3,18 @@ import { GamesControl, loadWeeks } from "../../control-modules/games.js";
 import { getData } from "../../data/repository.js";
 import { Game } from "../../data/models/game.js";
 
-async function loadGameDetails(id) {
+const loadGameDetails = async (id) => {
     let game = await getData(`Games/${id}`);
     renderDetails("#game-details", game, "#game");
     $("#is-playoff-game")[0].checked = game.isPlayoffGame;
-}
+};
 
-async function loadPartial() {
+const loadPartial = async () => {
     await loadSeasons(GamesControl.selectedSeasonYear);
     await loadWeeks(renderWeeks);
-}
+};
 
-function renderWeeks(numOfWeeksScheduled) {
+const renderWeeks = (numOfWeeksScheduled) => {
     $("#week option").remove();
 
     let template = $("#week-value").html();
@@ -31,9 +31,9 @@ function renderWeeks(numOfWeeksScheduled) {
 
     let html = templateScript(context);
     $("#week").append(html);
-}
+};
 
-function validateInput(gameId = 0) {
+const validateInput = (gameId = 0) => {
     let inputValid = true;
 
     $("#validation-summary li").remove();
@@ -104,6 +104,6 @@ function validateInput(gameId = 0) {
     }
 
     return new Game(gameId, seasonYear, week, guestName, guestScore, hostName, hostScore, isPlayoffGame, notes);
-}
+};
 
 export { loadGameDetails, loadPartial, renderWeeks, validateInput };

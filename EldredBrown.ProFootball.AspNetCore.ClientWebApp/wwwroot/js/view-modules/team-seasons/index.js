@@ -4,12 +4,12 @@ import { getData } from "../../data/repository.js";
 let selectedSeasonYear = 1920;
 let teamSeasonsCache = null;
 
-async function loadPage() {
+const loadPage = async () => {
     await loadSeasons(selectedSeasonYear);
     await loadTeamSeasons();
-}
+};
 
-async function loadTeamSeasons() {
+const loadTeamSeasons = async () => {
     if (!teamSeasonsCache) {
         teamSeasonsCache = await getData("TeamSeasons");
     }
@@ -18,9 +18,9 @@ async function loadTeamSeasons() {
         let teamSeasons = teamSeasonsCache.filter(ts => ts.seasonYear === selectedSeasonYear);
         renderTeamSeasons(teamSeasons);
     }
-}
+};
 
-function renderTeamSeasons(data) {
+const renderTeamSeasons = (data) => {
     $("#team-seasons-body tr").remove();
 
     let template = $("#team-season-row").html();
@@ -32,9 +32,9 @@ function renderTeamSeasons(data) {
 
     let html = templateScript(context);
     $("#team-seasons-body").append(html);
-}
+};
 
-async function runWeeklyUpdate() {
+const runWeeklyUpdate = async () => {
     const url = `${api}/Services/RunWeeklyUpdate/${selectedSeasonYear}`;
 
     await fetch(url, {
@@ -47,7 +47,7 @@ async function runWeeklyUpdate() {
     }).catch(async error => {
         console.log(await error);
     });
-}
+};
 
 $("#run-weekly-update").click(function (e) {
     e.preventDefault();

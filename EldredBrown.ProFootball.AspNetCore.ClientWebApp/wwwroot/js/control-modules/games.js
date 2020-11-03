@@ -55,9 +55,9 @@ class GamesControl {
     }
 }
 
-async function loadWeeks(renderFunc) {
+const loadWeeks = async (renderFunc) => {
     let season = seasons.filter(element => element.year === GamesControl.selectedSeasonYear)[0];
     renderFunc(season.numOfWeeksScheduled);
-}
+};
 
 export { GamesControl, loadWeeks };

@@ -3,19 +3,19 @@ import { getData } from "../../data/repository.js";
 
 let selectedSeasonYear = 1920;
 
-async function loadPage() {
+const loadPage = async () => {
     await loadSeasons(selectedSeasonYear);
     await loadSeasonStandings();
-}
+};
 
-async function loadSeasonStandings() {
+const loadSeasonStandings = async () => {
     let seasonStandings = await getData(`SeasonStandings/${selectedSeasonYear}`);
     if (seasonStandings) {
         renderSeasonStandings(seasonStandings);
     }
-}
+};
 
-function renderSeasonStandings(seasonStandings) {
+const renderSeasonStandings = (seasonStandings) => {
     $("#season-standings-body tr").remove();
 
     let template = $("#season-standings-row").html();
@@ -27,7 +27,7 @@ function renderSeasonStandings(seasonStandings) {
 
     let html = templateScript(context);
     $("#season-standings-body").append(html);
-}
+};
 
 $("#season").change(function (e) {
     e.preventDefault();

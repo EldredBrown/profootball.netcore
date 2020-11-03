@@ -1,7 +1,7 @@
 ﻿import { postData } from "../../data/repository.js";
 import { validateInput } from "./shared.js";
 
-async function createSeason() {
+const createSeason = async () => {
     let season = validateInput();
 
     if (!season) {
@@ -11,7 +11,7 @@ async function createSeason() {
     await postData("Seasons", season);
 
     return season;
-}
+};
 
 $("form").submit(async function (e) {
     e.preventDefault();

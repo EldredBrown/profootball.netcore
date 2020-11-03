@@ -2,7 +2,7 @@
 import { postData } from "../../data/repository.js";
 import { loadPartial, validateInput } from "./shared.js";
 
-async function createGame() {
+const createGame = async () => {
     let game = validateInput();
 
     if (!game) {
@@ -12,22 +12,22 @@ async function createGame() {
     await postData("Games", game);
 
     return game;
-}
+};
 
-async function loadPage() {
+const loadPage = async () => {
     GamesControl.getCookieValues();
 
     await loadPartial();
     selectWeek();
-}
+};
 
-function selectWeek() {
+const selectWeek = () => {
     if (GamesControl.selectedWeek) {
         $("#week").val(GamesControl.selectedWeek);
     } else {
         $("#week").val(1);
     }
-}
+};
 
 $("form").submit(async function (e) {
     e.preventDefault();

@@ -4,7 +4,7 @@ import { getData } from "../../data/repository.js";
 
 let gamesCache = null;
 
-async function loadGames() {
+const loadGames = async () => {
     if (!gamesCache) {
         gamesCache = await getData("Games");
     }
@@ -18,17 +18,17 @@ async function loadGames() {
 
         renderGames(games);
     }
-}
+};
 
-async function loadPage() {
+const loadPage = async () => {
     GamesControl.getCookieValues();
 
     await loadSeasons(GamesControl.selectedSeasonYear);
     await loadWeeks(renderWeeks);
     await loadGames();
-}
+};
 
-function renderGames(games) {
+const renderGames = (games) => {
     $("#games-body tr").remove();
 
     let template = $("#game-row").html();
@@ -40,9 +40,9 @@ function renderGames(games) {
 
     let html = templateScript(context);
     $("#games-body").append(html);
-}
+};
 
-function renderWeeks(numOfWeeksScheduled) {
+const renderWeeks = (numOfWeeksScheduled) => {
     $("#week option").remove();
 
     let template = $("#week-value").html();
@@ -65,7 +65,7 @@ function renderWeeks(numOfWeeksScheduled) {
     $("#week").append(html);
 
     $("#week").val(GamesControl.selectedWeek);
-}
+};
 
 $("#season").change(async function (e) {
     e.preventDefault();

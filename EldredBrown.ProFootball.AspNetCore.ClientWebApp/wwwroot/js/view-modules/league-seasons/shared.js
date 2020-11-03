@@ -2,12 +2,12 @@
 import { getData } from "../../data/repository.js";
 import { LeagueSeason } from "../../data/models/league-season.js";
 
-async function loadLeagueSeasonDetails(id) {
+const loadLeagueSeasonDetails = async (id) => {
     let leagueSeason = await getData(`LeagueSeasons/${id}`);
     renderDetails("#league-season-details", leagueSeason, "#league-season");
-}
+};
 
-function validateInput(leagueSeasonId = 0) {
+const validateInput = (leagueSeasonId = 0) => {
     let inputValid = true;
 
     $("#validation-summary li").remove();
@@ -15,7 +15,7 @@ function validateInput(leagueSeasonId = 0) {
     let leagueName = $("#league-name").val();
     if (leagueName) {
         $("#validation-for-league-name").text("");
-    } else {        
+    } else {
         $("#validation-for-league-name").text(emptyStringErrorMessage);
         $("#validation-summary").append("<li>Please enter a league name.</li>");
         inputValid = false;
@@ -39,6 +39,6 @@ function validateInput(leagueSeasonId = 0) {
     }
 
     return new LeagueSeason(leagueSeasonId, leagueName, seasonYear, totalGames, totalPoints, averagePoints);
-}
+};
 
 export { loadLeagueSeasonDetails, validateInput };
