@@ -13,8 +13,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Utilities
         /// <param name="teamSeason">The <see cref="TeamSeason"/> entity to be modified.</param>
         public void CalculateFinalPythagoreanWinningPercentage(TeamSeason teamSeason)
         {
-            teamSeason.FinalPythagoreanWinningPercentage = CalculatePythagoreanWinningPercentage(
-                teamSeason.OffensiveIndex.Value, teamSeason.DefensiveIndex.Value);
+            if (teamSeason.OffensiveIndex.HasValue && teamSeason.DefensiveIndex.HasValue)
+            {
+                teamSeason.FinalPythagoreanWinningPercentage = CalculatePythagoreanWinningPercentage(
+                    teamSeason.OffensiveIndex.Value, teamSeason.DefensiveIndex.Value);
+            }
         }
 
         /// <summary>
@@ -43,7 +46,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Utilities
         /// <param name="teamSeason">The <see cref="TeamSeason"/> entity to be modified.</param>
         public void CalculateWinningPercentage(TeamSeason teamSeason)
         {
-            teamSeason.WinningPercentage = Divide((2 * teamSeason.Wins + teamSeason.Ties), (2 * teamSeason.Games));
+            teamSeason.WinningPercentage = Divide(2 * teamSeason.Wins + teamSeason.Ties, 2 * teamSeason.Games);
         }
 
         /// <summary>
@@ -52,23 +55,28 @@ namespace EldredBrown.ProFootball.NETCore.Data.Utilities
         /// <param name="teamSeasonScheduleAveragePointsFor"></param>
         /// <param name="teamSeasonScheduleAveragePointsAgainst"></param>
         /// <param name="leagueSeasonAveragePoints"></param>
-        public void UpdateRankings(TeamSeason teamSeason, double? teamSeasonScheduleAveragePointsFor,
-            double? teamSeasonScheduleAveragePointsAgainst, double? leagueSeasonAveragePoints)
+        public void UpdateRankings(TeamSeason teamSeason, double teamSeasonScheduleAveragePointsFor,
+            double teamSeasonScheduleAveragePointsAgainst, double leagueSeasonAveragePoints)
         {
             teamSeason.OffensiveAverage = Divide(teamSeason.PointsFor, teamSeason.Games);
             teamSeason.DefensiveAverage = Divide(teamSeason.PointsAgainst, teamSeason.Games);
 
-            teamSeason.OffensiveFactor = Divide(teamSeason.OffensiveAverage.Value,
-                teamSeasonScheduleAveragePointsAgainst.Value);
-            teamSeason.DefensiveFactor = Divide(teamSeason.DefensiveAverage.Value,
-                teamSeasonScheduleAveragePointsFor.Value);
+            if (teamSeason.Games > 0)
+            {
+                teamSeason.OffensiveFactor = Divide(teamSeason.OffensiveAverage.Value,
+                    teamSeasonScheduleAveragePointsAgainst);
 
-            teamSeason.OffensiveIndex = (teamSeason.OffensiveAverage +
-                teamSeason.OffensiveFactor * leagueSeasonAveragePoints) / 2d;
-            teamSeason.DefensiveIndex = (teamSeason.DefensiveAverage +
-                teamSeason.DefensiveFactor * leagueSeasonAveragePoints) / 2d;
+                teamSeason.DefensiveFactor = Divide(teamSeason.DefensiveAverage.Value,
+                    teamSeasonScheduleAveragePointsFor);
 
-            CalculateFinalPythagoreanWinningPercentage(teamSeason);
+                teamSeason.OffensiveIndex = (teamSeason.OffensiveAverage +
+                    teamSeason.OffensiveFactor * leagueSeasonAveragePoints) / 2d;
+
+                teamSeason.DefensiveIndex = (teamSeason.DefensiveAverage +
+                    teamSeason.DefensiveFactor * leagueSeasonAveragePoints) / 2d;
+
+                CalculateFinalPythagoreanWinningPercentage(teamSeason);
+            }
         }
 
         private double? CalculatePythagoreanWinningPercentage(double pointsFor, double pointsAgainst)
@@ -83,14 +91,12 @@ namespace EldredBrown.ProFootball.NETCore.Data.Utilities
 
         private double? Divide(double a, double b)
         {
-            double? result = null;
-
             if (b != 0)
             {
-                result = a / b;
+                return a / b;
             }
 
-            return result;
+            return null;
         }
     }
 }

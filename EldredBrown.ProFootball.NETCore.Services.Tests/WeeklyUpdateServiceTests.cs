@@ -477,8 +477,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonUtility.UpdateRankings(teamSeason, teamSeasonScheduleAverages.PointsFor,
-                teamSeasonScheduleAverages.PointsAgainst, leagueSeason.AveragePoints)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonUtility.UpdateRankings(teamSeason, teamSeasonScheduleAverages.PointsFor.Value,
+                teamSeasonScheduleAverages.PointsAgainst.Value, leagueSeason.AveragePoints.Value)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
     }

@@ -145,8 +145,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
                             _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
                                 teamSeason.LeagueName, teamSeason.SeasonYear);
 
-                        _teamSeasonUtility.UpdateRankings(teamSeason, teamSeasonScheduleAverages.PointsFor,
-                            teamSeasonScheduleAverages.PointsAgainst, leagueSeason.AveragePoints);
+                        _teamSeasonUtility.UpdateRankings(teamSeason, teamSeasonScheduleAverages.PointsFor.Value,
+                            teamSeasonScheduleAverages.PointsAgainst.Value, leagueSeason.AveragePoints.Value);
                     }
                 }
             }

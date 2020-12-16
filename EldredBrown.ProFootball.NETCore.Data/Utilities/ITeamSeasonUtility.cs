@@ -28,7 +28,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Utilities
         /// <param name="teamSeasonScheduleAveragePointsFor"></param>
         /// <param name="teamSeasonScheduleAveragePointsAgainst"></param>
         /// <param name="leagueSeasonAveragePoints"></param>
-        void UpdateRankings(TeamSeason teamSeason, double? teamSeasonScheduleAveragePointsFor,
-            double? teamSeasonScheduleAveragePointsAgainst, double? leagueSeasonAveragePoints);
+        void UpdateRankings(TeamSeason teamSeason, double teamSeasonScheduleAveragePointsFor,
+            double teamSeasonScheduleAveragePointsAgainst, double leagueSeasonAveragePoints);
     }
 }
