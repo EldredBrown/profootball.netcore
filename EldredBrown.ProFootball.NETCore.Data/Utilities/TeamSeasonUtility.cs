@@ -40,6 +40,16 @@ namespace EldredBrown.ProFootball.NETCore.Data.Utilities
             }
         }
 
+        private double? CalculatePythagoreanWinningPercentage(double pointsFor, double pointsAgainst)
+        {
+            var a = Math.Pow(pointsFor, _exponent);
+            var b = (Math.Pow(pointsFor, _exponent) + Math.Pow(pointsAgainst, _exponent));
+
+            double? result = Divide(a, b);
+
+            return result;
+        }
+
         /// <summary>
         /// Calculates and updates the current <see cref="TeamSeason"/> entity's winning percentage.
         /// </summary>
@@ -77,16 +87,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Utilities
 
                 CalculateFinalPythagoreanWinningPercentage(teamSeason);
             }
-        }
-
-        private double? CalculatePythagoreanWinningPercentage(double pointsFor, double pointsAgainst)
-        {
-            var a = Math.Pow(pointsFor, _exponent);
-            var b = (Math.Pow(pointsFor, _exponent) + Math.Pow(pointsAgainst, _exponent));
-
-            double? result = Divide(a, b);
-
-            return result;
         }
 
         private double? Divide(double a, double b)
