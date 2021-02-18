@@ -6,7 +6,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
     /// <summary>
     /// Represents a pro football game.
     /// </summary>
-    public class Game
+    public class Game : IGame
     {
         /// <summary>
         /// Gets or sets the ID of the current <see cref="Game"/> entity.
@@ -90,5 +90,31 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets any notes for the current <see cref="Game"/> entity.
         /// </summary>
         public string Notes { get; set; }
+
+        /// <summary>
+        /// Decides the winner and loser of the current <see cref="IGame"/> entity.
+        /// </summary>
+        public void DecideWinnerAndLoser()
+        {
+            if (GuestScore > HostScore)
+            {
+                WinnerName = GuestName;
+                WinnerScore = GuestScore;
+                LoserName = HostName;
+                LoserScore = HostScore;
+            }
+            else if (HostScore > GuestScore)
+            {
+                WinnerName = HostName;
+                WinnerScore = HostScore;
+                LoserName = GuestName;
+                LoserScore = GuestScore;
+            }
+            else
+            {
+                WinnerName = null;
+                LoserName = null;
+            }
+        }
     }
 }
