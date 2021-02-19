@@ -31,16 +31,16 @@ namespace EldredBrown.ProFootball.NETCore.Services
         }
 
         /// <summary>
-        /// Adds an <see cref="IGame"/> entity to the data store.
+        /// Adds a <see cref="Game"/> entity to the data store.
         /// </summary>
-        /// <param name="newGame">The <see cref="IGame"/> entity to add to the data store.</param>
-        public async Task AddGame(IGame newGame)
+        /// <param name="newGame">The <see cref="Game"/> entity to add to the data store.</param>
+        public async Task AddGame(Game newGame)
         {
-            newGame.DecideWinnerAndLoser();
+            _gameUtility.DecideWinnerAndLoser(newGame);
 
-            await _gameRepository.Add(newGame as Game);
+            await _gameRepository.Add(newGame);
 
-            await EditTeams(Direction.Up, newGame as Game);
+            await EditTeams(Direction.Up, newGame);
         }
 
         /// <summary>
