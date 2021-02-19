@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using EldredBrown.ProFootball.NETCore.Data.Utilities;
 using FakeItEasy;
 using NUnit.Framework;
 
@@ -11,43 +11,37 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
     [TestFixture]
     public class ProcessGameStrategyBaseTests
     {
-        private IGameUtility _gameUtility;
-        private ITeamSeasonUtility _teamSeasonUtility;
         private ITeamSeasonRepository _teamSeasonRepository;
 
         [SetUp]
         public void Setup()
         {
-            _gameUtility = A.Fake<IGameUtility>();
-            _teamSeasonUtility = A.Fake<ITeamSeasonUtility>();
             _teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
         }
 
         [Test]
         public async Task ProcessGame_ProcessesGameWhenGameArgIsPassed()
         {
-            var strategy = new ProcessGameStrategyBase(_gameUtility, _teamSeasonUtility, _teamSeasonRepository);
+            var strategy = new ProcessGameStrategyBase(_teamSeasonRepository);
 
-            var game = new Game
-            {
-                GuestName = "Guest",
-                HostName = "Host"
-            };
+            var gameDecorator = A.Fake<IGameDecorator>();
+            gameDecorator.GuestName = "Guest";
+            gameDecorator.HostName = "Host";
 
-            var seasonYear = game.SeasonYear;
+            var seasonYear = gameDecorator.SeasonYear;
 
             try
             {
-                await strategy.ProcessGame(game);
+                await strategy.ProcessGame(gameDecorator);
             }
             catch (Exception)
             {
                 // Do nothing.
             }
 
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.GuestName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.HostName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear))
                 .MustHaveHappenedOnceExactly();
         }
     }

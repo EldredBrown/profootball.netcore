@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
+using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using EldredBrown.ProFootball.NETCore.Data.Utilities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
@@ -10,7 +10,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
     /// </summary>
     public class GameService : IGameService
     {
-        private readonly IGameUtility _gameUtility;
         private readonly IGameRepository _gameRepository;
         private readonly IProcessGameStrategyFactory _processGameStrategyFactory;
 
@@ -21,11 +20,9 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="gameRepository">The repository by which game data will be accessed.</param>
         /// <param name="processGameStrategyFactory">The factory that will initialize the needed <see cref="ProcessGameStrategyBase"/> subclass.</param>
         public GameService(
-            IGameUtility gameUtility,
             IGameRepository gameRepository,
             IProcessGameStrategyFactory processGameStrategyFactory)
         {
-            _gameUtility = gameUtility;
             _gameRepository = gameRepository;
             _processGameStrategyFactory = processGameStrategyFactory;
         }
@@ -36,11 +33,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="newGame">The <see cref="Game"/> entity to add to the data store.</param>
         public async Task AddGame(Game newGame)
         {
-            _gameUtility.DecideWinnerAndLoser(newGame);
+            var newGameDecorator = new GameDecorator(newGame);
+            newGameDecorator.DecideWinnerAndLoser();
 
             await _gameRepository.Add(newGame);
 
-            await EditTeams(Direction.Up, newGame);
+            await EditTeams(Direction.Up, newGameDecorator);
         }
 
         /// <summary>
@@ -50,16 +48,23 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="oldGame">The <see cref="Game"/> entity containing data to remove from the data store.</param>
         public async Task EditGame(Game newGame, Game oldGame)
         {
-            _gameUtility.DecideWinnerAndLoser(newGame);
+            var newGameDecorator = new GameDecorator(newGame);
+            newGameDecorator.DecideWinnerAndLoser();
 
-            var selectedGame = await _gameRepository.GetGame(newGame.ID);
+            var selectedGame = await _gameRepository.GetGame(newGameDecorator.ID);
+            GameDecorator selectedGameDecorator = null;
+            if (selectedGame != null)
+            {
+                selectedGameDecorator = new GameDecorator(selectedGame);
+            }
 
-            _gameUtility.Edit(selectedGame, newGame);
+            selectedGameDecorator.Edit(newGameDecorator);
 
             _gameRepository.Update(selectedGame);
 
-            await EditTeams(Direction.Down, oldGame);
-            await EditTeams(Direction.Up, newGame);
+            var oldGameDecorator = new GameDecorator(oldGame);
+            await EditTeams(Direction.Down, oldGameDecorator);
+            await EditTeams(Direction.Up, newGameDecorator);
         }
 
         /// <summary>
@@ -69,20 +74,25 @@ namespace EldredBrown.ProFootball.NETCore.Services
         public async Task DeleteGame(int id)
         {
             var oldGame = await _gameRepository.GetGame(id);
+            GameDecorator oldGameDecorator = null;
+            if (oldGame != null)
+            {
+                oldGameDecorator = new GameDecorator(oldGame);
+            }
 
-            await EditTeams(Direction.Down, oldGame);
+            await EditTeams(Direction.Down, oldGameDecorator);
 
             await _gameRepository.Delete(id);
         }
 
-        private async Task EditTeams(Direction direction, Game game)
+        private async Task EditTeams(Direction direction, GameDecorator gameDecorator)
         {
             var processGameStrategy = _processGameStrategyFactory.CreateStrategy(direction);
 
             // TODO - 2020-09-25: Implement ObjectNotFoundException class so it can be caught and used here.
             //try
             //{
-            await processGameStrategy.ProcessGame(game);
+            await processGameStrategy.ProcessGame(gameDecorator);
             //}
             //catch (ObjectNotFoundException ex)
             //{

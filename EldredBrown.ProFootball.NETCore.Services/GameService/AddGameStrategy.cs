@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using EldredBrown.ProFootball.NETCore.Data.Entities;
+using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using EldredBrown.ProFootball.NETCore.Data.Utilities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
@@ -10,55 +9,54 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="AddGameStrategy"/> class.
         /// </summary>
-        /// <param name="gameUtility">The utility by which Game entity data will be accessed.</param>
         /// <param name="teamSeasonUtility">The utility by which TeamSeason entity data will be accessed.</param>
         /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
-        public AddGameStrategy(IGameUtility gameUtility, ITeamSeasonUtility teamSeasonUtility,
-            ITeamSeasonRepository teamSeasonRepository)
-            : base(gameUtility, teamSeasonUtility, teamSeasonRepository)
+        public AddGameStrategy(ITeamSeasonRepository teamSeasonRepository)
+            : base(teamSeasonRepository)
         {}
 
-        protected override void UpdateGamesForTeamSeasons(TeamSeason guestSeason, TeamSeason hostSeason)
+        protected override void UpdateGamesForTeamSeasons(TeamSeasonDecorator guestSeasonDecorator,
+            TeamSeasonDecorator hostSeasonDecorator)
         {
-            if (guestSeason != null)
+            if (guestSeasonDecorator != null)
             {
-                guestSeason.Games++;
+                guestSeasonDecorator.Games++;
             }
 
-            if (hostSeason != null)
+            if (hostSeasonDecorator != null)
             {
-                hostSeason.Games++;
+                hostSeasonDecorator.Games++;
             }
         }
 
-        protected override async Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeason guestSeason,
-            TeamSeason hostSeason, Game game)
+        protected override async Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator guestSeasonDecorator,
+            TeamSeasonDecorator hostSeasonDecorator, IGameDecorator gameDecorator)
         {
-            if (_gameUtility.IsTie(game))
+            if (gameDecorator.IsTie())
             {
-                if (guestSeason != null)
+                if (guestSeasonDecorator != null)
                 {
-                    guestSeason.Ties++;
+                    guestSeasonDecorator.Ties++;
                 }
 
-                if (hostSeason != null)
+                if (hostSeasonDecorator != null)
                 {
-                    hostSeason.Ties++;
+                    hostSeasonDecorator.Ties++;
                 }
             }
             else
             {
-                var seasonYear = game.SeasonYear;
+                var seasonYear = gameDecorator.SeasonYear;
 
                 var winnerSeason =
-                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.WinnerName, seasonYear);
+                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName, seasonYear);
                 if (winnerSeason != null)
                 {
                     winnerSeason.Wins++;
                 }
 
                 var loserSeason =
-                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(game.LoserName, seasonYear);
+                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName, seasonYear);
                 if (loserSeason != null)
                 {
                     loserSeason.Losses++;
@@ -66,14 +64,15 @@ namespace EldredBrown.ProFootball.NETCore.Services
             }
         }
 
-        protected override void EditScoringDataForTeamSeason(TeamSeason teamSeason, int teamScore, int opponentScore)
+        protected override void EditScoringDataForTeamSeason(TeamSeasonDecorator teamSeasonDecorator, int teamScore,
+            int opponentScore)
         {
-            if (teamSeason != null)
+            if (teamSeasonDecorator != null)
             {
-                teamSeason.PointsFor += teamScore;
-                teamSeason.PointsAgainst += opponentScore;
+                teamSeasonDecorator.PointsFor += teamScore;
+                teamSeasonDecorator.PointsAgainst += opponentScore;
 
-                _teamSeasonUtility.CalculatePythagoreanWinsAndLosses(teamSeason);
+                teamSeasonDecorator.CalculatePythagoreanWinsAndLosses();
             }
         }
     }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using EldredBrown.ProFootball.NETCore.Data.Utilities;
 using FakeItEasy;
 using NUnit.Framework;
 
@@ -13,10 +12,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
     {
         private ISeasonRepository _seasonRepository;
         private IGameRepository _gameRepository;
-        private ILeagueSeasonUtility _leagueSeasonUtility;
         private ILeagueSeasonRepository _leagueSeasonRepository;
         private ILeagueSeasonTotalsRepository _leagueSeasonTotalsRepository;
-        private ITeamSeasonUtility _teamSeasonUtility;
         private ITeamSeasonRepository _teamSeasonRepository;
         private ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
         private ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
@@ -27,10 +24,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         {
             _seasonRepository = A.Fake<ISeasonRepository>();
             _gameRepository = A.Fake<IGameRepository>();
-            _leagueSeasonUtility = A.Fake<ILeagueSeasonUtility>();
             _leagueSeasonRepository = A.Fake<ILeagueSeasonRepository>();
             _leagueSeasonTotalsRepository = A.Fake<ILeagueSeasonTotalsRepository>();
-            _teamSeasonUtility = A.Fake<ITeamSeasonUtility>();
             _teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
             _teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
             _teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
@@ -40,9 +35,9 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         [Test]
         public async Task RunWeeklyUpdate_DoesNotUpdateLeagueSeasonGamesAndPointsWhenLeagueSeasonTotalsTotalGamesIsNull()
         {
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonUtility,
-                _leagueSeasonRepository, _leagueSeasonTotalsRepository, _teamSeasonUtility, _teamSeasonRepository,
-                _teamSeasonScheduleTotalsRepository, _teamSeasonScheduleAveragesRepository, _sharedRepository);
+            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
+                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
+                _teamSeasonScheduleAveragesRepository, _sharedRepository);
 
             var leagueSeasonTotals = new LeagueSeasonTotals
             {
@@ -71,8 +66,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
                 .MustNotHaveHappened();
-            A.CallTo(() => _leagueSeasonUtility.UpdateGamesAndPoints(A<LeagueSeason>.Ignored, A<int>.Ignored,
-                A<int>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
@@ -82,9 +75,9 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         [Test]
         public async Task RunWeeklyUpdate_UpdatesLeagueSeasonGamesAndPointsWhenLeagueSeasonTotalsTotalGamesIsNotNull()
         {
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonUtility,
-                _leagueSeasonRepository, _leagueSeasonTotalsRepository, _teamSeasonUtility, _teamSeasonRepository,
-                _teamSeasonScheduleTotalsRepository, _teamSeasonScheduleAveragesRepository, _sharedRepository);
+            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
+                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
+                _teamSeasonScheduleAveragesRepository, _sharedRepository);
 
             var leagueSeasonTotals = new LeagueSeasonTotals
             {
@@ -118,8 +111,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonUtility.UpdateGamesAndPoints(leagueSeason, leagueSeasonTotals.TotalGames.Value,
-                leagueSeasonTotals.TotalPoints.Value)).MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
@@ -129,9 +120,9 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         [Test]
         public async Task RunWeeklyUpdate_DoesNotUpdateRankingsWhenWeekCountLessThanThree()
         {
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonUtility,
-                _leagueSeasonRepository, _leagueSeasonTotalsRepository, _teamSeasonUtility, _teamSeasonRepository,
-                _teamSeasonScheduleTotalsRepository, _teamSeasonScheduleAveragesRepository, _sharedRepository);
+            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
+                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
+                _teamSeasonScheduleAveragesRepository, _sharedRepository);
 
             var leagueSeasonTotals = new LeagueSeasonTotals
             {
@@ -165,8 +156,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonUtility.UpdateGamesAndPoints(leagueSeason, leagueSeasonTotals.TotalGames.Value,
-                leagueSeasonTotals.TotalPoints.Value)).MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
@@ -176,9 +165,9 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         [Test]
         public async Task RunWeeklyUpdate_DoesNotUpdateRankingsForTeamSeasonWhenTeamSeasonScheduleTotalsIsNull()
         {
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonUtility,
-                _leagueSeasonRepository, _leagueSeasonTotalsRepository, _teamSeasonUtility, _teamSeasonRepository,
-                _teamSeasonScheduleTotalsRepository, _teamSeasonScheduleAveragesRepository, _sharedRepository);
+            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
+                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
+                _teamSeasonScheduleAveragesRepository, _sharedRepository);
 
             var leagueSeasonTotals = new LeagueSeasonTotals
             {
@@ -232,8 +221,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _leagueSeasonUtility.UpdateGamesAndPoints(leagueSeason, leagueSeasonTotals.TotalGames.Value,
-                leagueSeasonTotals.TotalPoints.Value)).MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
@@ -241,17 +228,15 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonUtility.UpdateRankings(A<TeamSeason>.Ignored, A<double>.Ignored,
-                A<double>.Ignored, A<double>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
 
         [Test]
         public async Task RunWeeklyUpdate_DoesNotUpdateRankingsForTeamSeasonWhenTeamSeasonScheduleAveragesIsNull()
         {
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonUtility,
-                _leagueSeasonRepository, _leagueSeasonTotalsRepository, _teamSeasonUtility, _teamSeasonRepository,
-                _teamSeasonScheduleTotalsRepository, _teamSeasonScheduleAveragesRepository, _sharedRepository);
+            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
+                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
+                _teamSeasonScheduleAveragesRepository, _sharedRepository);
 
             var leagueSeasonTotals = new LeagueSeasonTotals
             {
@@ -308,8 +293,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _leagueSeasonUtility.UpdateGamesAndPoints(leagueSeason, leagueSeasonTotals.TotalGames.Value,
-                leagueSeasonTotals.TotalPoints.Value)).MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
@@ -317,17 +300,15 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonUtility.UpdateRankings(A<TeamSeason>.Ignored, A<double>.Ignored,
-                A<double>.Ignored, A<double>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
 
         [Test]
         public async Task RunWeeklyUpdate_DoesNotUpdateRankingsForTeamSeasonWhenTeamSeasonScheduleTotalsScheduleGamesIsNull()
         {
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonUtility,
-                _leagueSeasonRepository, _leagueSeasonTotalsRepository, _teamSeasonUtility, _teamSeasonRepository,
-                _teamSeasonScheduleTotalsRepository, _teamSeasonScheduleAveragesRepository, _sharedRepository);
+            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
+                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
+                _teamSeasonScheduleAveragesRepository, _sharedRepository);
 
             var leagueSeasonTotals = new LeagueSeasonTotals
             {
@@ -384,8 +365,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _leagueSeasonUtility.UpdateGamesAndPoints(leagueSeason, leagueSeasonTotals.TotalGames.Value,
-                leagueSeasonTotals.TotalPoints.Value)).MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
@@ -393,17 +372,15 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonUtility.UpdateRankings(A<TeamSeason>.Ignored, A<double>.Ignored,
-                A<double>.Ignored, A<double>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
 
         [Test]
         public async Task RunWeeklyUpdate_UpdatesRankingsForTeamSeasonWhenTeamSeasonScheduleTotalsScheduleTotalsAndTeamSeasonScheduleAveragesAndTeamSeasonScheduleTotalsScheduleGamesAreNotNull()
         {
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonUtility,
-                _leagueSeasonRepository, _leagueSeasonTotalsRepository, _teamSeasonUtility, _teamSeasonRepository,
-                _teamSeasonScheduleTotalsRepository, _teamSeasonScheduleAveragesRepository, _sharedRepository);
+            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
+                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
+                _teamSeasonScheduleAveragesRepository, _sharedRepository);
 
             var leagueSeasonTotals = new LeagueSeasonTotals
             {
@@ -468,8 +445,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
                 .MustHaveHappenedTwiceOrMore();
-            A.CallTo(() => _leagueSeasonUtility.UpdateGamesAndPoints(leagueSeason, leagueSeasonTotals.TotalGames.Value,
-                leagueSeasonTotals.TotalPoints.Value)).MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
@@ -477,8 +452,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonUtility.UpdateRankings(teamSeason, teamSeasonScheduleAverages.PointsFor.Value,
-                teamSeasonScheduleAverages.PointsAgainst.Value, leagueSeason.AveragePoints.Value)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
     }
