@@ -53,9 +53,9 @@ namespace EldredBrown.ProFootball.NETCore.Services
         {
             newGame.DecideWinnerAndLoser();
 
-            var selectedGame = await _gameRepository.GetGame(newGame.ID);
+            var selectedGame = new GameDecorator(await _gameRepository.GetGame(newGame.ID));
 
-            _gameUtility.Edit(selectedGame, newGame as Game);
+            selectedGame.Edit(newGame);
 
             _gameRepository.Update(selectedGame);
 

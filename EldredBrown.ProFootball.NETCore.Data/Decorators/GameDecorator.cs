@@ -36,5 +36,24 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
                 _game.LoserName = null;
             }
         }
+
+        /// <summary>
+        /// Edits the wrapped <see cref="Game"/> entity with data from another <see cref="Game"/> entity.
+        /// </summary>
+        /// <param name="srcGame">The <see cref="IGameDecorator"/> entity from which data will be copied.</param>
+        public void Edit(IGameDecorator srcGame)
+        {
+            _game.Week = srcGame.Week;
+            _game.GuestName = srcGame.GuestName;
+            _game.GuestScore = srcGame.GuestScore;
+            _game.HostName = srcGame.HostName;
+            _game.HostScore = srcGame.HostScore;
+            _game.WinnerName = srcGame.WinnerName;
+            _game.WinnerScore = srcGame.WinnerScore;
+            _game.LoserName = srcGame.LoserName;
+            _game.LoserScore = srcGame.LoserScore;
+            _game.IsPlayoff = srcGame.IsPlayoff;
+            _game.Notes = srcGame.Notes;
+        }
     }
 }
