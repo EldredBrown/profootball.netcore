@@ -55,19 +55,19 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             var upStrategy = A.Fake<ProcessGameStrategyBase>();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Up)).Returns(upStrategy);
 
-            var newGame = new Game();
+            var newGame = A.Fake<IGameDecorator>();
             var oldGame = new Game();
 
             await service.EditGame(newGame, oldGame);
 
-            A.CallTo(() => _gameUtility.DecideWinnerAndLoser(newGame)).MustHaveHappened();
+            A.CallTo(() => newGame.DecideWinnerAndLoser()).MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGame(newGame.ID)).MustHaveHappened();
-            A.CallTo(() => _gameUtility.Edit(selectedGame, newGame)).MustHaveHappened();
+            A.CallTo(() => _gameUtility.Edit(selectedGame, newGame as Game)).MustHaveHappened();
             A.CallTo(() => _gameRepository.Update(selectedGame)).MustHaveHappened();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Down)).MustHaveHappened();
             A.CallTo(() => downStrategy.ProcessGame(oldGame)).MustHaveHappenedOnceExactly();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Up)).MustHaveHappened();
-            A.CallTo(() => upStrategy.ProcessGame(newGame)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => upStrategy.ProcessGame(newGame as Game)).MustHaveHappenedOnceExactly();
         }
 
         [Test]

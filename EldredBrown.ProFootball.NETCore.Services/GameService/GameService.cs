@@ -47,20 +47,20 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Edits a <see cref="Game"/> entity in the data store.
         /// </summary>
-        /// <param name="newGame">The <see cref="Game"/> entity containing data to add to the data store.</param>
+        /// <param name="newGame">The <see cref="IGameDecorator"/> entity containing data to add to the data store.</param>
         /// <param name="oldGame">The <see cref="Game"/> entity containing data to remove from the data store.</param>
-        public async Task EditGame(Game newGame, Game oldGame)
+        public async Task EditGame(IGameDecorator newGame, Game oldGame)
         {
-            _gameUtility.DecideWinnerAndLoser(newGame);
+            newGame.DecideWinnerAndLoser();
 
             var selectedGame = await _gameRepository.GetGame(newGame.ID);
 
-            _gameUtility.Edit(selectedGame, newGame);
+            _gameUtility.Edit(selectedGame, newGame as Game);
 
             _gameRepository.Update(selectedGame);
 
             await EditTeams(Direction.Down, oldGame);
-            await EditTeams(Direction.Up, newGame);
+            await EditTeams(Direction.Up, newGame as Game);
         }
 
         /// <summary>
