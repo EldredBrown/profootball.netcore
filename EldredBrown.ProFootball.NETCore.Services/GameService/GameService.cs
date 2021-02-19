@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Data.Utilities;
@@ -31,16 +32,16 @@ namespace EldredBrown.ProFootball.NETCore.Services
         }
 
         /// <summary>
-        /// Adds a <see cref="Game"/> entity to the data store.
+        /// Adds a <see cref="IGameDecorator"/> entity to the data store.
         /// </summary>
-        /// <param name="newGame">The <see cref="Game"/> entity to add to the data store.</param>
-        public async Task AddGame(Game newGame)
+        /// <param name="newGame">The <see cref="IGameDecorator/> entity to add to the data store.</param>
+        public async Task AddGame(IGameDecorator newGame)
         {
-            _gameUtility.DecideWinnerAndLoser(newGame);
+            newGame.DecideWinnerAndLoser();
 
-            await _gameRepository.Add(newGame);
+            await _gameRepository.Add(newGame as Game);
 
-            await EditTeams(Direction.Up, newGame);
+            await EditTeams(Direction.Up, newGame as Game);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
@@ -9,10 +10,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
     public interface IGameService
     {
         /// <summary>
-        /// Adds a <see cref="Game"/> entity to the data store.
+        /// Adds a <see cref="IGameDecorator"/> entity to the data store.
         /// </summary>
-        /// <param name="game">The <see cref="Game"/> entity to add to the data store.</param>
-        Task AddGame(Game game);
+        /// <param name="newGame">The <see cref="IGameDecorator/> entity to add to the data store.</param>
+        Task AddGame(IGameDecorator game);
 
         /// <summary>
         /// Edits a <see cref="Game"/> entity in the data store.

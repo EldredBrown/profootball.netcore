@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Data.Utilities;
@@ -30,14 +31,14 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             var strategy = A.Fake<ProcessGameStrategyBase>();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Up)).Returns(strategy);
 
-            var newGame = new Game();
+            var newGame = A.Fake<IGameDecorator>();
 
             await service.AddGame(newGame);
 
-            A.CallTo(() => _gameUtility.DecideWinnerAndLoser(newGame)).MustHaveHappened();
-            A.CallTo(() => _gameRepository.Add(newGame)).MustHaveHappened();
+            A.CallTo(() => newGame.DecideWinnerAndLoser()).MustHaveHappened();
+            A.CallTo(() => _gameRepository.Add(newGame as Game)).MustHaveHappened();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Up)).MustHaveHappened();
-            A.CallTo(() => strategy.ProcessGame(newGame)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => strategy.ProcessGame(newGame as Game)).MustHaveHappenedOnceExactly();
         }
 
         [Test]
