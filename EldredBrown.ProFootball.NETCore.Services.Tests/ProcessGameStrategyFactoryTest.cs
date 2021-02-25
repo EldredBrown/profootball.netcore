@@ -1,48 +1,55 @@
 ﻿using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
-using NUnit.Framework;
+using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
-    [TestFixture]
-    public class ProcessGameStrategyFactoryTests
+    public class ProcessGameStrategyFactoryTest
     {
         private ITeamSeasonRepository _teamSeasonRepository;
 
-        [SetUp]
-        public void Setup()
+        public ProcessGameStrategyFactoryTest()
         {
             _teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
         }
 
-        [Test]
-        public void CreateStrategy_CreatesAddGameStrategyWhenDirectionIsUp()
+        [Fact]
+        public void CreateStrategy_WhenDirectionIsUp_ShouldCreateAddGameStrategy()
         {
+            // Arrange
             var factory = new ProcessGameStrategyFactory(_teamSeasonRepository);
 
+            // Act
             var strategy = factory.CreateStrategy(Direction.Up);
 
-            Assert.IsInstanceOf<AddGameStrategy>(strategy);
+            // Assert
+            Assert.IsType<AddGameStrategy>(strategy);
         }
 
-        [Test]
-        public void CreateStrategy_CreatesSubtractGameStrategyWhenDirectionIsDown()
+        [Fact]
+        public void CreateStrategy_WhenDirectionIsDown_ShouldCreateSubtractGameStrategy()
         {
+            // Arrange
             var factory = new ProcessGameStrategyFactory(_teamSeasonRepository);
 
+            // Act
             var strategy = factory.CreateStrategy(Direction.Down);
 
-            Assert.IsInstanceOf<SubtractGameStrategy>(strategy);
+            // Assert
+            Assert.IsType<SubtractGameStrategy>(strategy);
         }
 
-        [Test]
-        public void CreateStrategy_CreatesNullGameStrategyWhenDirectionIsNotUpNorDown()
+        [Fact]
+        public void CreateStrategy_WhenDirectionIsNotUpNorDown_ShouldCreateNullGameStrategy()
         {
+            // Arrange
             var factory = new ProcessGameStrategyFactory(_teamSeasonRepository);
 
+            // Act
             var strategy = factory.CreateStrategy((Direction)3);
 
-            Assert.IsInstanceOf<NullGameStrategy>(strategy);
+            // Assert
+            Assert.IsType<NullGameStrategy>(strategy);
         }
     }
 }

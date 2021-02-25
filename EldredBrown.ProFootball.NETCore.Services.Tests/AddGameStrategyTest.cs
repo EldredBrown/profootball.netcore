@@ -3,24 +3,23 @@ using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
-using NUnit.Framework;
+using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
-    [TestFixture]
-    public class SubtractGameStrategyTests
+    public class AddGameStrategyTest
     {
         private ITeamSeasonRepository _teamSeasonRepository;
 
-        [SetUp]
-        public void Setup()
+        public AddGameStrategyTest()
         {
             _teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
         }
 
-        [Test]
-        public async Task ProcessGame_UpdatesTiesForTeamSeasonsWhenGameIsATie()
+        [Fact]
+        public async Task ProcessGame_WhenGameIsATie_ShouldUpdateTiesForTeamSeasons()
         {
+            // Arrange
             var strategy = new AddGameStrategy(_teamSeasonRepository);
 
             var gameDecorator = A.Fake<IGameDecorator>();
@@ -39,8 +38,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, A<int>.Ignored))
                 .Returns(hostSeason);
 
+            // Act
             await strategy.ProcessGame(gameDecorator);
 
+            // Assert
             var seasonYear = gameDecorator.SeasonYear;
 
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear))
@@ -53,9 +54,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustNotHaveHappened();
         }
 
-        [Test]
-        public async Task ProcessGame_UpdatesWinsAndLossesForTeamSeasonsWhenGameIsNotATie()
+        [Fact]
+        public async Task ProcessGame_WhenGameIsNotATie_ShouldUpdateWinsAndLossesForTeamSeasons()
         {
+            // Arrange
             var strategy = new AddGameStrategy(_teamSeasonRepository);
 
             var gameDecorator = A.Fake<IGameDecorator>();
@@ -82,8 +84,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName, A<int>.Ignored))
                 .Returns(loserSeason);
 
+            // Act
             await strategy.ProcessGame(gameDecorator);
 
+            // Assert
             var seasonYear = gameDecorator.SeasonYear;
 
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear))

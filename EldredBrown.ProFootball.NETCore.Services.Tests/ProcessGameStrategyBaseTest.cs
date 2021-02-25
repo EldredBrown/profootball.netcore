@@ -4,24 +4,23 @@ using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
-using NUnit.Framework;
+using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
-    [TestFixture]
-    public class ProcessGameStrategyBaseTests
+    public class ProcessGameStrategyBaseTest
     {
         private ITeamSeasonRepository _teamSeasonRepository;
 
-        [SetUp]
-        public void Setup()
+        public ProcessGameStrategyBaseTest()
         {
             _teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
         }
 
-        [Test]
-        public async Task ProcessGame_ProcessesGameWhenGameArgIsPassed()
+        [Fact]
+        public async Task ProcessGame_WhenGameArgIsPassed_ShouldProcessGame()
         {
+            // Arrange
             var strategy = new ProcessGameStrategyBase(_teamSeasonRepository);
 
             var gameDecorator = A.Fake<IGameDecorator>();
@@ -30,6 +29,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             var seasonYear = gameDecorator.SeasonYear;
 
+            // Act
             try
             {
                 await strategy.ProcessGame(gameDecorator);
@@ -39,6 +39,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 // Do nothing.
             }
 
+            // Assert
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear))

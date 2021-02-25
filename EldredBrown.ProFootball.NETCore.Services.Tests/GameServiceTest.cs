@@ -3,26 +3,25 @@ using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
-using NUnit.Framework;
+using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
-    [TestFixture]
-    public class GameServiceTests
+    public class GameServiceTest
     {
         private IGameRepository _gameRepository;
         private IProcessGameStrategyFactory _processGameStrategyFactory;
 
-        [SetUp]
-        public void Setup()
+        public GameServiceTest()
         {
             _gameRepository = A.Fake<IGameRepository>();
             _processGameStrategyFactory = A.Fake<IProcessGameStrategyFactory>();
         }
 
-        [Test]
-        public async Task AddGame_AddsGameToRepositoryWhenNewGameIsPassed()
+        [Fact]
+        public async Task AddGame_WhenNewGameIsPassed_ShouldAddGameToRepository()
         {
+            // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
 
             var strategy = A.Fake<ProcessGameStrategyBase>();
@@ -30,16 +29,19 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             var newGame = new Game();
 
+            // Act
             await service.AddGame(newGame);
 
+            // Assert
             A.CallTo(() => _gameRepository.Add(newGame)).MustHaveHappened();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Up)).MustHaveHappened();
             A.CallTo(() => strategy.ProcessGame(A<IGameDecorator>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
-        [Test]
-        public async Task EditGame_EditsGameInRepositoryWhenNewGameAndOldGameArePassed()
+        [Fact]
+        public async Task EditGame_WhenNewGameAndOldGameArePassed_ShouldEditGameInRepository()
         {
+            // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
 
             var selectedGame = new Game();
@@ -54,8 +56,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             var newGame = new Game();
             var oldGame = new Game();
 
+            // Act
             await service.EditGame(newGame, oldGame);
 
+            // Assert
             A.CallTo(() => _gameRepository.GetGame(newGame.ID)).MustHaveHappened();
             A.CallTo(() => _gameRepository.Update(selectedGame)).MustHaveHappened();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Down)).MustHaveHappened();
@@ -64,9 +68,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => upStrategy.ProcessGame(A<IGameDecorator>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
-        [Test]
-        public async Task DeleteGame_DeletesGameFromRepositoryWhenGameIdIsPassed()
+        [Fact]
+        public async Task DeleteGame_WhenGameIdIsPassed_ShouldDeleteGameFromRepository()
         {
+            // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
 
             var strategy = A.Fake<ProcessGameStrategyBase>();
@@ -74,8 +79,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             var id = 1;
 
+            // Act
             await service.DeleteGame(id);
 
+            // Assert
             A.CallTo(() => _gameRepository.GetGame(id)).MustHaveHappened();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Down)).MustHaveHappened();
             A.CallTo(() => _gameRepository.Delete(id)).MustHaveHappened();
