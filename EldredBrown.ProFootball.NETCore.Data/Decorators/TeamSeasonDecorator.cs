@@ -295,32 +295,34 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
             _teamSeason.OffensiveAverage = Divide(_teamSeason.PointsFor, _teamSeason.Games);
             _teamSeason.DefensiveAverage = Divide(_teamSeason.PointsAgainst, _teamSeason.Games);
 
-            if (_teamSeason.Games > 0)
+            if (_teamSeason.Games <= 0)
             {
-                _teamSeason.OffensiveFactor = Divide(_teamSeason.OffensiveAverage.Value,
-                    teamSeasonScheduleAveragePointsAgainst);
-
-                _teamSeason.DefensiveFactor = Divide(_teamSeason.DefensiveAverage.Value,
-                    teamSeasonScheduleAveragePointsFor);
-
-                _teamSeason.OffensiveIndex = (_teamSeason.OffensiveAverage +
-                    _teamSeason.OffensiveFactor * leagueSeasonAveragePoints) / 2d;
-
-                _teamSeason.DefensiveIndex = (_teamSeason.DefensiveAverage +
-                    _teamSeason.DefensiveFactor * leagueSeasonAveragePoints) / 2d;
-
-                CalculateFinalPythagoreanWinningPercentage();
+                return;
             }
+
+            _teamSeason.OffensiveFactor = Divide(_teamSeason.OffensiveAverage.Value,
+                teamSeasonScheduleAveragePointsAgainst);
+
+            _teamSeason.DefensiveFactor = Divide(_teamSeason.DefensiveAverage.Value,
+                teamSeasonScheduleAveragePointsFor);
+
+            _teamSeason.OffensiveIndex = (_teamSeason.OffensiveAverage +
+                _teamSeason.OffensiveFactor * leagueSeasonAveragePoints) / 2d;
+
+            _teamSeason.DefensiveIndex = (_teamSeason.DefensiveAverage +
+                _teamSeason.DefensiveFactor * leagueSeasonAveragePoints) / 2d;
+
+            CalculateFinalPythagoreanWinningPercentage();
         }
 
         private double? Divide(double a, double b)
         {
-            if (b != 0)
+            if (b == 0)
             {
-                return a / b;
+                return null;
             }
 
-            return null;
+            return a / b;
         }
 
         /// <summary>
@@ -328,11 +330,13 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// </summary>
         private void CalculateFinalPythagoreanWinningPercentage()
         {
-            if (_teamSeason.OffensiveIndex.HasValue && _teamSeason.DefensiveIndex.HasValue)
+            if (!_teamSeason.OffensiveIndex.HasValue || !_teamSeason.DefensiveIndex.HasValue)
             {
-                _teamSeason.FinalPythagoreanWinningPercentage = CalculatePythagoreanWinningPercentage(
-                    _teamSeason.OffensiveIndex.Value, _teamSeason.DefensiveIndex.Value);
+                return;
             }
+
+            _teamSeason.FinalPythagoreanWinningPercentage = CalculatePythagoreanWinningPercentage(
+                _teamSeason.OffensiveIndex.Value, _teamSeason.DefensiveIndex.Value);
         }
 
         private double? CalculatePythagoreanWinningPercentage(double pointsFor, double pointsAgainst)

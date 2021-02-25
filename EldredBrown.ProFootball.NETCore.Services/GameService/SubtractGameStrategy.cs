@@ -14,8 +14,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
         public SubtractGameStrategy(ITeamSeasonRepository teamSeasonRepository)
             : base(teamSeasonRepository)
-        {
-        }
+        {}
 
         protected override void UpdateGamesForTeamSeasons(TeamSeasonDecorator guestSeasonDecorator,
             TeamSeasonDecorator hostSeasonDecorator)
@@ -69,13 +68,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
         protected override void EditScoringDataForTeamSeason(TeamSeasonDecorator teamSeasonDecorator, int teamScore,
             int opponentScore)
         {
-            if (teamSeasonDecorator != null)
+            if (teamSeasonDecorator == null)
             {
-                teamSeasonDecorator.PointsFor -= teamScore;
-                teamSeasonDecorator.PointsAgainst -= opponentScore;
-
-                teamSeasonDecorator.CalculatePythagoreanWinsAndLosses();
+                return;
             }
+
+            teamSeasonDecorator.PointsFor -= teamScore;
+            teamSeasonDecorator.PointsAgainst -= opponentScore;
+            teamSeasonDecorator.CalculatePythagoreanWinsAndLosses();
         }
     }
 }

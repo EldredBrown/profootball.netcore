@@ -67,13 +67,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
         protected override void EditScoringDataForTeamSeason(TeamSeasonDecorator teamSeasonDecorator, int teamScore,
             int opponentScore)
         {
-            if (teamSeasonDecorator != null)
+            if (teamSeasonDecorator == null)
             {
-                teamSeasonDecorator.PointsFor += teamScore;
-                teamSeasonDecorator.PointsAgainst += opponentScore;
-
-                teamSeasonDecorator.CalculatePythagoreanWinsAndLosses();
+                return;
             }
+
+            teamSeasonDecorator.PointsFor += teamScore;
+            teamSeasonDecorator.PointsAgainst += opponentScore;
+            teamSeasonDecorator.CalculatePythagoreanWinsAndLosses();
         }
     }
 }

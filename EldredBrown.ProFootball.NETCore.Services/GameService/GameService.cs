@@ -16,12 +16,9 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="GameService"/> class.
         /// </summary>
-        /// <param name="gameUtility">The utility by which game entity object data will be accessed.</param>
         /// <param name="gameRepository">The repository by which game data will be accessed.</param>
         /// <param name="processGameStrategyFactory">The factory that will initialize the needed <see cref="ProcessGameStrategyBase"/> subclass.</param>
-        public GameService(
-            IGameRepository gameRepository,
-            IProcessGameStrategyFactory processGameStrategyFactory)
+        public GameService(IGameRepository gameRepository, IProcessGameStrategyFactory processGameStrategyFactory)
         {
             _gameRepository = gameRepository;
             _processGameStrategyFactory = processGameStrategyFactory;

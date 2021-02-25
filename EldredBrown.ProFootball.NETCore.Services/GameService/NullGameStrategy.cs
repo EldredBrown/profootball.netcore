@@ -27,6 +27,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
         // Do nothing methods, for this is an implementation of the Null Object Pattern.
         public override async Task ProcessGame(IGameDecorator gameDecorator)
-        { }
+        {}
     }
 }
