@@ -78,14 +78,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
         private void UpdateLeagueSeason(string leagueName, int seasonYear)
         {
             var leagueSeasonTotals = _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear);
-            if (leagueSeasonTotals.TotalGames == null)
+            if (leagueSeasonTotals.TotalGames is null)
             {
                 return;
             }
 
             var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear);
             LeagueSeasonDecorator leagueSeasonDecorator = null;
-            if (leagueSeason != null)
+            if (!(leagueSeason is null))
             {
                 leagueSeasonDecorator = new LeagueSeasonDecorator(leagueSeason);
             }
@@ -135,8 +135,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
                 lock (_dbLock)
                 {
-                    if (teamSeasonScheduleTotals != null && teamSeasonScheduleAverages != null &&
-                        teamSeasonScheduleTotals.ScheduleGames != null)
+                    if (!(teamSeasonScheduleTotals is null) && !(teamSeasonScheduleAverages is null) &&
+                        !(teamSeasonScheduleTotals.ScheduleGames is null))
                     {
                         var leagueSeason =
                             _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(

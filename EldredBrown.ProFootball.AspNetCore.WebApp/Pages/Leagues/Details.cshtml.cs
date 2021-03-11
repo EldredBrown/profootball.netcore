@@ -19,14 +19,14 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             League = await _leagueRepository.GetLeague(id.Value);
 
-            if (League == null)
+            if (League is null)
             {
                 return NotFound();
             }

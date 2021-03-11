@@ -16,7 +16,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         {
             get
             {
-                if (_instance == null)
+                if (_instance is null)
                 {
                     _instance = new NullGameStrategy();
                 }

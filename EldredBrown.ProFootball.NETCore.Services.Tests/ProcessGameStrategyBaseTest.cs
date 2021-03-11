@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Decorators;
-using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
 using Xunit;
@@ -18,7 +17,22 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         }
 
         [Fact]
-        public async Task ProcessGame_WhenGameArgIsPassed_ShouldProcessGame()
+        public async Task ProcessGame_WhenGameDecoratorArgIsNull_ShouldThrowArgumentNullException()
+        {
+            // Arrange
+            var strategy = new ProcessGameStrategyBase(_teamSeasonRepository);
+
+            GameDecorator gameDecorator = null;
+
+            // Act
+            Func<Task> func = new Func<Task>(async () => await strategy.ProcessGame(gameDecorator));
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(func);
+        }
+
+        [Fact]
+        public async Task ProcessGame_WhenGameDecoratorArgIsNotNull_ShouldProcessGame()
         {
             // Arrange
             var strategy = new ProcessGameStrategyBase(_teamSeasonRepository);

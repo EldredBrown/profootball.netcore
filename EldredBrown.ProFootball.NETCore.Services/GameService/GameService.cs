@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services.Exceptions;
+using EldredBrown.ProFootball.NETCore.Services.Utilities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {
@@ -30,6 +33,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="newGame">The <see cref="Game"/> entity to add to the data store.</param>
         public async Task AddGame(Game newGame)
         {
+            Guard.ThrowIfNull(newGame, $"{GetType()}.{nameof(AddGame)}: {nameof(newGame)}");
+
             var newGameDecorator = new GameDecorator(newGame);
             newGameDecorator.DecideWinnerAndLoser();
 
@@ -45,12 +50,15 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="oldGame">The <see cref="Game"/> entity containing data to remove from the data store.</param>
         public async Task EditGame(Game newGame, Game oldGame)
         {
+            Guard.ThrowIfNull(newGame, $"{GetType()}.{nameof(EditGame)}: {nameof(newGame)}");
+            Guard.ThrowIfNull(oldGame, $"{GetType()}.{nameof(EditGame)}: {nameof(oldGame)}");
+
             var newGameDecorator = new GameDecorator(newGame);
             newGameDecorator.DecideWinnerAndLoser();
 
             var selectedGame = await _gameRepository.GetGame(newGameDecorator.ID);
             GameDecorator selectedGameDecorator = null;
-            if (selectedGame != null)
+            if (!(selectedGame is null))
             {
                 selectedGameDecorator = new GameDecorator(selectedGame);
             }
@@ -71,14 +79,13 @@ namespace EldredBrown.ProFootball.NETCore.Services
         public async Task DeleteGame(int id)
         {
             var oldGame = await _gameRepository.GetGame(id);
-            GameDecorator oldGameDecorator = null;
-            if (oldGame != null)
+            if (oldGame is null)
             {
-                oldGameDecorator = new GameDecorator(oldGame);
+                throw new EntityNotFoundException($"A Game entity with ID={id} could not be found.");
             }
 
+            var oldGameDecorator = new GameDecorator(oldGame);
             await EditTeams(Direction.Down, oldGameDecorator);
-
             await _gameRepository.Delete(id);
         }
 

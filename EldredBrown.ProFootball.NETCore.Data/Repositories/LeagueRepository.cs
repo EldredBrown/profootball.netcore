@@ -74,7 +74,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         {
             var league = await GetLeague(id);
 
-            if (league != null)
+            if (!(league is null))
             {
                 _dbContext.Leagues.Remove(league);
             }

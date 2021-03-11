@@ -32,7 +32,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Api
         {
             var league = await _context.Leagues.FindAsync(id);
 
-            if (league == null)
+            if (league is null)
             {
                 return NotFound();
             }
@@ -89,7 +89,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Api
         public async Task<ActionResult<League>> DeleteLeague(int id)
         {
             var league = await _context.Leagues.FindAsync(id);
-            if (league == null)
+            if (league is null)
             {
                 return NotFound();
             }

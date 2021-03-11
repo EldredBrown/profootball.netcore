@@ -55,13 +55,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id.Value);
-            if (leagueSeason == null)
+            if (leagueSeason is null)
             {
                 return NotFound();
             }
@@ -116,13 +116,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id.Value);
-            if (leagueSeason == null)
+            if (leagueSeason is null)
             {
                 return NotFound();
             }
@@ -180,13 +180,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id.Value);
-            if (leagueSeason == null)
+            if (leagueSeason is null)
             {
                 return NotFound();
             }

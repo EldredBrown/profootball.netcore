@@ -69,7 +69,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var teamSeason = await _teamSeasonRepository.GetTeamSeason(id);
-                if (teamSeason == null)
+                if (teamSeason is null)
                 {
                     return NotFound();
                 }
@@ -133,7 +133,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var teamSeason = await _teamSeasonRepository.GetTeamSeason(id);
-                if (teamSeason == null)
+                if (teamSeason is null)
                 {
                     return NotFound($"Could not find teamSeason with ID of {id}");
                 }
@@ -165,7 +165,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var teamSeason = await _teamSeasonRepository.GetTeamSeason(id);
-                if (teamSeason == null)
+                if (teamSeason is null)
                 {
                     return NotFound($"Could not find teamSeason with ID of {id}");
                 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Views
 {
@@ -28,14 +25,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Views
         // GET: Conferences/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var conference = await _context.Conferences
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (conference == null)
+            if (conference is null)
             {
                 return NotFound();
             }
@@ -68,13 +65,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Views
         // GET: Conferences/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var conference = await _context.Conferences.FindAsync(id);
-            if (conference == null)
+            if (conference is null)
             {
                 return NotFound();
             }
@@ -119,14 +116,14 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Views
         // GET: Conferences/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var conference = await _context.Conferences
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (conference == null)
+            if (conference is null)
             {
                 return NotFound();
             }

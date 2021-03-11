@@ -74,7 +74,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var game = await _gameRepository.GetGame(id);
-                if (game == null)
+                if (game is null)
                 {
                     return NotFound();
                 }
@@ -140,7 +140,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                 var oldGame = _mapper.Map<Game>(models["oldGame"]);
 
                 var newGame = await _gameRepository.GetGame(id);
-                if (newGame == null)
+                if (newGame is null)
                 {
                     return NotFound($"Could not find game with ID of {id}");
                 }
@@ -174,7 +174,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var game = await _gameRepository.GetGame(id);
-                if (game == null)
+                if (game is null)
                 {
                     return NotFound($"Could not find game with ID of {id}");
                 }

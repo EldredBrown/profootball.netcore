@@ -78,13 +78,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var teamSeason = await _teamSeasonRepository.GetTeamSeason(id.Value);
-            if (teamSeason == null)
+            if (teamSeason is null)
             {
                 return NotFound();
             }
@@ -125,7 +125,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the team seasons index.</returns>
         public IActionResult SetSelectedSeasonYear(int? seasonYear)
         {
-            if (seasonYear == null)
+            if (seasonYear is null)
             {
                 return BadRequest();
             }

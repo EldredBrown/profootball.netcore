@@ -58,7 +58,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
         public IActionResult SetSelectedSeasonYear(int? seasonYear)
         {
-            if (seasonYear == null)
+            if (seasonYear is null)
             {
                 return BadRequest();
             }
@@ -75,7 +75,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
         public IActionResult SetGroupByDivision(bool? groupByDivision)
         {
-            if (groupByDivision != null)
+            if (groupByDivision.HasValue)
             {
                 _groupByDivision = groupByDivision.Value;
             }

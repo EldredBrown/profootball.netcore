@@ -99,12 +99,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the Game Predictor form.</returns>
         public IActionResult ApplyFilter(int? guestSeasonYear, int? hostSeasonYear)
         {
-            if (guestSeasonYear != null)
+            if (guestSeasonYear.HasValue)
             {
                 _guestSeasonYear = guestSeasonYear.Value;
             }
 
-            if (hostSeasonYear != null)
+            if (hostSeasonYear.HasValue)
             {
                 _hostSeasonYear = hostSeasonYear.Value;
             }

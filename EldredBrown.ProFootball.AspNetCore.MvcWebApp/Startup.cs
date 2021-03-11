@@ -97,7 +97,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp
             }
 
             var user = await userManager.FindByEmailAsync("eldred.brown@outlook.com");
-            if (user != null)
+            if (!(user is null))
             {
                 await userManager.AddToRoleAsync(user, "Admin");
             }

@@ -70,7 +70,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var league = await _leagueRepository.GetLeague(id);
-                if (league == null)
+                if (league is null)
                 {
                     return NotFound();
                 }
@@ -134,7 +134,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var league = await _leagueRepository.GetLeague(id);
-                if (league == null)
+                if (league is null)
                 {
                     return NotFound($"Could not find league with ID of {id}");
                 }
@@ -166,7 +166,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var league = await _leagueRepository.GetLeague(id);
-                if (league == null)
+                if (league is null)
                 {
                     return NotFound($"Could not find league with ID of {id}");
                 }

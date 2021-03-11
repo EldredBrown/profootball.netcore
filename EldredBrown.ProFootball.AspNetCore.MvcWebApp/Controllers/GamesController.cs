@@ -63,7 +63,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             var selectedSeason = (await _seasonRepository.GetSeasons())
                 .FirstOrDefault(s => s.Year == _selectedSeasonYear);
-            if (selectedSeason != null)
+            if (!(selectedSeason is null))
             {
                 for (int i = 0; i <= selectedSeason.NumOfWeeksScheduled; i++)
                 {
@@ -79,7 +79,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             }
 
             var games = (await _gameRepository.GetGames()).Where(g => g.SeasonYear == _selectedSeasonYear);
-            if (_selectedWeek != null)
+            if (_selectedWeek.HasValue)
             {
                 games = games.Where(g => g.Week == _selectedWeek);
             }
@@ -106,13 +106,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var game = await _gameRepository.GetGame(id.Value);
-            if (game == null)
+            if (game is null)
             {
                 return NotFound();
             }
@@ -185,13 +185,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the game edit form.</returns>
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var game = await _gameRepository.GetGame(id.Value);
-            if (game == null)
+            if (game is null)
             {
                 return NotFound();
             }
@@ -267,13 +267,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
             var game = await _gameRepository.GetGame(id.Value);
-            if (game == null)
+            if (game is null)
             {
                 return NotFound();
             }
@@ -304,7 +304,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the team seasons index.</returns>
         public IActionResult SetSelectedSeasonYear(int? seasonYear)
         {
-            if (seasonYear == null)
+            if (seasonYear is null)
             {
                 return BadRequest();
             }
