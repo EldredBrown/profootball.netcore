@@ -28,10 +28,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
         }
 
         /// <summary>
-        /// Adds a <see cref="Game"/> entity to the data store.
+        /// Adds a <see cref="IGameDecorator"/> entity to the data store.
         /// </summary>
-        /// <param name="newGame">The <see cref="Game"/> entity to add to the data store.</param>
-        public async Task AddGame(Game newGame)
+        /// <param name="newGame">The <see cref="IGameDecorator/> entity to add to the data store.</param>
+        public async Task AddGame(IGameDecorator newGame)
         {
             Guard.ThrowIfNull(newGame, $"{GetType()}.{nameof(AddGame)}: {nameof(newGame)}");
 
@@ -46,9 +46,9 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <summary>
         /// Edits a <see cref="Game"/> entity in the data store.
         /// </summary>
-        /// <param name="newGame">The <see cref="Game"/> entity containing data to add to the data store.</param>
+        /// <param name="newGame">The <see cref="IGameDecorator"/> entity containing data to add to the data store.</param>
         /// <param name="oldGame">The <see cref="Game"/> entity containing data to remove from the data store.</param>
-        public async Task EditGame(Game newGame, Game oldGame)
+        public async Task EditGame(IGameDecorator newGame, Game oldGame)
         {
             Guard.ThrowIfNull(newGame, $"{GetType()}.{nameof(EditGame)}: {nameof(newGame)}");
             Guard.ThrowIfNull(oldGame, $"{GetType()}.{nameof(EditGame)}: {nameof(oldGame)}");
