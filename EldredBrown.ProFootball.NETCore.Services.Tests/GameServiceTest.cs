@@ -11,8 +11,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
     public class GameServiceTest
     {
-        private IGameRepository _gameRepository;
-        private IProcessGameStrategyFactory _processGameStrategyFactory;
+        private readonly IGameRepository _gameRepository;
+        private readonly IProcessGameStrategyFactory _processGameStrategyFactory;
 
         public GameServiceTest()
         {

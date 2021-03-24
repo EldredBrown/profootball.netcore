@@ -9,7 +9,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
     public class AddGameStrategyTest
     {
-        private ITeamSeasonRepository _teamSeasonRepository;
+        private readonly ITeamSeasonRepository _teamSeasonRepository;
 
         public AddGameStrategyTest()
         {

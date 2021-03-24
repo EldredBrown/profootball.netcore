@@ -9,14 +9,14 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
     public class WeeklyUpdateServiceTest
     {
-        private ISeasonRepository _seasonRepository;
-        private IGameRepository _gameRepository;
-        private ILeagueSeasonRepository _leagueSeasonRepository;
-        private ILeagueSeasonTotalsRepository _leagueSeasonTotalsRepository;
-        private ITeamSeasonRepository _teamSeasonRepository;
-        private ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
-        private ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
-        private ISharedRepository _sharedRepository;
+        private readonly ISeasonRepository _seasonRepository;
+        private readonly IGameRepository _gameRepository;
+        private readonly ILeagueSeasonRepository _leagueSeasonRepository;
+        private readonly ILeagueSeasonTotalsRepository _leagueSeasonTotalsRepository;
+        private readonly ITeamSeasonRepository _teamSeasonRepository;
+        private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
+        private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
+        private readonly ISharedRepository _sharedRepository;
 
         public WeeklyUpdateServiceTest()
         {

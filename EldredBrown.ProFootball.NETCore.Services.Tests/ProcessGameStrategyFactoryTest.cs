@@ -6,7 +6,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
     public class ProcessGameStrategyFactoryTest
     {
-        private ITeamSeasonRepository _teamSeasonRepository;
+        private readonly ITeamSeasonRepository _teamSeasonRepository;
 
         public ProcessGameStrategyFactoryTest()
         {
