@@ -5,7 +5,7 @@ using EldredBrown.ProFootball.NETCore.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Views
+namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 {
     public class ConferencesController : Controller
     {
