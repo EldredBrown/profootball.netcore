@@ -5,6 +5,7 @@ using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services.Exceptions;
 using FakeItEasy;
+using Shouldly;
 using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
@@ -32,8 +33,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             Func<Task> func = new Func<Task>(async () => await service.AddGame(newGame!));
 
             // Assert
-            var ex = await Assert.ThrowsAsync<ArgumentNullException>(func);
-            Assert.Equal($"{service.GetType()}.AddGame: newGame", ex.ParamName);
+            var ex = await func.ShouldThrowAsync<ArgumentNullException>();
+            ex.ParamName.ShouldBe($"{service.GetType()}.AddGame: newGame");
         }
 
         [Fact]
@@ -69,8 +70,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             Func<Task> func = new Func<Task>(async () => await service.EditGame(newGame!, oldGame!));
 
             // Assert
-            var ex = await Assert.ThrowsAsync<ArgumentNullException>(func);
-            Assert.Equal($"{service.GetType()}.EditGame: newGame", ex.ParamName);
+            var ex = await func.ShouldThrowAsync<ArgumentNullException>();
+            ex.ParamName.ShouldBe($"{service.GetType()}.EditGame: newGame");
         }
 
         [Fact]
@@ -86,8 +87,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             Func<Task> func = new Func<Task>(async () => await service.EditGame(newGame, oldGame!));
 
             // Assert
-            var ex = await Assert.ThrowsAsync<ArgumentNullException>(func);
-            Assert.Equal($"{service.GetType()}.EditGame: oldGame", ex.ParamName);
+            var ex = await func.ShouldThrowAsync<ArgumentNullException>();
+            ex.ParamName.ShouldBe($"{service.GetType()}.EditGame: oldGame");
         }
 
         [Fact]
@@ -105,8 +106,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             Func<Task> func = new Func<Task>(async () => await service.EditGame(newGame, oldGame));
 
             // Assert
-            var ex = await Assert.ThrowsAsync<EntityNotFoundException>(func);
-            Assert.Equal($"{service.GetType()}.EditGame: The selected Game entity could not be found.", ex.Message);
+            var ex = await func.ShouldThrowAsync<EntityNotFoundException>();
+            ex.Message.ShouldBe($"{service.GetType()}.EditGame: The selected Game entity could not be found.");
         }
 
         [Fact]
@@ -153,8 +154,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             Func<Task> func = new Func<Task>(async () => await service.DeleteGame(id));
 
             // Assert
-            var ex = await Assert.ThrowsAsync<EntityNotFoundException>(func);
-            Assert.Equal($"{service.GetType()}.DeleteGame: A Game entity with ID={id} could not be found.", ex.Message);
+            var ex = await func.ShouldThrowAsync<EntityNotFoundException>();
+            ex.Message.ShouldBe($"{service.GetType()}.DeleteGame: A Game entity with ID={id} could not be found.");
         }
 
         [Fact]

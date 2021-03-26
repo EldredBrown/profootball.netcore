@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
+using Shouldly;
 using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
@@ -28,7 +29,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             Func<Task> func = new Func<Task>(async () => await strategy.ProcessGame(gameDecorator!));
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(func);
+            await func.ShouldThrowAsync<ArgumentNullException>();
         }
 
         [Fact]

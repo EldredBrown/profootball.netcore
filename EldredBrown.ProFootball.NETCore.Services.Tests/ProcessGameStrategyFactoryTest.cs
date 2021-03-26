@@ -1,5 +1,6 @@
 ﻿using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
+using Shouldly;
 using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
@@ -23,7 +24,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             var strategy = factory.CreateStrategy(Direction.Up);
 
             // Assert
-            Assert.IsType<AddGameStrategy>(strategy);
+            strategy.ShouldBeOfType<AddGameStrategy>();
         }
 
         [Fact]
@@ -36,7 +37,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             var strategy = factory.CreateStrategy(Direction.Down);
 
             // Assert
-            Assert.IsType<SubtractGameStrategy>(strategy);
+            strategy.ShouldBeOfType<SubtractGameStrategy>();
         }
 
         [Fact]
@@ -49,7 +50,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             var strategy = factory.CreateStrategy((Direction)3);
 
             // Assert
-            Assert.IsType<NullGameStrategy>(strategy);
+            strategy.ShouldBeOfType<NullGameStrategy>();
         }
     }
 }
