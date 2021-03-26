@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<ArgumentNullException>();
-            ex.ParamName.ShouldBe($"{service.GetType()}.AddGame: newGame");
+            ex.ParamName.ShouldBe<string>($"{service.GetType()}.AddGame: newGame");
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<ArgumentNullException>();
-            ex.ParamName.ShouldBe($"{service.GetType()}.EditGame: newGame");
+            ex.ParamName.ShouldBe<string>($"{service.GetType()}.EditGame: newGame");
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<ArgumentNullException>();
-            ex.ParamName.ShouldBe($"{service.GetType()}.EditGame: oldGame");
+            ex.ParamName.ShouldBe<string>($"{service.GetType()}.EditGame: oldGame");
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<EntityNotFoundException>();
-            ex.Message.ShouldBe($"{service.GetType()}.EditGame: The selected Game entity could not be found.");
+            ex.Message.ShouldBe<string>($"{service.GetType()}.EditGame: The selected Game entity could not be found.");
         }
 
         [Fact]
@@ -155,7 +155,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<EntityNotFoundException>();
-            ex.Message.ShouldBe($"{service.GetType()}.DeleteGame: A Game entity with ID={id} could not be found.");
+            ex.Message.ShouldBe<string>(
+                $"{service.GetType()}.DeleteGame: A Game entity with ID={id} could not be found.");
         }
 
         [Fact]
