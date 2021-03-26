@@ -33,16 +33,16 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
             var guestSeason =
                 await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear);
-            TeamSeasonDecorator guestSeasonDecorator = null;
-            if (!(guestSeason is null))
+            TeamSeasonDecorator? guestSeasonDecorator = null;
+            if (guestSeason != null)
             {
                 guestSeasonDecorator = new TeamSeasonDecorator(guestSeason);
             }
 
             var hostSeason =
                 await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear);
-            TeamSeasonDecorator hostSeasonDecorator = null;
-            if (!(hostSeason is null))
+            TeamSeasonDecorator? hostSeasonDecorator = null;
+            if (hostSeason != null)
             {
                 hostSeasonDecorator = new TeamSeasonDecorator(hostSeason);
             }
@@ -52,50 +52,50 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 gameDecorator.HostScore);
         }
 
-        protected async Task EditWinLossData(TeamSeasonDecorator guestSeasonDecorator,
-            TeamSeasonDecorator hostSeasonDecorator, IGameDecorator gameDecorator)
+        protected async Task EditWinLossData(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
         {
             UpdateGamesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
             await UpdateWinsLossesAndTiesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
             UpdateWinningPercentageForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
         }
 
-        protected virtual void UpdateGamesForTeamSeasons(TeamSeasonDecorator guestSeasonDecorator,
-            TeamSeasonDecorator hostSeasonDecorator)
+        protected virtual void UpdateGamesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator)
         {
             throw new NotImplementedException(
                 nameof(UpdateGamesForTeamSeasons) + " must be implemented in a subclass.");
         }
 
-        protected virtual Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator guestSeasonDecorator,
-            TeamSeasonDecorator hostSeasonDecorator, IGameDecorator gameDecorator)
+        protected virtual Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
         {
             throw new NotImplementedException(
                 nameof(UpdateWinsLossesAndTiesForTeamSeasons) + " must be implemented in a subclass.");
         }
 
-        protected void UpdateWinningPercentageForTeamSeasons(TeamSeasonDecorator guestSeasonDecorator,
-            TeamSeasonDecorator hostSeasonDecorator)
+        protected void UpdateWinningPercentageForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator)
         {
-            if (!(guestSeasonDecorator is null))
+            if (guestSeasonDecorator != null)
             {
                 guestSeasonDecorator.CalculateWinningPercentage();
             }
 
-            if (!(hostSeasonDecorator is null))
+            if (hostSeasonDecorator != null)
             {
                 hostSeasonDecorator.CalculateWinningPercentage();
             }
         }
 
-        protected void EditScoringData(TeamSeasonDecorator guestSeasonDecorator,
-            TeamSeasonDecorator hostSeasonDecorator, int guestScore, int hostScore)
+        protected void EditScoringData(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator, int guestScore, int hostScore)
         {
             EditScoringDataForTeamSeason(guestSeasonDecorator, guestScore, hostScore);
             EditScoringDataForTeamSeason(hostSeasonDecorator, hostScore, guestScore);
         }
 
-        protected virtual void EditScoringDataForTeamSeason(TeamSeasonDecorator teamSeasonDecorator, int teamScore,
+        protected virtual void EditScoringDataForTeamSeason(TeamSeasonDecorator? teamSeasonDecorator, int teamScore,
             int opponentScore)
         {
             throw new NotImplementedException(

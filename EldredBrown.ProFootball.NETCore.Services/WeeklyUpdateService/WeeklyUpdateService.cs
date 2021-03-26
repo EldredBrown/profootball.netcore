@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Decorators;
+using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 
 namespace EldredBrown.ProFootball.NETCore.Services
@@ -11,6 +12,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
     /// </summary>
     public class WeeklyUpdateService : IWeeklyUpdateService
     {
+        private const int _selectedSeason = 1920;
+
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameRepository _gameRepository;
         private readonly ILeagueSeasonRepository _leagueSeasonRepository;
@@ -20,9 +23,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
         private readonly ISharedRepository _sharedRepository;
 
-        private object _dbLock = new object();
-
-        private int _selectedSeason = 1920;
+        private readonly object _dbLock = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeeklyUpdateService"/> class.
@@ -78,17 +79,13 @@ namespace EldredBrown.ProFootball.NETCore.Services
         private void UpdateLeagueSeason(string leagueName, int seasonYear)
         {
             var leagueSeasonTotals = _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear);
-            if (leagueSeasonTotals.TotalGames is null)
+            if (leagueSeasonTotals.TotalGames is null || leagueSeasonTotals.TotalPoints is null)
             {
                 return;
             }
 
             var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear);
-            LeagueSeasonDecorator leagueSeasonDecorator = null;
-            if (!(leagueSeason is null))
-            {
-                leagueSeasonDecorator = new LeagueSeasonDecorator(leagueSeason);
-            }
+            var leagueSeasonDecorator = new LeagueSeasonDecorator(leagueSeason);
             leagueSeasonDecorator.UpdateGamesAndPoints(leagueSeasonTotals.TotalGames.Value,
                 leagueSeasonTotals.TotalPoints.Value);
         }
@@ -101,8 +98,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 .Max();
 
             var destSeason = await _seasonRepository.GetSeason(seasonYear);
-
-            destSeason.NumOfWeeksCompleted = srcWeekCount;
+            if (destSeason != null)
+            {
+                destSeason.NumOfWeeksCompleted = srcWeekCount;
+            }
 
             return srcWeekCount;
         }
@@ -128,23 +127,32 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 var teamSeasonScheduleTotals =
                     await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(
                         teamSeasonDecorator.TeamName, teamSeasonDecorator.SeasonYear);
+                if (teamSeasonScheduleTotals?.ScheduleGames is null)
+                {
+                    return;
+                }
 
                 var teamSeasonScheduleAverages =
                     await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(
                         teamSeasonDecorator.TeamName, teamSeasonDecorator.SeasonYear);
+                if (teamSeasonScheduleAverages?.PointsFor is null ||
+                    teamSeasonScheduleAverages?.PointsAgainst is null)
+                {
+                    return;
+                }
+
+                var leagueSeason =
+                    _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
+                        teamSeasonDecorator.LeagueName, teamSeasonDecorator.SeasonYear);
+                if (leagueSeason.AveragePoints is null)
+                {
+                    return;
+                }
 
                 lock (_dbLock)
                 {
-                    if (!(teamSeasonScheduleTotals is null) && !(teamSeasonScheduleAverages is null) &&
-                        !(teamSeasonScheduleTotals.ScheduleGames is null))
-                    {
-                        var leagueSeason =
-                            _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
-                                teamSeasonDecorator.LeagueName, teamSeasonDecorator.SeasonYear);
-
-                        teamSeasonDecorator.UpdateRankings(teamSeasonScheduleAverages.PointsFor.Value,
-                            teamSeasonScheduleAverages.PointsAgainst.Value, leagueSeason.AveragePoints.Value);
-                    }
+                    teamSeasonDecorator.UpdateRankings(teamSeasonScheduleAverages.PointsFor.Value,
+                        teamSeasonScheduleAverages.PointsAgainst.Value, leagueSeason.AveragePoints.Value);
                 }
             }
             catch (InvalidOperationException ex)

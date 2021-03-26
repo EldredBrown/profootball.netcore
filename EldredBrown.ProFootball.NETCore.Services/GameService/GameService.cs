@@ -52,16 +52,17 @@ namespace EldredBrown.ProFootball.NETCore.Services
             Guard.ThrowIfNull(newGame, $"{GetType()}.{nameof(EditGame)}: {nameof(newGame)}");
             Guard.ThrowIfNull(oldGame, $"{GetType()}.{nameof(EditGame)}: {nameof(oldGame)}");
 
+            var selectedGame = await _gameRepository.GetGame(newGame.ID);
+            if (selectedGame is null)
+            {
+                throw new EntityNotFoundException(
+                    $"{GetType()}.{nameof(EditGame)}: The selected Game entity could not be found.");
+            }
+
             var newGameDecorator = new GameDecorator(newGame);
             newGameDecorator.DecideWinnerAndLoser();
 
-            var selectedGame = await _gameRepository.GetGame(newGameDecorator.ID);
-            GameDecorator selectedGameDecorator = null;
-            if (!(selectedGame is null))
-            {
-                selectedGameDecorator = new GameDecorator(selectedGame);
-            }
-
+            var selectedGameDecorator = new GameDecorator(selectedGame);
             selectedGameDecorator.Edit(newGameDecorator);
 
             _gameRepository.Update(selectedGame);
@@ -80,7 +81,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
             var oldGame = await _gameRepository.GetGame(id);
             if (oldGame is null)
             {
-                throw new EntityNotFoundException($"A Game entity with ID={id} could not be found.");
+                throw new EntityNotFoundException(
+                    $"{GetType()}.{nameof(DeleteGame)}: A Game entity with ID={id} could not be found.");
             }
 
             var oldGameDecorator = new GameDecorator(oldGame);

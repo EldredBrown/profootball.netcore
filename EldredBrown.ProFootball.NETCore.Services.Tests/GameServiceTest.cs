@@ -26,10 +26,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
 
-            Game newGame = null;
+            Game? newGame = null;
 
             // Act
-            Func<Task> func = new Func<Task>(async () => await service.AddGame(newGame));
+            Func<Task> func = new Func<Task>(async () => await service.AddGame(newGame!));
 
             // Assert
             var ex = await Assert.ThrowsAsync<ArgumentNullException>(func);
@@ -42,10 +42,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
 
+            var newGame = new Game();
+
             var strategy = A.Fake<ProcessGameStrategyBase>();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Up)).Returns(strategy);
-
-            var newGame = new Game();
 
             // Act
             await service.AddGame(newGame);
@@ -62,11 +62,11 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
 
-            Game newGame = null;
-            Game oldGame = null;
+            Game? newGame = null;
+            Game? oldGame = null;
 
             // Act
-            Func<Task> func = new Func<Task>(async () => await service.EditGame(newGame, oldGame));
+            Func<Task> func = new Func<Task>(async () => await service.EditGame(newGame!, oldGame!));
 
             // Assert
             var ex = await Assert.ThrowsAsync<ArgumentNullException>(func);
@@ -79,11 +79,11 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
 
-            Game newGame = new Game();
-            Game oldGame = null;
+            var newGame = new Game();
+            Game? oldGame = null;
 
             // Act
-            Func<Task> func = new Func<Task>(async () => await service.EditGame(newGame, oldGame));
+            Func<Task> func = new Func<Task>(async () => await service.EditGame(newGame, oldGame!));
 
             // Assert
             var ex = await Assert.ThrowsAsync<ArgumentNullException>(func);
@@ -91,10 +91,32 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         }
 
         [Fact]
-        public async Task EditGame_WhenNewGameAndOldGameArePassed_ShouldEditGameInRepository()
+        public async Task EditGame_WhenNewGameAndOldGameArgsAreNotNullAndSelectedGameIsNotFound_ShouldThrowEntityNotFoundException()
         {
             // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
+
+            var newGame = new Game();
+            var oldGame = new Game();
+
+            A.CallTo(() => _gameRepository.GetGame(A<int>.Ignored)).Returns<Game?>(null);            
+
+            // Act
+            Func<Task> func = new Func<Task>(async () => await service.EditGame(newGame, oldGame));
+
+            // Assert
+            var ex = await Assert.ThrowsAsync<EntityNotFoundException>(func);
+            Assert.Equal($"{service.GetType()}.EditGame: The selected Game entity could not be found.", ex.Message);
+        }
+
+        [Fact]
+        public async Task EditGame_WhenNewGameAndOldGameArgsAreNotNullAndSelectedGameIsFound_ShouldEditGameInRepository()
+        {
+            // Arrange
+            var service = new GameService(_gameRepository, _processGameStrategyFactory);
+
+            var newGame = new Game();
+            var oldGame = new Game();
 
             var selectedGame = new Game();
             A.CallTo(() => _gameRepository.GetGame(A<int>.Ignored)).Returns(selectedGame);
@@ -104,9 +126,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             var upStrategy = A.Fake<ProcessGameStrategyBase>();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Up)).Returns(upStrategy);
-
-            var newGame = new Game();
-            var oldGame = new Game();
 
             // Act
             await service.EditGame(newGame, oldGame);
@@ -128,15 +147,14 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             var id = 1;
 
-            Game game = null;
-            A.CallTo(() => _gameRepository.GetGame(id)).Returns(game);
+            A.CallTo(() => _gameRepository.GetGame(id)).Returns<Game?>(null);
 
             // Act
             Func<Task> func = new Func<Task>(async () => await service.DeleteGame(id));
 
             // Assert
             var ex = await Assert.ThrowsAsync<EntityNotFoundException>(func);
-            Assert.Equal($"A Game entity with ID={id} could not be found.", ex.Message);
+            Assert.Equal($"{service.GetType()}.DeleteGame: A Game entity with ID={id} could not be found.", ex.Message);
         }
 
         [Fact]
@@ -145,10 +163,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Arrange
             var service = new GameService(_gameRepository, _processGameStrategyFactory);
 
+            var id = 1;
+
             var strategy = A.Fake<ProcessGameStrategyBase>();
             A.CallTo(() => _processGameStrategyFactory.CreateStrategy(Direction.Down)).Returns(strategy);
-
-            var id = 1;
 
             // Act
             await service.DeleteGame(id);

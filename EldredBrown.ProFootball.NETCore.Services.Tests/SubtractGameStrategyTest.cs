@@ -20,7 +20,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         public async Task ProcessGame_WhenGameIsATie_ShouldUpdateTiesForTeamSeasons()
         {
             // Arrange
-            var strategy = new AddGameStrategy(_teamSeasonRepository);
+            var strategy = new SubtractGameStrategy(_teamSeasonRepository);
 
             var gameDecorator = A.Fake<IGameDecorator>();
             gameDecorator.GuestName = "Guest";
@@ -30,13 +30,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             gameDecorator.SeasonYear = 1920;
             A.CallTo(() => gameDecorator.IsTie()).Returns(true);
 
-            TeamSeason guestSeason = null;
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, A<int>.Ignored))
-                .Returns(guestSeason);
-
-            TeamSeason hostSeason = null;
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, A<int>.Ignored))
-                .Returns(hostSeason);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(A<string>.Ignored, A<int>.Ignored))
+                .Returns<TeamSeason?>(null);
 
             // Act
             await strategy.ProcessGame(gameDecorator);
@@ -58,7 +53,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         public async Task ProcessGame_WhenGameIsNotATie_ShouldUpdateWinsAndLossesForTeamSeasons()
         {
             // Arrange
-            var strategy = new AddGameStrategy(_teamSeasonRepository);
+            var strategy = new SubtractGameStrategy(_teamSeasonRepository);
 
             var gameDecorator = A.Fake<IGameDecorator>();
             gameDecorator.GuestName = "Guest";
@@ -68,21 +63,8 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             gameDecorator.SeasonYear = 1920;
             A.CallTo(() => gameDecorator.IsTie()).Returns(false);
 
-            TeamSeason guestSeason = null;
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, A<int>.Ignored))
-                .Returns(guestSeason);
-
-            TeamSeason hostSeason = null;
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, A<int>.Ignored))
-                .Returns(hostSeason);
-
-            TeamSeason winnerSeason = null;
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName, A<int>.Ignored))
-                .Returns(winnerSeason);
-
-            TeamSeason loserSeason = null;
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName, A<int>.Ignored))
-                .Returns(loserSeason);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(A<string>.Ignored, A<int>.Ignored))
+                .Returns<TeamSeason?>(null);
 
             // Act
             await strategy.ProcessGame(gameDecorator);

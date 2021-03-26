@@ -22,10 +22,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Arrange
             var strategy = new ProcessGameStrategyBase(_teamSeasonRepository);
 
-            GameDecorator gameDecorator = null;
+            GameDecorator? gameDecorator = null;
 
             // Act
-            Func<Task> func = new Func<Task>(async () => await strategy.ProcessGame(gameDecorator));
+            Func<Task> func = new Func<Task>(async () => await strategy.ProcessGame(gameDecorator!));
 
             // Assert
             await Assert.ThrowsAsync<ArgumentNullException>(func);
@@ -41,19 +41,21 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             gameDecorator.GuestName = "Guest";
             gameDecorator.HostName = "Host";
 
-            var seasonYear = gameDecorator.SeasonYear;
-
             // Act
             try
             {
                 await strategy.ProcessGame(gameDecorator);
             }
-            catch (Exception)
+            catch (NotImplementedException)
             {
-                // Do nothing.
+                // This test case calls a base class method that is implemented only in subclasses, thereby throwing a
+                // NotImplementedException. The exception has no impact on what I expect to happen here, so it can be
+                // ignored.
             }
 
             // Assert
+            var seasonYear = gameDecorator.SeasonYear;
+
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear))

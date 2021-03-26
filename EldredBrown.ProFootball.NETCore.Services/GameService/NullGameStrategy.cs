@@ -5,10 +5,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
 {
     public class NullGameStrategy : ProcessGameStrategyBase
     {
-        private static NullGameStrategy _instance;
+        private static NullGameStrategy? _instance;
 
         private NullGameStrategy()
-            : base(null)
+            : base(null!)
         {
         }
 
@@ -27,6 +27,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
         // Do nothing methods, for this is an implementation of the Null Object Pattern.
         public override async Task ProcessGame(IGameDecorator gameDecorator)
-        {}
+        {
+        }
     }
 }

@@ -13,33 +13,34 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
         public AddGameStrategy(ITeamSeasonRepository teamSeasonRepository)
             : base(teamSeasonRepository)
-        {}
-
-        protected override void UpdateGamesForTeamSeasons(TeamSeasonDecorator guestSeasonDecorator,
-            TeamSeasonDecorator hostSeasonDecorator)
         {
-            if (!(guestSeasonDecorator is null))
+        }
+
+        protected override void UpdateGamesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator)
+        {
+            if (guestSeasonDecorator != null)
             {
                 guestSeasonDecorator.Games++;
             }
 
-            if (!(hostSeasonDecorator is null))
+            if (hostSeasonDecorator != null)
             {
                 hostSeasonDecorator.Games++;
             }
         }
 
-        protected override async Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator guestSeasonDecorator,
-            TeamSeasonDecorator hostSeasonDecorator, IGameDecorator gameDecorator)
+        protected override async Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
         {
             if (gameDecorator.IsTie())
             {
-                if (!(guestSeasonDecorator is null))
+                if (guestSeasonDecorator != null)
                 {
                     guestSeasonDecorator.Ties++;
                 }
 
-                if (!(hostSeasonDecorator is null))
+                if (hostSeasonDecorator != null)
                 {
                     hostSeasonDecorator.Ties++;
                 }
@@ -50,21 +51,21 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
                 var winnerSeason =
                     await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName, seasonYear);
-                if (!(winnerSeason is null))
+                if (winnerSeason != null)
                 {
                     winnerSeason.Wins++;
                 }
 
                 var loserSeason =
                     await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName, seasonYear);
-                if (!(loserSeason is null))
+                if (loserSeason != null)
                 {
                     loserSeason.Losses++;
                 }
             }
         }
 
-        protected override void EditScoringDataForTeamSeason(TeamSeasonDecorator teamSeasonDecorator, int teamScore,
+        protected override void EditScoringDataForTeamSeason(TeamSeasonDecorator? teamSeasonDecorator, int teamScore,
             int opponentScore)
         {
             if (teamSeasonDecorator is null)
