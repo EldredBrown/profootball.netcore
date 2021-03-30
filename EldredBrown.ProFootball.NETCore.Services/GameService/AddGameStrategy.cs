@@ -19,12 +19,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
         protected override void UpdateGamesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
             TeamSeasonDecorator? hostSeasonDecorator)
         {
-            if (guestSeasonDecorator != null)
+            if (!(guestSeasonDecorator is null))
             {
                 guestSeasonDecorator.Games++;
             }
 
-            if (hostSeasonDecorator != null)
+            if (!(hostSeasonDecorator is null))
             {
                 hostSeasonDecorator.Games++;
             }
@@ -35,12 +35,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
         {
             if (gameDecorator.IsTie())
             {
-                if (guestSeasonDecorator != null)
+                if (!(guestSeasonDecorator is null))
                 {
                     guestSeasonDecorator.Ties++;
                 }
 
-                if (hostSeasonDecorator != null)
+                if (!(hostSeasonDecorator is null))
                 {
                     hostSeasonDecorator.Ties++;
                 }
@@ -51,14 +51,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
                 var winnerSeason =
                     await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName, seasonYear);
-                if (winnerSeason != null)
+                if (!(winnerSeason is null))
                 {
                     winnerSeason.Wins++;
                 }
 
                 var loserSeason =
                     await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName, seasonYear);
-                if (loserSeason != null)
+                if (!(loserSeason is null))
                 {
                     loserSeason.Losses++;
                 }

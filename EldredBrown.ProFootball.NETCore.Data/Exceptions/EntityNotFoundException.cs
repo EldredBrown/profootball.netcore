@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Exceptions
 {
+    [Serializable]
     public class EntityNotFoundException : Exception
     {
         /// <summary>
@@ -29,7 +30,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Exceptions
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-		public EntityNotFoundException(SerializationInfo info, StreamingContext context)
+		protected EntityNotFoundException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

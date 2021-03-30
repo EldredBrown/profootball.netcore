@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             var guestSeason =
                 await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear);
             TeamSeasonDecorator? guestSeasonDecorator = null;
-            if (guestSeason != null)
+            if (!(guestSeason is null))
             {
                 guestSeasonDecorator = new TeamSeasonDecorator(guestSeason);
             }
@@ -42,7 +42,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             var hostSeason =
                 await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear);
             TeamSeasonDecorator? hostSeasonDecorator = null;
-            if (hostSeason != null)
+            if (!(hostSeason is null))
             {
                 hostSeasonDecorator = new TeamSeasonDecorator(hostSeason);
             }
@@ -77,12 +77,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
         protected void UpdateWinningPercentageForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
             TeamSeasonDecorator? hostSeasonDecorator)
         {
-            if (guestSeasonDecorator != null)
+            if (!(guestSeasonDecorator is null))
             {
                 guestSeasonDecorator.CalculateWinningPercentage();
             }
 
-            if (hostSeasonDecorator != null)
+            if (!(hostSeasonDecorator is null))
             {
                 hostSeasonDecorator.CalculateWinningPercentage();
             }

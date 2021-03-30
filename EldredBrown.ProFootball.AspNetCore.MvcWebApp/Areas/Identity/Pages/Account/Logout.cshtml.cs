@@ -30,7 +30,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Areas.Identity.Pages.Acco
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
+            if (!(returnUrl is null))
             {
                 return LocalRedirect(returnUrl);
             }

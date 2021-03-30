@@ -45,7 +45,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
 
             League = await _leagueRepository.GetLeague(id.Value);
 
-            if (League != null)
+            if (!(League is null))
             {
                 await _leagueRepository.Delete(League.ID);
                 await _sharedRepository.SaveChanges();

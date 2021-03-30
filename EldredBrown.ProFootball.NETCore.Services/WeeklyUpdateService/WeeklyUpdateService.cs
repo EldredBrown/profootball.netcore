@@ -98,7 +98,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 .Max();
 
             var destSeason = await _seasonRepository.GetSeason(seasonYear);
-            if (destSeason != null)
+            if (!(destSeason is null))
             {
                 destSeason.NumOfWeeksCompleted = srcWeekCount;
             }
