@@ -27,7 +27,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="teamName">The team name of the <see cref="TeamSeasonScheduleAverages"/> entity to fetch.</param>
         /// <param name="seasonYear">The season year of the <see cref="TeamSeasonScheduleAverages"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="TeamSeasonScheduleAverages"/> entity.</returns>
-        public async Task<TeamSeasonScheduleAverages> GetTeamSeasonScheduleAverages(
+        public async Task<TeamSeasonScheduleAverages?> GetTeamSeasonScheduleAverages(
             string teamName, int seasonYear)
         {
             return (await _dbContext.TeamSeasonScheduleAverages.FromSqlInterpolated(

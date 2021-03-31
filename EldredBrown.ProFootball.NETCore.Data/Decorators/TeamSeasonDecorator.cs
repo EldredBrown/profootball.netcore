@@ -66,7 +66,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// Gets or sets the name of the wrapped <see cref="TeamSeason"/> entity's conference.
         /// </summary>
         [Display(Name = "Conference")]
-        public new string ConferenceName
+        public new string? ConferenceName
         {
             get { return _teamSeason.ConferenceName; }
             set { _teamSeason.ConferenceName = value; }
@@ -76,7 +76,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// Gets or sets the name of the wrapped <see cref="TeamSeason"/> entity's division.
         /// </summary>
         [Display(Name = "Division")]
-        public new string DivisionName
+        public new string? DivisionName
         {
             get { return _teamSeason.DivisionName; }
             set { _teamSeason.DivisionName = value; }
@@ -295,7 +295,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
             _teamSeason.OffensiveAverage = Divide(_teamSeason.PointsFor, _teamSeason.Games);
             _teamSeason.DefensiveAverage = Divide(_teamSeason.PointsAgainst, _teamSeason.Games);
 
-            if (_teamSeason.Games <= 0)
+            if (_teamSeason.Games <= 0 ||
+                !_teamSeason.OffensiveAverage.HasValue ||
+                !_teamSeason.DefensiveAverage.HasValue)
             {
                 return;
             }

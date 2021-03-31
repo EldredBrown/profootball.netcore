@@ -35,8 +35,13 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="League"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="League"/> entity.</returns>
-        public async Task<League> GetLeague(int id)
+        public async Task<League?> GetLeague(int id)
         {
+            if (_dbContext.Leagues is null)
+            {
+                return null;
+            }
+
             return await _dbContext.Leagues.FindAsync(id);
         }
 
@@ -59,6 +64,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <returns>The updated <see cref="League"/> entity.</returns>
         public League Update(League league)
         {
+            if (_dbContext.Leagues is null)
+            {
+                return league;
+            }
+
             var entity = _dbContext.Leagues.Attach(league);
             entity.State = EntityState.Modified;
 
@@ -70,14 +80,20 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="League"/> entity to delete.</param>
         /// <returns>The deleted <see cref="League"/> entity.</returns>
-        public async Task<League> Delete(int id)
+        public async Task<League?> Delete(int id)
         {
-            var league = await GetLeague(id);
-
-            if (!(league is null))
+            if (_dbContext.Leagues is null)
             {
-                _dbContext.Leagues.Remove(league);
+                return null;
             }
+
+            var league = await GetLeague(id);
+            if (league is null)
+            {
+                return null;
+            }
+
+            _dbContext.Leagues.Remove(league);
 
             return league;
         }

@@ -20,7 +20,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Team"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Team"/> entity.</returns>
-        Task<Team> GetTeam(int id);
+        Task<Team?> GetTeam(int id);
 
         /// <summary>
         /// Adds a <see cref="Team"/> entity to the data store.
@@ -41,7 +41,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Team"/> entity to delete.</param>
         /// <returns>The deleted <see cref="Team"/> entity.</returns>
-        Task<Team> Delete(int id);
+        Task<Team?> Delete(int id);
 
         /// <summary>
         /// Checks to verify whether a specific <see cref="Team"/> entity exists in the data store.

@@ -35,8 +35,13 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Season"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Season"/> entity.</returns>
-        public async Task<Season> GetSeason(int id)
+        public async Task<Season?> GetSeason(int id)
         {
+            if (_dbContext.Seasons is null)
+            {
+                return null;
+            }
+
             return await _dbContext.Seasons.FindAsync(id);
         }
 
@@ -59,6 +64,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <returns>The updated <see cref="Season"/> entity.</returns>
         public Season Update(Season season)
         {
+            if (_dbContext.Seasons is null)
+            {
+                return season;
+            }
+
             var entity = _dbContext.Seasons.Attach(season);
             entity.State = EntityState.Modified;
 
@@ -70,14 +80,20 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Season"/> entity to delete.</param>
         /// <returns>The deleted <see cref="Season"/> entity.</returns>
-        public async Task<Season> Delete(int id)
+        public async Task<Season?> Delete(int id)
         {
-            var season = await GetSeason(id);
-
-            if (!(season is null))
+            if (_dbContext.Seasons is null)
             {
-                _dbContext.Seasons.Remove(season);
+                return null;
             }
+
+            var season = await GetSeason(id);
+            if (season is null)
+            {
+                return null;
+            }
+
+            _dbContext.Seasons.Remove(season);
 
             return season;
         }

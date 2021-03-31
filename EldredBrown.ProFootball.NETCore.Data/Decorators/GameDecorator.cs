@@ -96,7 +96,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// Gets or sets the name of the wrapped <see cref="Game"/> entity's winner.
         /// </summary>
         [DisplayName("Winner")]
-        public new string WinnerName
+        public new string? WinnerName
         {
             get { return _game.WinnerName; }
             set { _game.WinnerName = value; }
@@ -116,7 +116,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// Gets or sets the name of the wrapped <see cref="Game"/> entity's loser.
         /// </summary>
         [DisplayName("Loser")]
-        public new string LoserName
+        public new string? LoserName
         {
             get { return _game.LoserName; }
             set { _game.LoserName = value; }
@@ -146,7 +146,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// <summary>
         /// Gets or sets any notes for the wrapped <see cref="Game"/> entity.
         /// </summary>
-        public new string Notes
+        public new string? Notes
         {
             get { return _game.Notes; }
             set { _game.Notes = value; }

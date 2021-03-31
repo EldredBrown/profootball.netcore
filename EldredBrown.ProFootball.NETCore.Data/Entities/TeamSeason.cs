@@ -18,7 +18,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// </summary>
         [Display(Name = "Team")]
         [Required(ErrorMessage = "Please enter a team name.")]
-        public string TeamName { get; set; }
+        public string TeamName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the year of the current <see cref="TeamSeason"/> entity's season.
@@ -32,19 +32,19 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// </summary>
         [Display(Name = "League")]
         [Required(ErrorMessage = "Please enter a league name.")]
-        public string LeagueName { get; set; }
+        public string LeagueName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="TeamSeason"/> entity's conference.
         /// </summary>
         [Display(Name = "Conference")]
-        public string ConferenceName { get; set; }
+        public string? ConferenceName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="TeamSeason"/> entity's division.
         /// </summary>
         [Display(Name = "Division")]
-        public string DivisionName { get; set; }
+        public string? DivisionName { get; set; }
 
         /// <summary>
         /// Gets or sets the number of games played by the current <see cref="TeamSeason"/> entity.

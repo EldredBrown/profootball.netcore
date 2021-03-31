@@ -16,6 +16,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the name of the current <see cref="Team"/> entity.
         /// </summary>
         [Required(ErrorMessage = "Please enter a name.")]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
     }
 }

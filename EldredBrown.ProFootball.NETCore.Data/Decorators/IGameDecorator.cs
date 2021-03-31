@@ -42,7 +42,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// <summary>
         /// Gets or sets the name of the wrapped <see cref="Game"/> entity's winner.
         /// </summary>
-        string WinnerName { get; set; }
+        string? WinnerName { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the wrapped <see cref="Game"/> entity's winner.
@@ -52,7 +52,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// <summary>
         /// Gets or sets the name of the wrapped <see cref="Game"/> entity's loser.
         /// </summary>
-        string LoserName { get; set; }
+        string? LoserName { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the wrapped <see cref="Game"/> entity's loser.
@@ -67,7 +67,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// <summary>
         /// Gets or sets any notes for the wrapped <see cref="Game"/> entity.
         /// </summary>
-        string Notes { get; set; }
+        string? Notes { get; set; }
 
         /// <summary>
         /// Decides the winner and loser of the wrapped <see cref="Game"/> entity.
