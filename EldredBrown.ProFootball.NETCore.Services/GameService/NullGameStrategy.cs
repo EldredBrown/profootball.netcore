@@ -26,8 +26,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
         }
 
         // Do nothing methods, for this is an implementation of the Null Object Pattern.
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public override async Task ProcessGame(IGameDecorator gameDecorator)
         {
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     }
 }
