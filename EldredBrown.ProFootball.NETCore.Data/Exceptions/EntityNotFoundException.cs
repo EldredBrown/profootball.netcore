@@ -40,9 +40,12 @@ namespace EldredBrown.ProFootball.NETCore.Services.Exceptions
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            var e = obj as EntityNotFoundException;
+            if (!(obj is EntityNotFoundException e))
+            {
+                return false;
+            }
 
             return (this.Message == e.Message);
         }

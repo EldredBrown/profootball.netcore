@@ -32,7 +32,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// </summary>
         [DisplayName("Guest")]
         [Required(ErrorMessage = "Please enter a guest.")]
-        public string GuestName { get; set; }
+        public string GuestName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="Game"/> entity's guest.
@@ -46,7 +46,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// </summary>
         [DisplayName("Host")]
         [Required(ErrorMessage = "Please enter a host.")]
-        public string HostName { get; set; }
+        public string HostName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="Game"/> entity's host.
@@ -59,7 +59,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the name of the current <see cref="Game"/> entity's winner.
         /// </summary>
         [DisplayName("Winner")]
-        public string WinnerName { get; set; }
+        public string? WinnerName { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="Game"/> entity's winner.
@@ -71,7 +71,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the name of the current <see cref="Game"/> entity's loser.
         /// </summary>
         [DisplayName("Loser")]
-        public string LoserName { get; set; }
+        public string? LoserName { get; set; }
 
         /// <summary>
         /// Gets or sets the points scored by the current <see cref="Game"/> entity's loser.
@@ -89,6 +89,6 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets any notes for the current <see cref="Game"/> entity.
         /// </summary>
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
     }
 }

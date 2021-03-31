@@ -23,62 +23,62 @@ namespace EldredBrown.ProFootball.NETCore.Data
         /// <summary>
         /// Gets or sets the Leagues data source.
         /// </summary>
-        public DbSet<League> Leagues { get; set; }
+        public DbSet<League>? Leagues { get; set; }
 
         /// <summary>
         /// Gets or sets the Conferences data source.
         /// </summary>
-        public DbSet<Conference> Conferences { get; set; }
+        public DbSet<Conference>? Conferences { get; set; }
 
         /// <summary>
         /// Gets or sets the Divisions data source.
         /// </summary>
-        public DbSet<Division> Divisions { get; set; }
+        public DbSet<Division>? Divisions { get; set; }
 
         /// <summary>
         /// Gets or sets the Teams data source.
         /// </summary>
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<Team>? Teams { get; set; }
 
         /// <summary>
         /// Gets or sets the Seasons data source.
         /// </summary>
-        public DbSet<Season> Seasons { get; set; }
+        public DbSet<Season>? Seasons { get; set; }
 
         /// <summary>
         /// Gets or sets the Games data source.
         /// </summary>
-        public DbSet<Game> Games { get; set; }
+        public DbSet<Game>? Games { get; set; }
 
         /// <summary>
         /// Gets or sets the LeagueSeasons data source.
         /// </summary>
-        public DbSet<LeagueSeason> LeagueSeasons { get; set; }
+        public DbSet<LeagueSeason>? LeagueSeasons { get; set; }
 
         /// <summary>
         /// Gets or sets the TeamSeasons data source.
         /// </summary>
-        public DbSet<TeamSeason> TeamSeasons { get; set; }
+        public DbSet<TeamSeason>? TeamSeasons { get; set; }
 
         /// <summary>
         /// Gets or sets the TeamSeasonScheduleProfile data source.
         /// </summary>
-        public DbSet<TeamSeasonOpponentProfile> TeamSeasonScheduleProfile { get; set; }
+        public DbSet<TeamSeasonOpponentProfile>? TeamSeasonScheduleProfile { get; set; }
 
         /// <summary>
         /// Gets or sets the TeamSeasonScheduleTotals data source.
         /// </summary>
-        public DbSet<TeamSeasonScheduleTotals> TeamSeasonScheduleTotals { get; set; }
+        public DbSet<TeamSeasonScheduleTotals>? TeamSeasonScheduleTotals { get; set; }
 
         /// <summary>
         /// Gets or sets the TeamSeasonScheduleAverages data source.
         /// </summary>
-        public DbSet<TeamSeasonScheduleAverages> TeamSeasonScheduleAverages { get; set; }
+        public DbSet<TeamSeasonScheduleAverages>? TeamSeasonScheduleAverages { get; set; }
 
         /// <summary>
         /// Gets or sets the SeasonStandings data source.
         /// </summary>
-        public DbSet<SeasonTeamStanding> SeasonStandings { get; set; }
+        public DbSet<SeasonTeamStanding>? SeasonStandings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

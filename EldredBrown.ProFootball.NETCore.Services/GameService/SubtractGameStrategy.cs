@@ -51,14 +51,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 var seasonYear = gameDecorator.SeasonYear;
 
                 var winnerSeason =
-                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName, seasonYear);
+                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName!, seasonYear);
                 if (!(winnerSeason is null))
                 {
                     winnerSeason.Wins--;
                 }
 
                 var loserSeason =
-                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName, seasonYear);
+                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName!, seasonYear);
                 if (!(loserSeason is null))
                 {
                     loserSeason.Losses--;

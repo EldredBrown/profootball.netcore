@@ -33,8 +33,13 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        public async Task<LeagueSeason> GetLeagueSeason(int id)
+        public async Task<LeagueSeason?> GetLeagueSeason(int id)
         {
+            if (_dbContext.LeagueSeasons is null)
+            {
+                return null;
+            }
+
             return await _dbContext.LeagueSeasons.FindAsync(id);
         }
 
@@ -44,10 +49,10 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="leagueName">The name of the league of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <param name="seasonYear">The year of the season of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        public LeagueSeason GetLeagueSeasonByLeagueAndSeason(string leagueName, int seasonYear)
+        public async Task<LeagueSeason?> GetLeagueSeasonByLeagueAndSeason(string leagueName, int seasonYear)
         {
-            return _dbContext.LeagueSeasons
-                .FirstOrDefault(ls => ls.LeagueName == leagueName && ls.SeasonYear == seasonYear);
+            return await _dbContext.LeagueSeasons
+                .FirstOrDefaultAsync(ls => ls.LeagueName == leagueName && ls.SeasonYear == seasonYear);
         }
 
         /// <summary>
@@ -69,6 +74,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <returns>The updated <see cref="LeagueSeason"/> entity.</returns>
         public LeagueSeason Update(LeagueSeason leagueSeason)
         {
+            if (_dbContext.LeagueSeasons is null)
+            {
+                return leagueSeason;
+            }
+
             var entity = _dbContext.LeagueSeasons.Attach(leagueSeason);
             entity.State = EntityState.Modified;
 
@@ -80,14 +90,20 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to delete.</param>
         /// <returns>The deleted <see cref="LeagueSeason"/> entity.</returns>
-        public async Task<LeagueSeason> Delete(int id)
+        public async Task<LeagueSeason?> Delete(int id)
         {
-            var leagueSeason = await GetLeagueSeason(id);
-
-            if (!(leagueSeason is null))
+            if (_dbContext.LeagueSeasons is null)
             {
-                _dbContext.LeagueSeasons.Remove(leagueSeason);
+                return null;
             }
+
+            var leagueSeason = await GetLeagueSeason(id);
+            if (leagueSeason is null)
+            {
+                return null;
+            }
+
+            _dbContext.LeagueSeasons.Remove(leagueSeason);
 
             return leagueSeason;
         }

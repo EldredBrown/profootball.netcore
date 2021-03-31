@@ -65,7 +65,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             // user in the future.
             var leagueName = "APFA";
 
-            UpdateLeagueSeason(leagueName, seasonYear);
+            await UpdateLeagueSeason(leagueName, seasonYear);
             var srcWeekCount = await UpdateWeekCount(seasonYear);
 
             await _sharedRepository.SaveChanges();
@@ -76,7 +76,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             }
         }
 
-        private void UpdateLeagueSeason(string leagueName, int seasonYear)
+        private async Task UpdateLeagueSeason(string leagueName, int seasonYear)
         {
             var leagueSeasonTotals = _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear);
             if (leagueSeasonTotals.TotalGames is null || leagueSeasonTotals.TotalPoints is null)
@@ -84,7 +84,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 return;
             }
 
-            var leagueSeason = _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear);
+            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear);
+            if (leagueSeason is null)
+            {
+                return;
+            }
+
             var leagueSeasonDecorator = new LeagueSeasonDecorator(leagueSeason);
             leagueSeasonDecorator.UpdateGamesAndPoints(leagueSeasonTotals.TotalGames.Value,
                 leagueSeasonTotals.TotalPoints.Value);
@@ -142,9 +147,9 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 }
 
                 var leagueSeason =
-                    _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
+                    await _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
                         teamSeasonDecorator.LeagueName, teamSeasonDecorator.SeasonYear);
-                if (leagueSeason.AveragePoints is null)
+                if (leagueSeason?.AveragePoints is null)
                 {
                     return;
                 }

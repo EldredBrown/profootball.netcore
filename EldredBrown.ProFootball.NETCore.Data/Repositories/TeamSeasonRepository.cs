@@ -35,8 +35,13 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="TeamSeason"/> entity.</returns>
-        public async Task<TeamSeason> GetTeamSeason(int id)
+        public async Task<TeamSeason?> GetTeamSeason(int id)
         {
+            if (_dbContext.TeamSeasons is null)
+            {
+                return null;
+            }
+
             return await _dbContext.TeamSeasons.FindAsync(id);
         }
 
@@ -46,7 +51,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="teamName">The team name of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="TeamSeason"/> entity.</returns>
-        public async Task<TeamSeason> GetTeamSeasonByTeamAndSeason(string teamName, int seasonYear)
+        public async Task<TeamSeason?> GetTeamSeasonByTeamAndSeason(string teamName, int seasonYear)
         {
             return await _dbContext.TeamSeasons
                 .FirstOrDefaultAsync(ts => ts.TeamName == teamName && ts.SeasonYear == seasonYear);
@@ -71,6 +76,11 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <returns>The updated <see cref="TeamSeason"/> entity.</returns>
         public TeamSeason Update(TeamSeason teamSeason)
         {
+            if (_dbContext.TeamSeasons is null)
+            {
+                return teamSeason;
+            }
+
             var entity = _dbContext.TeamSeasons.Attach(teamSeason);
             entity.State = EntityState.Modified;
 
@@ -82,14 +92,20 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to delete.</param>
         /// <returns>The deleted <see cref="TeamSeason"/> entity.</returns>
-        public async Task<TeamSeason> Delete(int id)
+        public async Task<TeamSeason?> Delete(int id)
         {
-            var teamSeason = await GetTeamSeason(id);
-
-            if (!(teamSeason is null))
+            if (_dbContext.TeamSeasons is null)
             {
-                _dbContext.TeamSeasons.Remove(teamSeason);
+                return null;
             }
+
+            var teamSeason = await GetTeamSeason(id);
+            if (teamSeason is null)
+            {
+                return null;
+            }
+
+            _dbContext.TeamSeasons.Remove(teamSeason);
 
             return teamSeason;
         }

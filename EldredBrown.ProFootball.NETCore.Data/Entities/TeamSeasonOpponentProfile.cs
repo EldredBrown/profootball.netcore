@@ -10,7 +10,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// <summary>
         /// Gets or sets the name of the opponent.
         /// </summary>
-        public string Opponent { get; set; }
+        public string Opponent { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the team's points scored against the opponent.

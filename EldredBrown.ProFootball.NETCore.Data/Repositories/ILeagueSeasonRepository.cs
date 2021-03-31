@@ -20,7 +20,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        Task<LeagueSeason> GetLeagueSeason(int id);
+        Task<LeagueSeason?> GetLeagueSeason(int id);
 
         /// <summary>
         /// Gets a single <see cref="LeagueSeason"/> entity from the data store by league name and season year.
@@ -28,7 +28,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="leagueName">The name of the league of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <param name="seasonYear">The year of the season of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        LeagueSeason GetLeagueSeasonByLeagueAndSeason(string leagueName, int seasonYear);
+        Task<LeagueSeason?> GetLeagueSeasonByLeagueAndSeason(string leagueName, int seasonYear);
 
         /// <summary>
         /// Adds a <see cref="LeagueSeason"/> entity to the data store.
@@ -49,7 +49,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to delete.</param>
         /// <returns>The deleted <see cref="LeagueSeason"/> entity.</returns>
-        Task<LeagueSeason> Delete(int id);
+        Task<LeagueSeason?> Delete(int id);
 
         /// <summary>
         /// Checks to verify whether a specific <see cref="LeagueSeason"/> entity exists in the data store.

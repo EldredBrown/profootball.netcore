@@ -19,7 +19,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         [DisplayName("League")]
         [StringLength(50)]
         [Required(ErrorMessage = "Please enter a league name.")]
-        public string LeagueName { get; set; }
+        public string LeagueName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the year of the current <see cref="LeagueSeason"/> entity's season.

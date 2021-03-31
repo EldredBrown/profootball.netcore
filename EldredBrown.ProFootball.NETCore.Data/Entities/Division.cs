@@ -13,17 +13,17 @@
         /// <summary>
         /// Gets or sets the name of the current <see cref="Division"/> entity.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="Division"/> entity's league.
         /// </summary>
-        public string LeagueName { get; set; }
+        public string LeagueName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="Division"/> entity's conference.
         /// </summary>
-        public string ConferenceName { get; set; }
+        public string? ConferenceName { get; set; }
 
         /// <summary>
         /// Gets or sets the year of the current <see cref="Division"/> entity's first season.

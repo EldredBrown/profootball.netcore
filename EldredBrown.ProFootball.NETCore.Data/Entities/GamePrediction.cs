@@ -17,7 +17,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the guest name of the current <see cref="GamePrediction"/> entity.
         /// </summary>
         [DisplayName("Guest Name")]
-        public string GuestName { get; set; }
+        public string GuestName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the guest score of the current <see cref="GamePrediction"/> entity.
@@ -35,7 +35,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Entities
         /// Gets or sets the host name of the current <see cref="GamePrediction"/> entity.
         /// </summary>
         [DisplayName("Host Name")]
-        public string HostName { get; set; }
+        public string HostName { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the host score of the current <see cref="GamePrediction"/> entity.
