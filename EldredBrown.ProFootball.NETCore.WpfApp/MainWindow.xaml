@@ -1,0 +1,78 @@
+﻿<Window x:Class="EldredBrown.ProFootball.NETCore.WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:ViewModels="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.ViewModels"
+        d:DataContext="{d:DesignInstance Type=ViewModels:MainWindowViewModel}"
+        mc:Ignorable="d"
+        Title="Teams" Height="640" Width="960" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Window.Resources>
+        <CollectionViewSource x:Key="SeasonsViewSource" Source="{Binding Seasons}" />
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ViewSeasonsCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Image x:Name="LogoImage"
+               Source="./Resources/Football.jpeg"
+               Stretch="None"
+               Grid.Row="0"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Margin="5" />
+        <ComboBox x:Name="SeasonsComboBox"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Mode=OneWay, Source={StaticResource SeasonsViewSource}}"
+                  SelectedItem="{Binding SelectedSeason}"
+                  Width="120"
+                  Grid.Row="1"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="5"
+                  SelectionChanged="SeasonsComboBox_SelectionChanged" />
+        <TabControl x:Name="MainTabControl" Grid.Row="2" Margin="5">
+            <TabItem x:Name="TeamSeasonsTabItem" Header="Teams">
+            </TabItem>
+            <TabItem x:Name="SeasonStandingsTabItem" Header="Standings">
+            </TabItem>
+            <TabItem x:Name="RankingsTabItem" Header="Rankings">
+            </TabItem>
+        </TabControl>
+        <StackPanel x:Name="MainButtonPanel"
+                    Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="5">
+            <Button x:Name="ShowGamesButton"
+                    Content="Show Games"
+                    Width="125"
+                    Height="25"
+                    Margin="0,0,5,0"
+                    Click="ShowGamesButton_Click">
+            </Button>
+            <Button x:Name="WeeklyUpdateButton"
+                    Content="Weekly Update"
+                    Width="125"
+                    Height="25"
+                    Margin="5,0,5,0"
+                    Command="{Binding WeeklyUpdateCommand}" />
+            <Button x:Name="PredictGameScoreButton"
+                    Content="Predict Game Score"
+                    Width="125"
+                    Height="25"
+                    Margin="5,0,5,0"
+                    Command="{Binding PredictGameScoreCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>
