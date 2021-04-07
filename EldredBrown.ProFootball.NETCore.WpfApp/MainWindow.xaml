@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:UserControls="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.UserControls"
         xmlns:ViewModels="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.ViewModels"
         d:DataContext="{d:DesignInstance Type=ViewModels:MainWindowViewModel}"
         mc:Ignorable="d"
@@ -42,6 +43,7 @@
                   SelectionChanged="SeasonsComboBox_SelectionChanged" />
         <TabControl x:Name="MainTabControl" Grid.Row="2" Margin="5">
             <TabItem x:Name="TeamSeasonsTabItem" Header="Teams">
+                <UserControls:TeamSeasonsControl x:Name="TeamSeasonsControl" />
             </TabItem>
             <TabItem x:Name="SeasonStandingsTabItem" Header="Standings">
             </TabItem>

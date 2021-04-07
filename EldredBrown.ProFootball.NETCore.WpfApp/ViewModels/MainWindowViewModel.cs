@@ -53,22 +53,24 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Opens the GamePredictorWindow.
+        /// Loads data into the Seasons control.
         /// </summary>
-        private DelegateCommand _predictGameScoreCommand;
-        public DelegateCommand PredictGameScoreCommand
+        private DelegateCommand _viewSeasonsCommand;
+        public DelegateCommand ViewSeasonsCommand
         {
             get
             {
-                if (_predictGameScoreCommand == null)
+                if (_viewSeasonsCommand == null)
                 {
-                    _predictGameScoreCommand = new DelegateCommand(param => PredictGameScore());
+                    _viewSeasonsCommand = new DelegateCommand(param => ViewSeasons());
                 }
-                return _predictGameScoreCommand;
+                return _viewSeasonsCommand;
             }
         }
-        private void PredictGameScore()
+        private void ViewSeasons()
         {
+            Seasons = new ReadOnlyCollection<int>(new List<int> { 1920, 1921, 1922 });
+            SelectedSeason = 1920;
         }
 
         /// <summary>
@@ -91,24 +93,22 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Loads data into the Seasons control.
+        /// Opens the GamePredictorWindow.
         /// </summary>
-        private DelegateCommand _viewSeasonsCommand;
-        public DelegateCommand ViewSeasonsCommand
+        private DelegateCommand _predictGameScoreCommand;
+        public DelegateCommand PredictGameScoreCommand
         {
             get
             {
-                if (_viewSeasonsCommand == null)
+                if (_predictGameScoreCommand == null)
                 {
-                    _viewSeasonsCommand = new DelegateCommand(param => ViewSeasons());
+                    _predictGameScoreCommand = new DelegateCommand(param => PredictGameScore());
                 }
-                return _viewSeasonsCommand;
+                return _predictGameScoreCommand;
             }
         }
-        private void ViewSeasons()
+        private void PredictGameScore()
         {
-            Seasons = new ReadOnlyCollection<int>(new List<int> { 1920, 1921, 1922 });
-            SelectedSeason = 1920;
         }
     }
 }
