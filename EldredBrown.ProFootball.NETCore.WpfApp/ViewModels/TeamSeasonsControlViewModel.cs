@@ -156,6 +156,25 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewTeamSchedule()
         {
+            TeamSeasonScheduleProfile = new ReadOnlyCollection<TeamSeasonOpponentProfile>(
+                new List<TeamSeasonOpponentProfile>
+                {
+                    new TeamSeasonOpponentProfile { Opponent = "Opponent 1" },
+                    new TeamSeasonOpponentProfile { Opponent = "Opponent 2" },
+                    new TeamSeasonOpponentProfile { Opponent = "Opponent 3" }
+                });
+
+            TeamSeasonScheduleTotals = new ReadOnlyCollection<TeamSeasonScheduleTotals>(
+                new List<TeamSeasonScheduleTotals>
+                {
+                    new TeamSeasonScheduleTotals { Games = 3 }
+                });
+
+            TeamSeasonScheduleAverages = new ReadOnlyCollection<TeamSeasonScheduleAverages>(
+                new List<TeamSeasonScheduleAverages>
+                {
+                    new TeamSeasonScheduleAverages { PointsFor = 7d, PointsAgainst = 7d }
+                });
         }
     }
 }

@@ -48,6 +48,7 @@
             <TabItem x:Name="SeasonStandingsTabItem" Header="Standings">
             </TabItem>
             <TabItem x:Name="RankingsTabItem" Header="Rankings">
+                <UserControls:RankingsControl x:Name="RankingsControl" Margin="1,0,-1,0" />
             </TabItem>
         </TabControl>
         <StackPanel x:Name="MainButtonPanel"
