@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
@@ -121,7 +120,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         {
             get
             {
-                if (_viewTeamsCommand == null)
+                if (_viewTeamsCommand is null)
                 {
                     _viewTeamsCommand = new DelegateCommand(param => ViewTeams());
                 }
@@ -147,7 +146,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         {
             get
             {
-                if (_viewTeamScheduleCommand == null)
+                if (_viewTeamScheduleCommand is null)
                 {
                     _viewTeamScheduleCommand = new DelegateCommand(param => ViewTeamSchedule());
                 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 {
@@ -100,7 +99,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         {
             get
             {
-                if (_predictGameScoreCommand == null)
+                if (_predictGameScoreCommand is null)
                 {
                     _predictGameScoreCommand = new DelegateCommand(param => PredictGameScore());
                 }

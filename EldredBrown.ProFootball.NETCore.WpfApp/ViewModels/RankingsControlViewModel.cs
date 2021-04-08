@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
@@ -11,8 +10,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <summary>
         /// Gets or sets this control's total rankings collection.
         /// </summary>
-        private ReadOnlyCollection<TotalRanking> _totalRankings;
-        public ReadOnlyCollection<TotalRanking> TotalRankings
+        private ReadOnlyCollection<TeamSeason> _totalRankings;
+        public ReadOnlyCollection<TeamSeason> TotalRankings
         {
             get
             {
@@ -35,8 +34,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <summary>
         /// Gets or sets this control's offensive rankings collection.
         /// </summary>
-        private ReadOnlyCollection<OffensiveRanking> _offensiveRankings;
-        public ReadOnlyCollection<OffensiveRanking> OffensiveRankings
+        private ReadOnlyCollection<TeamSeason> _offensiveRankings;
+        public ReadOnlyCollection<TeamSeason> OffensiveRankings
         {
             get
             {
@@ -59,8 +58,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <summary>
         /// Gets or sets this control's defensive rankings collection.
         /// </summary>
-        private ReadOnlyCollection<DefensiveRanking> _defensiveRankings;
-        public ReadOnlyCollection<DefensiveRanking> DefensiveRankings
+        private ReadOnlyCollection<TeamSeason> _defensiveRankings;
+        public ReadOnlyCollection<TeamSeason> DefensiveRankings
         {
             get
             {
@@ -88,7 +87,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         {
             get
             {
-                if (_viewRankingsCommand == null)
+                if (_viewRankingsCommand is null)
                 {
                     _viewRankingsCommand = new DelegateCommand(param => ViewRankings());
                 }
@@ -97,28 +96,28 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewRankings()
         {
-            TotalRankings = new ReadOnlyCollection<TotalRanking>(
-                new List<TotalRanking>
+            TotalRankings = new ReadOnlyCollection<TeamSeason>(
+                new List<TeamSeason>
                 {
-                    new TotalRanking { TeamName = "Team 1" },
-                    new TotalRanking { TeamName = "Team 2" },
-                    new TotalRanking { TeamName = "Team 3" }
+                    new TeamSeason { TeamName = "Team 1" },
+                    new TeamSeason { TeamName = "Team 2" },
+                    new TeamSeason { TeamName = "Team 3" }
                 });
 
-            OffensiveRankings = new ReadOnlyCollection<OffensiveRanking>(
-                new List<OffensiveRanking>
+            OffensiveRankings = new ReadOnlyCollection<TeamSeason>(
+                new List<TeamSeason>
                 {
-                    new OffensiveRanking { TeamName = "Team 1" },
-                    new OffensiveRanking { TeamName = "Team 2" },
-                    new OffensiveRanking { TeamName = "Team 3" }
+                    new TeamSeason { TeamName = "Team 1" },
+                    new TeamSeason { TeamName = "Team 2" },
+                    new TeamSeason { TeamName = "Team 3" }
                 });
 
-            DefensiveRankings = new ReadOnlyCollection<DefensiveRanking>(
-                new List<DefensiveRanking>
+            DefensiveRankings = new ReadOnlyCollection<TeamSeason>(
+                new List<TeamSeason>
                 {
-                    new DefensiveRanking { TeamName = "Team 1" },
-                    new DefensiveRanking { TeamName = "Team 2" },
-                    new DefensiveRanking { TeamName = "Team 3" }
+                    new TeamSeason { TeamName = "Team 1" },
+                    new TeamSeason { TeamName = "Team 2" },
+                    new TeamSeason { TeamName = "Team 3" }
                 });
         }
     }

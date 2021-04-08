@@ -17,7 +17,7 @@
             <i:InvokeCommandAction Command="{Binding ViewSeasonsCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid>
+    <Grid x:Name="MainGrid" Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />

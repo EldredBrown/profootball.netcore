@@ -18,10 +18,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
 
         private void SeasonsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            TeamSeasonsControl.Refresh();
+            //SeasonStandingsControl.Refresh();
+            RankingsControl.Refresh();
         }
 
         private void ShowGamesButton_Click(object sender, RoutedEventArgs e)
         {
+            // TODO - 2021-04-07: Open Games dialog.
+
+            TeamSeasonsControl.Refresh();
         }
     }
 }
