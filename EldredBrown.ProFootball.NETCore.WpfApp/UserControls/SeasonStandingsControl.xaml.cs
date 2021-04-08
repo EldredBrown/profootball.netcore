@@ -14,5 +14,13 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls
 
             DataContext = new SeasonStandingsControlViewModel();
         }
+
+        /// <summary>
+        /// Refreshes the view of this StandingsControl object
+        /// </summary>
+        public void Refresh()
+        {
+            (DataContext as SeasonStandingsControlViewModel).ViewStandingsCommand.Execute(null);
+        }
     }
 }

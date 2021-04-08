@@ -19,7 +19,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
         private void SeasonsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TeamSeasonsControl.Refresh();
-            //SeasonStandingsControl.Refresh();
+            SeasonStandingsControl.Refresh();
             RankingsControl.Refresh();
         }
 
