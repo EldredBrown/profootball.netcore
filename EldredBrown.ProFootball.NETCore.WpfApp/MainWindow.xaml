@@ -46,6 +46,7 @@
                 <UserControls:TeamSeasonsControl x:Name="TeamSeasonsControl" />
             </TabItem>
             <TabItem x:Name="SeasonStandingsTabItem" Header="Standings">
+                <UserControls:SeasonStandingsControl x:Name="SeasonStandingsControl" />
             </TabItem>
             <TabItem x:Name="RankingsTabItem" Header="Rankings">
                 <UserControls:RankingsControl x:Name="RankingsControl" Margin="1,0,-1,0" />

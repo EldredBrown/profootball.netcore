@@ -59,7 +59,7 @@
                                   Binding="{Binding TeamName}"
                                   Header="Team"
                                   CellStyle="{StaticResource LeftAlignCellStyle}"
-                                  Width="*" />
+                                  Width="150" />
                 <DataGridTextColumn x:Name="TeamSpacerColumn01"
                                   HeaderStyle="{StaticResource HeaderStyle}"
                                   Width="1" />
@@ -124,7 +124,7 @@
                                     Binding="{Binding Opponent}"
                                     Header="Opponent"
                                     CellStyle="{StaticResource LeftAlignCellStyle}"
-                                    Width="*" />
+                                    Width="150" />
                 <DataGridTextColumn x:Name="TeamScheduleProfileSpacerColumn01"
                                     HeaderStyle="{StaticResource HeaderStyle}"
                                     Width="1" />
@@ -198,7 +198,7 @@
                                     FontWeight="Bold"
                                     Header="TOTALS"
                                     CellStyle="{StaticResource LeftAlignCellStyle}" 
-                                    Width="*"/>
+                                    Width="135"/>
                 <DataGridTextColumn x:Name="TeamScheduleTotalsGamesColumn"
                                     Binding="{Binding Games}"
                                     Header="G"
@@ -276,7 +276,7 @@
                                     FontWeight="Bold"
                                     CellStyle="{StaticResource LeftAlignCellStyle}"
                                     Header="AVERAGES"
-                                    Width="*" />
+                                    Width="150" />
                 <DataGridTextColumn x:Name="TeamScheduleAveragesSpacerColumn01"
                                     HeaderStyle="{StaticResource HeaderStyle}"
                                     Width="1" />
