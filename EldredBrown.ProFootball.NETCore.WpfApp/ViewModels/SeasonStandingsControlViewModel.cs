@@ -1,11 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 {
     public class SeasonStandingsControlViewModel : ViewModelBase
     {
+        private readonly ISeasonStandingsRepository _seasonStandingsRepository;
+
+        public SeasonStandingsControlViewModel()
+        {
+            _seasonStandingsRepository =
+                App.ServiceProvider.GetService(typeof(ISeasonStandingsRepository)) as ISeasonStandingsRepository;
+        }
+
         /// <summary>
         /// Gets or sets this control's standings collection.
         /// </summary>
@@ -43,13 +53,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewStandings()
         {
-            Standings = new ReadOnlyCollection<SeasonTeamStanding>(
-                new List<SeasonTeamStanding>
-                {
-                    new SeasonTeamStanding { Team = "Team 1", Wins = 2, Losses = 0 },
-                    new SeasonTeamStanding { Team = "Team 2", Wins = 1, Losses = 1 },
-                    new SeasonTeamStanding { Team = "Team 3", Wins = 0, Losses = 2 }
-                });
+            var seasonStandings = _seasonStandingsRepository.GetSeasonStandings(WpfGlobals.SelectedSeason);
+            Standings = new ReadOnlyCollection<SeasonTeamStanding>(seasonStandings.ToList());
         }
     }
 }

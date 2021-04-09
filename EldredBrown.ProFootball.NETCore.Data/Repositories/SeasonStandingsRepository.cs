@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +25,19 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <summary>
         /// Gets all <see cref="SeasonTeamStanding"/> entities in the data store.
         /// </summary>
-        /// <param name="seasonYear">The year of the season for which standings will be fetched.</param>
-        /// <param name="groupByDivision">Flag indicating whether to group the results by division.</param>
+        /// <param name="seasonYear">The season year of the <see cref="SeasonTeamStanding"/> entity to fetch.</param>
         /// <returns>An <see cref="IEnumerable{SeasonStanding}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandings(int seasonYear)
+        public IEnumerable<SeasonTeamStanding> GetSeasonStandings(int seasonYear)
+        {
+            return _dbContext.SeasonStandings.FromSqlInterpolated($"sp_GetSeasonStandings {seasonYear}").ToList();
+        }
+
+        /// <summary>
+        /// Gets all <see cref="SeasonTeamStanding"/> entities in the data store asynchronously.
+        /// </summary>
+        /// <param name="seasonYear">The season year of the <see cref="SeasonTeamStanding"/> entity to fetch.</param>
+        /// <returns>An <see cref="IEnumerable{SeasonStanding}"/> of all fetched entities.</returns>
+        public async Task<IEnumerable<SeasonTeamStanding>> GetSeasonStandingsAsync(int seasonYear)
         {
             return await _dbContext.SeasonStandings.FromSqlInterpolated(
                 $"sp_GetSeasonStandings {seasonYear}").ToListAsync();

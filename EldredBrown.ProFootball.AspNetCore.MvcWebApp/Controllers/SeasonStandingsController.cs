@@ -45,7 +45,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear),
                 SelectedSeasonYear = _selectedSeasonYear,
-                SeasonStandings = await _seasonStandingsRepository.GetSeasonStandings(_selectedSeasonYear)
+                SeasonStandings = await _seasonStandingsRepository.GetSeasonStandingsAsync(_selectedSeasonYear)
             };
 
             return View(viewModel);

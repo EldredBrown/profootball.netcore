@@ -35,6 +35,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
             services.AddScoped<ITeamSeasonScheduleProfileRepository, TeamSeasonScheduleProfileRepository>();
             services.AddScoped<ITeamSeasonScheduleTotalsRepository, TeamSeasonScheduleTotalsRepository>();
             services.AddScoped<ITeamSeasonScheduleAveragesRepository, TeamSeasonScheduleAveragesRepository>();
+            services.AddScoped<ISeasonStandingsRepository, SeasonStandingsRepository>();
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
