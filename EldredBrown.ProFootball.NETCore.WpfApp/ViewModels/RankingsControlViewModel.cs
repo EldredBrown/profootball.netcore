@@ -1,12 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 {
     public class RankingsControlViewModel : ViewModelBase
     {
+        private readonly ITeamSeasonRepository _teamSeasonRepository;
+
+        public RankingsControlViewModel()
+        {
+            _teamSeasonRepository =
+                App.ServiceProvider.GetService(typeof(ITeamSeasonRepository)) as ITeamSeasonRepository;
+        }
+
         /// <summary>
         /// Gets or sets this control's total rankings collection.
         /// </summary>
@@ -96,29 +106,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewRankings()
         {
-            TotalRankings = new ReadOnlyCollection<TeamSeason>(
-                new List<TeamSeason>
-                {
-                    new TeamSeason { TeamName = "Team 1" },
-                    new TeamSeason { TeamName = "Team 2" },
-                    new TeamSeason { TeamName = "Team 3" }
-                });
-
-            OffensiveRankings = new ReadOnlyCollection<TeamSeason>(
-                new List<TeamSeason>
-                {
-                    new TeamSeason { TeamName = "Team 1" },
-                    new TeamSeason { TeamName = "Team 2" },
-                    new TeamSeason { TeamName = "Team 3" }
-                });
-
-            DefensiveRankings = new ReadOnlyCollection<TeamSeason>(
-                new List<TeamSeason>
-                {
-                    new TeamSeason { TeamName = "Team 1" },
-                    new TeamSeason { TeamName = "Team 2" },
-                    new TeamSeason { TeamName = "Team 3" }
-                });
+            var teamSeasons = _teamSeasonRepository.GetTeamSeasonsBySeason(WpfGlobals.SelectedSeason).ToList();
+            TotalRankings = new ReadOnlyCollection<TeamSeason>(teamSeasons);
+            OffensiveRankings = new ReadOnlyCollection<TeamSeason>(teamSeasons);
+            DefensiveRankings = new ReadOnlyCollection<TeamSeason>(teamSeasons);
         }
     }
 }
