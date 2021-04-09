@@ -38,18 +38,16 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> PredictGame()
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
+            var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
 
             ViewBag.GuestSeasons = new SelectList(seasons, "Year", "Year", _guestSeasonYear);
 
-            var guests = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonYear == _guestSeasonYear);
+            var guests = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_guestSeasonYear);
             ViewBag.Guests = new SelectList(guests, "TeamName", "TeamName");
 
             ViewBag.HostSeasons = new SelectList(seasons, "Year", "Year", _hostSeasonYear);
 
-            var hosts = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonYear == _hostSeasonYear);
+            var hosts = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_hostSeasonYear);
             ViewBag.Hosts = new SelectList(hosts, "TeamName", "TeamName");
 
             return View();
@@ -66,14 +64,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PredictGame([Bind("GuestSeasonYear,GuestName,GuestScore,HostSeasonYear,HostName,HostScore")] GamePrediction prediction)
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
+            var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
 
             _guestSeasonYear = prediction.GuestSeasonYear;
 
             ViewBag.GuestSeasons = new SelectList(seasons, "Year", "Year", _guestSeasonYear);
 
-            var guests = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonYear == _guestSeasonYear);
+            var guests = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_guestSeasonYear);
             var guest = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
                 prediction.GuestName, _guestSeasonYear);
             ViewBag.Guests = new SelectList(guests, "TeamName", "TeamName", guest.TeamName);
@@ -82,8 +79,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 
             ViewBag.HostSeasons = new SelectList(seasons, "Year", "Year", _hostSeasonYear);
 
-            var hosts = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonYear == _hostSeasonYear);
+            var hosts = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_hostSeasonYear);
             var host = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(
                 prediction.HostName, _hostSeasonYear);
             ViewBag.Hosts = new SelectList(hosts, "TeamName", "TeamName", host.TeamName);

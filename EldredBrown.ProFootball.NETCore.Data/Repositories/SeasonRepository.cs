@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,16 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="Season"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Season}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<Season>> GetSeasons()
+        public IEnumerable<Season> GetSeasons()
+        {
+            return _dbContext.Seasons.ToList();
+        }
+
+        /// <summary>
+        /// Gets all <see cref="Season"/> entities in the data store asynchronously.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{Season}"/> of all fetched entities.</returns>
+        public async Task<IEnumerable<Season>> GetSeasonsAsync()
         {
             return await _dbContext.Seasons.ToListAsync();
         }

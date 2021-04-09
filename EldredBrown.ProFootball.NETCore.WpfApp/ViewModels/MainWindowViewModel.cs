@@ -1,11 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private readonly ISeasonRepository _seasonRepository;
+
+        public MainWindowViewModel()
+        {
+            _seasonRepository = App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
+        }
+
         /// <summary>
         /// Gets or sets this window's seasons collection.
         /// </summary>
@@ -34,18 +44,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <summary>
         /// Gets or sets this window's selected season.
         /// </summary>
-        private int _selectedSeason;
         public int SelectedSeason
         {
             get
             {
-                return _selectedSeason;
+                return WpfGlobals.SelectedSeason;
             }
             set
             {
-                if (value != _selectedSeason)
+                if (value != WpfGlobals.SelectedSeason)
                 {
-                    _selectedSeason = value;
+                    WpfGlobals.SelectedSeason = value;
                     OnPropertyChanged("SelectedSeason");
                 }
             }
@@ -59,7 +68,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         {
             get
             {
-                if (_viewSeasonsCommand == null)
+                if (_viewSeasonsCommand is null)
                 {
                     _viewSeasonsCommand = new DelegateCommand(param => ViewSeasons());
                 }
@@ -68,8 +77,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewSeasons()
         {
-            Seasons = new ReadOnlyCollection<int>(new List<int> { 1920, 1921, 1922 });
-            SelectedSeason = 1920;
+            var seasons = _seasonRepository.GetSeasons();
+            Seasons = new ReadOnlyCollection<int>(seasons.Select(s => s.Year).ToList());
+            SelectedSeason = Seasons.First();
         }
 
         /// <summary>

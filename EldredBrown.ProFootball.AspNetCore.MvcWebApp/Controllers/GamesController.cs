@@ -57,11 +57,11 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
+            var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
 
             var weeks = new List<int?>();
 
-            var selectedSeason = (await _seasonRepository.GetSeasons())
+            var selectedSeason = (await _seasonRepository.GetSeasonsAsync())
                 .FirstOrDefault(s => s.Year == _selectedSeasonYear);
             if (!(selectedSeason is null))
             {
@@ -133,10 +133,10 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
+            var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
             ViewBag.Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear);
 
-            var selectedSeason = (await _seasonRepository.GetSeasons())
+            var selectedSeason = (await _seasonRepository.GetSeasonsAsync())
                 .FirstOrDefault(s => s.Year == _selectedSeasonYear);
             var weeks = new List<int>();
             for (int i = 1; i <= selectedSeason.NumOfWeeksScheduled; i++)
@@ -196,10 +196,10 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var seasons = await _seasonRepository.GetSeasons();
+            var seasons = await _seasonRepository.GetSeasonsAsync();
             ViewBag.Seasons = new SelectList(seasons, "Year", "Year", game.SeasonYear);
 
-            var selectedSeason = (await _seasonRepository.GetSeasons())
+            var selectedSeason = (await _seasonRepository.GetSeasonsAsync())
                 .FirstOrDefault(s => s.Year == _selectedSeasonYear);
             var weeks = new List<int>();
             for (int i = 1; i <= selectedSeason.NumOfWeeksScheduled; i++)

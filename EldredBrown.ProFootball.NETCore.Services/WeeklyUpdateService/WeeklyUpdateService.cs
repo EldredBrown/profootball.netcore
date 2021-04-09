@@ -113,9 +113,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
         private async Task UpdateRankings()
         {
-            var teamSeasons = (await _teamSeasonRepository.GetTeamSeasons())
-                .Where(ts => ts.SeasonYear == _selectedSeason);
-
+            var teamSeasons = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_selectedSeason);
             foreach (var teamSeason in teamSeasons)
             {
                 var teamSeasonDecorator = new TeamSeasonDecorator(teamSeason);
@@ -130,7 +128,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             try
             {
                 var teamSeasonScheduleTotals =
-                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(
+                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(
                         teamSeasonDecorator.TeamName, teamSeasonDecorator.SeasonYear);
                 if (teamSeasonScheduleTotals?.ScheduleGames is null)
                 {
@@ -138,7 +136,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 }
 
                 var teamSeasonScheduleAverages =
-                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(
+                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(
                         teamSeasonDecorator.TeamName, teamSeasonDecorator.SeasonYear);
                 if (teamSeasonScheduleAverages?.PointsFor is null ||
                     teamSeasonScheduleAverages?.PointsAgainst is null)

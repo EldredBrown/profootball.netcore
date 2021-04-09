@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -22,12 +23,41 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
+        /// Gets all <see cref="TeamSeason"/> entities in the data store.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
+        public IEnumerable<TeamSeason> GetTeamSeasons()
+        {
+            return _dbContext.TeamSeasons.ToList();
+        }
+
+        /// <summary>
         /// Gets all <see cref="TeamSeason "/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<TeamSeason>> GetTeamSeasons()
+        public async Task<IEnumerable<TeamSeason>> GetTeamSeasonsAsync()
         {
             return await _dbContext.TeamSeasons.ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets all <see cref="TeamSeason"/> entities from the data store for the specified season year.
+        /// </summary>
+        /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entities to fetch.</param>
+        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
+        public IEnumerable<TeamSeason> GetTeamSeasonsBySeason(int seasonYear)
+        {
+            return GetTeamSeasons().Where(ts => ts.SeasonYear == seasonYear);
+        }
+
+        /// <summary>
+        /// Gets all <see cref="TeamSeason"/> entities from the data store asynchronously for the specified season year.
+        /// </summary>
+        /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entities to fetch.</param>
+        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
+        public async Task<IEnumerable<TeamSeason>> GetTeamSeasonsBySeasonAsync(int seasonYear)
+        {
+            return (await GetTeamSeasonsAsync()).Where(ts => ts.SeasonYear == seasonYear);
         }
 
         /// <summary>

@@ -76,7 +76,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -174,7 +174,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -224,7 +224,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
         }
 
         [Fact]
@@ -274,10 +274,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustNotHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 A<int>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 A<int>.Ignored)).MustNotHaveHappened();
         }
 
@@ -330,12 +330,12 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                     LeagueName = leagueName
                 }
             };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).Returns(teamSeasons);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
 
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns<TeamSeasonScheduleTotals?>(null);
 
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 seasonYear)).Returns<TeamSeasonScheduleAverages?>(null);
 
             // Act
@@ -348,10 +348,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustNotHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
@@ -405,16 +405,16 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                     LeagueName = leagueName
                 }
             };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).Returns(teamSeasons);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
 
             var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals
             {
                 ScheduleGames = null
             };
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleTotals);
 
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 seasonYear)).Returns<TeamSeasonScheduleAverages?>(null);
 
             // Act
@@ -427,10 +427,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustNotHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
@@ -484,16 +484,16 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                     LeagueName = leagueName
                 }
             };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).Returns(teamSeasons);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
 
             var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals
             {
                 ScheduleGames = 0
             };
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleTotals);
 
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 seasonYear)).Returns<TeamSeasonScheduleAverages?>(null);
 
             // Act
@@ -506,10 +506,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
@@ -563,13 +563,13 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                     LeagueName = leagueName
                 }
             };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).Returns(teamSeasons);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
 
             var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals
             {
                 ScheduleGames = 0
             };
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleTotals);
 
             var teamSeasonScheduleAverages = new TeamSeasonScheduleAverages
@@ -577,7 +577,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 PointsFor = null,
                 PointsAgainst = null
             };
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleAverages);
 
             // Act
@@ -590,10 +590,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
@@ -647,13 +647,13 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                     LeagueName = leagueName
                 }
             };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).Returns(teamSeasons);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
 
             var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals
             {
                 ScheduleGames = 0
             };
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleTotals);
 
             var teamSeasonScheduleAverages = new TeamSeasonScheduleAverages
@@ -661,7 +661,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 PointsFor = 0,
                 PointsAgainst = null
             };
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleAverages);
 
             // Act
@@ -674,10 +674,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
@@ -727,13 +727,13 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                     LeagueName = leagueName
                 }
             };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).Returns(teamSeasons);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
 
             var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals
             {
                 ScheduleGames = 0
             };
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleTotals);
 
             var teamSeasonScheduleAverages = new TeamSeasonScheduleAverages
@@ -741,7 +741,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 PointsFor = 0,
                 PointsAgainst = 0
             };
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleAverages);
 
             // Act
@@ -754,10 +754,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappenedTwiceExactly();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
@@ -811,13 +811,13 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                     LeagueName = leagueName
                 }
             };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).Returns(teamSeasons);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
 
             var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals
             {
                 ScheduleGames = 0
             };
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleTotals);
 
             var teamSeasonScheduleAverages = new TeamSeasonScheduleAverages
@@ -825,7 +825,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 PointsFor = 0,
                 PointsAgainst = 0
             };
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleAverages);
 
             // Act
@@ -838,10 +838,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappenedTwiceExactly();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }
@@ -895,13 +895,13 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                     LeagueName = leagueName
                 }
             };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).Returns(teamSeasons);
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
 
             var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals
             {
                 ScheduleGames = 0
             };
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleTotals);
 
             var teamSeasonScheduleAverages = new TeamSeasonScheduleAverages
@@ -909,7 +909,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 PointsFor = 0,
                 PointsAgainst = 0
             };
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleAverages);
 
             // Act
@@ -922,10 +922,10 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappenedTwiceExactly();
             A.CallTo(() => _gameRepository.GetGames()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeason(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasons()).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
+            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear))
+            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
         }

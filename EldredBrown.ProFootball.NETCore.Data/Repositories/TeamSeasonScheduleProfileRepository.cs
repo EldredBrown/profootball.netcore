@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -22,13 +23,27 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
-        /// Gets a single team season schedule profile (<see cref="IEnumerable{OpponentProfile}"/>) from the data store by team name and season ID.
+        /// Gets a single team season schedule profile (<see cref="IEnumerable{OpponentProfile}"/>) from the data store
+        /// by team name and season year.
         /// </summary>
         /// <param name="teamName">The team name of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
         /// <param name="seasonYear">The season year of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="IEnumerable{OpponentProfile}"/> collection.</returns>
-        public async Task<IEnumerable<TeamSeasonOpponentProfile>> GetTeamSeasonScheduleProfile(
-            string teamName, int seasonYear)
+        public IEnumerable<TeamSeasonOpponentProfile> GetTeamSeasonScheduleProfile(string teamName, int seasonYear)
+        {
+            return _dbContext.TeamSeasonScheduleProfile.FromSqlInterpolated(
+                $"sp_GetTeamSeasonScheduleProfile {teamName}, {seasonYear}").ToList();
+        }
+
+        /// <summary>
+        /// Gets a single team season schedule profile (<see cref="IEnumerable{OpponentProfile}"/>) asynchronously from
+        /// the data store by team name and season year.
+        /// </summary>
+        /// <param name="teamName">The team name of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
+        /// <param name="seasonYear">The season year of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="IEnumerable{OpponentProfile}"/> collection.</returns>
+        public async Task<IEnumerable<TeamSeasonOpponentProfile>> GetTeamSeasonScheduleProfileAsync(string teamName,
+            int seasonYear)
         {
             return await _dbContext.TeamSeasonScheduleProfile.FromSqlInterpolated(
                 $"sp_GetTeamSeasonScheduleProfile {teamName}, {seasonYear}").ToListAsync();

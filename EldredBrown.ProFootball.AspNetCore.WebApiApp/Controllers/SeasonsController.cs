@@ -48,7 +48,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var seasons = await _seasonRepository.GetSeasons();
+                var seasons = await _seasonRepository.GetSeasonsAsync();
 
                 return _mapper.Map<SeasonModel[]>(seasons);
             }

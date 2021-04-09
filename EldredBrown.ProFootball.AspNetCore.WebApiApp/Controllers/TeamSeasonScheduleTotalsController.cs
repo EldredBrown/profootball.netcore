@@ -44,7 +44,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var teamSeasonScheduleTotals =
-                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear);
+                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear);
 
                 if (teamSeasonScheduleTotals is null)
                 {

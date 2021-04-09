@@ -40,7 +40,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var viewModel = new TeamSeasonsIndexViewModel
             {
-                TeamSeasons = await _teamSeasonRepository.GetTeamSeasons()
+                TeamSeasons = await _teamSeasonRepository.GetTeamSeasonsAsync()
             };
 
             return View(viewModel);

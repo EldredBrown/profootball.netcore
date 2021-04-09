@@ -1,12 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 {
     public class TeamSeasonsControlViewModel : ViewModelBase
     {
+        private readonly ITeamSeasonRepository _teamSeasonRepository;
+        private readonly ITeamSeasonScheduleProfileRepository _teamSeasonScheduleProfileRepository;
+        private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
+        private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
+
+        public TeamSeasonsControlViewModel()
+        {
+            _teamSeasonRepository =
+                App.ServiceProvider.GetService(typeof(ITeamSeasonRepository)) as ITeamSeasonRepository;
+            _teamSeasonScheduleProfileRepository =
+                App.ServiceProvider.GetService(typeof(ITeamSeasonScheduleProfileRepository))
+                as ITeamSeasonScheduleProfileRepository;
+            _teamSeasonScheduleTotalsRepository =
+                App.ServiceProvider.GetService(typeof(ITeamSeasonScheduleTotalsRepository))
+                as ITeamSeasonScheduleTotalsRepository;
+            _teamSeasonScheduleAveragesRepository =
+                App.ServiceProvider.GetService(typeof(ITeamSeasonScheduleAveragesRepository))
+                as ITeamSeasonScheduleAveragesRepository;
+        }
+
         /// <summary>
         /// Gets this control's teams collection.
         /// </summary>
@@ -129,13 +152,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewTeams()
         {
-            Teams = new ReadOnlyCollection<TeamSeason>(
-                new List<TeamSeason>
-                {
-                    new TeamSeason { TeamName = "Team 1" },
-                    new TeamSeason { TeamName = "Team 2" },
-                    new TeamSeason { TeamName = "Team 3" }
-                });
+            var teamSeasons = _teamSeasonRepository.GetTeamSeasonsBySeason(WpfGlobals.SelectedSeason);
+            Teams = new ReadOnlyCollection<TeamSeason>(teamSeasons.ToList());
         }
 
         /// <summary>
@@ -155,25 +173,36 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewTeamSchedule()
         {
-            TeamSeasonScheduleProfile = new ReadOnlyCollection<TeamSeasonOpponentProfile>(
-                new List<TeamSeasonOpponentProfile>
-                {
-                    new TeamSeasonOpponentProfile { Opponent = "Opponent 1" },
-                    new TeamSeasonOpponentProfile { Opponent = "Opponent 2" },
-                    new TeamSeasonOpponentProfile { Opponent = "Opponent 3" }
-                });
+            if (SelectedTeam is null)
+            {
+                return;
+            }
 
-            TeamSeasonScheduleTotals = new ReadOnlyCollection<TeamSeasonScheduleTotals>(
-                new List<TeamSeasonScheduleTotals>
-                {
-                    new TeamSeasonScheduleTotals { Games = 3 }
-                });
+            var teamName = SelectedTeam.TeamName;
+            var seasonYear = SelectedTeam.SeasonYear;
 
-            TeamSeasonScheduleAverages = new ReadOnlyCollection<TeamSeasonScheduleAverages>(
-                new List<TeamSeasonScheduleAverages>
-                {
-                    new TeamSeasonScheduleAverages { PointsFor = 7d, PointsAgainst = 7d }
-                });
+            var teamSeasonOpponentProfiles = 
+                _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonYear);
+            TeamSeasonScheduleProfile = 
+                new ReadOnlyCollection<TeamSeasonOpponentProfile>(teamSeasonOpponentProfiles.ToList());
+
+            var teamSeasonScheduleTotals =
+                _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear);
+            TeamSeasonScheduleTotals =
+                new ReadOnlyCollection<TeamSeasonScheduleTotals>(
+                    new List<TeamSeasonScheduleTotals>
+                    {
+                        teamSeasonScheduleTotals
+                    });
+
+            var teamSeasonScheduleAverages =
+                _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear);
+            TeamSeasonScheduleAverages =
+                new ReadOnlyCollection<TeamSeasonScheduleAverages>(
+                    new List<TeamSeasonScheduleAverages>
+                    {
+                        teamSeasonScheduleAverages
+                    });
         }
     }
 }

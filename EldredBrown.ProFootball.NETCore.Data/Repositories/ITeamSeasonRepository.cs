@@ -10,10 +10,30 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
     public interface ITeamSeasonRepository
     {
         /// <summary>
-        /// Gets all <see cref="TeamSeason "/> entities in the data store.
+        /// Gets all <see cref="TeamSeason"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
-        Task<IEnumerable<TeamSeason>> GetTeamSeasons();
+        IEnumerable<TeamSeason> GetTeamSeasons();
+
+        /// <summary>
+        /// Gets all <see cref="TeamSeason"/> entities in the data store asynchronously.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
+        Task<IEnumerable<TeamSeason>> GetTeamSeasonsAsync();
+
+        /// <summary>
+        /// Gets all <see cref="TeamSeason"/> entities from the data store for the specified season year.
+        /// </summary>
+        /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entities to fetch.</param>
+        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
+        IEnumerable<TeamSeason> GetTeamSeasonsBySeason(int seasonYear);
+
+        /// <summary>
+        /// Gets all <see cref="TeamSeason"/> entities from the data store asynchronously for the specified season year.
+        /// </summary>
+        /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entities to fetch.</param>
+        /// <returns>An <see cref="IEnumerable{TeamSeason}"/> of all fetched entities.</returns>
+        Task<IEnumerable<TeamSeason>> GetTeamSeasonsBySeasonAsync(int seasonYear);
 
         /// <summary>
         /// Gets a single <see cref="TeamSeason"/> entity from the data store by ID.
@@ -23,7 +43,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         Task<TeamSeason?> GetTeamSeason(int id);
 
         /// <summary>
-        /// Gets a single <see cref="TeamSeason"/> entity from the data store by team name and season ID.
+        /// Gets a single <see cref="TeamSeason"/> entity from the data store by team name and season year.
         /// </summary>
         /// <param name="teamName">The team name of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entity to fetch.</param>

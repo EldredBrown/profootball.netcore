@@ -56,14 +56,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var seasons = (await _seasonRepository.GetSeasons()).OrderByDescending(s => s.Year);
+            var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
 
             var viewModel = new TeamSeasonsIndexViewModel
             {
                 Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear),
                 SelectedSeasonYear = _selectedSeasonYear,
-                TeamSeasons = (await _teamSeasonRepository.GetTeamSeasons())
-                    .Where(ts => ts.SeasonYear == _selectedSeasonYear)
+                TeamSeasons = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_selectedSeasonYear)
             };
 
             return View(viewModel);
@@ -95,11 +94,11 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 TeamSeason = teamSeason,
                 TeamSeasonScheduleProfile = 
-                    await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonYear),
+                    await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfileAsync(teamName, seasonYear),
                 TeamSeasonScheduleTotals = 
-                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear),
+                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear),
                 TeamSeasonScheduleAverages =
-                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear)
+                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear)
             };
 
             return View(viewModel);

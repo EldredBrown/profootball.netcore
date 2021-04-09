@@ -13,7 +13,13 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="Season"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Season}"/> of all fetched entities.</returns>
-        Task<IEnumerable<Season>> GetSeasons();
+        IEnumerable<Season> GetSeasons();
+
+        /// <summary>
+        /// Gets all <see cref="Season"/> entities in the data store asynchronously.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{Season}"/> of all fetched entities.</returns>
+        Task<IEnumerable<Season>> GetSeasonsAsync();
 
         /// <summary>
         /// Gets a single <see cref="Season"/> entity from the data store by ID.
