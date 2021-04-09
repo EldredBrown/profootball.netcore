@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
+using EldredBrown.ProFootball.NETCore.WpfApp.Windows;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp
 {
@@ -9,6 +10,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -25,7 +29,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
 
         private void ShowGamesButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO - 2021-04-07: Open Games dialog.
+            var gamesWindow = new GamesWindow();
+            gamesWindow.ShowDialog();
 
             TeamSeasonsControl.Refresh();
         }
