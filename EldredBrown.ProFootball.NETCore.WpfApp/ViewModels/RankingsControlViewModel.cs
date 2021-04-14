@@ -11,14 +11,18 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
     {
         private readonly ITeamSeasonRepository _teamSeasonRepository;
 
-        public RankingsControlViewModel()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RankingsControlViewModel"/> class.
+        /// </summary>
+        /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
+        public RankingsControlViewModel(ITeamSeasonRepository teamSeasonRepository = null)
         {
-            _teamSeasonRepository =
+            _teamSeasonRepository = teamSeasonRepository ??
                 App.ServiceProvider.GetService(typeof(ITeamSeasonRepository)) as ITeamSeasonRepository;
         }
 
         /// <summary>
-        /// Gets or sets this control's total rankings collection.
+        /// Gets or sets the total rankings for this <see cref="RankingsControlViewModel"/> object.
         /// </summary>
         private ReadOnlyCollection<TeamSeason> _totalRankings;
         public ReadOnlyCollection<TeamSeason> TotalRankings
@@ -31,7 +35,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             {
                 if (value is null)
                 {
-                    throw new ArgumentNullException("TotalRankings");
+                    throw new ArgumentNullException($"{GetType()}.{nameof(TotalRankings)}");
                 }
                 else if (value != _totalRankings)
                 {
@@ -42,7 +46,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets this control's offensive rankings collection.
+        /// Gets or sets the offensive rankings for this <see cref="RankingsControlViewModel"/> object.
         /// </summary>
         private ReadOnlyCollection<TeamSeason> _offensiveRankings;
         public ReadOnlyCollection<TeamSeason> OffensiveRankings
@@ -55,7 +59,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             {
                 if (value is null)
                 {
-                    throw new ArgumentNullException("OffensiveRankings");
+                    throw new ArgumentNullException($"{GetType()}.{nameof(OffensiveRankings)}");
                 }
                 else if (value != _offensiveRankings)
                 {
@@ -66,7 +70,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets this control's defensive rankings collection.
+        /// Gets or sets the defensive rankings for this <see cref="RankingsControlViewModel"/> object.
         /// </summary>
         private ReadOnlyCollection<TeamSeason> _defensiveRankings;
         public ReadOnlyCollection<TeamSeason> DefensiveRankings
@@ -79,7 +83,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             {
                 if (value is null)
                 {
-                    throw new ArgumentNullException("DefensiveRankings");
+                    throw new ArgumentNullException($"{GetType()}.{nameof(DefensiveRankings)}");
                 }
                 else if (value != _defensiveRankings)
                 {
@@ -90,7 +94,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Loads the DataModel's Teams table.
+        /// Loads the rankings views for the selected season.
         /// </summary>
         private DelegateCommand _viewRankingsCommand;
         public DelegateCommand ViewRankingsCommand

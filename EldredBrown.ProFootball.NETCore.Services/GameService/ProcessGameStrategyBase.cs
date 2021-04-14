@@ -25,14 +25,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// </summary>
         /// <param name="game"></param>
         /// <returns></returns>
-        public virtual async Task ProcessGame(IGameDecorator gameDecorator)
+        public virtual void ProcessGame(IGameDecorator gameDecorator)
         {
             Guard.ThrowIfNull(gameDecorator, $"{GetType()}.{nameof(ProcessGame)}: {nameof(gameDecorator)}");
 
             var seasonYear = gameDecorator.SeasonYear;
 
             var guestSeason =
-                await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear);
+                _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear);
             TeamSeasonDecorator? guestSeasonDecorator = null;
             if (!(guestSeason is null))
             {
@@ -40,23 +40,63 @@ namespace EldredBrown.ProFootball.NETCore.Services
             }
 
             var hostSeason =
-                await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear);
+                _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear);
             TeamSeasonDecorator? hostSeasonDecorator = null;
             if (!(hostSeason is null))
             {
                 hostSeasonDecorator = new TeamSeasonDecorator(hostSeason);
             }
 
-            await EditWinLossData(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
+            EditWinLossData(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
             EditScoringData(guestSeasonDecorator, hostSeasonDecorator, gameDecorator.GuestScore,
                 gameDecorator.HostScore);
         }
 
-        protected async Task EditWinLossData(TeamSeasonDecorator? guestSeasonDecorator,
+        /// <summary>
+        /// Processes a <see cref="Game"/> entity into the Teams data store asynchronously.
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
+        public virtual async Task ProcessGameAsync(IGameDecorator gameDecorator)
+        {
+            Guard.ThrowIfNull(gameDecorator, $"{GetType()}.{nameof(ProcessGameAsync)}: {nameof(gameDecorator)}");
+
+            var seasonYear = gameDecorator.SeasonYear;
+
+            var guestSeason =
+                await _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.GuestName, seasonYear);
+            TeamSeasonDecorator? guestSeasonDecorator = null;
+            if (!(guestSeason is null))
+            {
+                guestSeasonDecorator = new TeamSeasonDecorator(guestSeason);
+            }
+
+            var hostSeason =
+                await _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.HostName, seasonYear);
+            TeamSeasonDecorator? hostSeasonDecorator = null;
+            if (!(hostSeason is null))
+            {
+                hostSeasonDecorator = new TeamSeasonDecorator(hostSeason);
+            }
+
+            await EditWinLossDataAsync(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
+            EditScoringData(guestSeasonDecorator, hostSeasonDecorator, gameDecorator.GuestScore,
+                gameDecorator.HostScore);
+        }
+
+        protected void EditWinLossData(TeamSeasonDecorator? guestSeasonDecorator,
             TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
         {
             UpdateGamesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
-            await UpdateWinsLossesAndTiesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
+            UpdateWinsLossesAndTiesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
+            UpdateWinningPercentageForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
+        }
+
+        protected async Task EditWinLossDataAsync(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
+        {
+            UpdateGamesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
+            await UpdateWinsLossesAndTiesForTeamSeasonsAsync(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
             UpdateWinningPercentageForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
         }
 
@@ -67,11 +107,18 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 nameof(UpdateGamesForTeamSeasons) + " must be implemented in a subclass.");
         }
 
-        protected virtual Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+        protected virtual void UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
             TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
         {
             throw new NotImplementedException(
                 nameof(UpdateWinsLossesAndTiesForTeamSeasons) + " must be implemented in a subclass.");
+        }
+
+        protected virtual Task UpdateWinsLossesAndTiesForTeamSeasonsAsync(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
+        {
+            throw new NotImplementedException(
+                nameof(UpdateWinsLossesAndTiesForTeamSeasonsAsync) + " must be implemented in a subclass.");
         }
 
         protected void UpdateWinningPercentageForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,

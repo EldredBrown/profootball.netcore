@@ -10,6 +10,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows
     /// </summary>
     public partial class GamesWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GamesWindow"/> class.
+        /// </summary>
         public GamesWindow()
         {
             InitializeComponent();
@@ -17,11 +20,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows
             DataContext = new GamesWindowViewModel();
         }
 
-        /// <summary>
-        /// Handles the SelectionChanged event for the GamesDataGrid
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GamesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (GamesDataGrid.SelectedItem == CollectionView.NewItemPlaceholder)

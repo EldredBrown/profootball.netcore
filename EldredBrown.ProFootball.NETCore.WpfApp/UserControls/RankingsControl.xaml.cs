@@ -8,6 +8,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls
     /// </summary>
     public partial class RankingsControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RankingsControl"/> class.
+        /// </summary>
         public RankingsControl()
         {
             InitializeComponent();

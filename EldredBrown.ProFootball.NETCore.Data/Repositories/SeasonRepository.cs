@@ -45,7 +45,22 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Season"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Season"/> entity.</returns>
-        public async Task<Season?> GetSeason(int id)
+        public Season? GetSeason(int id)
+        {
+            if (_dbContext.Seasons is null)
+            {
+                return null;
+            }
+
+            return _dbContext.Seasons.Find(id);
+        }
+
+        /// <summary>
+        /// Gets a single <see cref="Season"/> entity from the data store asynchronously by ID.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="Season"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="Season"/> entity.</returns>
+        public async Task<Season?> GetSeasonAsync(int id)
         {
             if (_dbContext.Seasons is null)
             {
@@ -97,7 +112,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
                 return null;
             }
 
-            var season = await GetSeason(id);
+            var season = await GetSeasonAsync(id);
             if (season is null)
             {
                 return null;

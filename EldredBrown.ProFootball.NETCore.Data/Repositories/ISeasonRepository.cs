@@ -26,7 +26,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Season"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Season"/> entity.</returns>
-        Task<Season?> GetSeason(int id);
+        Season? GetSeason(int id);
+
+        /// <summary>
+        /// Gets a single <see cref="Season"/> entity from the data store asynchronously by ID.
+        /// </summary>
+        /// <param name="id">The ID of the <see cref="Season"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="Season"/> entity.</returns>
+        Task<Season?> GetSeasonAsync(int id);
 
         /// <summary>
         /// Adds a <see cref="Season"/> entity to the data store.

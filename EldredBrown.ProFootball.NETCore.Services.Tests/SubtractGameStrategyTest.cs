@@ -30,22 +30,22 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             gameDecorator.SeasonYear = 1920;
             A.CallTo(() => gameDecorator.IsTie()).Returns(true);
 
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns<TeamSeason?>(null);
 
             // Act
-            await strategy.ProcessGame(gameDecorator);
+            await strategy.ProcessGameAsync(gameDecorator);
 
             // Assert
             var seasonYear = gameDecorator.SeasonYear;
 
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.GuestName, seasonYear))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.HostName, seasonYear))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.WinnerName, seasonYear))
                 .MustNotHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.LoserName, seasonYear))
                 .MustNotHaveHappened();
         }
 
@@ -63,22 +63,22 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             gameDecorator.SeasonYear = 1920;
             A.CallTo(() => gameDecorator.IsTie()).Returns(false);
 
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns<TeamSeason?>(null);
 
             // Act
-            await strategy.ProcessGame(gameDecorator);
+            await strategy.ProcessGameAsync(gameDecorator);
 
             // Assert
             var seasonYear = gameDecorator.SeasonYear;
 
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.GuestName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.HostName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.WinnerName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.LoserName, seasonYear))
                 .MustHaveHappened();
         }
     }

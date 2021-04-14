@@ -78,7 +78,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 }
             }
 
-            var games = (await _gameRepository.GetGames()).Where(g => g.SeasonYear == _selectedSeasonYear);
+            var games = (await _gameRepository.GetGamesAsync()).Where(g => g.SeasonYear == _selectedSeasonYear);
             if (_selectedWeek.HasValue)
             {
                 games = games.Where(g => g.Week == _selectedWeek);
@@ -111,7 +111,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var game = await _gameRepository.GetGame(id.Value);
+            var game = await _gameRepository.GetGameAsync(id.Value);
             if (game is null)
             {
                 return NotFound();
@@ -168,7 +168,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _gameService.AddGame(game);
+                await _gameService.AddGameAsync(game);
                 await _sharedRepository.SaveChanges();
 
                 return RedirectToAction(nameof(Create));
@@ -190,7 +190,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var game = await _gameRepository.GetGame(id.Value);
+            var game = await _gameRepository.GetGameAsync(id.Value);
             if (game is null)
             {
                 return NotFound();
@@ -239,7 +239,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 try
                 {
-                    await _gameService.EditGame(game, _oldGame);
+                    await _gameService.EditGameAsync(game, _oldGame);
                     await _sharedRepository.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -272,7 +272,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var game = await _gameRepository.GetGame(id.Value);
+            var game = await _gameRepository.GetGameAsync(id.Value);
             if (game is null)
             {
                 return NotFound();
@@ -291,7 +291,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _gameService.DeleteGame(id);
+            await _gameService.DeleteGameAsync(id);
             await _sharedRepository.SaveChanges();
 
             return RedirectToAction(nameof(Index));

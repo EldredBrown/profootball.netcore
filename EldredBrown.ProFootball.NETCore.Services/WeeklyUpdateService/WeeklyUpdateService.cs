@@ -97,12 +97,12 @@ namespace EldredBrown.ProFootball.NETCore.Services
 
         private async Task<int> UpdateWeekCount(int seasonYear)
         {
-            var srcWeekCount = (await _gameRepository.GetGames())
+            var srcWeekCount = (await _gameRepository.GetGamesAsync())
                 .Where(g => g.SeasonYear == seasonYear)
                 .Select(g => g.Week)
                 .Max();
 
-            var destSeason = await _seasonRepository.GetSeason(seasonYear);
+            var destSeason = await _seasonRepository.GetSeasonAsync(seasonYear);
             if (!(destSeason is null))
             {
                 destSeason.NumOfWeeksCompleted = srcWeekCount;

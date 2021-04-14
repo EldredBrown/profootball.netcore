@@ -35,5 +35,29 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Properties {
                 this["ProFootballDbConnectionString"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Please enter names for both teams.")]
+        public string BothTeamsNeededErrorMessage {
+            get {
+                return ((string)(this["BothTeamsNeededErrorMessage"]));
+            }
+            set {
+                this["BothTeamsNeededErrorMessage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Please enter a different name for each team.")]
+        public string DifferentTeamsNeededErrorMessage {
+            get {
+                return ((string)(this["DifferentTeamsNeededErrorMessage"]));
+            }
+            set {
+                this["DifferentTeamsNeededErrorMessage"] = value;
+            }
+        }
     }
 }

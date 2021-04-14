@@ -30,8 +30,9 @@ namespace EldredBrown.ProFootball.NETCore.Services
             }
         }
 
-        protected override async Task UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
-            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
+        protected override void UpdateWinsLossesAndTiesForTeamSeasons(
+            TeamSeasonDecorator? guestSeasonDecorator, TeamSeasonDecorator? hostSeasonDecorator,
+            IGameDecorator gameDecorator)
         {
             if (gameDecorator.IsTie())
             {
@@ -50,14 +51,50 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 var seasonYear = gameDecorator.SeasonYear;
 
                 var winnerSeason =
-                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName!, seasonYear);
+                    _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.WinnerName!, seasonYear);
                 if (!(winnerSeason is null))
                 {
                     winnerSeason.Wins++;
                 }
 
                 var loserSeason =
-                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName!, seasonYear);
+                    _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.LoserName!, seasonYear);
+                if (!(loserSeason is null))
+                {
+                    loserSeason.Losses++;
+                }
+            }
+        }
+
+        protected override async Task UpdateWinsLossesAndTiesForTeamSeasonsAsync(
+            TeamSeasonDecorator? guestSeasonDecorator, TeamSeasonDecorator? hostSeasonDecorator,
+            IGameDecorator gameDecorator)
+        {
+            if (gameDecorator.IsTie())
+            {
+                if (!(guestSeasonDecorator is null))
+                {
+                    guestSeasonDecorator.Ties++;
+                }
+
+                if (!(hostSeasonDecorator is null))
+                {
+                    hostSeasonDecorator.Ties++;
+                }
+            }
+            else
+            {
+                var seasonYear = gameDecorator.SeasonYear;
+
+                var winnerSeason =
+                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.WinnerName!, seasonYear);
+                if (!(winnerSeason is null))
+                {
+                    winnerSeason.Wins++;
+                }
+
+                var loserSeason =
+                    await _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.LoserName!, seasonYear);
                 if (!(loserSeason is null))
                 {
                     loserSeason.Losses++;

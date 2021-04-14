@@ -116,11 +116,11 @@
             <CheckBox x:Name="PlayoffGameCheckBox"
                       VerticalAlignment="Center"
                       Margin="10,0,0,0"
-                      IsChecked="{Binding IsPlayoffGame}"
-                      IsEnabled="{Binding IsPlayoffGameEnabled}" />
+                      IsChecked="{Binding IsPlayoff}"
+                      IsEnabled="{Binding IsPlayoffEnabled}" />
             <Label x:Name="PlayoffGameLabel"
                    Content="Playoff Game"
-                   IsEnabled="{Binding IsPlayoffGameEnabled}" />
+                   IsEnabled="{Binding IsPlayoffEnabled}" />
         </StackPanel>
         <StackPanel x:Name="NotesPanel"
                     Grid.Row="3"

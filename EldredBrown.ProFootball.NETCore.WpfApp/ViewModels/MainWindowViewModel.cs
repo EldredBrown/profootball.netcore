@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.WpfApp;
 
@@ -11,13 +10,20 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
     {
         private readonly ISeasonRepository _seasonRepository;
 
-        public MainWindowViewModel()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
+        /// </summary>
+        /// <param name="seasonRepository">
+        /// The <see cref="ISeasonRepository"/> object by which season data will be accessed.
+        /// </param>
+        public MainWindowViewModel(ISeasonRepository seasonRepository = null)
         {
-            _seasonRepository = App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
+            _seasonRepository = seasonRepository ??
+                App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
         }
 
         /// <summary>
-        /// Gets or sets this window's seasons collection.
+        /// Gets or sets the seasons collection for this <see cref="MainWindowViewModel"/> object.
         /// </summary>
         private ReadOnlyCollection<int> _seasons;
         public ReadOnlyCollection<int> Seasons
@@ -30,7 +36,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             {
                 if (value is null)
                 {
-                    throw new ArgumentNullException("Seasons");
+                    throw new ArgumentNullException($"{GetType()}.{nameof(Seasons)}");
                 }
                 else if (value != _seasons)
                 {
@@ -42,7 +48,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets this window's selected season.
+        /// Gets or sets the selected season for this <see cref="MainWindowViewModel"/> object.
         /// </summary>
         public int SelectedSeason
         {
@@ -77,8 +83,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewSeasons()
         {
-            var seasons = _seasonRepository.GetSeasons();
-            Seasons = new ReadOnlyCollection<int>(seasons.Select(s => s.Year).ToList());
+            var seasons = _seasonRepository.GetSeasons().Select(s => s.Year);
+            Seasons = new ReadOnlyCollection<int>(seasons.ToList());
             SelectedSeason = Seasons.First();
         }
 
@@ -102,7 +108,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Opens the GamePredictorWindow.
+        /// Opens the game predictor window.
         /// </summary>
         private DelegateCommand _predictGameScoreCommand;
         public DelegateCommand PredictGameScoreCommand

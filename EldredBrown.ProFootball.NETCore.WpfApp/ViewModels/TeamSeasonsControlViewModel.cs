@@ -15,23 +15,45 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
         private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
 
-        public TeamSeasonsControlViewModel()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TeamSeasonsControlViewModel"/> class.
+        /// </summary>
+        /// <param name="teamSeasonRepository">
+        /// The <see cref="ITeamSeasonRepository"/> object by which team season data will be accessed.
+        /// </param>
+        /// <param name="teamSeasonScheduleProfileRepository">
+        /// The <see cref="ITeamSeasonScheduleProfileRepository"/> object by which team season opponent profile data
+        /// will be accessed.
+        /// </param>
+        /// <param name="teamSeasonScheduleTotalsRepository">
+        /// The <see cref="ITeamSeasonScheduleTotalsRepository"/> object by which team season schedule totals data will
+        /// be accessed.
+        /// </param>
+        /// <param name="teamSeasonScheduleAveragesRepository">
+        /// The <see cref="ITeamSeasonScheduleAveragesRepository"/> object by which team season schedule averages data
+        /// will be accessed.
+        /// </param>
+        public TeamSeasonsControlViewModel(
+            ITeamSeasonRepository teamSeasonRepository = null,
+            ITeamSeasonScheduleProfileRepository teamSeasonScheduleProfileRepository = null,
+            ITeamSeasonScheduleTotalsRepository teamSeasonScheduleTotalsRepository = null,
+            ITeamSeasonScheduleAveragesRepository teamSeasonScheduleAveragesRepository = null)
         {
-            _teamSeasonRepository =
+            _teamSeasonRepository = teamSeasonRepository ??
                 App.ServiceProvider.GetService(typeof(ITeamSeasonRepository)) as ITeamSeasonRepository;
-            _teamSeasonScheduleProfileRepository =
+            _teamSeasonScheduleProfileRepository = teamSeasonScheduleProfileRepository ??
                 App.ServiceProvider.GetService(typeof(ITeamSeasonScheduleProfileRepository))
                 as ITeamSeasonScheduleProfileRepository;
-            _teamSeasonScheduleTotalsRepository =
+            _teamSeasonScheduleTotalsRepository = teamSeasonScheduleTotalsRepository ??
                 App.ServiceProvider.GetService(typeof(ITeamSeasonScheduleTotalsRepository))
                 as ITeamSeasonScheduleTotalsRepository;
-            _teamSeasonScheduleAveragesRepository =
+            _teamSeasonScheduleAveragesRepository = teamSeasonScheduleAveragesRepository ??
                 App.ServiceProvider.GetService(typeof(ITeamSeasonScheduleAveragesRepository))
                 as ITeamSeasonScheduleAveragesRepository;
         }
 
         /// <summary>
-        /// Gets this control's teams collection.
+        /// Gets or sets the teams collection for this <see cref="TeamSeasonsControlViewModel"/> object.
         /// </summary>
         private ReadOnlyCollection<TeamSeason> _teams;
         public ReadOnlyCollection<TeamSeason> Teams
@@ -44,7 +66,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             {
                 if (value is null)
                 {
-                    throw new ArgumentNullException("Teams");
+                    throw new ArgumentNullException($"{GetType()}.{nameof(Teams)}");
                 }
                 else if (value != _teams)
                 {
@@ -56,7 +78,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets this control's selected team.
+        /// Gets or sets the selected team for this <see cref="TeamSeasonsControlViewModel"/> object.
         /// </summary>
         private TeamSeason _selectedTeam;
         public TeamSeason SelectedTeam
@@ -76,7 +98,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Gets this control's team schedule profile collection.
+        /// Gets or sets the team season schedule profile collection for this <see cref="TeamSeasonsControlViewModel"/>
+        /// object.
         /// </summary>
         private ReadOnlyCollection<TeamSeasonOpponentProfile> _teamSeasonScheduleProfile;
         public ReadOnlyCollection<TeamSeasonOpponentProfile> TeamSeasonScheduleProfile
@@ -96,7 +119,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Gets this controls's collection of team schedule totals.
+        /// Gets or sets the team season schedule totals collection for this <see cref="TeamSeasonsControlViewModel"/>
+        /// object.
         /// </summary>
         private ReadOnlyCollection<TeamSeasonScheduleTotals> _teamSeasonScheduleTotals;
         public ReadOnlyCollection<TeamSeasonScheduleTotals> TeamSeasonScheduleTotals
@@ -116,7 +140,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Gets this control's collection of team schedule averages.
+        /// Gets or sets the team season schedule averages collection for this <see cref="TeamSeasonsControlViewModel"/>
+        /// object.
         /// </summary>
         private ReadOnlyCollection<TeamSeasonScheduleAverages> _teamSeasonScheduleAverages;
         public ReadOnlyCollection<TeamSeasonScheduleAverages> TeamSeasonScheduleAverages
@@ -136,7 +161,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Loads the DataModel's Teams table.
+        /// Loads the team seasons view for the selected season.
         /// </summary>
         private DelegateCommand _viewTeamsCommand;
         public DelegateCommand ViewTeamsCommand
@@ -157,7 +182,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Views the team schedule profile, totals, and averages for the selected team.
+        /// Loads the team season schedule profile, team season schedule totals, and team season schedule averages
+        /// views for the selected team.
         /// </summary>
         private DelegateCommand _viewTeamScheduleCommand;
         public DelegateCommand ViewTeamScheduleCommand

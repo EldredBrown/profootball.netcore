@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
 using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
             services.AddScoped<ITeamSeasonScheduleTotalsRepository, TeamSeasonScheduleTotalsRepository>();
             services.AddScoped<ITeamSeasonScheduleAveragesRepository, TeamSeasonScheduleAveragesRepository>();
             services.AddScoped<ISeasonStandingsRepository, SeasonStandingsRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
+
+            services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IProcessGameStrategyFactory, ProcessGameStrategyFactory>();
         }
 
         private void OnStartup(object sender, StartupEventArgs e)

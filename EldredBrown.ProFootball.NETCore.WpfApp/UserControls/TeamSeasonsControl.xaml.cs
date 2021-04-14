@@ -8,6 +8,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls
     /// </summary>
     public partial class TeamSeasonsControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TeamSeasonsControl"/> class.
+        /// </summary>
         public TeamSeasonsControl()
         {
             InitializeComponent();
@@ -16,7 +19,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls
         }
 
         /// <summary>
-        /// Refreshes the view of this TeamsControl object
+        /// Refreshes this <see cref="TeamsControl"/> object.
         /// </summary>
         public void Refresh()
         {

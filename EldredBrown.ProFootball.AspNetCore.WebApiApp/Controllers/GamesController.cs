@@ -52,7 +52,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var games = await _gameRepository.GetGames();
+                var games = await _gameRepository.GetGamesAsync();
 
                 return _mapper.Map<GameModel[]>(games);
             }
@@ -73,7 +73,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var game = await _gameRepository.GetGame(id);
+                var game = await _gameRepository.GetGameAsync(id);
                 if (game is null)
                 {
                     return NotFound();
@@ -108,7 +108,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 var game = _mapper.Map<Game>(model);
 
-                await _gameService.AddGame(game);
+                await _gameService.AddGameAsync(game);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
@@ -139,7 +139,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             {
                 var oldGame = _mapper.Map<Game>(models["oldGame"]);
 
-                var newGame = await _gameRepository.GetGame(id);
+                var newGame = await _gameRepository.GetGameAsync(id);
                 if (newGame is null)
                 {
                     return NotFound($"Could not find game with ID of {id}");
@@ -147,7 +147,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 _mapper.Map(models["newGame"], newGame);
 
-                await _gameService.EditGame(newGame, oldGame);
+                await _gameService.EditGameAsync(newGame, oldGame);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {
@@ -173,13 +173,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var game = await _gameRepository.GetGame(id);
+                var game = await _gameRepository.GetGameAsync(id);
                 if (game is null)
                 {
                     return NotFound($"Could not find game with ID of {id}");
                 }
 
-                await _gameService.DeleteGame(id);
+                await _gameService.DeleteGameAsync(id);
 
                 if (await _sharedRepository.SaveChanges() > 0)
                 {

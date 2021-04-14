@@ -26,7 +26,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             GameDecorator? gameDecorator = null;
 
             // Act
-            Func<Task> func = new Func<Task>(async () => await strategy.ProcessGame(gameDecorator!));
+            Func<Task> func = new Func<Task>(async () => await strategy.ProcessGameAsync(gameDecorator!));
 
             // Assert
             await func.ShouldThrowAsync<ArgumentNullException>();
@@ -45,7 +45,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Act
             try
             {
-                await strategy.ProcessGame(gameDecorator);
+                await strategy.ProcessGameAsync(gameDecorator);
             }
             catch (NotImplementedException)
             {
@@ -57,9 +57,9 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Assert
             var seasonYear = gameDecorator.SeasonYear;
 
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.GuestName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.GuestName, seasonYear))
                 .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeason(gameDecorator.HostName, seasonYear))
+            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(gameDecorator.HostName, seasonYear))
                 .MustHaveHappenedOnceExactly();
         }
     }

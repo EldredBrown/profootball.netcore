@@ -5,5 +5,11 @@
     <Setting Name="ProFootballDbConnectionString" Type="System.String" Scope="User">
       <Value Profile="(Default)">Data Source=(localdb)\MSSQLLocalDb;Initial Catalog=ProFootballDb;Integrated Security=True;</Value>
     </Setting>
+    <Setting Name="BothTeamsNeededErrorMessage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Please enter names for both teams.</Value>
+    </Setting>
+    <Setting Name="DifferentTeamsNeededErrorMessage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Please enter a different name for each team.</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

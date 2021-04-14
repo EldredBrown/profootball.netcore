@@ -81,7 +81,20 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="teamName">The team name of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="TeamSeason"/> entity.</returns>
-        public async Task<TeamSeason?> GetTeamSeasonByTeamAndSeason(string teamName, int seasonYear)
+        public TeamSeason? GetTeamSeasonByTeamAndSeason(string teamName, int seasonYear)
+        {
+            return _dbContext.TeamSeasons
+                .FirstOrDefault(ts => ts.TeamName == teamName && ts.SeasonYear == seasonYear);
+        }
+
+        /// <summary>
+        /// Gets a single <see cref="TeamSeason"/> entity from the data store asynchronously by team name and season
+        /// year.
+        /// </summary>
+        /// <param name="teamName">The team name of the <see cref="TeamSeason"/> entity to fetch.</param>
+        /// <param name="seasonYear">The season year of the <see cref="TeamSeason"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="TeamSeason"/> entity.</returns>
+        public async Task<TeamSeason?> GetTeamSeasonByTeamAndSeasonAsync(string teamName, int seasonYear)
         {
             return await _dbContext.TeamSeasons
                 .FirstOrDefaultAsync(ts => ts.TeamName == teamName && ts.SeasonYear == seasonYear);

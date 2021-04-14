@@ -8,6 +8,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls
     /// </summary>
     public partial class SeasonStandingsControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SeasonStandingsControl"/> class.
+        /// </summary>
         public SeasonStandingsControl()
         {
             InitializeComponent();
@@ -16,7 +19,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls
         }
 
         /// <summary>
-        /// Refreshes the view of this StandingsControl object
+        /// Refreshes this <see cref="StandingsControl"/> object.
         /// </summary>
         public void Refresh()
         {
