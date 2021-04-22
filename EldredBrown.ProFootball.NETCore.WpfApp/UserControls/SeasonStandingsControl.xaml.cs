@@ -19,7 +19,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls
         }
 
         /// <summary>
-        /// Refreshes this <see cref="StandingsControl"/> object.
+        /// Refreshes this <see cref="SeasonStandingsControl"/> object.
         /// </summary>
         public void Refresh()
         {

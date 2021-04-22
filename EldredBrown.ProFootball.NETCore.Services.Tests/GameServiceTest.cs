@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<ArgumentNullException>();
-            ex.ParamName.ShouldBe<string>($"{service.GetType()}.AddGame: newGame");
+            ex.ParamName.ShouldBe<string>($"{service.GetType()}.AddGameAsync: newGame");
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<ArgumentNullException>();
-            ex.ParamName.ShouldBe<string>($"{service.GetType()}.EditGame: newGame");
+            ex.ParamName.ShouldBe<string>($"{service.GetType()}.EditGameAsync: newGame");
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<ArgumentNullException>();
-            ex.ParamName.ShouldBe<string>($"{service.GetType()}.EditGame: oldGame");
+            ex.ParamName.ShouldBe<string>($"{service.GetType()}.EditGameAsync: oldGame");
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             // Assert
             var ex = await func.ShouldThrowAsync<EntityNotFoundException>();
-            ex.Message.ShouldBe<string>($"{service.GetType()}.EditGame: The selected Game entity could not be found.");
+            ex.Message.ShouldBe<string>($"{service.GetType()}.EditGameAsync: The selected Game entity could not be found.");
         }
 
         [Fact]
@@ -156,7 +156,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Assert
             var ex = await func.ShouldThrowAsync<EntityNotFoundException>();
             ex.Message.ShouldBe<string>(
-                $"{service.GetType()}.DeleteGame: A Game entity with ID={id} could not be found.");
+                $"{service.GetType()}.DeleteGameAsync: A Game entity with ID={id} could not be found.");
         }
 
         [Fact]

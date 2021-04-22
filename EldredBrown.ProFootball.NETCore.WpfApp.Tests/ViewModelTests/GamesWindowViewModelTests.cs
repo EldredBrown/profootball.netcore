@@ -6,6 +6,7 @@ using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
+using EldredBrown.ProFootball.WpfApp;
 using FakeItEasy;
 using Shouldly;
 using Xunit;
@@ -278,10 +279,441 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
 
             // Act
-            testObject.IsShowAllGamesEnabled = true;
+            testObject.ShowAllGamesEnabled = true;
 
             // Assert
-            testObject.IsShowAllGamesEnabled.ShouldBeTrue();
+            testObject.ShowAllGamesEnabled.ShouldBeTrue();
+        }
+
+        [Fact]
+        public void ViewGamesCommand_WhenSeasonIsNull_ShouldNotAssignToWeek()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            A.CallTo(() => seasonRepository.GetSeason(A<int>.Ignored)).Returns(null);
+
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
+
+            // Act
+            testObject.ViewGamesCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.SelectedGame.ShouldBeNull();
+            A.CallTo(() => seasonRepository.GetSeason(A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            testObject.Week.ShouldBe(0);
+        }
+
+        [Fact]
+        public void ViewGamesCommand_WhenSeasonIsNotNull_ShouldAssignToWeek()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            int numOfWeeksCompleted = 1;
+            var season = new Season
+            {
+                NumOfWeeksCompleted = numOfWeeksCompleted
+            };
+            A.CallTo(() => seasonRepository.GetSeason(A<int>.Ignored)).Returns(season);
+
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
+
+            // Act
+            testObject.ViewGamesCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.SelectedGame.ShouldBeNull();
+            A.CallTo(() => seasonRepository.GetSeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Week.ShouldBe(numOfWeeksCompleted);
+        }
+
+        [Fact]
+        public void AddGameCommand_WhenGuestNameIsNull_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = null
+            };
+
+            // Act
+            testObject.AddGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void AddGameCommand_WhenGuestNameIsEmpty_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = ""
+            };
+
+            // Act
+            testObject.AddGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void AddGameCommand_WhenGuestNameIsWhiteSpace_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = " "
+            };
+
+            // Act
+            testObject.AddGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void AddGameCommand_WhenHostNameIsNull_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = "Guest",
+                HostName = null
+            };
+
+            // Act
+            testObject.AddGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void AddGameCommand_WhenHostNameIsEmpty_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = "Guest",
+                HostName = ""
+            };
+
+            // Act
+            testObject.AddGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void AddGameCommand_WhenHostNameIsWhiteSpace_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = "Guest",
+                HostName = " "
+            };
+
+            // Act
+            testObject.AddGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void AddGameCommand_WhenGuestNameAndHostNameAreSame_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = "Team",
+                HostName = "Team"
+            };
+
+            // Act
+            testObject.AddGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void AddGameCommand_WhenDataEntryIsValid_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = "Guest",
+                HostName = "Host"
+            };
+
+            // Act
+            testObject.AddGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.SelectedGame.ShouldBeNull();
+        }
+
+        [Fact]
+        public void EditGameCommand_WhenDataEntryIsNotValid_ShouldShowErrorMessageBox()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = null,
+                HostName = null
+            };
+
+            // Act
+            testObject.EditGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.EditGame(A<Game>.Ignored, A<Game>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void EditGameCommand_WhenDataEntryIsValidAndFindGameFilterAppliedIsTrue_ShouldEditGameAndApplyFindGameFilter()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = "Guest",
+                HostName = "Host",
+                FindGameFilterApplied = true,
+                SelectedGame = new Game()
+            };
+
+            // Act
+            testObject.EditGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.EditGame(A<Game>.Ignored, A<Game>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.FindGameFilterApplied.ShouldBeTrue();
+        }
+
+        [Fact]
+        public void EditGameCommand_WhenDataEntryIsValidAndFindGameFilterAppliedIsFalse_ShouldEditGameAndShowAllGames()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = "Guest",
+                HostName = "Host",
+                FindGameFilterApplied = false,
+                SelectedGame = new Game()
+            };
+
+            // Act
+            testObject.EditGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.EditGame(A<Game>.Ignored, A<Game>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.FindGameFilterApplied.ShouldBeFalse();
+        }
+
+        [Fact]
+        public void DeleteGameCommand_ShouldDeleteGameAndRefreshGamesCollection()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                SelectedGame = new Game()
+            };
+
+            // Act
+            testObject.DeleteGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.DeleteGame(A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.SelectedGame.ShouldBeNull();
+        }
+
+        [Fact]
+        public void FindGameCommand_WhenGamesCountIsZero_ShouldSetSelectedGameToNull()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
+
+            // Act
+            testObject.FindGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.FindGameFilterApplied.ShouldBeTrue();
+            testObject.IsGamesReadOnly.ShouldBeTrue();
+            testObject.ShowAllGamesEnabled.ShouldBeTrue();
+            testObject.SelectedGame.ShouldBeNull();
+            testObject.AddGameControlVisibility.ShouldBe(Visibility.Hidden);
+        }
+
+        [Fact]
+        public void FindGameCommand_WhenGamesCountIsNotZero_ShouldSetSelectedGameToOtherThanNull()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>
+            {
+                new Game
+                {
+                    GuestName = "Guest",
+                    HostName = "Host"
+                }
+            };
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                Games = new ReadOnlyCollection<Game>(games),
+                SelectedGame = games[0]
+            };
+
+            // Act
+            testObject.FindGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.FindGameFilterApplied.ShouldBeTrue();
+            testObject.IsGamesReadOnly.ShouldBeTrue();
+            testObject.ShowAllGamesEnabled.ShouldBeTrue();
+            testObject.SelectedGame.ShouldNotBeNull();
+            testObject.AddGameControlVisibility.ShouldBe(Visibility.Hidden);
+        }
+
+        [Fact]
+        public void ShowAllGamesCommand_WhenSeasonIsNotNull_ShouldSetSelectedFlagsToFalse()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            int numOfWeeksCompleted = 1;
+            var season = new Season
+            {
+                NumOfWeeksCompleted = numOfWeeksCompleted
+            };
+            A.CallTo(() => seasonRepository.GetSeason(A<int>.Ignored)).Returns(season);
+
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
+
+            // Act
+            testObject.ShowAllGamesCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.SelectedGame.ShouldBeNull();
+            A.CallTo(() => seasonRepository.GetSeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Week.ShouldBe(numOfWeeksCompleted);
+            testObject.FindGameFilterApplied.ShouldBeFalse();
+            testObject.IsGamesReadOnly.ShouldBeFalse();
+            testObject.ShowAllGamesEnabled.ShouldBeFalse();
+            testObject.SelectedGame.ShouldBeNull();
         }
     }
 }

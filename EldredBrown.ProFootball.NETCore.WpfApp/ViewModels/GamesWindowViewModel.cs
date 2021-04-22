@@ -16,8 +16,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameService _gameService;
 
-        private bool _isFindGameFilterApplied;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GamesWindowViewModel"/> class.
+        /// </summary>
+        /// <param name="gameRepository">The <see cref="IGameRepository"/> by which game data will be accessed.</param>
+        /// <param name="seasonRepository">
+        /// The <see cref="ISeasonRepository"/> by which season data will be accessed.
+        /// </param>
+        /// <param name="gameService">
+        /// The <see cref="IGameService"/> object that will process game data in the data store.
+        /// </param>
         public GamesWindowViewModel(IGameRepository gameRepository = null, ISeasonRepository seasonRepository = null,
             IGameService gameService = null)
         {
@@ -28,6 +36,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             _gameService = gameService ??
                 App.ServiceProvider.GetService(typeof(IGameService)) as IGameService;
         }
+
+        public bool FindGameFilterApplied { get; set; }
 
         /// <summary>
         /// Gets or sets the Week value for this <see cref="GamesWindowViewModel"/> object.
@@ -318,7 +328,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// Gets or sets the value that indicates whether the ShowAllGames function is enabled.
         /// </summary>
         private bool _isShowAllGamesEnabled;
-        public bool IsShowAllGamesEnabled
+        public bool ShowAllGamesEnabled
         {
             get
             {
@@ -351,12 +361,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void ViewGames()
         {
-            var games = _gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason);
-            Games = new ReadOnlyCollection<Game>(games.ToList());
-
+            LoadGamesForSelectedSeason();
             SelectedGame = null;
 
-            OnMoveFocus("GuestName");
+            MoveFocusTo("GuestName");
 
             var season = _seasonRepository.GetSeason(WpfGlobals.SelectedSeason);
             if (season is null)
@@ -394,9 +402,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             var newGame = MapNewGameValues();
             _gameService.AddGame(newGame);
 
-            var games = _gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason);
-            Games = new ReadOnlyCollection<Game>(games.ToList());
-
+            LoadGamesForSelectedSeason();
             SelectedGame = null;
         }
 
@@ -428,14 +434,13 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             var newGame = MapNewGameValues();
             _gameService.EditGame(oldGame, newGame);
 
-            if (_isFindGameFilterApplied)
+            if (FindGameFilterApplied)
             {
                 ApplyFindGameFilter();
             }
             else
             {
-                var games = _gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason);
-                Games = new ReadOnlyCollection<Game>(games.ToList());
+                LoadGamesForSelectedSeason();
             }
         }
 
@@ -458,10 +463,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         {
             var oldGame = MapOldGameValues();
             _gameService.DeleteGame(oldGame.ID);
-            SelectedGame = null;
 
-            var games = _gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason);
-            Games = new ReadOnlyCollection<Game>(games.ToList());
+            LoadGamesForSelectedSeason();
+            SelectedGame = null;
         }
 
         /// <summary>
@@ -481,6 +485,18 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void FindGame()
         {
+            // TODO - 2021-04-18: Call the ShowDialog method of the yet-to-implemented GameFinder window, and run the
+            // following code only if ShowDialog returns true.
+            ApplyFindGameFilter();
+            IsGamesReadOnly = true;
+            ShowAllGamesEnabled = true;
+
+            if (Games.Count == 0)
+            {
+                SelectedGame = null;
+            }
+
+            AddGameControlVisibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -501,15 +517,30 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         private void ShowAllGames()
         {
             ViewGames();
-            _isFindGameFilterApplied = false;
+            FindGameFilterApplied = false;
             IsGamesReadOnly = false;
-            IsShowAllGamesEnabled = false;
+            ShowAllGamesEnabled = false;
             SelectedGame = null;
         }
 
         private void ApplyFindGameFilter()
         {
-            throw new NotImplementedException();
+            // TODO - 2021-04-17: These values are stubbed for now. They will eventually need to be fetched from outside this class's instances.
+            var guestName = "Guest";
+            var hostName = "Host";
+
+            var games = _gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)
+                .Where(g => g.GuestName == guestName)
+                .Where(g => g.HostName == hostName);
+            Games = new ReadOnlyCollection<Game>(games.ToList());
+
+            FindGameFilterApplied = true;
+        }
+
+        private void LoadGamesForSelectedSeason()
+        {
+            var games = _gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason);
+            Games = new ReadOnlyCollection<Game>(games.ToList());
         }
 
         private Game MapNewGameValues()
@@ -552,19 +583,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(GuestName))
             {
-                // GuestName field is left empty.
                 MoveFocusTo("GuestName");
                 return (false, Settings.Default.BothTeamsNeededErrorMessage);
             }
             else if (string.IsNullOrWhiteSpace(HostName))
             {
-                // HostName field is left empty.
                 MoveFocusTo("HostName");
                 return (false, Settings.Default.BothTeamsNeededErrorMessage);
             }
             else if (GuestName == HostName)
             {
-                // Guest and host are the same team.
                 MoveFocusTo("GuestName");
                 return (false, Settings.Default.DifferentTeamsNeededErrorMessage);
             }

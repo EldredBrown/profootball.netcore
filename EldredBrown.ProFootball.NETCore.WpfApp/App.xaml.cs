@@ -2,6 +2,7 @@
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
+using EldredBrown.ProFootball.NETCore.Services.GamePredictorService;
 using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,14 +33,20 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
             services.AddSingleton<MainWindow>();
 
             services.AddScoped<ISeasonRepository, SeasonRepository>();
+            services.AddScoped<ILeagueSeasonRepository, LeagueSeasonRepository>();
+            services.AddScoped<ILeagueSeasonTotalsRepository, MockLeagueSeasonTotalsRepository>();
             services.AddScoped<ITeamSeasonRepository, TeamSeasonRepository>();
             services.AddScoped<ITeamSeasonScheduleProfileRepository, TeamSeasonScheduleProfileRepository>();
             services.AddScoped<ITeamSeasonScheduleTotalsRepository, TeamSeasonScheduleTotalsRepository>();
             services.AddScoped<ITeamSeasonScheduleAveragesRepository, TeamSeasonScheduleAveragesRepository>();
             services.AddScoped<ISeasonStandingsRepository, SeasonStandingsRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<ISharedRepository, SharedRepository>();
 
             services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IWeeklyUpdateService, WeeklyUpdateService>();
+            services.AddScoped<IGamePredictorService, GamePredictorService>();
+
             services.AddScoped<IProcessGameStrategyFactory, ProcessGameStrategyFactory>();
         }
 

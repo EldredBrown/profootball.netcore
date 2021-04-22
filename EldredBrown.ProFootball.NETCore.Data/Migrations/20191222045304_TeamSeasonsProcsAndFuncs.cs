@@ -167,7 +167,7 @@ RETURN
 	FROM
 		dbo.fn_GetTeamSeasonOpponentProfiles(@teamName, @seasonYear) AS tsop,
 		dbo.Seasons AS s
-	WHERE s.ID = @seasonYear
+	WHERE s.Year = @seasonYear
 )
 GO");
 		}

@@ -98,7 +98,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         }
 
         [Fact]
-        public void ViewTeamsScheduleCommand_WhenSelectedTeamIsNotNull_ShouldLoadTeamSeasonScheduleProfileTotalsAndAverages()
+        public void ViewTeamScheduleCommand_WhenSelectedTeamIsNotNull_ShouldLoadTeamSeasonScheduleProfileTotalsAndAverages()
         {
             // Arrange
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
@@ -149,7 +149,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         }
 
         [Fact]
-        public void ViewTeamsScheduleCommand_WhenSelectedTeamIsNull_ShouldNotLoadTeamSeasonScheduleProfileTotalsAndAverages()
+        public void ViewTeamScheduleCommand_WhenSelectedTeamIsNull_ShouldNotLoadTeamSeasonScheduleProfileTotalsAndAverages()
         {
             // Arrange
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();

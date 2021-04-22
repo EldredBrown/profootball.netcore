@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
+using EldredBrown.ProFootball.NETCore.Services.GamePredictorService;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
+using EldredBrown.ProFootball.WpfApp;
 using FakeItEasy;
 using Shouldly;
 using Xunit;
@@ -17,7 +20,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         {
             // Arrange
             var seasonRepository = A.Fake<ISeasonRepository>();
-            var testObject = new MainWindowViewModel(seasonRepository);
+            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
+            var gamePredictorService = A.Fake<IGamePredictorService>();
+            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
 
             // Act
             Func<ReadOnlyCollection<int>> func = () => testObject.Seasons = null;
@@ -32,7 +37,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         {
             // Arrange
             var seasonRepository = A.Fake<ISeasonRepository>();
-            var testObject = new MainWindowViewModel(seasonRepository);
+            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
+            var gamePredictorService = A.Fake<IGamePredictorService>();
+            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
 
             // Act
             var seasons = new ReadOnlyCollection<int>(new List<int>());
@@ -49,7 +56,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         {
             // Arrange
             var seasonRepository = A.Fake<ISeasonRepository>();
-            var testObject = new MainWindowViewModel(seasonRepository);
+            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
+            var gamePredictorService = A.Fake<IGamePredictorService>();
+            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
 
             // Act
             var season = 1920;
@@ -60,7 +69,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         }
 
         [Fact]
-        public void ViewSeasonsCommand_ShouldAssignValueToSelectedSeason_ShouldShowSeasonAndSelectedSeasonFromDataStore()
+        public void ViewSeasonsCommand_ShouldShowSeasonAndSelectedSeasonFromDataStore()
         {
             // Arrange
             var seasonRepository = A.Fake<ISeasonRepository>();
@@ -72,7 +81,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 new Season { Year = years[2] }
             };
             A.CallTo(() => seasonRepository.GetSeasons()).Returns(seasons);
-            var testObject = new MainWindowViewModel(seasonRepository);
+
+            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
+            var gamePredictorService = A.Fake<IGamePredictorService>();
+
+            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
 
             // Act
             testObject.ViewSeasonsCommand.Execute(null);
@@ -82,6 +95,39 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             testObject.Seasons.ShouldBeOfType<ReadOnlyCollection<int>>();
             testObject.Seasons.ShouldBe(years);
             testObject.SelectedSeason.ShouldBe(years[0]);
+        }
+
+        [Fact]
+        public void RunWeeklyUpdateCommand_ShouldCallWeeklyUpdateServiceRunWeeklyUpdate()
+        {
+            // Arrange
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
+            var gamePredictorService = A.Fake<IGamePredictorService>();
+            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
+
+            // Act
+            testObject.WeeklyUpdateCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => weeklyUpdateService.RunWeeklyUpdate(WpfGlobals.SelectedSeason))
+                .MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void PredictGameScoreCommand_ShouldCallGamePredictorServicePredictGameScore()
+        {
+            // Arrange
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
+            var gamePredictorService = A.Fake<IGamePredictorService>();
+            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
+
+            // Act
+            testObject.PredictGameScoreCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gamePredictorService.PredictGameScore()).MustHaveHappenedOnceExactly();
         }
     }
 }

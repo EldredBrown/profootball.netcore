@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
+using EldredBrown.ProFootball.NETCore.Services.GamePredictorService;
 using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
@@ -9,6 +11,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly ISeasonRepository _seasonRepository;
+        private readonly IWeeklyUpdateService _weeklyUpdateService;
+        private readonly IGamePredictorService _gamePredictorService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
@@ -16,10 +20,21 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <param name="seasonRepository">
         /// The <see cref="ISeasonRepository"/> object by which season data will be accessed.
         /// </param>
-        public MainWindowViewModel(ISeasonRepository seasonRepository = null)
+        /// <param name="weeklyUpdateService">
+        /// The <see cref="IWeeklyUpdateService"/> object that will run the weekly update.
+        /// </param>
+        /// <param name="gamePredictorService">
+        /// The <see cref="IGamePredictorService"/> object that will predict a game score.
+        /// </param>
+        public MainWindowViewModel(ISeasonRepository seasonRepository = null,
+            IWeeklyUpdateService weeklyUpdateService = null, IGamePredictorService gamePredictorService = null)
         {
             _seasonRepository = seasonRepository ??
                 App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
+            _weeklyUpdateService = weeklyUpdateService ??
+                App.ServiceProvider.GetService(typeof(IWeeklyUpdateService)) as IWeeklyUpdateService;
+            _gamePredictorService = gamePredictorService ??
+                App.ServiceProvider.GetService(typeof(IGamePredictorService)) as IGamePredictorService;
         }
 
         /// <summary>
@@ -105,6 +120,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void RunWeeklyUpdate()
         {
+            _weeklyUpdateService.RunWeeklyUpdate(WpfGlobals.SelectedSeason);
         }
 
         /// <summary>
@@ -124,6 +140,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void PredictGameScore()
         {
+            _gamePredictorService.PredictGameScore();
         }
     }
 }
