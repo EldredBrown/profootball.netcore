@@ -3,6 +3,8 @@ using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
 using EldredBrown.ProFootball.NETCore.Services.GamePredictorService;
 using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
+using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
+using EldredBrown.ProFootball.NETCore.WpfApp.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
@@ -31,6 +33,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
             });
 
             services.AddSingleton<MainWindow>();
+
+            services.AddScoped<IGameFinderWindowFactory, GameFinderWindowFactory>();
+            services.AddScoped<IGameFinderWindowViewModel, GameFinderWindowViewModel>();
 
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IWeeklyUpdateService, WeeklyUpdateService>();

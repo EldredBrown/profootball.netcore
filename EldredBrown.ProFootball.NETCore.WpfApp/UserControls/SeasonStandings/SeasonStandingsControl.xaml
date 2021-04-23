@@ -4,13 +4,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:viewmodels="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.ViewModels"
-             d:DataContext="{d:DesignInstance Type=viewmodels:SeasonStandingsControlViewModel}"
+             xmlns:ViewModels="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.ViewModels"
+             d:DataContext="{d:DesignInstance Type=ViewModels:SeasonStandingsControlViewModel}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/AppResources.xaml"/>
+                <ResourceDictionary Source="../../Resources/AppResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <CollectionViewSource x:Key="StandingsViewSource" Source="{Binding Standings}" />

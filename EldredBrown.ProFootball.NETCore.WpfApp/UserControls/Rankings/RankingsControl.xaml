@@ -3,14 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewmodels="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.ViewModels"
+             xmlns:ViewModels="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.ViewModels"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             d:DataContext="{d:DesignInstance Type=viewmodels:RankingsControlViewModel}"
+             d:DataContext="{d:DesignInstance Type=ViewModels:RankingsControlViewModel}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/AppResources.xaml"/>
+                <ResourceDictionary Source="../../Resources/AppResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <CollectionViewSource x:Key="TotalRankingsViewSource" Source="{Binding TotalRankings}" />

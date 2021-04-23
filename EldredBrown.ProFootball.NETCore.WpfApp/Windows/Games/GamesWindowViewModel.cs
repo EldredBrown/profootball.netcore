@@ -6,6 +6,7 @@ using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
 using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
+using EldredBrown.ProFootball.NETCore.WpfApp.Windows;
 using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
@@ -15,6 +16,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         private readonly IGameRepository _gameRepository;
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameService _gameService;
+        private readonly IGameFinderWindowFactory _gameFinderWindowFactory;
 
         private string _filterGuestName;
         private string _filterHostName;
@@ -29,8 +31,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <param name="gameService">
         /// The <see cref="IGameService"/> object that will process game data in the data store.
         /// </param>
+        /// <param name="gameFinderWindowFactory">
+        /// The <see cref="IGameFinderWindowFactory"/> that will create instances of the
+        /// <see cref="IGameFinderWindow"/> interface.
+        /// </param>
         public GamesWindowViewModel(IGameRepository gameRepository = null, ISeasonRepository seasonRepository = null,
-            IGameService gameService = null)
+            IGameService gameService = null, IGameFinderWindowFactory gameFinderWindowFactory = null)
         {
             _gameRepository = gameRepository ??
                 App.ServiceProvider.GetService(typeof(IGameRepository)) as IGameRepository;
@@ -38,6 +44,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
                 App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
             _gameService = gameService ??
                 App.ServiceProvider.GetService(typeof(IGameService)) as IGameService;
+            _gameFinderWindowFactory = gameFinderWindowFactory ??
+                App.ServiceProvider.GetService(typeof(IGameFinderWindowFactory)) as IGameFinderWindowFactory;
         }
 
         #region Detail Properties
@@ -474,10 +482,15 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void FindGame()
         {
-            // TODO - 2021-04-23: Create and show GameFinderWindow. If ShowDialog is true, then extract data from the
-            // window's view model. The following field assignments are stubbed for now.
-            _filterGuestName = "Guest";
-            _filterHostName = "Host";
+            var gameFinderWindow = _gameFinderWindowFactory.Create();
+            if (gameFinderWindow.ShowDialog() == false)
+            {
+                return;
+            }
+
+            var vm = gameFinderWindow.DataContext as IGameFinderWindowViewModel;
+            _filterGuestName = vm.GuestName;
+            _filterHostName = vm.HostName;
 
             ApplyFindGameFilter();
             IsGamesReadOnly = true;
