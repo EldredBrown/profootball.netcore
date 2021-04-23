@@ -106,7 +106,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _leagueRepository.Add(league);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return Created(location, _mapper.Map<LeagueModel>(league));
                 }
@@ -141,7 +141,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 _mapper.Map(model, league);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return _mapper.Map<LeagueModel>(league);
                 }
@@ -173,7 +173,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _leagueRepository.Delete(id);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return Ok();
                 }

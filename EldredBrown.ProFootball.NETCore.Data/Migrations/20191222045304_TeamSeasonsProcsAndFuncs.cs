@@ -115,7 +115,7 @@ RETURN
         ts.PointsFor - gbts.OpponentScore AS OpponentPointsFor,
         ts.PointsAgainst - gbts.TeamScore AS OpponentPointsAgainst
 	FROM dbo.fn_GetGamesByTeamAndSeason(@teamName, @seasonYear) AS gbts
-		LEFT JOIN dbo.TeamSeasons AS ts ON gbts.OpponentName = ts.TeamName
+		LEFT JOIN dbo.TeamSeasons AS ts ON gbts.OpponentName = ts.TeamName AND ts.SeasonYear = @seasonYear
 )
 GO");
 		}

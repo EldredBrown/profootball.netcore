@@ -41,8 +41,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gamePredictorService = A.Fake<IGamePredictorService>();
             var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
 
-            // Act
             var seasons = new ReadOnlyCollection<int>(new List<int>());
+
+            // Act
             Func<ReadOnlyCollection<int>> func = () => testObject.Seasons = seasons;
 
             // Assert
@@ -60,12 +61,46 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gamePredictorService = A.Fake<IGamePredictorService>();
             var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
 
-            // Act
             var season = 1920;
+
+            // Act
             testObject.SelectedSeason = season;
 
             // Assert
             testObject.SelectedSeason.ShouldBe(season);
+        }
+
+        [Fact]
+        public void PredictGameScoreCommand_ShouldCallGamePredictorServicePredictGameScore()
+        {
+            // Arrange
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
+            var gamePredictorService = A.Fake<IGamePredictorService>();
+            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
+
+            // Act
+            testObject.PredictGameScoreCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gamePredictorService.PredictGameScore()).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void RunWeeklyUpdateCommand_ShouldCallWeeklyUpdateServiceRunWeeklyUpdate()
+        {
+            // Arrange
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
+            var gamePredictorService = A.Fake<IGamePredictorService>();
+            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
+
+            // Act
+            testObject.WeeklyUpdateCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => weeklyUpdateService.RunWeeklyUpdate(WpfGlobals.SelectedSeason))
+                .MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -95,39 +130,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             testObject.Seasons.ShouldBeOfType<ReadOnlyCollection<int>>();
             testObject.Seasons.ShouldBe(years);
             testObject.SelectedSeason.ShouldBe(years[0]);
-        }
-
-        [Fact]
-        public void RunWeeklyUpdateCommand_ShouldCallWeeklyUpdateServiceRunWeeklyUpdate()
-        {
-            // Arrange
-            var seasonRepository = A.Fake<ISeasonRepository>();
-            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
-            var gamePredictorService = A.Fake<IGamePredictorService>();
-            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
-
-            // Act
-            testObject.WeeklyUpdateCommand.Execute(null);
-
-            // Assert
-            A.CallTo(() => weeklyUpdateService.RunWeeklyUpdate(WpfGlobals.SelectedSeason))
-                .MustHaveHappenedOnceExactly();
-        }
-
-        [Fact]
-        public void PredictGameScoreCommand_ShouldCallGamePredictorServicePredictGameScore()
-        {
-            // Arrange
-            var seasonRepository = A.Fake<ISeasonRepository>();
-            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
-            var gamePredictorService = A.Fake<IGamePredictorService>();
-            var testObject = new MainWindowViewModel(seasonRepository, weeklyUpdateService, gamePredictorService);
-
-            // Act
-            testObject.PredictGameScoreCommand.Execute(null);
-
-            // Assert
-            A.CallTo(() => gamePredictorService.PredictGameScore()).MustHaveHappenedOnceExactly();
         }
     }
 }

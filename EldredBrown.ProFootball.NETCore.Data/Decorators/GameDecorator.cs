@@ -182,7 +182,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Decorators
         /// Edits the wrapped <see cref="Game"/> entity with data from another <see cref="Game"/> entity.
         /// </summary>
         /// <param name="srcGame">The <see cref="Game"/> entity from which data will be copied.</param>
-        public void Edit(Game srcGame)
+        public void Edit(IGameDecorator srcGame)
         {
             _game.Week = srcGame.Week;
             _game.GuestName = srcGame.GuestName;

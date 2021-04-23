@@ -44,8 +44,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new TeamSeasonsControlViewModel(teamSeasonRepository, teamSeasonScheduleProfileRepository,
                 teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository);
 
-            // Act
             var teams = new ReadOnlyCollection<TeamSeason>(new List<TeamSeason>());
+
+            // Act
             Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.Teams = teams;
 
             // Assert
@@ -59,18 +60,54 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         {
             // Arrange
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
+
             var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
+            var teamSeasonOpponentProfiles = new List<TeamSeasonOpponentProfile>();
+            A.CallTo(() => teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(A<string>.Ignored,
+                A<int>.Ignored)).Returns(teamSeasonOpponentProfiles);
+
             var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
+            var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals();
+            A.CallTo(() => teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+                A<int>.Ignored)).Returns(teamSeasonScheduleTotals);
+
             var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
+            var teamSeasonScheduleAverages = new TeamSeasonScheduleAverages();
+            A.CallTo(() => teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+                A<int>.Ignored)).Returns(teamSeasonScheduleAverages);
+
             var testObject = new TeamSeasonsControlViewModel(teamSeasonRepository, teamSeasonScheduleProfileRepository,
-                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository);
+                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository)
+            {
+                SelectedTeam = null
+            };
+
+            var teamSeason = new TeamSeason();
 
             // Act
-            var teamSeason = new TeamSeason();
             testObject.SelectedTeam = teamSeason;
 
             // Assert
             testObject.SelectedTeam.ShouldBe(teamSeason);
+
+            A.CallTo(() => teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(A<string>.Ignored,
+                A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            testObject.TeamSeasonScheduleProfile.ShouldBeOfType<ReadOnlyCollection<TeamSeasonOpponentProfile>>();
+            testObject.TeamSeasonScheduleProfile.ShouldBe(teamSeasonOpponentProfiles.ToList());
+
+            A.CallTo(() => teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
+                A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            testObject.TeamSeasonScheduleTotals.ShouldBeOfType<ReadOnlyCollection<TeamSeasonScheduleTotals>>();
+
+            var teamSeasonScheduleTotalsList = new List<TeamSeasonScheduleTotals> { teamSeasonScheduleTotals };
+            testObject.TeamSeasonScheduleTotals.ShouldBe(teamSeasonScheduleTotalsList);
+
+            A.CallTo(() => teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
+                A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            testObject.TeamSeasonScheduleAverages.ShouldBeOfType<ReadOnlyCollection<TeamSeasonScheduleAverages>>();
+
+            var teamSeasonScheduleAveragesList = new List<TeamSeasonScheduleAverages> { teamSeasonScheduleAverages };
+            testObject.TeamSeasonScheduleAverages.ShouldBe(teamSeasonScheduleAveragesList);
         }
 
         [Fact]
@@ -129,19 +166,19 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
 
             // Assert
             A.CallTo(() => teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(A<string>.Ignored,
-                A<int>.Ignored)).MustHaveHappenedOnceExactly();
+                A<int>.Ignored)).MustHaveHappened();
             testObject.TeamSeasonScheduleProfile.ShouldBeOfType<ReadOnlyCollection<TeamSeasonOpponentProfile>>();
             testObject.TeamSeasonScheduleProfile.ShouldBe(teamSeasonOpponentProfiles.ToList());
 
             A.CallTo(() => teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(A<string>.Ignored,
-                A<int>.Ignored)).MustHaveHappenedOnceExactly();
+                A<int>.Ignored)).MustHaveHappened();
             testObject.TeamSeasonScheduleTotals.ShouldBeOfType<ReadOnlyCollection<TeamSeasonScheduleTotals>>();
 
             var teamSeasonScheduleTotalsList = new List<TeamSeasonScheduleTotals> { teamSeasonScheduleTotals };
             testObject.TeamSeasonScheduleTotals.ShouldBe(teamSeasonScheduleTotalsList);
 
             A.CallTo(() => teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
-                A<int>.Ignored)).MustHaveHappenedOnceExactly();
+                A<int>.Ignored)).MustHaveHappened();
             testObject.TeamSeasonScheduleAverages.ShouldBeOfType<ReadOnlyCollection<TeamSeasonScheduleAverages>>();
 
             var teamSeasonScheduleAveragesList = new List<TeamSeasonScheduleAverages> { teamSeasonScheduleAverages };

@@ -50,7 +50,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
 
             try
             {
-                await _sharedRepository.SaveChanges();
+                await _sharedRepository.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {

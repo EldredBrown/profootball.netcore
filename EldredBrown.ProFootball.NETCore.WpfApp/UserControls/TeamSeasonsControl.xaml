@@ -47,13 +47,6 @@
                   RowDetailsVisibilityMode="VisibleWhenSelected"
                   Grid.Row="0"
                   EnableRowVirtualization="True">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:EventTrigger.Actions>
-                        <i:InvokeCommandAction Command="{Binding ViewTeamScheduleCommand}" />
-                    </i:EventTrigger.Actions>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="TeamNameColumn"
                                   Binding="{Binding TeamName}"

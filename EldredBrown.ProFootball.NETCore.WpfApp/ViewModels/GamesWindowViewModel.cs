@@ -16,6 +16,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameService _gameService;
 
+        private string _filterGuestName;
+        private string _filterHostName;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GamesWindowViewModel"/> class.
         /// </summary>
@@ -37,7 +40,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
                 App.ServiceProvider.GetService(typeof(IGameService)) as IGameService;
         }
 
-        public bool FindGameFilterApplied { get; set; }
+        #region Detail Properties
 
         /// <summary>
         /// Gets or sets the Week value for this <see cref="GamesWindowViewModel"/> object.
@@ -202,7 +205,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <summary>
         /// Gets or sets the visibility of the AddGame control
         /// </summary>
-        private Visibility _addGameControlVisibility;
+        private Visibility _addGameControlVisibility = Visibility.Visible;
         public Visibility AddGameControlVisibility
         {
             get
@@ -222,7 +225,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <summary>
         /// Gets or sets the visibility of the EditGame control
         /// </summary>
-        private Visibility _editGameControlVisibility;
+        private Visibility _editGameControlVisibility = Visibility.Hidden;
         public Visibility EditGameControlVisibility
         {
             get
@@ -242,7 +245,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <summary>
         /// Gets or sets the visibility of the DeleteGame control
         /// </summary>
-        private Visibility _deleteGameControlVisibility;
+        private Visibility _deleteGameControlVisibility = Visibility.Hidden;
         public Visibility DeleteGameControlVisibility
         {
             get
@@ -258,6 +261,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
                 }
             }
         }
+
+        #endregion
+
+        #region Index Properties
 
         /// <summary>
         /// Gets or sets the Games collection for this <see cref="GamesWindowViewModel"/> object.
@@ -296,10 +303,19 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             }
             set
             {
-                if (value != _selectedGame)
+                if (value != _selectedGame || _selectedGame is null)
                 {
                     _selectedGame = value;
                     OnPropertyChanged("SelectedGame");
+
+                    if (_selectedGame is null)
+                    {
+                        ClearDataEntryControls();
+                    }
+                    else
+                    {
+                        PopulateDataEntryControls();
+                    }
                 }
             }
         }
@@ -339,41 +355,14 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
                 if (value != _isShowAllGamesEnabled)
                 {
                     _isShowAllGamesEnabled = value;
-                    OnPropertyChanged("IsShowAllGamesEnabled");
+                    OnPropertyChanged("ShowAllGamesEnabled");
                 }
             }
         }
 
-        /// <summary>
-        /// Loads all the Games for the selected season.
-        /// </summary>
-        private DelegateCommand _viewGamesCommand;
-        public DelegateCommand ViewGamesCommand
-        {
-            get
-            {
-                if (_viewGamesCommand is null)
-                {
-                    _viewGamesCommand = new DelegateCommand(param => ViewGames());
-                }
-                return _viewGamesCommand;
-            }
-        }
-        private void ViewGames()
-        {
-            LoadGamesForSelectedSeason();
-            SelectedGame = null;
+        #endregion
 
-            MoveFocusTo("GuestName");
-
-            var season = _seasonRepository.GetSeason(WpfGlobals.SelectedSeason);
-            if (season is null)
-            {
-                return;
-            }
-
-            Week = season.NumOfWeeksCompleted;
-        }
+        public bool FindGameFilterApplied { get; set; }
 
         /// <summary>
         /// Adds a new game to the data store.
@@ -407,6 +396,30 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
+        /// Deletes an existing game from the data store.
+        /// </summary>
+        private DelegateCommand _deleteGameCommand;
+        public DelegateCommand DeleteGameCommand
+        {
+            get
+            {
+                if (_deleteGameCommand is null)
+                {
+                    _deleteGameCommand = new DelegateCommand(param => DeleteGame());
+                }
+                return _deleteGameCommand;
+            }
+        }
+        private void DeleteGame()
+        {
+            var oldGame = MapOldGameValues();
+            _gameService.DeleteGame(oldGame.ID);
+
+            LoadGamesForSelectedSeason();
+            SelectedGame = null;
+        }
+
+        /// <summary>
         /// Edits an existing game in the data store.
         /// </summary>
         private DelegateCommand _editGameCommand;
@@ -432,7 +445,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 
             var oldGame = MapOldGameValues();
             var newGame = MapNewGameValues();
-            _gameService.EditGame(oldGame, newGame);
+            _gameService.EditGame(newGame, oldGame);
 
             if (FindGameFilterApplied)
             {
@@ -442,30 +455,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             {
                 LoadGamesForSelectedSeason();
             }
-        }
-
-        /// <summary>
-        /// Deletes an existing game from the data store.
-        /// </summary>
-        private DelegateCommand _deleteGameCommand;
-        public DelegateCommand DeleteGameCommand
-        {
-            get
-            {
-                if (_deleteGameCommand is null)
-                {
-                    _deleteGameCommand = new DelegateCommand(param => DeleteGame());
-                }
-                return _deleteGameCommand;
-            }
-        }
-        private void DeleteGame()
-        {
-            var oldGame = MapOldGameValues();
-            _gameService.DeleteGame(oldGame.ID);
-
-            LoadGamesForSelectedSeason();
-            SelectedGame = null;
         }
 
         /// <summary>
@@ -485,8 +474,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
         private void FindGame()
         {
-            // TODO - 2021-04-18: Call the ShowDialog method of the yet-to-implemented GameFinder window, and run the
-            // following code only if ShowDialog returns true.
+            // TODO - 2021-04-23: Create and show GameFinderWindow. If ShowDialog is true, then extract data from the
+            // window's view model. The following field assignments are stubbed for now.
+            _filterGuestName = "Guest";
+            _filterHostName = "Host";
+
             ApplyFindGameFilter();
             IsGamesReadOnly = true;
             ShowAllGamesEnabled = true;
@@ -523,18 +515,61 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
             SelectedGame = null;
         }
 
+        /// <summary>
+        /// Loads all the Games for the selected season.
+        /// </summary>
+        private DelegateCommand _viewGamesCommand;
+        public DelegateCommand ViewGamesCommand
+        {
+            get
+            {
+                if (_viewGamesCommand is null)
+                {
+                    _viewGamesCommand = new DelegateCommand(param => ViewGames());
+                }
+                return _viewGamesCommand;
+            }
+        }
+        private void ViewGames()
+        {
+            LoadGamesForSelectedSeason();
+            SelectedGame = null;
+
+            MoveFocusTo("GuestName");
+
+            var season = _seasonRepository.GetSeasonByYear(WpfGlobals.SelectedSeason);
+            if (season is null)
+            {
+                return;
+            }
+
+            Week = season.NumOfWeeksCompleted;
+        }
+
         private void ApplyFindGameFilter()
         {
-            // TODO - 2021-04-17: These values are stubbed for now. They will eventually need to be fetched from outside this class's instances.
-            var guestName = "Guest";
-            var hostName = "Host";
-
             var games = _gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)
-                .Where(g => g.GuestName == guestName)
-                .Where(g => g.HostName == hostName);
+                .Where(g => g.GuestName == _filterGuestName)
+                .Where(g => g.HostName == _filterHostName);
             Games = new ReadOnlyCollection<Game>(games.ToList());
 
             FindGameFilterApplied = true;
+        }
+
+        private void ClearDataEntryControls()
+        {
+            GuestName = string.Empty;
+            GuestScore = 0;
+            HostName = string.Empty;
+            HostScore = 0;
+            IsPlayoff = false;
+            Notes = string.Empty;
+
+            AddGameControlVisibility = Visibility.Visible;
+            EditGameControlVisibility = Visibility.Hidden;
+            DeleteGameControlVisibility = Visibility.Hidden;
+
+            MoveFocusTo("GuestName");
         }
 
         private void LoadGamesForSelectedSeason()
@@ -569,6 +604,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
                 GuestScore = SelectedGame.GuestScore,
                 HostName = SelectedGame.HostName,
                 HostScore = SelectedGame.HostScore,
+                WinnerName = SelectedGame.WinnerName,
+                WinnerScore = SelectedGame.WinnerScore,
+                LoserName = SelectedGame.LoserName,
+                LoserScore = SelectedGame.LoserScore,
                 IsPlayoff = SelectedGame.IsPlayoff,
                 Notes = SelectedGame.Notes
             };
@@ -577,6 +616,22 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         private void MoveFocusTo(string focusedProperty)
         {
             OnMoveFocus(focusedProperty);
+        }
+
+        private void PopulateDataEntryControls()
+        {
+            var selectedGame = SelectedGame;
+            Week = selectedGame.Week;
+            GuestName = selectedGame.GuestName;
+            GuestScore = selectedGame.GuestScore;
+            HostName = selectedGame.HostName;
+            HostScore = selectedGame.HostScore;
+            IsPlayoff = selectedGame.IsPlayoff;
+            Notes = selectedGame.Notes;
+
+            AddGameControlVisibility = Visibility.Hidden;
+            EditGameControlVisibility = Visibility.Visible;
+            DeleteGameControlVisibility = Visibility.Visible;
         }
 
         private (bool, string) ValidateDataEntry()

@@ -48,7 +48,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
             if (!(League is null))
             {
                 await _leagueRepository.Delete(League.ID);
-                await _sharedRepository.SaveChanges();
+                await _sharedRepository.SaveChangesAsync();
             }
 
             return RedirectToPage("./Index");

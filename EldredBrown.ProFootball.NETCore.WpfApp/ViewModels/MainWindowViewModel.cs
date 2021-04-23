@@ -82,25 +82,23 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Loads data into the Seasons control.
+        /// Opens the game predictor window.
         /// </summary>
-        private DelegateCommand _viewSeasonsCommand;
-        public DelegateCommand ViewSeasonsCommand
+        private DelegateCommand _predictGameScoreCommand;
+        public DelegateCommand PredictGameScoreCommand
         {
             get
             {
-                if (_viewSeasonsCommand is null)
+                if (_predictGameScoreCommand is null)
                 {
-                    _viewSeasonsCommand = new DelegateCommand(param => ViewSeasons());
+                    _predictGameScoreCommand = new DelegateCommand(param => PredictGameScore());
                 }
-                return _viewSeasonsCommand;
+                return _predictGameScoreCommand;
             }
         }
-        private void ViewSeasons()
+        private void PredictGameScore()
         {
-            var seasons = _seasonRepository.GetSeasons().Select(s => s.Year);
-            Seasons = new ReadOnlyCollection<int>(seasons.ToList());
-            SelectedSeason = Seasons.First();
+            _gamePredictorService.PredictGameScore();
         }
 
         /// <summary>
@@ -124,23 +122,25 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         }
 
         /// <summary>
-        /// Opens the game predictor window.
+        /// Loads data into the Seasons control.
         /// </summary>
-        private DelegateCommand _predictGameScoreCommand;
-        public DelegateCommand PredictGameScoreCommand
+        private DelegateCommand _viewSeasonsCommand;
+        public DelegateCommand ViewSeasonsCommand
         {
             get
             {
-                if (_predictGameScoreCommand is null)
+                if (_viewSeasonsCommand is null)
                 {
-                    _predictGameScoreCommand = new DelegateCommand(param => PredictGameScore());
+                    _viewSeasonsCommand = new DelegateCommand(param => ViewSeasons());
                 }
-                return _predictGameScoreCommand;
+                return _viewSeasonsCommand;
             }
         }
-        private void PredictGameScore()
+        private void ViewSeasons()
         {
-            _gamePredictorService.PredictGameScore();
+            var seasons = _seasonRepository.GetSeasons().Select(s => s.Year);
+            Seasons = new ReadOnlyCollection<int>(seasons.ToList());
+            SelectedSeason = Seasons.First();
         }
     }
 }

@@ -93,6 +93,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
                 {
                     _selectedTeam = value;
                     OnPropertyChanged("SelectedTeam");
+
+                    ViewTeamSchedule();
                 }
             }
         }

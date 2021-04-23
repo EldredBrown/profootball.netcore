@@ -99,7 +99,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _seasonRepository.Add(season);
-                await _sharedRepository.SaveChanges();
+                await _sharedRepository.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -151,7 +151,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 try
                 {
                     _seasonRepository.Update(season);
-                    await _sharedRepository.SaveChanges();
+                    await _sharedRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -204,7 +204,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var season = await _seasonRepository.Delete(id);
-            await _sharedRepository.SaveChanges();
+            await _sharedRepository.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }

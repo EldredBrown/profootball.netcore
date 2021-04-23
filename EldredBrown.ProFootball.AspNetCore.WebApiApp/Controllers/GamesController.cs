@@ -110,7 +110,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _gameService.AddGameAsync(game);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return Created(location, _mapper.Map<GameModel>(game));
                 }
@@ -149,7 +149,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _gameService.EditGameAsync(newGame, oldGame);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return _mapper.Map<GameModel>(newGame);
                 }
@@ -181,7 +181,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _gameService.DeleteGameAsync(id);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return Ok();
                 }

@@ -252,7 +252,7 @@
                     Width="75"
                     Height="25"
                     Margin="5,0,0,0"
-                    IsEnabled="{Binding IsShowAllGamesEnabled}"
+                    IsEnabled="{Binding ShowAllGamesEnabled}"
                     Command="{Binding ShowAllGamesCommand}" />
         </StackPanel>
     </Grid>

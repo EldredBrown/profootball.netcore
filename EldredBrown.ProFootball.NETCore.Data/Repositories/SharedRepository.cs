@@ -22,7 +22,16 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Saves changes made to the data store.
         /// </summary>
         /// <returns>The number of entities affected.</returns>
-        public async Task<int> SaveChanges()
+        public int SaveChanges()
+        {
+            return _dbContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// Asynchronously saves changes made to the data store.
+        /// </summary>
+        /// <returns>The number of entities affected.</returns>
+        public async Task<int> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync();
         }

@@ -13,6 +13,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
     public class GameService : IGameService
     {
         private readonly IGameRepository _gameRepository;
+        private readonly ISharedRepository _sharedRepository;
         private readonly IProcessGameStrategyFactory _processGameStrategyFactory;
 
         /// <summary>
@@ -20,9 +21,11 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// </summary>
         /// <param name="gameRepository">The repository by which game data will be accessed.</param>
         /// <param name="processGameStrategyFactory">The factory that will initialize the needed <see cref="ProcessGameStrategyBase"/> subclass.</param>
-        public GameService(IGameRepository gameRepository, IProcessGameStrategyFactory processGameStrategyFactory)
+        public GameService(IGameRepository gameRepository, ISharedRepository sharedRepository,
+            IProcessGameStrategyFactory processGameStrategyFactory)
         {
             _gameRepository = gameRepository;
+            _sharedRepository = sharedRepository;
             _processGameStrategyFactory = processGameStrategyFactory;
         }
 
@@ -40,6 +43,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
             _gameRepository.Add(newGame);
 
             EditTeams(Direction.Up, newGameDecorator);
+
+            _sharedRepository.SaveChanges();
         }
 
         /// <summary>
@@ -56,6 +61,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
             await _gameRepository.AddAsync(newGame);
 
             await EditTeamsAsync(Direction.Up, newGameDecorator);
+
+            await _sharedRepository.SaveChangesAsync();
         }
 
         /// <summary>
@@ -65,14 +72,14 @@ namespace EldredBrown.ProFootball.NETCore.Services
         /// <param name="oldGame">The <see cref="Game"/> entity containing data to remove from the data store.</param>
         public void EditGame(Game newGame, Game oldGame)
         {
-            Guard.ThrowIfNull(newGame, $"{GetType()}.{nameof(EditGameAsync)}: {nameof(newGame)}");
-            Guard.ThrowIfNull(oldGame, $"{GetType()}.{nameof(EditGameAsync)}: {nameof(oldGame)}");
+            Guard.ThrowIfNull(newGame, $"{GetType()}.{nameof(EditGame)}: {nameof(newGame)}");
+            Guard.ThrowIfNull(oldGame, $"{GetType()}.{nameof(EditGame)}: {nameof(oldGame)}");
 
-            var selectedGame = _gameRepository.GetGame(newGame.ID);
+            var selectedGame = _gameRepository.GetGame(oldGame.ID);
             if (selectedGame is null)
             {
                 throw new EntityNotFoundException(
-                    $"{GetType()}.{nameof(EditGameAsync)}: The selected Game entity could not be found.");
+                    $"{GetType()}.{nameof(EditGame)}: The selected Game entity could not be found.");
             }
 
             var newGameDecorator = new GameDecorator(newGame);
@@ -86,6 +93,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
             var oldGameDecorator = new GameDecorator(oldGame);
             EditTeams(Direction.Down, oldGameDecorator);
             EditTeams(Direction.Up, newGameDecorator);
+
+            _sharedRepository.SaveChanges();
         }
 
         /// <summary>
@@ -116,6 +125,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
             var oldGameDecorator = new GameDecorator(oldGame);
             await EditTeamsAsync(Direction.Down, oldGameDecorator);
             await EditTeamsAsync(Direction.Up, newGameDecorator);
+
+            await _sharedRepository.SaveChangesAsync();
         }
 
         /// <summary>
@@ -134,6 +145,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             var oldGameDecorator = new GameDecorator(oldGame);
             EditTeams(Direction.Down, oldGameDecorator);
             _gameRepository.Delete(id);
+            _sharedRepository.SaveChanges();
         }
 
         /// <summary>
@@ -152,9 +164,10 @@ namespace EldredBrown.ProFootball.NETCore.Services
             var oldGameDecorator = new GameDecorator(oldGame);
             await EditTeamsAsync(Direction.Down, oldGameDecorator);
             await _gameRepository.DeleteAsync(id);
+            await _sharedRepository.SaveChangesAsync();
         }
 
-        private void EditTeams(Direction direction, GameDecorator gameDecorator)
+        private void EditTeams(Direction direction, IGameDecorator gameDecorator)
         {
             var processGameStrategy = _processGameStrategyFactory.CreateStrategy(direction);
 

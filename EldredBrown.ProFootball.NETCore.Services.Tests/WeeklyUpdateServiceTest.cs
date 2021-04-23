@@ -75,7 +75,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustNotHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
         }
 
@@ -124,7 +124,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustNotHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
         }
 
@@ -173,7 +173,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
         }
 
@@ -223,7 +223,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
         }
 
@@ -273,7 +273,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 A<int>.Ignored)).MustNotHaveHappened();
@@ -353,7 +353,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustNotHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
 
         [Fact]
@@ -432,7 +432,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustNotHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
 
         [Fact]
@@ -511,7 +511,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
 
         [Fact]
@@ -595,7 +595,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
 
         [Fact]
@@ -679,7 +679,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
 
         [Fact]
@@ -759,7 +759,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
 
         [Fact]
@@ -843,7 +843,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
 
         [Fact]
@@ -927,7 +927,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChanges()).MustHaveHappenedTwiceExactly();
+            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
     }
 }

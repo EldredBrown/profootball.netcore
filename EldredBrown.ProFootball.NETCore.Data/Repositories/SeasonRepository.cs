@@ -71,6 +71,36 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         }
 
         /// <summary>
+        /// Gets a single <see cref="Season"/> entity from the data store by ID.
+        /// </summary>
+        /// <param name="year">The year of the <see cref="Season"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="Season"/> entity.</returns>
+        public Season? GetSeasonByYear(int year)
+        {
+            if (_dbContext.Seasons is null)
+            {
+                return null;
+            }
+
+            return _dbContext.Seasons.FirstOrDefault(s => s.Year == year);
+        }
+
+        /// <summary>
+        /// Gets a single <see cref="Season"/> entity from the data store asynchronously by ID.
+        /// </summary>
+        /// <param name="year">The year of the <see cref="Season"/> entity to fetch.</param>
+        /// <returns>The fetched <see cref="Season"/> entity.</returns>
+        public async Task<Season?> GetSeasonByYearAsync(int year)
+        {
+            if (_dbContext.Seasons is null)
+            {
+                return null;
+            }
+
+            return await _dbContext.Seasons.FirstOrDefaultAsync(s => s.Year == year);
+        }
+
+        /// <summary>
         /// Adds a <see cref="Season"/> entity to the data store.
         /// </summary>
         /// <param name="season">The <see cref="Season"/> entity to add.</param>

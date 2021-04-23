@@ -106,7 +106,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _seasonRepository.Add(season);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return Created(location, _mapper.Map<SeasonModel>(season));
                 }
@@ -141,7 +141,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 _mapper.Map(model, season);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return _mapper.Map<SeasonModel>(season);
                 }
@@ -173,7 +173,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 await _seasonRepository.Delete(id);
 
-                if (await _sharedRepository.SaveChanges() > 0)
+                if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return Ok();
                 }

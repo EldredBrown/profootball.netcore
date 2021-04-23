@@ -254,6 +254,94 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         }
 
         [Fact]
+        public void SelectedGameSetter_WhenValueDoesNotEqualSelectedGameAndIsNull_ShouldAssignValueToSelectedGameAndClearDataEntryControls()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = "Guest",
+                GuestScore = 1,
+                HostName = "Host",
+                HostScore = 1,
+                IsPlayoff = true,
+                Notes = "Notes",
+                AddGameControlVisibility = Visibility.Hidden,
+                EditGameControlVisibility = Visibility.Visible,
+                DeleteGameControlVisibility = Visibility.Visible,
+                SelectedGame = new Game()
+            };
+
+            // Act
+            testObject.SelectedGame = null;
+
+            // Assert
+            testObject.SelectedGame.ShouldBeNull();
+            testObject.GuestName.ShouldBe<string>(string.Empty);
+            testObject.GuestScore.ShouldBe(0);
+            testObject.HostName.ShouldBe<string>(string.Empty);
+            testObject.HostScore.ShouldBe(0);
+            testObject.IsPlayoff.ShouldBeFalse();
+            testObject.Notes.ShouldBe<string>(string.Empty);
+            testObject.AddGameControlVisibility.ShouldBe(Visibility.Visible);
+            testObject.EditGameControlVisibility.ShouldBe(Visibility.Hidden);
+            testObject.DeleteGameControlVisibility.ShouldBe(Visibility.Hidden);
+        }
+
+        [Fact]
+        public void SelectedGameSetter_WhenValueDoesNotEqualSelectedGameAndIsNotNull_ShouldAssignValueToSelectedGameAndPopulateDataEntryControls()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                GuestName = string.Empty,
+                GuestScore = 0,
+                HostName = string.Empty,
+                HostScore = 0,
+                IsPlayoff = true,
+                Notes = string.Empty,
+                AddGameControlVisibility = Visibility.Visible,
+                EditGameControlVisibility = Visibility.Hidden,
+                DeleteGameControlVisibility = Visibility.Hidden,
+                SelectedGame = new Game()
+            };
+
+            // Act
+            var guestName = "Guest";
+            var guestScore = 1;
+            var hostName = "Host";
+            var hostScore = 1;
+            var notes = "Notes";
+            var game = new Game
+            {
+                GuestName = guestName,
+                GuestScore = guestScore,
+                HostName = hostName,
+                HostScore = hostScore,
+                IsPlayoff = false,
+                Notes = notes
+            };
+            testObject.SelectedGame = game;
+
+            // Assert
+            testObject.SelectedGame.ShouldBe(game);
+            testObject.GuestName.ShouldBe<string>(guestName);
+            testObject.GuestScore.ShouldBe(guestScore);
+            testObject.HostName.ShouldBe<string>(hostName);
+            testObject.HostScore.ShouldBe(hostScore);
+            testObject.IsPlayoff.ShouldBeFalse();
+            testObject.Notes.ShouldBe<string>(notes);
+            testObject.AddGameControlVisibility.ShouldBe(Visibility.Hidden);
+            testObject.EditGameControlVisibility.ShouldBe(Visibility.Visible);
+            testObject.DeleteGameControlVisibility.ShouldBe(Visibility.Visible);
+        }
+
+        [Fact]
         public void IsGamesReadOnlySetter_WhenValueDoesNotEqualIsGamesReadOnly_ShouldAssignValueToIsGamesReadOnly()
         {
             // Arrange
@@ -270,7 +358,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         }
 
         [Fact]
-        public void IsShowAllGamesEnabledSetter_WhenValueDoesNotEqualIsShowAllGamesEnabled_ShouldAssignValueToIsShowAllGamesEnabled()
+        public void ShowAllGamesEnabledSetter_WhenValueDoesNotEqualIsShowAllGamesEnabled_ShouldAssignValueToIsShowAllGamesEnabled()
         {
             // Arrange
             var gameRepository = A.Fake<IGameRepository>();
@@ -283,63 +371,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
 
             // Assert
             testObject.ShowAllGamesEnabled.ShouldBeTrue();
-        }
-
-        [Fact]
-        public void ViewGamesCommand_WhenSeasonIsNull_ShouldNotAssignToWeek()
-        {
-            // Arrange
-            var gameRepository = A.Fake<IGameRepository>();
-            var games = new List<Game>();
-            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
-
-            var seasonRepository = A.Fake<ISeasonRepository>();
-            A.CallTo(() => seasonRepository.GetSeason(A<int>.Ignored)).Returns(null);
-
-            var gameService = A.Fake<IGameService>();
-            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
-
-            // Act
-            testObject.ViewGamesCommand.Execute(null);
-
-            // Assert
-            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustHaveHappenedOnceExactly();
-            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
-            testObject.Games.ShouldBe(games);
-            testObject.SelectedGame.ShouldBeNull();
-            A.CallTo(() => seasonRepository.GetSeason(A<int>.Ignored)).MustHaveHappenedOnceExactly();
-            testObject.Week.ShouldBe(0);
-        }
-
-        [Fact]
-        public void ViewGamesCommand_WhenSeasonIsNotNull_ShouldAssignToWeek()
-        {
-            // Arrange
-            var gameRepository = A.Fake<IGameRepository>();
-            var games = new List<Game>();
-            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
-
-            var seasonRepository = A.Fake<ISeasonRepository>();
-            int numOfWeeksCompleted = 1;
-            var season = new Season
-            {
-                NumOfWeeksCompleted = numOfWeeksCompleted
-            };
-            A.CallTo(() => seasonRepository.GetSeason(A<int>.Ignored)).Returns(season);
-
-            var gameService = A.Fake<IGameService>();
-            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
-
-            // Act
-            testObject.ViewGamesCommand.Execute(null);
-
-            // Assert
-            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
-            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
-            testObject.Games.ShouldBe(games);
-            testObject.SelectedGame.ShouldBeNull();
-            A.CallTo(() => seasonRepository.GetSeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
-            testObject.Week.ShouldBe(numOfWeeksCompleted);
         }
 
         [Fact]
@@ -371,7 +402,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameService = A.Fake<IGameService>();
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
             {
-                GuestName = ""
+                GuestName = string.Empty
             };
 
             // Act
@@ -411,7 +442,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameService = A.Fake<IGameService>();
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
             {
-                GuestName = "Guest",
+                GuestName = "Team",
                 HostName = null
             };
 
@@ -432,8 +463,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameService = A.Fake<IGameService>();
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
             {
-                GuestName = "Guest",
-                HostName = ""
+                GuestName = "Team",
+                HostName = string.Empty
             };
 
             // Act
@@ -453,7 +484,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameService = A.Fake<IGameService>();
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
             {
-                GuestName = "Guest",
+                GuestName = "Team",
                 HostName = " "
             };
 
@@ -514,6 +545,32 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         }
 
         [Fact]
+        public void DeleteGameCommand_ShouldDeleteGameAndRefreshGamesCollection()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
+            {
+                SelectedGame = new Game()
+            };
+
+            // Act
+            testObject.DeleteGameCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameService.DeleteGame(A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.SelectedGame.ShouldBeNull();
+        }
+
+        [Fact]
         public void EditGameCommand_WhenDataEntryIsNotValid_ShouldShowErrorMessageBox()
         {
             // Arrange
@@ -546,10 +603,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameService = A.Fake<IGameService>();
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
             {
+                SelectedGame = new Game(),
                 GuestName = "Guest",
                 HostName = "Host",
-                FindGameFilterApplied = true,
-                SelectedGame = new Game()
+                FindGameFilterApplied = true
             };
 
             // Act
@@ -575,10 +632,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameService = A.Fake<IGameService>();
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
             {
+                SelectedGame = new Game(),
                 GuestName = "Guest",
                 HostName = "Host",
-                FindGameFilterApplied = false,
-                SelectedGame = new Game()
+                FindGameFilterApplied = false
             };
 
             // Act
@@ -590,32 +647,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
             testObject.Games.ShouldBe(games);
             testObject.FindGameFilterApplied.ShouldBeFalse();
-        }
-
-        [Fact]
-        public void DeleteGameCommand_ShouldDeleteGameAndRefreshGamesCollection()
-        {
-            // Arrange
-            var gameRepository = A.Fake<IGameRepository>();
-            var games = new List<Game>();
-            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
-
-            var seasonRepository = A.Fake<ISeasonRepository>();
-            var gameService = A.Fake<IGameService>();
-            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService)
-            {
-                SelectedGame = new Game()
-            };
-
-            // Act
-            testObject.DeleteGameCommand.Execute(null);
-
-            // Assert
-            A.CallTo(() => gameService.DeleteGame(A<int>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
-            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
-            testObject.Games.ShouldBe(games);
-            testObject.SelectedGame.ShouldBeNull();
         }
 
         [Fact]
@@ -695,7 +726,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             {
                 NumOfWeeksCompleted = numOfWeeksCompleted
             };
-            A.CallTo(() => seasonRepository.GetSeason(A<int>.Ignored)).Returns(season);
+            A.CallTo(() => seasonRepository.GetSeasonByYear(A<int>.Ignored)).Returns(season);
 
             var gameService = A.Fake<IGameService>();
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
@@ -708,12 +739,69 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
             testObject.Games.ShouldBe(games);
             testObject.SelectedGame.ShouldBeNull();
-            A.CallTo(() => seasonRepository.GetSeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => seasonRepository.GetSeasonByYear(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
             testObject.Week.ShouldBe(numOfWeeksCompleted);
             testObject.FindGameFilterApplied.ShouldBeFalse();
             testObject.IsGamesReadOnly.ShouldBeFalse();
             testObject.ShowAllGamesEnabled.ShouldBeFalse();
             testObject.SelectedGame.ShouldBeNull();
+        }
+
+        [Fact]
+        public void ViewGamesCommand_WhenSeasonIsNull_ShouldNotAssignToWeek()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            A.CallTo(() => seasonRepository.GetSeasonByYear(A<int>.Ignored)).Returns(null);
+
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
+
+            // Act
+            testObject.ViewGamesCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.SelectedGame.ShouldBeNull();
+            A.CallTo(() => seasonRepository.GetSeasonByYear(A<int>.Ignored)).MustHaveHappenedOnceExactly();
+            testObject.Week.ShouldBe(0);
+        }
+
+        [Fact]
+        public void ViewGamesCommand_WhenSeasonIsNotNull_ShouldAssignToWeek()
+        {
+            // Arrange
+            var gameRepository = A.Fake<IGameRepository>();
+            var games = new List<Game>();
+            A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).Returns(games);
+
+            var seasonRepository = A.Fake<ISeasonRepository>();
+            int numOfWeeksCompleted = 1;
+            var season = new Season
+            {
+                NumOfWeeksCompleted = numOfWeeksCompleted
+            };
+            A.CallTo(() => seasonRepository.GetSeasonByYear(A<int>.Ignored)).Returns(season);
+
+            var gameService = A.Fake<IGameService>();
+            var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService);
+
+            // Act
+            testObject.ViewGamesCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
+            testObject.Games.ShouldBe(games);
+            testObject.SelectedGame.ShouldBeNull();
+            A.CallTo(() => seasonRepository.GetSeasonByYear(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
+            testObject.Week.ShouldBe(numOfWeeksCompleted);
         }
     }
 }

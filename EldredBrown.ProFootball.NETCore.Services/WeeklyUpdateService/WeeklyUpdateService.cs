@@ -68,7 +68,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             await UpdateLeagueSeason(leagueName, seasonYear);
             var srcWeekCount = await UpdateWeekCount(seasonYear);
 
-            await _sharedRepository.SaveChanges();
+            await _sharedRepository.SaveChangesAsync();
 
             if (srcWeekCount >= 3)
             {
@@ -120,7 +120,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 await UpdateRankingsForTeamSeason(teamSeasonDecorator);
             }
 
-            await _sharedRepository.SaveChanges();
+            await _sharedRepository.SaveChangesAsync();
         }
 
         private async Task UpdateRankingsForTeamSeason(TeamSeasonDecorator teamSeasonDecorator)
