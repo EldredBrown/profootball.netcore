@@ -18,6 +18,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
             DataContext = viewModel;
         }
 
+        public IMessageBoxService MessageBoxService { get; set; } =
+            App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
+
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             var viewModel = DataContext as IGameFinderWindowViewModel;
@@ -30,7 +33,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
             var (valid, message) = viewModel.ValidateDataEntry();
             if (!valid)
             {
-                MessageBox.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 GuestTextBox.Focus();
                 return;
             }

@@ -5,7 +5,6 @@ using System.Windows;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
-using EldredBrown.ProFootball.NETCore.WpfApp.Windows;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games;
 using EldredBrown.ProFootball.WpfApp;
@@ -422,13 +421,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
-                    GuestName = null
+                    GuestName = null,
+                    HostName = null,
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.AddGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show("Please enter names for both teams.", "Invalid Data",
+                MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
         }
@@ -444,13 +447,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
-                    GuestName = string.Empty
+                    GuestName = string.Empty,
+                    HostName = null,
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.AddGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show("Please enter names for both teams.", "Invalid Data",
+                MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
         }
@@ -466,13 +473,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
-                    GuestName = " "
+                    GuestName = " ",
+                    HostName = null,
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.AddGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show("Please enter names for both teams.", "Invalid Data",
+                MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
         }
@@ -489,13 +500,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
                     GuestName = "Team",
-                    HostName = null
+                    HostName = null,
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.AddGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show("Please enter names for both teams.", "Invalid Data",
+                MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
         }
@@ -512,13 +526,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
                     GuestName = "Team",
-                    HostName = string.Empty
+                    HostName = string.Empty,
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.AddGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show("Please enter names for both teams.", "Invalid Data",
+                MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
         }
@@ -535,13 +552,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
                     GuestName = "Team",
-                    HostName = " "
+                    HostName = " ",
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.AddGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show("Please enter names for both teams.", "Invalid Data",
+                MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
         }
@@ -558,13 +578,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
                     GuestName = "Team",
-                    HostName = "Team"
+                    HostName = "Team",
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.AddGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show("Please enter a different name for each team.",
+                "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
         }
@@ -584,13 +607,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
                     GuestName = "Guest",
-                    HostName = "Host"
+                    HostName = "Host",
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.AddGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show(A<string>.Ignored, A<string>.Ignored,
+                A<MessageBoxButton>.Ignored, A<MessageBoxImage>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameService.AddGame(A<Game>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
             testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
@@ -638,13 +664,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
                     GuestName = null,
-                    HostName = null
+                    HostName = null,
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.EditGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show(A<string>.Ignored, "Invalid Data",
+                MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameService.EditGame(A<Game>.Ignored, A<Game>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustNotHaveHappened();
         }
@@ -666,13 +695,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                     SelectedGame = new Game(),
                     GuestName = "Guest",
                     HostName = "Host",
-                    FindGameFilterApplied = true
+                    FindGameFilterApplied = true,
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.EditGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show(A<string>.Ignored, A<string>.Ignored,
+                A<MessageBoxButton>.Ignored, A<MessageBoxImage>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameService.EditGame(A<Game>.Ignored, A<Game>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
             testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();
@@ -697,13 +729,16 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                     SelectedGame = new Game(),
                     GuestName = "Guest",
                     HostName = "Host",
-                    FindGameFilterApplied = false
+                    FindGameFilterApplied = false,
+                    MessageBoxService = A.Fake<IMessageBoxService>()
                 };
 
             // Act
             testObject.EditGameCommand.Execute(null);
 
             // Assert
+            A.CallTo(() => testObject.MessageBoxService.Show(A<string>.Ignored, A<string>.Ignored,
+                A<MessageBoxButton>.Ignored, A<MessageBoxImage>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => gameService.EditGame(A<Game>.Ignored, A<Game>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
             testObject.Games.ShouldBeOfType<ReadOnlyCollection<Game>>();

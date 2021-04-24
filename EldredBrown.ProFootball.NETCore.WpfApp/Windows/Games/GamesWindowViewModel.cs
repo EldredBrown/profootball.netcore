@@ -376,6 +376,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
 
         #endregion
 
+        public IMessageBoxService MessageBoxService { get; set; } =
+            App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
+
         /// <summary>
         /// Adds a new game to the data store.
         /// </summary>
@@ -396,7 +399,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             var (valid, message) = ValidateDataEntry();
             if (!valid)
             {
-                MessageBox.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -451,7 +454,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             var (valid, message) = ValidateDataEntry();
             if (!valid)
             {
-                MessageBox.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

@@ -52,6 +52,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
             services.AddScoped<IGameFinderWindow, GameFinderWindow>();
             services.AddScoped<IGameFinderWindowViewModel, GameFinderWindowViewModel>();
 
+            services.AddScoped<IMessageBoxService, MessageBoxService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IWeeklyUpdateService, WeeklyUpdateService>();
             services.AddScoped<IGamePredictorService, GamePredictorService>();
