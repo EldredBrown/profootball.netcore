@@ -24,7 +24,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -43,7 +43,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -62,7 +62,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -81,7 +81,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -100,7 +100,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -119,7 +119,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -137,7 +137,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -155,7 +155,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -174,7 +174,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -193,7 +193,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -212,7 +212,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -231,7 +231,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -250,7 +250,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -271,7 +271,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -290,7 +290,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -329,7 +329,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -382,7 +382,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -400,7 +400,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -418,7 +418,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -440,7 +440,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -462,7 +462,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -484,7 +484,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -507,7 +507,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -530,7 +530,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -553,7 +553,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -579,7 +579,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
 
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -608,7 +608,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
 
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -633,7 +633,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameRepository = A.Fake<IGameRepository>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -659,7 +659,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
 
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -690,7 +690,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
 
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory)
                 {
@@ -722,7 +722,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
 
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var gameFinderWindow = A.Fake<IGameFinderWindow>();
             gameFinderWindow.DataContext = new GameFinderWindowViewModel { GuestName = "Guest", HostName = "Host" };
             A.CallTo(() => gameFinderWindow.ShowDialog()).Returns(false);
@@ -755,7 +755,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
 
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var gameFinderWindow = A.Fake<IGameFinderWindow>();
             gameFinderWindow.DataContext = new GameFinderWindowViewModel { GuestName = "Guest", HostName = "Host" };
             A.CallTo(() => gameFinderWindow.ShowDialog()).Returns(true);
@@ -796,7 +796,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var seasonRepository = A.Fake<ISeasonRepository>();
             var gameService = A.Fake<IGameService>();
 
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var gameFinderWindow = A.Fake<IGameFinderWindow>();
             gameFinderWindow.DataContext = new GameFinderWindowViewModel { GuestName = "Guest", HostName = "Host" };
             A.CallTo(() => gameFinderWindow.ShowDialog()).Returns(true);
@@ -840,7 +840,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             A.CallTo(() => seasonRepository.GetSeasonByYear(A<int>.Ignored)).Returns(season);
 
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -872,7 +872,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             A.CallTo(() => seasonRepository.GetSeasonByYear(A<int>.Ignored)).Returns(null);
 
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 
@@ -905,7 +905,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             A.CallTo(() => seasonRepository.GetSeasonByYear(A<int>.Ignored)).Returns(season);
 
             var gameService = A.Fake<IGameService>();
-            var gameFinderWindowFactory = A.Fake<IWindowFactory>();
+            var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var testObject =
                 new GamesWindowViewModel(gameRepository, seasonRepository, gameService, gameFinderWindowFactory);
 

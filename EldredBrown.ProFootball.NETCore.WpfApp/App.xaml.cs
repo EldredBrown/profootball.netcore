@@ -7,6 +7,7 @@ using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder;
+using EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
@@ -36,7 +37,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
 
             services.AddSingleton<MainWindow>();
 
-            services.AddScoped<IWindowFactory, WindowFactory>();
+            services.AddScoped<IGamesWindowFactory, GamesWindowFactory>();
+            services.AddScoped<IGamesWindow, GamesWindow>();
+            services.AddScoped<IGamesWindowViewModel, GamesWindowViewModel>();
+
+            services.AddScoped<IGameFinderWindowFactory, GameFinderWindowFactory>();
+            services.AddScoped<IGameFinderWindow, GameFinderWindow>();
             services.AddScoped<IGameFinderWindowViewModel, GameFinderWindowViewModel>();
 
             services.AddScoped<IGameService, GameService>();

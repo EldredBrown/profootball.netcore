@@ -12,12 +12,12 @@ using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
 {
-    public class GamesWindowViewModel : ViewModelBase
+    public class GamesWindowViewModel : ViewModelBase, IGamesWindowViewModel
     {
         private readonly IGameRepository _gameRepository;
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameService _gameService;
-        private readonly IWindowFactory _gameFinderWindowFactory;
+        private readonly IGameFinderWindowFactory _gameFinderWindowFactory;
 
         private string _filterGuestName;
         private string _filterHostName;
@@ -33,14 +33,14 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// The <see cref="IGameService"/> object that will process game data in the data store.
         /// </param>
         /// <param name="gameFinderWindowFactory">
-        /// The <see cref="IWindowFactory"/> that will create instances of the
+        /// The <see cref="IGamesWindowFactory"/> that will create instances of the
         /// <see cref="IGameFinderWindow"/> interface.
         /// </param>
         public GamesWindowViewModel(
             IGameRepository gameRepository = null,
             ISeasonRepository seasonRepository = null,
             IGameService gameService = null,
-            IWindowFactory gameFinderWindowFactory = null)
+            IGameFinderWindowFactory gameFinderWindowFactory = null)
         {
             _gameRepository = gameRepository ??
                 App.ServiceProvider.GetService(typeof(IGameRepository)) as IGameRepository;
@@ -49,7 +49,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             _gameService = gameService ??
                 App.ServiceProvider.GetService(typeof(IGameService)) as IGameService;
             _gameFinderWindowFactory = gameFinderWindowFactory ??
-                App.ServiceProvider.GetService(typeof(IWindowFactory)) as IWindowFactory;
+                App.ServiceProvider.GetService(typeof(IGameFinderWindowFactory)) as IGameFinderWindowFactory;
         }
 
         #region Detail Properties
@@ -372,9 +372,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             }
         }
 
-        #endregion
-
         public bool FindGameFilterApplied { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Adds a new game to the data store.

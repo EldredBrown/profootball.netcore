@@ -8,16 +8,18 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
     /// <summary>
     /// Interaction logic for GamesWindow.xaml
     /// </summary>
-    public partial class GamesWindow : Window
+    public partial class GamesWindow : Window, IGamesWindow
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GamesWindow"/> class.
         /// </summary>
-        public GamesWindow()
+        /// <param name="viewModel">The <see cref="IGamesWindowViewModel"/> that will serve as the data context for
+        /// instances of this class.</param>
+        public GamesWindow(IGamesWindowViewModel viewModel)
         {
             InitializeComponent();
 
-            DataContext = new GamesWindowViewModel();
+            DataContext = viewModel;
         }
 
         private void GamesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

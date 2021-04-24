@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
 {
