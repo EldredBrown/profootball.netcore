@@ -9,7 +9,7 @@ using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
 {
-    public class TeamSeasonsControlViewModel : ViewModelBase
+    public class TeamSeasonsControlViewModel : ViewModelBase, ITeamSeasonsControlViewModel
     {
         private readonly ITeamSeasonRepository _teamSeasonRepository;
         private readonly ITeamSeasonScheduleProfileRepository _teamSeasonScheduleProfileRepository;
@@ -210,9 +210,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
             var teamName = SelectedTeam.TeamName;
             var seasonYear = SelectedTeam.SeasonYear;
 
-            var teamSeasonOpponentProfiles = 
+            var teamSeasonOpponentProfiles =
                 _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonYear);
-            TeamSeasonScheduleProfile = 
+            TeamSeasonScheduleProfile =
                 new ReadOnlyCollection<TeamSeasonOpponentProfile>(teamSeasonOpponentProfiles.ToList());
 
             var teamSeasonScheduleTotals =

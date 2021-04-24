@@ -9,7 +9,7 @@ using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
         private readonly ISeasonRepository _seasonRepository;
         private readonly IWeeklyUpdateService _weeklyUpdateService;

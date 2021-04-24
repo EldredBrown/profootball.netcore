@@ -16,11 +16,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         /// </summary>
         /// <param name="gamesWindowFactory">The <see cref="IWindowFactory"/> object that will create instances of the 
         /// <see cref="GameWindow"/> for this class.</param>
-        public MainWindow(IGamesWindowFactory gamesWindowFactory)
+        public MainWindow(IMainWindowViewModel viewModel, IGamesWindowFactory gamesWindowFactory)
         {
             InitializeComponent();
 
-            DataContext = new MainWindowViewModel();
+            DataContext = viewModel;
 
             _gamesWindowFactory = gamesWindowFactory;
         }

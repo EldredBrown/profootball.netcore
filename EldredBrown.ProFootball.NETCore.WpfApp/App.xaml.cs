@@ -4,6 +4,9 @@ using EldredBrown.ProFootball.NETCore.Services;
 using EldredBrown.ProFootball.NETCore.Services.GamePredictorService;
 using EldredBrown.ProFootball.NETCore.WpfApp.Main;
 using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
+using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings;
+using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings;
+using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder;
@@ -36,6 +39,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
             });
 
             services.AddSingleton<MainWindow>();
+            services.AddScoped<IMainWindowViewModel, MainWindowViewModel>();
+            services.AddScoped<ITeamSeasonsControlViewModel, TeamSeasonsControlViewModel>();
+            services.AddScoped<ISeasonStandingsControlViewModel, SeasonStandingsControlViewModel>();
+            services.AddScoped<IRankingsControlViewModel, RankingsControlViewModel>();
 
             services.AddScoped<IGamesWindowFactory, GamesWindowFactory>();
             services.AddScoped<IGamesWindow, GamesWindow>();

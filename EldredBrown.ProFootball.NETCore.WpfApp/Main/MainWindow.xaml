@@ -27,7 +27,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Image x:Name="LogoImage"
-               Source="./Resources/Football.jpeg"
+               Source="../Resources/Football.jpeg"
                Stretch="None"
                Grid.Row="0"
                HorizontalAlignment="Center"

@@ -8,7 +8,7 @@ using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
 {
-    public class RankingsControlViewModel : ViewModelBase
+    public class RankingsControlViewModel : ViewModelBase, IRankingsControlViewModel
     {
         private readonly ITeamSeasonRepository _teamSeasonRepository;
 

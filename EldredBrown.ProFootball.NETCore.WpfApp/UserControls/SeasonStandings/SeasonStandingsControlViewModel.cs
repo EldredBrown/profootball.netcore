@@ -7,7 +7,7 @@ using EldredBrown.ProFootball.WpfApp;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings
 {
-    public class SeasonStandingsControlViewModel : ViewModelBase
+    public class SeasonStandingsControlViewModel : ViewModelBase, ISeasonStandingsControlViewModel
     {
         private readonly ISeasonStandingsRepository _seasonStandingsRepository;
 
