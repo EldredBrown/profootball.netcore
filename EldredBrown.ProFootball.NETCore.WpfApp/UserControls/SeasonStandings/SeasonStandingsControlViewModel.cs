@@ -2,9 +2,10 @@
 using System.Linq;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 using EldredBrown.ProFootball.WpfApp;
 
-namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
+namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings
 {
     public class SeasonStandingsControlViewModel : ViewModelBase
     {

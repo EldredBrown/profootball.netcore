@@ -1,13 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using EldredBrown.ProFootball.NETCore.Data.Entities;
-using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using EldredBrown.ProFootball.NETCore.Services;
-using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
-using EldredBrown.ProFootball.WpfApp;
-using FakeItEasy;
+using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder;
 using Shouldly;
 using Xunit;
 

@@ -1,7 +1,7 @@
 ﻿using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 using System.Windows;
 
-namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows
+namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
 {
     /// <summary>
     /// Interaction logic for GameFinderWindow.xaml

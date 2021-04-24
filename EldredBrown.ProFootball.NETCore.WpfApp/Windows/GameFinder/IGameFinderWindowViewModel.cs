@@ -1,4 +1,6 @@
-﻿namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
+﻿using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
+
+namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
 {
     public interface IGameFinderWindowViewModel
     {

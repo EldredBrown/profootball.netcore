@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
+using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons;
 using EldredBrown.ProFootball.WpfApp;
 using FakeItEasy;
 using Shouldly;

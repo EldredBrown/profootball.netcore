@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="EldredBrown.ProFootball.NETCore.WpfApp.UserControls.RankingsControl"
+﻿<UserControl x:Class="EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings.RankingsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ViewModels="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.ViewModels"
+             xmlns:Local="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             d:DataContext="{d:DesignInstance Type=ViewModels:RankingsControlViewModel}"
+             d:DataContext="{d:DesignInstance Type=Local:RankingsControlViewModel}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>

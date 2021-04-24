@@ -4,9 +4,10 @@ using System.Linq;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
 using EldredBrown.ProFootball.NETCore.Services.GamePredictorService;
+using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 using EldredBrown.ProFootball.WpfApp;
 
-namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
+namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
 {
     public class MainWindowViewModel : ViewModelBase
     {
@@ -26,8 +27,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
         /// <param name="gamePredictorService">
         /// The <see cref="IGamePredictorService"/> object that will predict a game score.
         /// </param>
-        public MainWindowViewModel(ISeasonRepository seasonRepository = null,
-            IWeeklyUpdateService weeklyUpdateService = null, IGamePredictorService gamePredictorService = null)
+        public MainWindowViewModel(
+            ISeasonRepository seasonRepository = null,
+            IWeeklyUpdateService weeklyUpdateService = null,
+            IGamePredictorService gamePredictorService = null)
         {
             _seasonRepository = seasonRepository ??
                 App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;

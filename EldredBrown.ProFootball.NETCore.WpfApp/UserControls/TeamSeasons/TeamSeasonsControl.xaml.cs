@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 
-namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls
+namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
 {
     /// <summary>
     /// Interaction logic for TeamSeasonsControl.xaml

@@ -2,8 +2,9 @@
 using System.Windows.Controls;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows;
+using EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games;
 
-namespace EldredBrown.ProFootball.NETCore.WpfApp
+namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

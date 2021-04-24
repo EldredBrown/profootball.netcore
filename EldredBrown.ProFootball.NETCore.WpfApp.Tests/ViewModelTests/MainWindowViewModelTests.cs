@@ -5,7 +5,7 @@ using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
 using EldredBrown.ProFootball.NETCore.Services.GamePredictorService;
-using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
+using EldredBrown.ProFootball.NETCore.WpfApp.Main;
 using EldredBrown.ProFootball.WpfApp;
 using FakeItEasy;
 using Shouldly;

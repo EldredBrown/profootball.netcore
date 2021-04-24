@@ -1,6 +1,7 @@
 ﻿using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
+using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 
-namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
+namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
 {
     public class GameFinderWindowViewModel : ViewModelBase, IGameFinderWindowViewModel
     {

@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 
-namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows
+namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
 {
     /// <summary>
     /// Interaction logic for GamesWindow.xaml
