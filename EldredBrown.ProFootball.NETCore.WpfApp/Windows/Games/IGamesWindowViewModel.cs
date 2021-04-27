@@ -23,7 +23,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         bool IsGamesReadOnly { get; set; }
         bool ShowAllGamesEnabled { get; set; }
         bool FindGameFilterApplied { get; set; }
-        IMessageBoxService MessageBoxService { get; set; }
         DelegateCommand AddGameCommand { get; }
         DelegateCommand DeleteGameCommand { get; }
         DelegateCommand EditGameCommand { get; }

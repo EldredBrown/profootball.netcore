@@ -18,6 +18,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGameService _gameService;
         private readonly IGameFinderWindowFactory _gameFinderWindowFactory;
+        private readonly IMessageBoxService _messageBoxService;
 
         private string _filterGuestName;
         private string _filterHostName;
@@ -36,11 +37,13 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// The <see cref="IGamesWindowFactory"/> that will create instances of the
         /// <see cref="IGameFinderWindow"/> interface.
         /// </param>
+        /// <param name="messageBoxService">The service that will display message boxes.</param>
         public GamesWindowViewModel(
             IGameRepository gameRepository = null,
             ISeasonRepository seasonRepository = null,
             IGameService gameService = null,
-            IGameFinderWindowFactory gameFinderWindowFactory = null)
+            IGameFinderWindowFactory gameFinderWindowFactory = null,
+            IMessageBoxService messageBoxService = null)
         {
             _gameRepository = gameRepository ??
                 App.ServiceProvider.GetService(typeof(IGameRepository)) as IGameRepository;
@@ -50,6 +53,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
                 App.ServiceProvider.GetService(typeof(IGameService)) as IGameService;
             _gameFinderWindowFactory = gameFinderWindowFactory ??
                 App.ServiceProvider.GetService(typeof(IGameFinderWindowFactory)) as IGameFinderWindowFactory;
+            _messageBoxService = messageBoxService ??
+                App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
         }
 
         #region Detail Properties
@@ -376,9 +381,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
 
         #endregion
 
-        public IMessageBoxService MessageBoxService { get; set; } =
-            App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
-
         /// <summary>
         /// Adds a new game to the data store.
         /// </summary>
@@ -399,7 +401,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             var (valid, message) = ValidateDataEntry();
             if (!valid)
             {
-                MessageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -454,7 +456,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             var (valid, message) = ValidateDataEntry();
             if (!valid)
             {
-                MessageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

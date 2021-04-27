@@ -4,13 +4,18 @@
     {
         private readonly IGameFinderWindowViewModel _gameFinderWindowViewModel;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameFinderWindowFactory"/> class.
+        /// </summary>
+        /// <param name="gameFinderWindowViewModel">The <see cref="IGameFinderWindowViewModel"/> object to be injected
+        /// into the created <see cref="GameFinderWindow"/> object.</param>
         public GameFinderWindowFactory(IGameFinderWindowViewModel gameFinderWindowViewModel)
         {
             _gameFinderWindowViewModel = gameFinderWindowViewModel;
         }
 
         /// <summary>
-        /// Creates instances of the <see cref="GameFinderWindow"/> class.
+        /// Creates an instance of the <see cref="GameFinderWindow"/> class.
         /// </summary>
         /// <returns>An instance of the <see cref="GameFinderWindow"/> class.</returns>
         public IGameFinderWindow CreateGameFinderWindow()

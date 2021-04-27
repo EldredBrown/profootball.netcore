@@ -233,5 +233,13 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
                         teamSeasonScheduleAverages
                     });
         }
+
+        /// <summary>
+        /// Refreshes this <see cref="TeamSeasonsControlViewModel"/> object.
+        /// </summary>
+        public void Refresh()
+        {
+            ViewTeams();
+        }
     }
 }

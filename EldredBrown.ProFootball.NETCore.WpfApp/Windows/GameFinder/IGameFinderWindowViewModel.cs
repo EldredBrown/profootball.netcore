@@ -8,6 +8,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
         string HostName { get; set; }
         DelegateCommand WindowLoadedCommand { get; }
 
-        (bool, string) ValidateDataEntry();
+        bool OK();
     }
 }

@@ -116,5 +116,13 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
             OffensiveRankings = new ReadOnlyCollection<TeamSeason>(teamSeasons);
             DefensiveRankings = new ReadOnlyCollection<TeamSeason>(teamSeasons);
         }
+
+        /// <summary>
+        /// Refreshes this <see cref="RankingsControlViewModel"/> object.
+        /// </summary>
+        public void Refresh()
+        {
+            ViewRankings();
+        }
     }
 }

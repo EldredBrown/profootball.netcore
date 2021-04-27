@@ -1,10 +1,23 @@
-﻿using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
+﻿using System.Windows;
+using EldredBrown.ProFootball.NETCore.WpfApp.Properties;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
 {
     public class GameFinderWindowViewModel : ViewModelBase, IGameFinderWindowViewModel
     {
+        private readonly IMessageBoxService _messageBoxService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameFinderWindowViewModel"/> class.
+        /// </summary>
+        /// <param name="messageBoxService">The service that will display message boxes.</param>
+        public GameFinderWindowViewModel(IMessageBoxService messageBoxService = null)
+        {
+            _messageBoxService = messageBoxService ??
+                App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
+        }
+
         /// <summary>
         /// Gets or sets this <see cref="GameFinderWindowViewModel"/> object's GuestName value.
         /// </summary>
@@ -65,7 +78,24 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
             MoveFocusTo("GuestName");
         }
 
-        public (bool, string) ValidateDataEntry()
+        public bool OK()
+        {
+            var (valid, message) = ValidateDataEntry();
+            if (!valid)
+            {
+                _messageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                MoveFocusTo("Guest");
+            }
+
+            return valid;
+        }
+
+        private void MoveFocusTo(string focusedProperty)
+        {
+            OnMoveFocus(focusedProperty);
+        }
+
+        private (bool, string) ValidateDataEntry()
         {
             if (string.IsNullOrWhiteSpace(GuestName))
             {
@@ -84,11 +114,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
             }
 
             return (true, null);
-        }
-
-        private void MoveFocusTo(string focusedProperty)
-        {
-            OnMoveFocus(focusedProperty);
         }
     }
 }

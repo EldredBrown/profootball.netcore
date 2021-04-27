@@ -63,5 +63,13 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings
             var seasonStandings = _seasonStandingsRepository.GetSeasonStandings(WpfGlobals.SelectedSeason);
             Standings = new ReadOnlyCollection<SeasonTeamStanding>(seasonStandings.ToList());
         }
+
+        /// <summary>
+        /// Refreshes this <see cref="SeasonStandingsControlViewModel"/> object.
+        /// </summary>
+        public void Refresh()
+        {
+            ViewStandings();
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
         ReadOnlyCollection<TeamSeason> OffensiveRankings { get; set; }
         ReadOnlyCollection<TeamSeason> DefensiveRankings { get; set; }
         DelegateCommand ViewRankingsCommand { get; }
+
+        void Refresh();
     }
 }

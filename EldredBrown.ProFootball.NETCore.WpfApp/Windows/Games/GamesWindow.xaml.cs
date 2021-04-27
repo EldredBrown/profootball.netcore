@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
 {

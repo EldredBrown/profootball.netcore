@@ -132,5 +132,29 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             testObject.DefensiveRankings.ShouldBeOfType<ReadOnlyCollection<TeamSeason>>();
             testObject.DefensiveRankings.ShouldBe(teamSeasons);
         }
+
+        [Fact]
+        public void Refresh_ShouldLoadRankings()
+        {
+            // Arrange
+            var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
+            var testObject = new RankingsControlViewModel(teamSeasonRepository);
+
+            var teamSeasons = new List<TeamSeason>();
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(A<int>.Ignored)).Returns(teamSeasons);
+
+            // Act
+            testObject.ViewRankingsCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(WpfGlobals.SelectedSeason))
+                .MustHaveHappenedOnceExactly();
+            testObject.TotalRankings.ShouldBeOfType<ReadOnlyCollection<TeamSeason>>();
+            testObject.TotalRankings.ShouldBe(teamSeasons);
+            testObject.OffensiveRankings.ShouldBeOfType<ReadOnlyCollection<TeamSeason>>();
+            testObject.OffensiveRankings.ShouldBe(teamSeasons);
+            testObject.DefensiveRankings.ShouldBeOfType<ReadOnlyCollection<TeamSeason>>();
+            testObject.DefensiveRankings.ShouldBe(teamSeasons);
+        }
     }
 }

@@ -4,10 +4,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:Local="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.Main"
         xmlns:UserControlsTeamSeasons="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons"
         xmlns:UserControlsSeasonStandings="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings"
         xmlns:UserControlsRankings="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings"
-        xmlns:Local="clr-namespace:EldredBrown.ProFootball.NETCore.WpfApp.Main"
         d:DataContext="{d:DesignInstance Type=Local:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Teams" Height="640" Width="960" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
@@ -41,8 +41,7 @@
                   Grid.Row="1"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top"
-                  Margin="5"
-                  SelectionChanged="SeasonsComboBox_SelectionChanged" />
+                  Margin="5" />
         <TabControl x:Name="MainTabControl" Grid.Row="2" Margin="5">
             <TabItem x:Name="TeamSeasonsTabItem" Header="Teams">
                 <UserControlsTeamSeasons:TeamSeasonsControl x:Name="TeamSeasonsControl" />
@@ -65,7 +64,7 @@
                     Width="125"
                     Height="25"
                     Margin="0,0,5,0"
-                    Click="ShowGamesButton_Click">
+                    Command="{Binding ShowGamesCommand}">
             </Button>
             <Button x:Name="WeeklyUpdateButton"
                     Content="Weekly Update"

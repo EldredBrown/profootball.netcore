@@ -219,5 +219,29 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             A.CallTo(() => teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(A<string>.Ignored,
                 A<int>.Ignored)).MustNotHaveHappened();
         }
+
+        [Fact]
+        public void Refresh_ShouldLoadTeams()
+        {
+            // Arrange
+            var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
+            var teamSeasons = new List<TeamSeason>();
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(A<int>.Ignored)).Returns(teamSeasons);
+
+            var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
+            var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
+            var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
+            var testObject = new TeamSeasonsControlViewModel(teamSeasonRepository, teamSeasonScheduleProfileRepository,
+                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository);
+
+            // Act
+            testObject.ViewTeamsCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(WpfGlobals.SelectedSeason))
+                .MustHaveHappenedOnceExactly();
+            testObject.Teams.ShouldBeOfType<ReadOnlyCollection<TeamSeason>>();
+            testObject.Teams.ShouldBe(teamSeasons);
+        }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings;
+using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings;
+using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
@@ -9,35 +12,25 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IGamesWindowFactory _gamesWindowFactory;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
-        /// <param name="gamesWindowFactory">The <see cref="IWindowFactory"/> object that will create instances of the 
-        /// <see cref="GameWindow"/> for this class.</param>
-        public MainWindow(IMainWindowViewModel viewModel, IGamesWindowFactory gamesWindowFactory)
+        /// <param name="viewModel">
+        /// The <see cref="IMainWindowViewModel"/> object that will serve as this <see cref="MainWindow"/> object's
+        /// data context.
+        /// </param>
+        public MainWindow(IMainWindowViewModel viewModel)
         {
             InitializeComponent();
 
             DataContext = viewModel;
 
-            _gamesWindowFactory = gamesWindowFactory;
-        }
-
-        private void SeasonsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            TeamSeasonsControl.Refresh();
-            SeasonStandingsControl.Refresh();
-            RankingsControl.Refresh();
-        }
-
-        private void ShowGamesButton_Click(object sender, RoutedEventArgs e)
-        {
-            var gamesWindow = _gamesWindowFactory.CreateGamesWindow();
-            gamesWindow.ShowDialog();
-
-            TeamSeasonsControl.Refresh();
+            (DataContext as IMainWindowViewModel).TeamSeasonsControlViewModel = 
+                TeamSeasonsControl.DataContext as ITeamSeasonsControlViewModel;
+            (DataContext as IMainWindowViewModel).SeasonStandingsControlViewModel =
+                SeasonStandingsControl.DataContext as ISeasonStandingsControlViewModel;
+            (DataContext as IMainWindowViewModel).RankingsControlViewModel =
+                RankingsControl.DataContext as IRankingsControlViewModel;
         }
     }
 }

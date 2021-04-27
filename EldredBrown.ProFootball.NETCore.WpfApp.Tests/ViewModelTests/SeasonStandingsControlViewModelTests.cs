@@ -47,5 +47,25 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             testObject.Standings.ShouldBeOfType<ReadOnlyCollection<SeasonTeamStanding>>();
             testObject.Standings.ShouldBe(seasonTeamStandings);
         }
+
+        [Fact]
+        public void Refresh_ShouldLoadStandings()
+        {
+            // Arrange
+            var seasonStandingsRepository = A.Fake<ISeasonStandingsRepository>();
+            var testObject = new SeasonStandingsControlViewModel(seasonStandingsRepository);
+
+            var seasonTeamStandings = new List<SeasonTeamStanding>();
+            A.CallTo(() => seasonStandingsRepository.GetSeasonStandings(A<int>.Ignored)).Returns(seasonTeamStandings);
+
+            // Act
+            testObject.ViewStandingsCommand.Execute(null);
+
+            // Assert
+            A.CallTo(() => seasonStandingsRepository.GetSeasonStandings(WpfGlobals.SelectedSeason))
+                .MustHaveHappenedOnceExactly();
+            testObject.Standings.ShouldBeOfType<ReadOnlyCollection<SeasonTeamStanding>>();
+            testObject.Standings.ShouldBe(seasonTeamStandings);
+        }
     }
 }

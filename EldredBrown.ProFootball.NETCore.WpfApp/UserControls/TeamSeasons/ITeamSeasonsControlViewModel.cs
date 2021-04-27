@@ -13,5 +13,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
         ReadOnlyCollection<TeamSeasonScheduleAverages> TeamSeasonScheduleAverages { get; }
         DelegateCommand ViewTeamScheduleCommand { get; }
         DelegateCommand ViewTeamsCommand { get; }
+
+        void Refresh();
     }
 }
