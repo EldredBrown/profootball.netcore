@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EldredBrown.ProFootball.NETCore.Data.Entities;
 
-namespace EldredBrown.ProFootball.NETCore.Services.GamePredictorService
+namespace EldredBrown.ProFootball.NETCore.Services
 {
     public interface IGamePredictorService
     {
-        void PredictGameScore();
+        (double?, double?) PredictGameScore(TeamSeason guestSeason, TeamSeason hostSeason);
     }
 }

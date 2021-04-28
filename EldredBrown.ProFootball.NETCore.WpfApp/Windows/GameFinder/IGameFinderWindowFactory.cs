@@ -2,6 +2,6 @@
 {
     public interface IGameFinderWindowFactory
     {
-        IGameFinderWindow CreateGameFinderWindow();
+        IGameFinderWindow CreateWindow();
     }
 }

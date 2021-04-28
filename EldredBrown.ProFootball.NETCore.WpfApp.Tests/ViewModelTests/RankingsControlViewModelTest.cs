@@ -29,7 +29,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         }
 
         [Fact]
-        public void TotalRankingsSetter_WhenValueDoesNotEqualTotalRankings_ShouldAssignValueToTotalRankings()
+        public void TotalRankingsSetter_WhenValueIsNotNullAndDoesNotEqualTotalRankings_ShouldAssignValueToTotalRankings()
         {
             // Arrange
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();

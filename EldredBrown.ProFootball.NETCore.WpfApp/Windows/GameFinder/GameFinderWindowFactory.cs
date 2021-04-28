@@ -18,7 +18,7 @@
         /// Creates an instance of the <see cref="GameFinderWindow"/> class.
         /// </summary>
         /// <returns>An instance of the <see cref="GameFinderWindow"/> class.</returns>
-        public IGameFinderWindow CreateGameFinderWindow()
+        public IGameFinderWindow CreateWindow()
         {
             return new GameFinderWindow(_gameFinderWindowViewModel);
         }

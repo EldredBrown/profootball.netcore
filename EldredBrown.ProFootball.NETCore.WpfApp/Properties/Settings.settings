@@ -11,5 +11,8 @@
     <Setting Name="DifferentTeamsNeededErrorMessage" Type="System.String" Scope="User">
       <Value Profile="(Default)">Please enter a different name for each team.</Value>
     </Setting>
+    <Setting Name="TeamNotInDatabaseErrorMessage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Please make sure that both teams are in the NFL and that both team names are spelled correctly.</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

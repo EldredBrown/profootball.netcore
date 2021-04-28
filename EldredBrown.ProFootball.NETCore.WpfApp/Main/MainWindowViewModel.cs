@@ -3,11 +3,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
-using EldredBrown.ProFootball.NETCore.Services.GamePredictorService;
 using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings;
 using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings;
 using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons;
 using EldredBrown.ProFootball.NETCore.WpfApp.ViewModels;
+using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games;
 using EldredBrown.ProFootball.WpfApp;
 
@@ -17,8 +17,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
     {
         private readonly ISeasonRepository _seasonRepository;
         private readonly IGamesWindowFactory _gamesWindowFactory;
+        private readonly IGamePredictorWindowFactory _gamePredictorWindowFactory;
         private readonly IWeeklyUpdateService _weeklyUpdateService;
-        private readonly IGamePredictorService _gamePredictorService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
@@ -29,26 +29,27 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         /// <param name="gamesWindowFactory">
         /// The <see cref="IGamesWindowFactory"/> object by which the attached games window will be created.
         /// </param>
+        /// <param name="gamePredictorWindowFactory">
+        /// The <see cref="IGamePredictorWindowFactory"/> object by which the attached game predictor window will be
+        /// created.
+        /// </param>
         /// <param name="weeklyUpdateService">
         /// The <see cref="IWeeklyUpdateService"/> object that will run the weekly update.
-        /// </param>
-        /// <param name="gamePredictorService">
-        /// The <see cref="IGamePredictorService"/> object that will predict a game score.
         /// </param>
         public MainWindowViewModel(
             ISeasonRepository seasonRepository = null,
             IGamesWindowFactory gamesWindowFactory = null,
-            IWeeklyUpdateService weeklyUpdateService = null,
-            IGamePredictorService gamePredictorService = null)
+            IGamePredictorWindowFactory gamePredictorWindowFactory = null,
+            IWeeklyUpdateService weeklyUpdateService = null)
         {
             _seasonRepository = seasonRepository ??
                 App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
             _gamesWindowFactory = gamesWindowFactory ??
                 App.ServiceProvider.GetService(typeof(IGamesWindowFactory)) as IGamesWindowFactory;
+            _gamePredictorWindowFactory = gamePredictorWindowFactory ??
+                App.ServiceProvider.GetService(typeof(IGamePredictorWindowFactory)) as IGamePredictorWindowFactory;
             _weeklyUpdateService = weeklyUpdateService ??
                 App.ServiceProvider.GetService(typeof(IWeeklyUpdateService)) as IWeeklyUpdateService;
-            _gamePredictorService = gamePredictorService ??
-                App.ServiceProvider.GetService(typeof(IGamePredictorService)) as IGamePredictorService;
         }
 
         /// <summary>
@@ -129,7 +130,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         }
         private void PredictGameScore()
         {
-            _gamePredictorService.PredictGameScore();
+            var gamePredictorWindow = _gamePredictorWindowFactory.CreateWindow();
+            gamePredictorWindow.Show();
         }
 
         /// <summary>
@@ -169,7 +171,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         }
         private void ShowGames()
         {
-            var gamesWindow = _gamesWindowFactory.CreateGamesWindow();
+            var gamesWindow = _gamesWindowFactory.CreateWindow();
             gamesWindow.ShowDialog();
 
             TeamSeasonsControlViewModel.Refresh();

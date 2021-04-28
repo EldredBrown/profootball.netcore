@@ -59,5 +59,18 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Properties {
                 this["DifferentTeamsNeededErrorMessage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Please make sure that both teams are in the NFL and that both team names are spel" +
+            "led correctly.")]
+        public string TeamNotInDatabaseErrorMessage {
+            get {
+                return ((string)(this["TeamNotInDatabaseErrorMessage"]));
+            }
+            set {
+                this["TeamNotInDatabaseErrorMessage"] = value;
+            }
+        }
     }
 }

@@ -491,7 +491,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         }
         private void FindGame()
         {
-            var gameFinderWindow = _gameFinderWindowFactory.CreateGameFinderWindow();
+            var gameFinderWindow = _gameFinderWindowFactory.CreateWindow();
             if (gameFinderWindow.ShowDialog() == false)
             {
                 return;
