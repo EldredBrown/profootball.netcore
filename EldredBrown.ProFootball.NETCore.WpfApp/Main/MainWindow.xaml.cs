@@ -1,9 +1,7 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings;
 using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings;
 using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons;
-using EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
 {
