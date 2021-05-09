@@ -13,6 +13,8 @@ using EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
 namespace EldredBrown.ProFootball.NETCore.WpfApp
 {
     /// <summary>
@@ -56,8 +58,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
 
             services.AddScoped<IMessageBoxService, MessageBoxService>();
             services.AddScoped<IGameService, GameService>();
-            services.AddScoped<IWeeklyUpdateService, WeeklyUpdateService>();
             services.AddScoped<IGamePredictorService, GamePredictorService>();
+            services.AddScoped<IWeeklyUpdateService, WeeklyUpdateService>();
 
             services.AddScoped<IProcessGameStrategyFactory, ProcessGameStrategyFactory>();
 
@@ -76,7 +78,15 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
         private void OnStartup(object sender, StartupEventArgs e)
         {
             var mainWindow = ServiceProvider.GetService<MainWindow>();
+
+            if (mainWindow is null)
+            {
+                return;
+            }
+
             mainWindow.Show();
         }
     }
 }
+
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

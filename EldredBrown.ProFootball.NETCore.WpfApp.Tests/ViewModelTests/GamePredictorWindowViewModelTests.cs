@@ -27,7 +27,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gamePredictorService, messageBoxService);
 
             // Act
-            Func<ReadOnlyCollection<int>> func = () => testObject.GuestSeasons = null;
+            Func<ReadOnlyCollection<int>> func = () => testObject.GuestSeasons = null!;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -137,7 +137,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gamePredictorService, messageBoxService);
 
             // Act
-            Func<ReadOnlyCollection<int>> func = () => testObject.HostSeasons = null;
+            Func<ReadOnlyCollection<int>> func = () => testObject.HostSeasons = null!;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -251,7 +251,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -276,7 +276,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -301,7 +301,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -326,7 +326,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -351,7 +351,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -376,7 +376,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -394,12 +394,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
 
             var guestName = "Guest";
-            TeamSeason guestSeason = null;
+            TeamSeason guestSeason = null!;
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonByTeamAndSeason(guestName, A<int>.Ignored))
                 .Returns(guestSeason);
 
             var hostName = "Host";
-            TeamSeason hostSeason = null;
+            TeamSeason hostSeason = null!;
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonByTeamAndSeason(hostName, A<int>.Ignored))
                 .Returns(hostSeason);
 
@@ -413,11 +413,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show(
-                "Please make sure that both teams are in the NFL and that both team names are spelled correctly.",
+                "Please make sure that both teams are in the league and that both team names are spelled correctly.",
                 "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gamePredictorService.PredictGameScore(A<TeamSeason>.Ignored, A<TeamSeason>.Ignored))
                 .MustNotHaveHappened();
@@ -437,7 +437,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 .Returns(guestSeason);
 
             var hostName = "Host";
-            TeamSeason hostSeason = null;
+            TeamSeason hostSeason = null!;
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonByTeamAndSeason(hostName, A<int>.Ignored))
                 .Returns(hostSeason);
 
@@ -451,11 +451,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show(
-                "Please make sure that both teams are in the NFL and that both team names are spelled correctly.",
+                "Please make sure that both teams are in the league and that both team names are spelled correctly.",
                 "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error)).MustHaveHappenedOnceExactly();
             A.CallTo(() => gamePredictorService.PredictGameScore(A<TeamSeason>.Ignored, A<TeamSeason>.Ignored))
                 .MustNotHaveHappened();
@@ -492,7 +492,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.CalculatePredictionCommand.Execute(null);
+            testObject.CalculatePredictionCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show(A<string>.Ignored, "Invalid Data", MessageBoxButton.OK,
@@ -523,7 +523,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gamePredictorService, messageBoxService);
 
             // Act
-            testObject.ViewSeasonsCommand.Execute(null);
+            testObject.ViewSeasonsCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => seasonRepository.GetSeasons()).MustHaveHappenedOnceExactly();

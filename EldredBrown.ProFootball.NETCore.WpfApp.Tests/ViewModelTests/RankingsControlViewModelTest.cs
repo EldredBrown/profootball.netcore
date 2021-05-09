@@ -21,7 +21,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new RankingsControlViewModel(teamSeasonRepository);
 
             // Act
-            Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.TotalRankings = null;
+            Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.TotalRankings = null!;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -53,7 +53,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new RankingsControlViewModel(teamSeasonRepository);
 
             // Act
-            Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.OffensiveRankings = null;
+            Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.OffensiveRankings = null!;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -85,7 +85,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new RankingsControlViewModel(teamSeasonRepository);
 
             // Act
-            Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.DefensiveRankings = null;
+            Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.DefensiveRankings = null!;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -120,7 +120,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(A<int>.Ignored)).Returns(teamSeasons);
 
             // Act
-            testObject.ViewRankingsCommand.Execute(null);
+            testObject.ViewRankingsCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(WpfGlobals.SelectedSeason))
@@ -144,7 +144,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(A<int>.Ignored)).Returns(teamSeasons);
 
             // Act
-            testObject.ViewRankingsCommand.Execute(null);
+            testObject.ViewRankingsCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(WpfGlobals.SelectedSeason))

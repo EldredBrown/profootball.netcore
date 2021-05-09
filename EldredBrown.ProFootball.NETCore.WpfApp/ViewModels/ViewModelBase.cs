@@ -71,11 +71,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 			}
 		}
 
-        public event EventHandler<MoveFocusEventArgs> MoveFocus;
+        public event EventHandler<MoveFocusEventArgs>? MoveFocus;
 
         /// <summary>
         /// Event triggered when a property is changed.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

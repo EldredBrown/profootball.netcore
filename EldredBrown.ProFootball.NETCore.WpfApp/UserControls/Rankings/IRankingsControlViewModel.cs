@@ -6,9 +6,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
 {
     public interface IRankingsControlViewModel
     {
-        ReadOnlyCollection<TeamSeason> TotalRankings { get; set; }
-        ReadOnlyCollection<TeamSeason> OffensiveRankings { get; set; }
-        ReadOnlyCollection<TeamSeason> DefensiveRankings { get; set; }
+        ReadOnlyCollection<TeamSeason>? TotalRankings { get; set; }
+        ReadOnlyCollection<TeamSeason>? OffensiveRankings { get; set; }
+        ReadOnlyCollection<TeamSeason>? DefensiveRankings { get; set; }
         DelegateCommand ViewRankingsCommand { get; }
 
         void Refresh();
