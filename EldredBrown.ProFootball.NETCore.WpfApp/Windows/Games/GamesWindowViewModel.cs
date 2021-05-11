@@ -20,8 +20,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         private readonly IGameFinderWindowFactory _gameFinderWindowFactory;
         private readonly IMessageBoxService _messageBoxService;
 
-        private string _filterGuestName;
-        private string _filterHostName;
+        private string? _filterGuestName;
+        private string? _filterHostName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamesWindowViewModel"/> class.
@@ -39,22 +39,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// </param>
         /// <param name="messageBoxService">The service that will display message boxes.</param>
         public GamesWindowViewModel(
-            IGameRepository gameRepository = null,
-            ISeasonRepository seasonRepository = null,
-            IGameService gameService = null,
-            IGameFinderWindowFactory gameFinderWindowFactory = null,
-            IMessageBoxService messageBoxService = null)
+            IGameRepository gameRepository,
+            ISeasonRepository seasonRepository,
+            IGameService gameService,
+            IGameFinderWindowFactory gameFinderWindowFactory,
+            IMessageBoxService messageBoxService)
         {
-            _gameRepository = gameRepository ??
-                App.ServiceProvider.GetService(typeof(IGameRepository)) as IGameRepository;
-            _seasonRepository = seasonRepository ??
-                App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
-            _gameService = gameService ??
-                App.ServiceProvider.GetService(typeof(IGameService)) as IGameService;
-            _gameFinderWindowFactory = gameFinderWindowFactory ??
-                App.ServiceProvider.GetService(typeof(IGameFinderWindowFactory)) as IGameFinderWindowFactory;
-            _messageBoxService = messageBoxService ??
-                App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
+            _gameRepository = gameRepository;
+            _seasonRepository = seasonRepository;
+            _gameService = gameService;
+            _gameFinderWindowFactory = gameFinderWindowFactory;
+            _messageBoxService = messageBoxService;
         }
 
         #region Detail Properties
@@ -82,7 +77,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Gets or sets the GuestName value for this <see cref="GamesWindowViewModel"/> object.
         /// </summary>
-        private string _guestName;
+        private string _guestName = string.Empty;
         public string GuestName
         {
             get
@@ -122,7 +117,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Gets or sets the HostName value for this <see cref="GamesWindowViewModel"/> object.
         /// </summary>
-        private string _hostName;
+        private string _hostName = string.Empty;
         public string HostName
         {
             get
@@ -202,8 +197,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Gets or sets the Notes value for this <see cref="GamesWindowViewModel"/> object.
         /// </summary>
-        private string _notes;
-        public string Notes
+        private string? _notes;
+        public string? Notes
         {
             get
             {
@@ -286,8 +281,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Gets or sets the Games collection for this <see cref="GamesWindowViewModel"/> object.
         /// </summary>
-        private ReadOnlyCollection<Game> _games;
-        public ReadOnlyCollection<Game> Games
+        private ReadOnlyCollection<Game>? _games;
+        public ReadOnlyCollection<Game>? Games
         {
             get
             {
@@ -311,8 +306,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Gets or sets the SelectedGame for this <see cref="GamesWindowViewModel"/> object.
         /// </summary>
-        private Game _selectedGame;
-        public Game SelectedGame
+        private Game? _selectedGame;
+        public Game? SelectedGame
         {
             get
             {
@@ -384,7 +379,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Adds a new game to the data store.
         /// </summary>
-        private DelegateCommand _addGameCommand;
+        private DelegateCommand? _addGameCommand;
         public DelegateCommand AddGameCommand
         {
             get
@@ -401,7 +396,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             var (valid, message) = ValidateDataEntry();
             if (!valid)
             {
-                _messageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageBoxService.Show(message!, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -415,7 +410,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Deletes an existing game from the data store.
         /// </summary>
-        private DelegateCommand _deleteGameCommand;
+        private DelegateCommand? _deleteGameCommand;
         public DelegateCommand DeleteGameCommand
         {
             get
@@ -439,7 +434,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Edits an existing game in the data store.
         /// </summary>
-        private DelegateCommand _editGameCommand;
+        private DelegateCommand? _editGameCommand;
         public DelegateCommand EditGameCommand
         {
             get
@@ -456,7 +451,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             var (valid, message) = ValidateDataEntry();
             if (!valid)
             {
-                _messageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageBoxService.Show(message!, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -477,7 +472,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Searches for a specified game in the data store.
         /// </summary>
-        private DelegateCommand _findGameCommand;
+        private DelegateCommand? _findGameCommand;
         public DelegateCommand FindGameCommand
         {
             get
@@ -497,15 +492,19 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
                 return;
             }
 
-            var vm = gameFinderWindow.DataContext as IGameFinderWindowViewModel;
-            _filterGuestName = vm.GuestName;
-            _filterHostName = vm.HostName;
+            if (!(gameFinderWindow.DataContext is IGameFinderWindowViewModel viewModel))
+            {
+                return;
+            }
+
+            _filterGuestName = viewModel.GuestName;
+            _filterHostName = viewModel.HostName;
 
             ApplyFindGameFilter();
             IsGamesReadOnly = true;
             ShowAllGamesEnabled = true;
 
-            if (Games.Count == 0)
+            if (Games is null || Games.Count == 0)
             {
                 SelectedGame = null;
             }
@@ -516,7 +515,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Shows all the games currently in the data store.
         /// </summary>
-        private DelegateCommand _showAllGamesCommand;
+        private DelegateCommand? _showAllGamesCommand;
         public DelegateCommand ShowAllGamesCommand
         {
             get
@@ -540,7 +539,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         /// <summary>
         /// Loads all the Games for the selected season.
         /// </summary>
-        private DelegateCommand _viewGamesCommand;
+        private DelegateCommand? _viewGamesCommand;
         public DelegateCommand ViewGamesCommand
         {
             get
@@ -617,21 +616,23 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
 
         private Game MapOldGameValues()
         {
+            var selectedGame = SelectedGame!;
+
             return new Game
             {
-                ID = SelectedGame.ID,
+                ID = selectedGame.ID,
                 SeasonYear = WpfGlobals.SelectedSeason,
-                Week = SelectedGame.Week,
-                GuestName = SelectedGame.GuestName,
-                GuestScore = SelectedGame.GuestScore,
-                HostName = SelectedGame.HostName,
-                HostScore = SelectedGame.HostScore,
-                WinnerName = SelectedGame.WinnerName,
-                WinnerScore = SelectedGame.WinnerScore,
-                LoserName = SelectedGame.LoserName,
-                LoserScore = SelectedGame.LoserScore,
-                IsPlayoff = SelectedGame.IsPlayoff,
-                Notes = SelectedGame.Notes
+                Week = selectedGame.Week,
+                GuestName = selectedGame.GuestName,
+                GuestScore = selectedGame.GuestScore,
+                HostName = selectedGame.HostName,
+                HostScore = selectedGame.HostScore,
+                WinnerName = selectedGame.WinnerName,
+                WinnerScore = selectedGame.WinnerScore,
+                LoserName = selectedGame.LoserName,
+                LoserScore = selectedGame.LoserScore,
+                IsPlayoff = selectedGame.IsPlayoff,
+                Notes = selectedGame.Notes
             };
         }
 
@@ -642,7 +643,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
 
         private void PopulateDataEntryControls()
         {
-            var selectedGame = SelectedGame;
+            var selectedGame = SelectedGame!;
+
             Week = selectedGame.Week;
             GuestName = selectedGame.GuestName;
             GuestScore = selectedGame.GuestScore;
@@ -656,7 +658,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             DeleteGameControlVisibility = Visibility.Visible;
         }
 
-        private (bool, string) ValidateDataEntry()
+        private (bool, string?) ValidateDataEntry()
         {
             if (string.IsNullOrWhiteSpace(GuestName))
             {

@@ -37,26 +37,22 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         /// The <see cref="IWeeklyUpdateService"/> object that will run the weekly update.
         /// </param>
         public MainWindowViewModel(
-            ISeasonRepository seasonRepository = null,
-            IGamesWindowFactory gamesWindowFactory = null,
-            IGamePredictorWindowFactory gamePredictorWindowFactory = null,
-            IWeeklyUpdateService weeklyUpdateService = null)
+            ISeasonRepository seasonRepository,
+            IGamesWindowFactory gamesWindowFactory,
+            IGamePredictorWindowFactory gamePredictorWindowFactory,
+            IWeeklyUpdateService weeklyUpdateService)
         {
-            _seasonRepository = seasonRepository ??
-                App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
-            _gamesWindowFactory = gamesWindowFactory ??
-                App.ServiceProvider.GetService(typeof(IGamesWindowFactory)) as IGamesWindowFactory;
-            _gamePredictorWindowFactory = gamePredictorWindowFactory ??
-                App.ServiceProvider.GetService(typeof(IGamePredictorWindowFactory)) as IGamePredictorWindowFactory;
-            _weeklyUpdateService = weeklyUpdateService ??
-                App.ServiceProvider.GetService(typeof(IWeeklyUpdateService)) as IWeeklyUpdateService;
+            _seasonRepository = seasonRepository;
+            _gamesWindowFactory = gamesWindowFactory;
+            _gamePredictorWindowFactory = gamePredictorWindowFactory;
+            _weeklyUpdateService = weeklyUpdateService;
         }
 
         /// <summary>
         /// Gets or sets the seasons collection for this <see cref="MainWindowViewModel"/> object.
         /// </summary>
-        private ReadOnlyCollection<int> _seasons;
-        public ReadOnlyCollection<int> Seasons
+        private ReadOnlyCollection<int>? _seasons;
+        public ReadOnlyCollection<int>? Seasons
         {
             get
             {
@@ -101,22 +97,22 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         /// <summary>
         /// Gets or sets the TeamSeasonsControlViewModel for this <see cref="MainWindowViewModel"/> object.
         /// </summary>
-        public ITeamSeasonsControlViewModel TeamSeasonsControlViewModel { get; set; }
+        public ITeamSeasonsControlViewModel? TeamSeasonsControlViewModel { get; set; }
 
         /// <summary>
         /// Gets or sets the SeasonStandingsControlViewModel for this <see cref="MainWindowViewModel"/> object.
         /// </summary>
-        public ISeasonStandingsControlViewModel SeasonStandingsControlViewModel { get; set; }
+        public ISeasonStandingsControlViewModel? SeasonStandingsControlViewModel { get; set; }
 
         /// <summary>
         /// Gets or sets the RankingsControlViewModel for this <see cref="MainWindowViewModel"/> object.
         /// </summary>
-        public IRankingsControlViewModel RankingsControlViewModel { get; set; }
+        public IRankingsControlViewModel? RankingsControlViewModel { get; set; }
 
         /// <summary>
         /// Opens the game predictor window.
         /// </summary>
-        private DelegateCommand _predictGameScoreCommand;
+        private DelegateCommand? _predictGameScoreCommand;
         public DelegateCommand PredictGameScoreCommand
         {
             get
@@ -137,7 +133,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         /// <summary>
         /// Runs a weekly update.
         /// </summary>
-        private DelegateCommand _weeklyUpdateCommand;
+        private DelegateCommand? _weeklyUpdateCommand;
         public DelegateCommand WeeklyUpdateCommand
         {
             get
@@ -157,7 +153,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         /// <summary>
         /// Shows the Games window.
         /// </summary>
-        private DelegateCommand _showGamesCommand;
+        private DelegateCommand? _showGamesCommand;
         public DelegateCommand ShowGamesCommand
         {
             get
@@ -174,13 +170,18 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
             var gamesWindow = _gamesWindowFactory.CreateWindow();
             gamesWindow.ShowDialog();
 
+            if (TeamSeasonsControlViewModel is null)
+            {
+                return;
+            }
+
             TeamSeasonsControlViewModel.Refresh();
         }
 
         /// <summary>
         /// Loads data into the Seasons control.
         /// </summary>
-        private DelegateCommand _viewSeasonsCommand;
+        private DelegateCommand? _viewSeasonsCommand;
         public DelegateCommand ViewSeasonsCommand
         {
             get
@@ -201,6 +202,13 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
 
         private void RefreshControls()
         {
+            if (TeamSeasonsControlViewModel is null ||
+                SeasonStandingsControlViewModel is null ||
+                RankingsControlViewModel is null)
+            {
+                return;
+            }
+
             TeamSeasonsControlViewModel.Refresh();
             SeasonStandingsControlViewModel.Refresh();
             RankingsControlViewModel.Refresh();

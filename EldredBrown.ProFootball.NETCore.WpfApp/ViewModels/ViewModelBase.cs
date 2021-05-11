@@ -10,7 +10,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
     public abstract class ViewModelBase : IFocusMover, INotifyPropertyChanged
     {
         /// <summary>
-        /// Gets or sets a value indicating whether this view model object needs to be updated
+        /// Gets or sets a flag indicating whether this view model object needs to be updated
         /// </summary>
         private bool _requestUpdate;
 		public bool RequestUpdate
@@ -71,11 +71,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 			}
 		}
 
-        public event EventHandler<MoveFocusEventArgs> MoveFocus;
+        public event EventHandler<MoveFocusEventArgs>? MoveFocus;
 
         /// <summary>
         /// Event triggered when a property is changed.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

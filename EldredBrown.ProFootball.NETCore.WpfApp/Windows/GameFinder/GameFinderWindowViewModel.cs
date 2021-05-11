@@ -12,16 +12,15 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
         /// Initializes a new instance of the <see cref="GameFinderWindowViewModel"/> class.
         /// </summary>
         /// <param name="messageBoxService">The service that will display message boxes.</param>
-        public GameFinderWindowViewModel(IMessageBoxService messageBoxService = null)
+        public GameFinderWindowViewModel(IMessageBoxService messageBoxService)
         {
-            _messageBoxService = messageBoxService ??
-                App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
+            _messageBoxService = messageBoxService;
         }
 
         /// <summary>
         /// Gets or sets this <see cref="GameFinderWindowViewModel"/> object's GuestName value.
         /// </summary>
-        private string _guestName;
+        private string _guestName = string.Empty;
         public string GuestName
         {
             get
@@ -41,7 +40,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
         /// <summary>
         /// Gets or sets this <see cref="GameFinderWindowViewModel"/> object's HostName value.
         /// </summary>
-        private string _hostName;
+        private string _hostName = string.Empty;
         public string HostName
         {
             get
@@ -61,7 +60,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
         /// <summary>
         /// Handles the WindowLoaded event.
         /// </summary>
-        private DelegateCommand _windowLoadedCommand;
+        private DelegateCommand? _windowLoadedCommand;
         public DelegateCommand WindowLoadedCommand
         {
             get
@@ -83,7 +82,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
             var (valid, message) = ValidateDataEntry();
             if (!valid)
             {
-                _messageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageBoxService.Show(message!, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 MoveFocusTo("Guest");
             }
 
@@ -95,7 +94,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
             OnMoveFocus(focusedProperty);
         }
 
-        private (bool, string) ValidateDataEntry()
+        private (bool, string?) ValidateDataEntry()
         {
             if (string.IsNullOrWhiteSpace(GuestName))
             {

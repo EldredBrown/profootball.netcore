@@ -14,8 +14,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
         {
             InitializeComponent();
 
-            DataContext =
-                App.ServiceProvider.GetService(typeof(IRankingsControlViewModel)) as IRankingsControlViewModel;
+            if (App.ServiceProvider is null)
+            {
+                return;
+            }
+
+            DataContext = App.ServiceProvider.GetService(typeof(IRankingsControlViewModel));
         }
     }
 }

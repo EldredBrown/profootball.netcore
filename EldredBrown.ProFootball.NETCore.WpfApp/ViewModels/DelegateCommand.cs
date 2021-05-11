@@ -6,11 +6,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
     public class DelegateCommand : ICommand
     {
         private readonly Action<object> _execute;
-        private readonly Predicate<object> _canExecute;
+        private readonly Predicate<object>? _canExecute;
 
-        public DelegateCommand(Action<object> execute, Predicate<object> canExecute = null)
+        public DelegateCommand(Action<object> execute, Predicate<object>? canExecute = null)
         {
-            _execute = execute ?? throw new ArgumentNullException("execute");
+            _execute = execute;
             _canExecute = canExecute;
         }
 
@@ -22,7 +22,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null ? true: _canExecute(parameter);
+            return _canExecute is null || _canExecute(parameter);
         }
 
         public void Execute(object parameter)

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
@@ -20,7 +21,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
     /// </summary>
     public partial class App : Application
     {
-        public static ServiceProvider ServiceProvider;
+        public static ServiceProvider? ServiceProvider;
 
         public App()
         {
@@ -75,7 +76,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            if (ServiceProvider is null)
+            {
+                throw new Exception($"{GetType()}: {nameof(ServiceProvider)}");
+            }
+
             var mainWindow = ServiceProvider.GetService<MainWindow>();
+            if (mainWindow is null)
+            {
+                throw new Exception($"{GetType()}: {nameof(MainWindow)} service could not be found.");
+            }
+
             mainWindow.Show();
         }
     }

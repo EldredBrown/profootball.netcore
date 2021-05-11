@@ -33,26 +33,22 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor
         /// A <see cref="IMessageBoxService"/> object to show message boxes.
         /// </param>
         public GamePredictorWindowViewModel(
-            ISeasonRepository seasonRepository = null,
-            ITeamSeasonRepository teamSeasonRepository = null,
-            IGamePredictorService gamePredictorService = null,
-            IMessageBoxService messageBoxService = null)
+            ISeasonRepository seasonRepository,
+            ITeamSeasonRepository teamSeasonRepository,
+            IGamePredictorService gamePredictorService,
+            IMessageBoxService messageBoxService)
         {
-            _seasonRepository = seasonRepository ??
-                App.ServiceProvider.GetService(typeof(ISeasonRepository)) as ISeasonRepository;
-            _teamSeasonRepository = teamSeasonRepository ??
-                App.ServiceProvider.GetService(typeof(ITeamSeasonRepository)) as ITeamSeasonRepository;
-            _gamePredictorService = gamePredictorService ??
-                App.ServiceProvider.GetService(typeof(IGamePredictorService)) as IGamePredictorService;
-            _messageBoxService = messageBoxService ??
-                App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
+            _seasonRepository = seasonRepository;
+            _teamSeasonRepository = teamSeasonRepository;
+            _gamePredictorService = gamePredictorService;
+            _messageBoxService = messageBoxService;
         }
 
         /// <summary>
         /// Gets or sets the seasons collection for this window's guest.
         /// </summary>
-        private ReadOnlyCollection<int> _guestSeasons;
-        public ReadOnlyCollection<int> GuestSeasons
+        private ReadOnlyCollection<int>? _guestSeasons;
+        public ReadOnlyCollection<int>? GuestSeasons
         {
             get
             {
@@ -96,7 +92,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor
         /// <summary>
         /// Gets or sets the name of this window's guest.
         /// </summary>
-        private string _guestName;
+        private string _guestName = string.Empty;
         public string GuestName
         {
             get
@@ -136,8 +132,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor
         /// <summary>
         /// Gets or sets the seasons collection for this window's host.
         /// </summary>
-        private ReadOnlyCollection<int> _hostSeasons;
-        public ReadOnlyCollection<int> HostSeasons
+        private ReadOnlyCollection<int>? _hostSeasons;
+        public ReadOnlyCollection<int>? HostSeasons
         {
             get
             {
@@ -181,7 +177,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor
         /// <summary>
         /// Gets or sets the name of this window's host.
         /// </summary>
-        private string _hostName;
+        private string _hostName = string.Empty;
         public string HostName
         {
             get
@@ -221,7 +217,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor
         /// <summary>
         /// Calculates the predicted score of a future or hypothetical game.
         /// </summary>
-        private DelegateCommand _calculatePredictionCommand;
+        private DelegateCommand? _calculatePredictionCommand;
         public DelegateCommand CalculatePredictionCommand
         {
             get
@@ -238,12 +234,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor
             var (valid, matchup, message) = ValidateDataEntry();
             if (!valid)
             {
-                _messageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                _messageBoxService.Show(message!, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             var (guestScore, hostScore) = 
-                _gamePredictorService.PredictGameScore(matchup.Value.GuestSeason, matchup.Value.HostSeason);
+                _gamePredictorService.PredictGameScore(matchup!.Value.GuestSeason, matchup!.Value.HostSeason);
             GuestScore = (int?)guestScore;
             HostScore = (int?)hostScore;
         }
@@ -251,7 +247,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor
         /// <summary>
         /// Loads all the Seasons for this view model.
         /// </summary>
-        private DelegateCommand _viewSeasonsCommand;
+        private DelegateCommand? _viewSeasonsCommand;
         public DelegateCommand ViewSeasonsCommand
         {
             get
@@ -279,7 +275,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor
             OnMoveFocus(focusedProperty);
         }
 
-        private (bool, Matchup?, string) ValidateDataEntry()
+        private (bool, Matchup?, string?) ValidateDataEntry()
         {
             if (string.IsNullOrWhiteSpace(GuestName))
             {

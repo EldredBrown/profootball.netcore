@@ -25,8 +25,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
         {
             if (GamesDataGrid.SelectedItem == CollectionView.NewItemPlaceholder)
             {
-                // Prepare to add a new game.
-                (DataContext as GamesWindowViewModel).SelectedGame = null;
+                if (!(DataContext is IGamesWindowViewModel viewModel))
+                {
+                    return;
+                }
+
+                viewModel.SelectedGame = null;
             }
         }
     }
