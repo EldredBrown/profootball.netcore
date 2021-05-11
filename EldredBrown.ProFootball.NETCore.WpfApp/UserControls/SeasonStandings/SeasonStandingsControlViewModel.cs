@@ -17,16 +17,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings
         /// <param name="seasonStandingsRepository">
         /// The repository by which season standings data will be accessed.
         /// </param>
-        public SeasonStandingsControlViewModel(ISeasonStandingsRepository seasonStandingsRepository)
+        public SeasonStandingsControlViewModel(ISeasonStandingsRepository seasonStandingsRepository = null)
         {
-            _seasonStandingsRepository = seasonStandingsRepository;
+            _seasonStandingsRepository = seasonStandingsRepository ??
+                App.ServiceProvider.GetService(typeof(ISeasonStandingsRepository)) as ISeasonStandingsRepository;
         }
 
         /// <summary>
         /// Gets or sets the standings for this <see cref="SeasonStandingsControlViewModel"/> object.
         /// </summary>
-        private ReadOnlyCollection<SeasonTeamStanding>? _standings;
-        public ReadOnlyCollection<SeasonTeamStanding>? Standings
+        private ReadOnlyCollection<SeasonTeamStanding> _standings;
+        public ReadOnlyCollection<SeasonTeamStanding> Standings
         {
             get
             {
@@ -45,7 +46,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings
         /// <summary>
         /// Loads the standings view for the selected season.
         /// </summary>
-        private DelegateCommand? _viewStandingsCommand;
+        private DelegateCommand _viewStandingsCommand;
         public DelegateCommand ViewStandingsCommand
         {
             get

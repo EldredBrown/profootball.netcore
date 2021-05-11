@@ -19,7 +19,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!(DataContext is IGameFinderWindowViewModel viewModel) || !viewModel.OK())
+            var viewModel = DataContext as IGameFinderWindowViewModel;
+            if(!viewModel.OK())
             {
                 return;
             }

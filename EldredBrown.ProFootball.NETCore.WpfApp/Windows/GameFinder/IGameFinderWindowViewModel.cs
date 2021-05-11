@@ -4,8 +4,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
 {
     public interface IGameFinderWindowViewModel
     {
-        string? GuestName { get; set; }
-        string? HostName { get; set; }
+        string GuestName { get; set; }
+        string HostName { get; set; }
         DelegateCommand WindowLoadedCommand { get; }
 
         bool OK();

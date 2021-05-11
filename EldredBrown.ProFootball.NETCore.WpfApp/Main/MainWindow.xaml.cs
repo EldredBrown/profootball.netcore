@@ -21,14 +21,14 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
         {
             InitializeComponent();
 
-            viewModel.TeamSeasonsControlViewModel =
-                TeamSeasonsControl.DataContext as ITeamSeasonsControlViewModel;
-            viewModel.SeasonStandingsControlViewModel =
-                SeasonStandingsControl.DataContext as ISeasonStandingsControlViewModel;
-            viewModel.RankingsControlViewModel =
-                RankingsControl.DataContext as IRankingsControlViewModel;
-
             DataContext = viewModel;
+
+            (DataContext as IMainWindowViewModel).TeamSeasonsControlViewModel = 
+                TeamSeasonsControl.DataContext as ITeamSeasonsControlViewModel;
+            (DataContext as IMainWindowViewModel).SeasonStandingsControlViewModel =
+                SeasonStandingsControl.DataContext as ISeasonStandingsControlViewModel;
+            (DataContext as IMainWindowViewModel).RankingsControlViewModel =
+                RankingsControl.DataContext as IRankingsControlViewModel;
         }
     }
 }

@@ -14,7 +14,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings
         {
             InitializeComponent();
 
-            DataContext = App.ServiceProvider.GetService(typeof(ISeasonStandingsControlViewModel));
+            DataContext = App.ServiceProvider.GetService(typeof(ISeasonStandingsControlViewModel))
+                as ISeasonStandingsControlViewModel;
         }
     }
 }

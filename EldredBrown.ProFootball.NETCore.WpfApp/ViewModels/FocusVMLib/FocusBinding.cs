@@ -11,7 +11,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels.FocusVMLib
     {
         public override object ProvideValue(IServiceProvider provider)
         {
-            if (base.TryGetTargetItems(provider, out DependencyObject? elem, out DependencyProperty? prop))
+            DependencyObject elem;
+            DependencyProperty prop;
+            if (base.TryGetTargetItems(provider, out elem, out prop))
             {
                 FocusController.SetFocusableProperty(elem, prop);
             }

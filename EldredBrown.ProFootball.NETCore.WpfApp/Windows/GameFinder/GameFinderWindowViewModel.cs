@@ -12,16 +12,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
         /// Initializes a new instance of the <see cref="GameFinderWindowViewModel"/> class.
         /// </summary>
         /// <param name="messageBoxService">The service that will display message boxes.</param>
-        public GameFinderWindowViewModel(IMessageBoxService messageBoxService)
+        public GameFinderWindowViewModel(IMessageBoxService messageBoxService = null)
         {
-            _messageBoxService = messageBoxService;
+            _messageBoxService = messageBoxService ??
+                App.ServiceProvider.GetService(typeof(IMessageBoxService)) as IMessageBoxService;
         }
 
         /// <summary>
         /// Gets or sets this <see cref="GameFinderWindowViewModel"/> object's GuestName value.
         /// </summary>
-        private string? _guestName;
-        public string? GuestName
+        private string _guestName;
+        public string GuestName
         {
             get
             {
@@ -40,8 +41,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
         /// <summary>
         /// Gets or sets this <see cref="GameFinderWindowViewModel"/> object's HostName value.
         /// </summary>
-        private string? _hostName;
-        public string? HostName
+        private string _hostName;
+        public string HostName
         {
             get
             {
@@ -60,7 +61,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
         /// <summary>
         /// Handles the WindowLoaded event.
         /// </summary>
-        private DelegateCommand? _windowLoadedCommand;
+        private DelegateCommand _windowLoadedCommand;
         public DelegateCommand WindowLoadedCommand
         {
             get
@@ -83,6 +84,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
             if (!valid)
             {
                 _messageBoxService.Show(message, "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                MoveFocusTo("Guest");
             }
 
             return valid;
@@ -111,7 +113,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder
                 return (false, Settings.Default.DifferentTeamsNeededErrorMessage);
             }
 
-            return (true, string.Empty);
+            return (true, null);
         }
     }
 }

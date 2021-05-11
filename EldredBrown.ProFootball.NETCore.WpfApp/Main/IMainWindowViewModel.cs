@@ -8,11 +8,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Main
 {
     public interface IMainWindowViewModel
     {
-        ReadOnlyCollection<int>? Seasons { get; set; }
+        ReadOnlyCollection<int> Seasons { get; set; }
         int SelectedSeason { get; set; }
-        ITeamSeasonsControlViewModel? TeamSeasonsControlViewModel { get; set; }
-        ISeasonStandingsControlViewModel? SeasonStandingsControlViewModel { get; set; }
-        IRankingsControlViewModel? RankingsControlViewModel { get; set; }
+        ITeamSeasonsControlViewModel TeamSeasonsControlViewModel { get; set; }
+        ISeasonStandingsControlViewModel SeasonStandingsControlViewModel { get; set; }
+        IRankingsControlViewModel RankingsControlViewModel { get; set; }
         DelegateCommand PredictGameScoreCommand { get; }
         DelegateCommand ViewSeasonsCommand { get; }
         DelegateCommand WeeklyUpdateCommand { get; }

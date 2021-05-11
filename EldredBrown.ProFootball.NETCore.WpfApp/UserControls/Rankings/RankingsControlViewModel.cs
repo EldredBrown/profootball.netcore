@@ -16,16 +16,17 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
         /// Initializes a new instance of the <see cref="RankingsControlViewModel"/> class.
         /// </summary>
         /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
-        public RankingsControlViewModel(ITeamSeasonRepository teamSeasonRepository)
+        public RankingsControlViewModel(ITeamSeasonRepository teamSeasonRepository = null)
         {
-            _teamSeasonRepository = teamSeasonRepository;
+            _teamSeasonRepository = teamSeasonRepository ??
+                App.ServiceProvider.GetService(typeof(ITeamSeasonRepository)) as ITeamSeasonRepository;
         }
 
         /// <summary>
         /// Gets or sets the total rankings for this <see cref="RankingsControlViewModel"/> object.
         /// </summary>
-        private ReadOnlyCollection<TeamSeason>? _totalRankings;
-        public ReadOnlyCollection<TeamSeason>? TotalRankings
+        private ReadOnlyCollection<TeamSeason> _totalRankings;
+        public ReadOnlyCollection<TeamSeason> TotalRankings
         {
             get
             {
@@ -48,8 +49,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
         /// <summary>
         /// Gets or sets the offensive rankings for this <see cref="RankingsControlViewModel"/> object.
         /// </summary>
-        private ReadOnlyCollection<TeamSeason>? _offensiveRankings;
-        public ReadOnlyCollection<TeamSeason>? OffensiveRankings
+        private ReadOnlyCollection<TeamSeason> _offensiveRankings;
+        public ReadOnlyCollection<TeamSeason> OffensiveRankings
         {
             get
             {
@@ -72,8 +73,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
         /// <summary>
         /// Gets or sets the defensive rankings for this <see cref="RankingsControlViewModel"/> object.
         /// </summary>
-        private ReadOnlyCollection<TeamSeason>? _defensiveRankings;
-        public ReadOnlyCollection<TeamSeason>? DefensiveRankings
+        private ReadOnlyCollection<TeamSeason> _defensiveRankings;
+        public ReadOnlyCollection<TeamSeason> DefensiveRankings
         {
             get
             {
@@ -96,7 +97,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.Rankings
         /// <summary>
         /// Loads the rankings views for the selected season.
         /// </summary>
-        private DelegateCommand? _viewRankingsCommand;
+        private DelegateCommand _viewRankingsCommand;
         public DelegateCommand ViewRankingsCommand
         {
             get

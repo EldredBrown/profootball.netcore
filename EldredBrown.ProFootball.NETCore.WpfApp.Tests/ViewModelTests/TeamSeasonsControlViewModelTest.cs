@@ -26,7 +26,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository);
 
             // Act
-            Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.Teams = null!;
+            Func<ReadOnlyCollection<TeamSeason>> func = () => testObject.Teams = null;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -125,7 +125,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository);
 
             // Act
-            testObject.ViewTeamsCommand.Execute(null!);
+            testObject.ViewTeamsCommand.Execute(null);
 
             // Assert
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(WpfGlobals.SelectedSeason))
@@ -162,7 +162,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             };
 
             // Act
-            testObject.ViewTeamScheduleCommand.Execute(null!);
+            testObject.ViewTeamScheduleCommand.Execute(null);
 
             // Assert
             A.CallTo(() => teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(A<string>.Ignored,
@@ -209,7 +209,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 A<int>.Ignored)).Returns(teamSeasonScheduleAverages);
 
             // Act
-            testObject.ViewTeamScheduleCommand.Execute(null!);
+            testObject.ViewTeamScheduleCommand.Execute(null);
 
             // Assert
             A.CallTo(() => teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(A<string>.Ignored,
@@ -235,7 +235,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository);
 
             // Act
-            testObject.ViewTeamsCommand.Execute(null!);
+            testObject.ViewTeamsCommand.Execute(null);
 
             // Assert
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeason(WpfGlobals.SelectedSeason))

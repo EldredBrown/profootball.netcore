@@ -31,7 +31,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 weeklyUpdateService);
 
             // Act
-            Func<ReadOnlyCollection<int>> func = () => testObject.Seasons = null!;
+            Func<ReadOnlyCollection<int>> func = () => testObject.Seasons = null;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -100,7 +100,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 weeklyUpdateService);
 
             // Act
-            testObject.PredictGameScoreCommand.Execute(null!);
+            testObject.PredictGameScoreCommand.Execute(null);
 
             // Assert
             A.CallTo(() => gamePredictorWindowFactory.CreateWindow()).MustHaveHappenedOnceExactly();
@@ -118,7 +118,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 weeklyUpdateService);
 
             // Act
-            testObject.WeeklyUpdateCommand.Execute(null!);
+            testObject.WeeklyUpdateCommand.Execute(null);
 
             // Assert
             A.CallTo(() => weeklyUpdateService.RunWeeklyUpdate(WpfGlobals.SelectedSeason))
@@ -126,7 +126,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
         }
 
         [Fact]
-        public void ShowGamesCommand_WhenTeamSeasonsControlViewModelIsNull_ShouldShowGamesWindowAndNotRefreshTeamSeasonsControlViewModel()
+        public void ShowGamesCommand_ShouldCallWeeklyUpdateServiceRunWeeklyUpdate()
         {
             // Arrange
             var seasonRepository = A.Fake<ISeasonRepository>();
@@ -136,32 +136,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new MainWindowViewModel(seasonRepository, gamesWindowFactory, gamePredictorWindowFactory,
                 weeklyUpdateService)
                 {
-                    TeamSeasonsControlViewModel = null
+                    TeamSeasonsControlViewModel = A.Fake<ITeamSeasonsControlViewModel>()
                 };
 
             // Act
-            testObject.ShowGamesCommand.Execute(null!);
-
-            // Assert
-            A.CallTo(() => gamesWindowFactory.CreateWindow()).MustHaveHappenedOnceExactly();
-        }
-
-        [Fact]
-        public void ShowGamesCommand_WhenTeamSeasonsControlViewModelIsNotNull_ShouldShowGamesWindowAndRefreshTeamSeasonsControlViewModel()
-        {
-            // Arrange
-            var seasonRepository = A.Fake<ISeasonRepository>();
-            var gamesWindowFactory = A.Fake<IGamesWindowFactory>();
-            var gamePredictorWindowFactory = A.Fake<IGamePredictorWindowFactory>();
-            var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
-            var testObject = new MainWindowViewModel(seasonRepository, gamesWindowFactory, gamePredictorWindowFactory,
-                weeklyUpdateService)
-            {
-                TeamSeasonsControlViewModel = A.Fake<ITeamSeasonsControlViewModel>()
-            };
-
-            // Act
-            testObject.ShowGamesCommand.Execute(null!);
+            testObject.ShowGamesCommand.Execute(null);
 
             // Assert
             A.CallTo(() => gamesWindowFactory.CreateWindow()).MustHaveHappenedOnceExactly();
@@ -195,7 +174,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.ViewSeasonsCommand.Execute(null!);
+            testObject.ViewSeasonsCommand.Execute(null);
 
             // Assert
             A.CallTo(() => seasonRepository.GetSeasons()).MustHaveHappenedOnceExactly();

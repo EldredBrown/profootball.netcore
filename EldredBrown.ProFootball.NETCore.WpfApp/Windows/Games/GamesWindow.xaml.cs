@@ -21,14 +21,13 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games
             DataContext = viewModel;
         }
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
         private void GamesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (GamesDataGrid.SelectedItem == CollectionView.NewItemPlaceholder)
             {
-                (DataContext as IGamesWindowViewModel).SelectedGame = null;
+                // Prepare to add a new game.
+                (DataContext as GamesWindowViewModel).SelectedGame = null;
             }
         }
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 }

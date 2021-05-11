@@ -18,13 +18,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels.FocusVMLib
             return (DependencyProperty)obj.GetValue(FocusablePropertyProperty);
         }
 
-        public static void SetFocusableProperty(DependencyObject? obj, DependencyProperty? value)
+        public static void SetFocusableProperty(DependencyObject obj, DependencyProperty value)
         {
-            if (obj is null)
-            {
-                return;
-            }
-
             obj.SetValue(FocusablePropertyProperty, value);
         }
 
@@ -38,16 +33,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels.FocusVMLib
         static void OnFocusablePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var element = sender as FrameworkElement;
-            if (element is null)
-            {
+            if (element == null)
                 return;
-            }
 
             var property = e.NewValue as DependencyProperty;
-            if (property is null)
-            {
+            if (property == null)
                 return;
-            }
 
             element.DataContextChanged += delegate
             {
@@ -62,9 +53,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels.FocusVMLib
 
         static void CreateHandler(DependencyObject element, DependencyProperty property)
         {
-            if (!(element.GetValue(FrameworkElement.DataContextProperty) is IFocusMover focusMover))
+            var focusMover = element.GetValue(FrameworkElement.DataContextProperty) as IFocusMover;
+            if (focusMover == null)
             {
-                if (element.GetValue(MoveFocusSinkProperty) is MoveFocusSink handler)
+                var handler = element.GetValue(MoveFocusSinkProperty) as MoveFocusSink;
+                if (handler != null)
                 {
                     handler.ReleaseReferences();
                     element.ClearValue(MoveFocusSinkProperty);
@@ -72,9 +65,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels.FocusVMLib
             }
             else
             {
-#pragma warning disable CS8604 // Possible null reference argument.
                 var handler = new MoveFocusSink(element as UIElement, property);
-#pragma warning restore CS8604 // Possible null reference argument.
                 focusMover.MoveFocus += handler.HandleMoveFocus;
                 element.SetValue(MoveFocusSinkProperty, handler);
             }
@@ -84,38 +75,28 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels.FocusVMLib
 
         #region MoveFocusSink
 
-        static readonly DependencyProperty MoveFocusSinkProperty =
-            DependencyProperty.RegisterAttached("MoveFocusSink", typeof(MoveFocusSink), typeof(FocusController),
-                new UIPropertyMetadata(null));
+        static readonly DependencyProperty MoveFocusSinkProperty = DependencyProperty.RegisterAttached("MoveFocusSink",
+            typeof(MoveFocusSink), typeof(FocusController), new UIPropertyMetadata(null));
 
         private class MoveFocusSink
         {
-            UIElement? _element;
-            DependencyProperty? _property;
-
             public MoveFocusSink(UIElement element, DependencyProperty property)
             {
                 _element = element;
                 _property = property;
             }
 
-            public void HandleMoveFocus(object? sender, MoveFocusEventArgs e)
+            public void HandleMoveFocus(object sender, MoveFocusEventArgs e)
             {
-                if (_element is null || _property is null)
-                {
+                if (_element == null || _property == null)
                     return;
-                }
 
                 var binding = BindingOperations.GetBinding(_element, _property);
-                if (binding is null)
-                {
+                if (binding == null)
                     return;
-                }
 
                 if (e.FocusedProperty != binding.Path.Path)
-                {
                     return;
-                }
 
                 // Delay the call to allow the current batch
                 // of processing to finish before we shift focus.
@@ -131,6 +112,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.ViewModels.FocusVMLib
                 _element = null;
                 _property = null;
             }
+
+            UIElement _element;
+            DependencyProperty _property;
         }
 
         #endregion // MoveFocusSink

@@ -6,7 +6,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.SeasonStandings
 {
     public interface ISeasonStandingsControlViewModel
     {
-        ReadOnlyCollection<SeasonTeamStanding>? Standings { get; set; }
+        ReadOnlyCollection<SeasonTeamStanding> Standings { get; set; }
         DelegateCommand ViewStandingsCommand { get; }
 
         void Refresh();
