@@ -31,7 +31,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 weeklyUpdateService);
 
             // Act
-            Func<ReadOnlyCollection<int>> func = () => testObject.Seasons = null;
+            Func<ReadOnlyCollection<int>> func = () => testObject.Seasons = null!;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -100,7 +100,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 weeklyUpdateService);
 
             // Act
-            testObject.PredictGameScoreCommand.Execute(null);
+            testObject.PredictGameScoreCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gamePredictorWindowFactory.CreateWindow()).MustHaveHappenedOnceExactly();
@@ -118,7 +118,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 weeklyUpdateService);
 
             // Act
-            testObject.WeeklyUpdateCommand.Execute(null);
+            testObject.WeeklyUpdateCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => weeklyUpdateService.RunWeeklyUpdate(WpfGlobals.SelectedSeason))
@@ -140,7 +140,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.ShowGamesCommand.Execute(null);
+            testObject.ShowGamesCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gamesWindowFactory.CreateWindow()).MustHaveHappenedOnceExactly();
@@ -174,7 +174,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.ViewSeasonsCommand.Execute(null);
+            testObject.ViewSeasonsCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => seasonRepository.GetSeasons()).MustHaveHappenedOnceExactly();

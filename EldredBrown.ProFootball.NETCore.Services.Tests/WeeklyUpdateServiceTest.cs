@@ -282,81 +282,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
         }
 
         [Fact]
-        public async Task RunWeeklyUpdate_WhenTeamSeasonScheduleTotalsIsNull_ShouldNotUpdateRankingsForTeamSeason()
-        {
-            // Arrange
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
-                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
-                _teamSeasonScheduleAveragesRepository, _sharedRepository);
-
-            var leagueSeasonTotals = new LeagueSeasonTotals
-            {
-                TotalGames = 0,
-                TotalPoints = 0
-            };
-            A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(A<string>.Ignored, A<int>.Ignored))
-                .Returns(leagueSeasonTotals);
-
-            var leagueSeason = new LeagueSeason
-            {
-                AveragePoints = null
-            };
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
-                .Returns(leagueSeason);
-
-            var seasonYear = 1920;
-
-            var games = new List<Game>
-            {
-                new Game
-                {
-                    SeasonYear = seasonYear,
-                    Week = 3
-                }
-            };
-            A.CallTo(() => _gameRepository.GetGamesAsync()).Returns(games);
-
-            A.CallTo(() => _seasonRepository.GetSeasonAsync(A<int>.Ignored)).Returns<Season?>(null);
-
-            var teamName = "Team";
-            var leagueName = "APFA";
-
-            var teamSeasons = new List<TeamSeason>
-            {
-                new TeamSeason
-                {
-                    TeamName = teamName,
-                    SeasonYear = seasonYear,
-                    LeagueName = leagueName
-                }
-            };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
-
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
-                seasonYear)).Returns<TeamSeasonScheduleTotals?>(null);
-
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
-                seasonYear)).Returns<TeamSeasonScheduleAverages?>(null);
-
-            // Act
-            await service.RunWeeklyUpdate(seasonYear);
-
-            // Assert
-            A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
-                .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
-                .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
-            A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
-                .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
-                .MustNotHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
-        }
-
-        [Fact]
         public async Task RunWeeklyUpdate_WhenTeamSeasonScheduleTotalsScheduleGamesIsNull_ShouldNotUpdateRankingsForTeamSeason()
         {
             // Arrange
@@ -414,8 +339,13 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 seasonYear)).Returns(teamSeasonScheduleTotals);
 
+            var teamSeasonScheduleAverages = new TeamSeasonScheduleAverages
+            {
+                PointsFor = null,
+                PointsAgainst = null
+            };
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
-                seasonYear)).Returns<TeamSeasonScheduleAverages?>(null);
+                seasonYear)).Returns<TeamSeasonScheduleAverages>(teamSeasonScheduleAverages);
 
             // Act
             await service.RunWeeklyUpdate(seasonYear);
@@ -432,85 +362,6 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .MustHaveHappened();
             A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
                 .MustNotHaveHappened();
-            A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
-        }
-
-        [Fact]
-        public async Task RunWeeklyUpdate_WhenTeamSeasonScheduleAveragesIsNull_ShouldNotUpdateRankingsForTeamSeason()
-        {
-            // Arrange
-            var service = new WeeklyUpdateService(_seasonRepository, _gameRepository, _leagueSeasonRepository,
-                _leagueSeasonTotalsRepository, _teamSeasonRepository, _teamSeasonScheduleTotalsRepository,
-                _teamSeasonScheduleAveragesRepository, _sharedRepository);
-
-            var leagueSeasonTotals = new LeagueSeasonTotals
-            {
-                TotalGames = 0,
-                TotalPoints = 0
-            };
-            A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(A<string>.Ignored, A<int>.Ignored))
-                .Returns(leagueSeasonTotals);
-
-            var leagueSeason = new LeagueSeason
-            {
-                AveragePoints = null
-            };
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
-                .Returns(leagueSeason);
-
-            var seasonYear = 1920;
-
-            var games = new List<Game>
-            {
-                new Game
-                {
-                    SeasonYear = seasonYear,
-                    Week = 3
-                }
-            };
-            A.CallTo(() => _gameRepository.GetGamesAsync()).Returns(games);
-
-            A.CallTo(() => _seasonRepository.GetSeasonAsync(A<int>.Ignored)).Returns<Season?>(null);
-
-            var teamName = "Team";
-            var leagueName = "APFA";
-
-            var teamSeasons = new List<TeamSeason>
-            {
-                new TeamSeason
-                {
-                    TeamName = teamName,
-                    SeasonYear = seasonYear,
-                    LeagueName = leagueName
-                }
-            };
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).Returns(teamSeasons);
-
-            var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals
-            {
-                ScheduleGames = 0
-            };
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
-                seasonYear)).Returns(teamSeasonScheduleTotals);
-
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
-                seasonYear)).Returns<TeamSeasonScheduleAverages?>(null);
-
-            // Act
-            await service.RunWeeklyUpdate(seasonYear);
-
-            // Assert
-            A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
-                .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
-                .MustHaveHappenedOnceExactly();
-            A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
-            A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(seasonYear)).MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
-                .MustHaveHappened();
-            A.CallTo(() => _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear))
-                .MustHaveHappened();
             A.CallTo(() => _sharedRepository.SaveChangesAsync()).MustHaveHappenedTwiceExactly();
         }
 

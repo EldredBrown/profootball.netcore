@@ -130,7 +130,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 var teamSeasonScheduleTotals =
                     await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(
                         teamSeasonDecorator.TeamName, teamSeasonDecorator.SeasonYear);
-                if (teamSeasonScheduleTotals?.ScheduleGames is null)
+                if (teamSeasonScheduleTotals.ScheduleGames is null)
                 {
                     return;
                 }
@@ -138,8 +138,8 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 var teamSeasonScheduleAverages =
                     await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(
                         teamSeasonDecorator.TeamName, teamSeasonDecorator.SeasonYear);
-                if (teamSeasonScheduleAverages?.PointsFor is null ||
-                    teamSeasonScheduleAverages?.PointsAgainst is null)
+                if (teamSeasonScheduleAverages.PointsFor is null ||
+                    teamSeasonScheduleAverages.PointsAgainst is null)
                 {
                     return;
                 }

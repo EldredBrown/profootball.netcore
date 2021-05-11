@@ -47,8 +47,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var messageBoxService = A.Fake<IMessageBoxService>();
             var testObject = new GameFinderWindowViewModel(messageBoxService)
             {
-                GuestName = null,
-                HostName = null
+                GuestName = null!,
+                HostName = null!
             };
 
             // Act
@@ -68,7 +68,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GameFinderWindowViewModel(messageBoxService)
             {
                 GuestName = string.Empty,
-                HostName = null
+                HostName = null!
             };
 
             // Act
@@ -88,7 +88,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GameFinderWindowViewModel(messageBoxService)
             {
                 GuestName = " ",
-                HostName = null
+                HostName = null!
             };
 
             // Act
@@ -108,7 +108,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GameFinderWindowViewModel(messageBoxService)
             {
                 GuestName = "Team",
-                HostName = null
+                HostName = null!
             };
 
             // Act

@@ -28,8 +28,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var week = 1;
+
+            // Act
             testObject.Week = week;
 
             // Assert
@@ -48,8 +49,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var guestName = "Guest";
+
+            // Act
             testObject.GuestName = guestName;
 
             // Assert
@@ -68,8 +70,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var guestScore = 7;
+
+            // Act
             testObject.GuestScore = guestScore;
 
             // Assert
@@ -88,8 +91,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var hostName = "Host";
+
+            // Act
             testObject.HostName = hostName;
 
             // Assert
@@ -108,8 +112,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var hostScore = 7;
+
+            // Act
             testObject.HostScore = hostScore;
 
             // Assert
@@ -166,8 +171,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var notes = "Notes";
+
+            // Act
             testObject.Notes = notes;
 
             // Assert
@@ -186,8 +192,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var visibility = Visibility.Hidden;
+
+            // Act
             testObject.AddGameControlVisibility = visibility;
 
             // Assert
@@ -206,8 +213,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var visibility = Visibility.Hidden;
+
+            // Act
             testObject.EditGameControlVisibility = visibility;
 
             // Assert
@@ -226,8 +234,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var visibility = Visibility.Hidden;
+
+            // Act
             testObject.DeleteGameControlVisibility = visibility;
 
             // Assert
@@ -247,7 +256,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService);
 
             // Act
-            Func<ReadOnlyCollection<Game>> func = () => testObject.Games = null;
+            Func<ReadOnlyCollection<Game>> func = () => testObject.Games = null!;
 
             // Assert
             var ex = func.ShouldThrow<ArgumentNullException>();
@@ -266,9 +275,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var games = new ReadOnlyCollection<Game>(new List<Game>());
-            Func <ReadOnlyCollection<Game>> func = () => testObject.Games = games;
+
+            // Act
+            Func<ReadOnlyCollection<Game>> func = () => testObject.Games = games;
 
             // Assert
             func.ShouldNotThrow();
@@ -288,8 +298,9 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService);
 
-            // Act
             var game = new Game();
+
+            // Act
             testObject.SelectedGame = game;
 
             // Assert
@@ -360,7 +371,6 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                     SelectedGame = new Game()
                 };
 
-            // Act
             var guestName = "Guest";
             var guestScore = 1;
             var hostName = "Host";
@@ -375,6 +385,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 IsPlayoff = false,
                 Notes = notes
             };
+
+            // Act
             testObject.SelectedGame = game;
 
             // Assert
@@ -440,12 +452,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService)
                 {
-                    GuestName = null,
-                    HostName = null
+                    GuestName = null!,
+                    HostName = null!
                 };
 
             // Act
-            testObject.AddGameCommand.Execute(null);
+            testObject.AddGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -467,11 +479,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService)
                 {
                     GuestName = string.Empty,
-                    HostName = null
+                    HostName = null!
                 };
 
             // Act
-            testObject.AddGameCommand.Execute(null);
+            testObject.AddGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -493,11 +505,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService)
                 {
                     GuestName = " ",
-                    HostName = null
+                    HostName = null!
                 };
 
             // Act
-            testObject.AddGameCommand.Execute(null);
+            testObject.AddGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -519,11 +531,11 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService)
                 {
                     GuestName = "Team",
-                    HostName = null
+                    HostName = null!
                 };
 
             // Act
-            testObject.AddGameCommand.Execute(null);
+            testObject.AddGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -549,7 +561,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.AddGameCommand.Execute(null);
+            testObject.AddGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -575,7 +587,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.AddGameCommand.Execute(null);
+            testObject.AddGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter names for both teams.", "Invalid Data",
@@ -601,7 +613,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.AddGameCommand.Execute(null);
+            testObject.AddGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show("Please enter a different name for each team.", "Invalid Data",
@@ -630,7 +642,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.AddGameCommand.Execute(null);
+            testObject.AddGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show(A<string>.Ignored, A<string>.Ignored,
@@ -661,7 +673,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.DeleteGameCommand.Execute(null);
+            testObject.DeleteGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gameService.DeleteGame(A<int>.Ignored)).MustHaveHappenedOnceExactly();
@@ -683,12 +695,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var testObject = new GamesWindowViewModel(gameRepository, seasonRepository, gameService,
                 gameFinderWindowFactory, messageBoxService)
                 {
-                    GuestName = null,
-                    HostName = null
+                    GuestName = null!,
+                    HostName = null!
                 };
 
             // Act
-            testObject.EditGameCommand.Execute(null);
+            testObject.EditGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show(A<string>.Ignored, "Invalid Data", MessageBoxButton.OK,
@@ -719,7 +731,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.EditGameCommand.Execute(null);
+            testObject.EditGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show(A<string>.Ignored, A<string>.Ignored,
@@ -753,7 +765,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.EditGameCommand.Execute(null);
+            testObject.EditGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => messageBoxService.Show(A<string>.Ignored, A<string>.Ignored, A<MessageBoxButton>.Ignored,
@@ -787,7 +799,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService);
 
             // Act
-            testObject.FindGameCommand.Execute(null);
+            testObject.FindGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gameFinderWindowFactory.CreateWindow()).MustHaveHappenedOnceExactly();
@@ -823,7 +835,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService);
 
             // Act
-            testObject.FindGameCommand.Execute(null);
+            testObject.FindGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gameFinderWindowFactory.CreateWindow()).MustHaveHappenedOnceExactly();
@@ -859,8 +871,8 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             var gameFinderWindowFactory = A.Fake<IGameFinderWindowFactory>();
             var gameFinderWindow = A.Fake<IGameFinderWindow>();
             gameFinderWindow.DataContext = A.Fake<IGameFinderWindowViewModel>();
-            (gameFinderWindow.DataContext as IGameFinderWindowViewModel).GuestName = "Guest";
-            (gameFinderWindow.DataContext as IGameFinderWindowViewModel).HostName = "Host";
+            ((IGameFinderWindowViewModel)(gameFinderWindow.DataContext)).GuestName = "Guest";
+            ((IGameFinderWindowViewModel)(gameFinderWindow.DataContext)).HostName = "Host";
             A.CallTo(() => gameFinderWindow.ShowDialog()).Returns(true);
             A.CallTo(() => gameFinderWindowFactory.CreateWindow()).Returns(gameFinderWindow);
 
@@ -873,7 +885,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 };
 
             // Act
-            testObject.FindGameCommand.Execute(null);
+            testObject.FindGameCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gameFinderWindowFactory.CreateWindow()).MustHaveHappenedOnceExactly();
@@ -911,7 +923,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService);
 
             // Act
-            testObject.ShowAllGamesCommand.Execute(null);
+            testObject.ShowAllGamesCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();
@@ -944,7 +956,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService);
 
             // Act
-            testObject.ViewGamesCommand.Execute(null);
+            testObject.ViewGamesCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gameRepository.GetGamesBySeason(A<int>.Ignored)).MustHaveHappenedOnceExactly();
@@ -978,7 +990,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
                 gameFinderWindowFactory, messageBoxService);
 
             // Act
-            testObject.ViewGamesCommand.Execute(null);
+            testObject.ViewGamesCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => gameRepository.GetGamesBySeason(WpfGlobals.SelectedSeason)).MustHaveHappenedOnceExactly();

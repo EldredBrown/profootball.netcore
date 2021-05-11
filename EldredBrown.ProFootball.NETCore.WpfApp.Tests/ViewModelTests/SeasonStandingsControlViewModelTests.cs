@@ -39,7 +39,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             A.CallTo(() => seasonStandingsRepository.GetSeasonStandings(A<int>.Ignored)).Returns(seasonTeamStandings);
 
             // Act
-            testObject.ViewStandingsCommand.Execute(null);
+            testObject.ViewStandingsCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => seasonStandingsRepository.GetSeasonStandings(WpfGlobals.SelectedSeason))
@@ -59,7 +59,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
             A.CallTo(() => seasonStandingsRepository.GetSeasonStandings(A<int>.Ignored)).Returns(seasonTeamStandings);
 
             // Act
-            testObject.ViewStandingsCommand.Execute(null);
+            testObject.ViewStandingsCommand.Execute(null!);
 
             // Assert
             A.CallTo(() => seasonStandingsRepository.GetSeasonStandings(WpfGlobals.SelectedSeason))
