@@ -12,21 +12,32 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     /// </summary>
     public class SeasonStandingsController : Controller
     {
+        public static int SelectedSeasonYear = 1920;
+        public static bool GroupByDivision = false;
+
+        private readonly ISeasonStandingsIndexViewModel _seasonStandingsIndexViewModel;
         private readonly ISeasonRepository _seasonRepository;
         private readonly ISeasonStandingsRepository _seasonStandingsRepository;
-
-        private static int _selectedSeasonYear = 1920;
-        private static bool _groupByDivision = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SeasonStandingsController"/> class.
         /// </summary>
-        /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
-        /// <param name="seasonStandingsRepository">The repository by which season standings data will be accessed.</param>
+        /// <param name="seasonStandingsIndexViewModel">
+        /// The <see cref="ISeasonStandingsIndexViewModel"/> by which data will be modeled for the season standings
+        /// index view.
+        /// </param>
+        /// <param name="seasonRepository">
+        /// The <see cref="ISeasonRepository"/> by which season data will be accessed.
+        /// </param>
+        /// <param name="seasonStandingsRepository">
+        /// The <see cref="ISeasonStandingsRepository"/> by which season standings data will be accessed.
+        /// </param>
         public SeasonStandingsController(
+            ISeasonStandingsIndexViewModel seasonStandingsIndexViewModel,
             ISeasonRepository seasonRepository,
             ISeasonStandingsRepository seasonStandingsRepository)
         {
+            _seasonStandingsIndexViewModel = seasonStandingsIndexViewModel;
             _seasonRepository = seasonRepository;
             _seasonStandingsRepository = seasonStandingsRepository;
         }
@@ -41,14 +52,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
 
-            var viewModel = new SeasonStandingsIndexViewModel
-            {
-                Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear),
-                SelectedSeasonYear = _selectedSeasonYear,
-                SeasonStandings = await _seasonStandingsRepository.GetSeasonStandingsAsync(_selectedSeasonYear)
-            };
+            _seasonStandingsIndexViewModel.Seasons = new SelectList(seasons, "Year", "Year", SelectedSeasonYear);
+            _seasonStandingsIndexViewModel.SelectedSeasonYear = SelectedSeasonYear;
+            _seasonStandingsIndexViewModel.SeasonStandings =
+                await _seasonStandingsRepository.GetSeasonStandingsAsync(SelectedSeasonYear);
 
-            return View(viewModel);
+            return View(_seasonStandingsIndexViewModel);
         }
 
         /// <summary>
@@ -63,7 +72,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return BadRequest();
             }
 
-            _selectedSeasonYear = seasonYear.Value;
+            SelectedSeasonYear = seasonYear.Value;
 
             return RedirectToAction(nameof(Index));
         }
@@ -77,7 +86,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             if (groupByDivision.HasValue)
             {
-                _groupByDivision = groupByDivision.Value;
+                GroupByDivision = groupByDivision.Value;
             }
 
             return RedirectToAction(nameof(Index));

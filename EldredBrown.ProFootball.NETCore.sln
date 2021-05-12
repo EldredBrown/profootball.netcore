@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.Asp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.NETCore.Services.Tests", "EldredBrown.ProFootball.NETCore.Services.Tests\EldredBrown.ProFootball.NETCore.Services.Tests.csproj", "{B74BB8B0-02B5-4726-8894-FF9BB38F931D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EldredBrown.ProFootball.NETCore.WpfApp", "EldredBrown.ProFootball.NETCore.WpfApp\EldredBrown.ProFootball.NETCore.WpfApp.csproj", "{2FD6ED32-04FD-455A-8FF0-554584B21242}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.NETCore.WpfApp", "EldredBrown.ProFootball.NETCore.WpfApp\EldredBrown.ProFootball.NETCore.WpfApp.csproj", "{2FD6ED32-04FD-455A-8FF0-554584B21242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EldredBrown.ProFootball.NETCore.WpfApp.Tests", "EldredBrown.ProFootball.NETCore.WpfApp.Tests\EldredBrown.ProFootball.NETCore.WpfApp.Tests.csproj", "{B18F1F1D-F528-49C7-95C6-B143EA2EAF9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EldredBrown.ProFootball.NETCore.WpfApp.Tests", "EldredBrown.ProFootball.NETCore.WpfApp.Tests\EldredBrown.ProFootball.NETCore.WpfApp.Tests.csproj", "{B18F1F1D-F528-49C7-95C6-B143EA2EAF9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests", "EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests\EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.csproj", "{D7651C6D-02D2-41DC-90C3-AC46DD2F3A52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{B18F1F1D-F528-49C7-95C6-B143EA2EAF9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B18F1F1D-F528-49C7-95C6-B143EA2EAF9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B18F1F1D-F528-49C7-95C6-B143EA2EAF9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7651C6D-02D2-41DC-90C3-AC46DD2F3A52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7651C6D-02D2-41DC-90C3-AC46DD2F3A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7651C6D-02D2-41DC-90C3-AC46DD2F3A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7651C6D-02D2-41DC-90C3-AC46DD2F3A52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

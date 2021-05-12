@@ -12,19 +12,22 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     /// </summary>
     public class GamePredictorController : Controller
     {
+        public static int GuestSeasonYear = 1920;
+        public static int HostSeasonYear = 1920;
+
         private readonly ISeasonRepository _seasonRepository;
         private readonly ITeamSeasonRepository _teamSeasonRepository;
-
-        private static int _guestSeasonYear = 1920;
-        private static int _hostSeasonYear = 1920;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamePredictorController"/> class.
         /// </summary>
-        /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
-        /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
-        public GamePredictorController(ISeasonRepository seasonRepository,
-            ITeamSeasonRepository teamSeasonRepository)
+        /// <param name="seasonRepository">
+        /// The <see cref="ISeasonRepository"/> by which season data will be accessed.
+        /// </param>
+        /// <param name="teamSeasonRepository">
+        /// The <see cref="ITeamSeasonRepository"/> by which team season data will be accessed.
+        /// </param>
+        public GamePredictorController(ISeasonRepository seasonRepository, ITeamSeasonRepository teamSeasonRepository)
         {
             _seasonRepository = seasonRepository;
             _teamSeasonRepository = teamSeasonRepository;
@@ -40,14 +43,13 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
 
-            ViewBag.GuestSeasons = new SelectList(seasons, "Year", "Year", _guestSeasonYear);
+            ViewBag.GuestSeasons = new SelectList(seasons, "Year", "Year", GuestSeasonYear);
+            ViewBag.HostSeasons = new SelectList(seasons, "Year", "Year", HostSeasonYear);
 
-            var guests = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_guestSeasonYear);
+            var guests = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(GuestSeasonYear);
             ViewBag.Guests = new SelectList(guests, "TeamName", "TeamName");
 
-            ViewBag.HostSeasons = new SelectList(seasons, "Year", "Year", _hostSeasonYear);
-
-            var hosts = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_hostSeasonYear);
+            var hosts = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(HostSeasonYear);
             ViewBag.Hosts = new SelectList(hosts, "TeamName", "TeamName");
 
             return View();
@@ -66,23 +68,39 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
 
-            _guestSeasonYear = prediction.GuestSeasonYear;
 
-            ViewBag.GuestSeasons = new SelectList(seasons, "Year", "Year", _guestSeasonYear);
+            GuestSeasonYear = prediction.GuestSeasonYear;
 
-            var guests = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_guestSeasonYear);
-            var guest = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(
-                prediction.GuestName, _guestSeasonYear);
-            ViewBag.Guests = new SelectList(guests, "TeamName", "TeamName", guest.TeamName);
+            ViewBag.GuestSeasons = new SelectList(seasons, "Year", "Year", GuestSeasonYear);
 
-            _hostSeasonYear = prediction.HostSeasonYear;
+            var guests = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(GuestSeasonYear);
+            var guest = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(prediction.GuestName,
+                GuestSeasonYear);
+            if (guest is null)
+            {
+                ViewBag.Guests = new SelectList(guests, "TeamName", "TeamName");
+            }
+            else
+            {
+                ViewBag.Guests = new SelectList(guests, "TeamName", "TeamName", guest.TeamName);
+            }
 
-            ViewBag.HostSeasons = new SelectList(seasons, "Year", "Year", _hostSeasonYear);
 
-            var hosts = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_hostSeasonYear);
+            HostSeasonYear = prediction.HostSeasonYear;
+
+            ViewBag.HostSeasons = new SelectList(seasons, "Year", "Year", HostSeasonYear);
+
+            var hosts = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(HostSeasonYear);
             var host = await _teamSeasonRepository.GetTeamSeasonByTeamAndSeasonAsync(
-                prediction.HostName, _hostSeasonYear);
-            ViewBag.Hosts = new SelectList(hosts, "TeamName", "TeamName", host.TeamName);
+                prediction.HostName, HostSeasonYear);
+            if (host is null)
+            {
+                ViewBag.Hosts = new SelectList(hosts, "TeamName", "TeamName");
+            }
+            else
+            {
+                ViewBag.Hosts = new SelectList(hosts, "TeamName", "TeamName", host.TeamName);
+            }
 
             return View(prediction);
         }
@@ -97,12 +115,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             if (guestSeasonYear.HasValue)
             {
-                _guestSeasonYear = guestSeasonYear.Value;
+                GuestSeasonYear = guestSeasonYear.Value;
             }
 
             if (hostSeasonYear.HasValue)
             {
-                _hostSeasonYear = hostSeasonYear.Value;
+                HostSeasonYear = hostSeasonYear.Value;
             }
 
             return RedirectToAction(nameof(PredictGame));

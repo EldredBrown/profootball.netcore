@@ -16,37 +16,52 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     /// </summary>
     public class GamesController : Controller
     {
+        public static int SelectedSeasonYear = 1920;
+        public static int? SelectedWeek;
+        public static Game? OldGame;
+
+        private readonly IGamesIndexViewModel _gamesIndexViewModel;
+        private readonly IGamesDetailsViewModel _gamesDetailsViewModel;
+        private readonly IGameService _gameService;
         private readonly IGameRepository _gameRepository;
         private readonly ITeamRepository _teamRepository;
         private readonly ISeasonRepository _seasonRepository;
         private readonly ISharedRepository _sharedRepository;
-        private readonly IGameService _gameService;
-
-        private static int _selectedSeasonYear = 1920;
-        private static int? _selectedWeek;
-
-        private static Game _oldGame;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamesController"/> class.
         /// </summary>
-        /// <param name="gameRepository">The repository by which game data will be accessed.</param>
-        /// <param name="teamRepository">The repository by which team data will be accessed.</param>
-        /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
-        /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
-        /// <param name="gameService">The service for processing Game data.</param>
+        /// <param name="gameService">
+        /// The <see cref="IGameService"/> for processing Game data.
+        /// </param>
+        /// <param name="gameRepository">
+        /// The <see cref="IGameRepository"/> by which game data will be accessed.
+        /// </param>
+        /// <param name="teamRepository">
+        /// The <see cref="ITeamRepository"/> by which team data will be accessed.
+        /// </param>
+        /// <param name="seasonRepository">
+        /// The <see cref="ISeasonRepository"/> by which season data will be accessed.
+        /// </param>
+        /// <param name="sharedRepository">
+        /// The <see cref="ISharedRepository"/> by which shared data resources will be accessed.
+        /// </param>
         public GamesController(
+            IGamesIndexViewModel gamesIndexViewModel,
+            IGamesDetailsViewModel gamesDetailsViewModel,
+            IGameService gameService,
             IGameRepository gameRepository,
             ITeamRepository teamRepository,
             ISeasonRepository seasonRepository,
-            ISharedRepository sharedRepository,
-            IGameService gameService)
+            ISharedRepository sharedRepository)
         {
+            _gamesIndexViewModel = gamesIndexViewModel;
+            _gamesDetailsViewModel = gamesDetailsViewModel;
+            _gameService = gameService;
             _gameRepository = gameRepository;
             _teamRepository = teamRepository;
             _seasonRepository = seasonRepository;
             _sharedRepository = sharedRepository;
-            _gameService = gameService;
         }
 
         // GET: Games
@@ -57,44 +72,18 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
+            var (seasons, orderedSeasons) = await GetSeasonsAndOrderedSeasons();
+            _gamesIndexViewModel.Seasons = new SelectList(orderedSeasons, "Year", "Year", SelectedSeasonYear);
+            _gamesIndexViewModel.SelectedSeasonYear = SelectedSeasonYear;
 
-            var weeks = new List<int?>();
+            var weeks = GetWeeks(seasons, firstIndex: 0);
+            _gamesIndexViewModel.Weeks = new SelectList(weeks, SelectedWeek);
+            _gamesIndexViewModel.SelectedWeek = SelectedWeek;
 
-            var selectedSeason = (await _seasonRepository.GetSeasonsAsync())
-                .FirstOrDefault(s => s.Year == _selectedSeasonYear);
-            if (!(selectedSeason is null))
-            {
-                for (int i = 0; i <= selectedSeason.NumOfWeeksScheduled; i++)
-                {
-                    if (i == 0)
-                    {
-                        weeks.Add(null);
-                    }
-                    else
-                    {
-                        weeks.Add(i);
-                    }
-                }
-            }
+            var games = await GetGames();
+            _gamesIndexViewModel.Games = games;
 
-            var games = (await _gameRepository.GetGamesAsync()).Where(g => g.SeasonYear == _selectedSeasonYear);
-            if (_selectedWeek.HasValue)
-            {
-                games = games.Where(g => g.Week == _selectedWeek);
-            }
-            games = games.ToList();
-
-            var viewModel = new GamesIndexViewModel
-            {
-                Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear),
-                SelectedSeasonYear = _selectedSeasonYear,
-                Weeks = new SelectList(weeks, _selectedWeek),
-                SelectedWeek = _selectedWeek,
-                Games = games
-            };
-
-            return View(viewModel);
+            return View(_gamesIndexViewModel);
         }
 
         // GET: Games/Details/5
@@ -117,12 +106,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var viewModel = new GamesDetailsViewModel
-            {
-                Game = game
-            };
+            _gamesDetailsViewModel.Game = game;
 
-            return View(viewModel);
+            return View(_gamesDetailsViewModel);
         }
 
         // GET: Games/Create
@@ -133,17 +119,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
-            ViewBag.Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear);
+            var (seasons, orderedSeasons) = await GetSeasonsAndOrderedSeasons();
+            ViewBag.Seasons = new SelectList(orderedSeasons, "Year", "Year", SelectedSeasonYear);
 
-            var selectedSeason = (await _seasonRepository.GetSeasonsAsync())
-                .FirstOrDefault(s => s.Year == _selectedSeasonYear);
-            var weeks = new List<int>();
-            for (int i = 1; i <= selectedSeason.NumOfWeeksScheduled; i++)
-            {
-                weeks.Add(i);
-            }
-            var selectedWeek = _selectedWeek ?? 1;
+            int firstIndex = 1;
+            var weeks = GetWeeks(seasons, firstIndex);
+            int selectedWeek = SelectedWeek ?? firstIndex;
             ViewBag.Weeks = new SelectList(weeks, selectedWeek);
 
             // TODO: Uncomment this when the slate of teams is finalized.
@@ -196,16 +177,11 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var seasons = await _seasonRepository.GetSeasonsAsync();
-            ViewBag.Seasons = new SelectList(seasons, "Year", "Year", game.SeasonYear);
+            var (seasons, orderedSeasons) = await GetSeasonsAndOrderedSeasons();
+            ViewBag.Seasons = new SelectList(orderedSeasons, "Year", "Year", game.SeasonYear);
 
-            var selectedSeason = (await _seasonRepository.GetSeasonsAsync())
-                .FirstOrDefault(s => s.Year == _selectedSeasonYear);
-            var weeks = new List<int>();
-            for (int i = 1; i <= selectedSeason.NumOfWeeksScheduled; i++)
-            {
-                weeks.Add(i);
-            }
+            int firstIndex = 1;
+            var weeks = GetWeeks(seasons, firstIndex);
             ViewBag.Weeks = new SelectList(weeks, game.Week);
 
             // TODO: Uncomment this when the slate of teams is finalized.
@@ -213,7 +189,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             //ViewBag.GuestName = new SelectList(teams, "Name", "Name");
             //ViewBag.HostName = new SelectList(teams, "Name", "Name");
 
-            _oldGame = game;
+            OldGame = game;
 
             return View(game);
         }
@@ -239,7 +215,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 try
                 {
-                    await _gameService.EditGameAsync(game, _oldGame);
+                    await _gameService.EditGameAsync(game, OldGame!);
                     await _sharedRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -253,6 +229,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -309,7 +286,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return BadRequest();
             }
 
-            _selectedSeasonYear = seasonYear.Value;
+            SelectedSeasonYear = seasonYear.Value;
 
             return RedirectToAction(nameof(Index));
         }
@@ -321,9 +298,51 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         /// <returns>The rendered view of the <see cref="RedirectToActionResult"/>.</returns>
         public IActionResult SetSelectedWeek(int? week)
         {
-            _selectedWeek = week;
+            SelectedWeek = week;
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<IEnumerable<Game>> GetGames()
+        {
+            var games = (await _gameRepository.GetGamesAsync()).Where(g => g.SeasonYear == SelectedSeasonYear);
+            if (SelectedWeek.HasValue)
+            {
+                games = games.Where(g => g.Week == SelectedWeek);
+            }
+            games = games.ToList();
+
+            return games;
+        }
+
+        private async Task<(IEnumerable<Season>, IOrderedEnumerable<Season>)> GetSeasonsAndOrderedSeasons()
+        {
+            var seasons = await _seasonRepository.GetSeasonsAsync();
+            var orderedSeasons = seasons.OrderByDescending(s => s.Year);
+            return (seasons, orderedSeasons);
+        }
+
+        private static List<int?> GetWeeks(IEnumerable<Season> seasons, int firstIndex)
+        {
+            var weeks = new List<int?>();
+
+            var selectedSeason = seasons.FirstOrDefault(s => s.Year == SelectedSeasonYear);
+            if (!(selectedSeason is null))
+            {
+                for (int i = firstIndex; i <= selectedSeason.NumOfWeeksScheduled; i++)
+                {
+                    if (i == 0)
+                    {
+                        weeks.Add(null);
+                    }
+                    else
+                    {
+                        weeks.Add(i);
+                    }
+                }
+            }
+
+            return weeks;
         }
     }
 }

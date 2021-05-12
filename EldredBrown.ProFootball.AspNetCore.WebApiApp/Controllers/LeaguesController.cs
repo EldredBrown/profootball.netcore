@@ -92,7 +92,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// <param name="model">A <see cref="LeagueModel"/> representing the league to add.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpPost]
-        public async Task<ActionResult<League>> PostLeague(LeagueModel model)
+        public async Task<ActionResult<TeamSeason>> PostLeague(LeagueModel model)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// <param name="id">The ID of the league to delete.</param>
         /// <returns>A response representing the result of the operation.</returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult<League>> DeleteLeague(int id)
+        public async Task<ActionResult<TeamSeason>> DeleteLeague(int id)
         {
             try
             {

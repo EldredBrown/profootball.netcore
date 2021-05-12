@@ -13,12 +13,12 @@
         /// <summary>
         /// Gets or sets the name of the current <see cref="Division"/> entity.
         /// </summary>
-        public string Name { get; set; } = "";
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="Division"/> entity's league.
         /// </summary>
-        public string LeagueName { get; set; } = "";
+        public string LeagueName { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the name of the current <see cref="Division"/> entity's conference.

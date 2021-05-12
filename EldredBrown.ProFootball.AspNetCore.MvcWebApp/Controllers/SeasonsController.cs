@@ -14,16 +14,34 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     [Authorize(Roles = "Admin")]
     public class SeasonsController : Controller
     {
+        private readonly ISeasonsIndexViewModel _seasonsIndexViewModel;
+        private readonly ISeasonsDetailsViewModel _seasonsDetailsViewModel;
         private readonly ISeasonRepository _seasonRepository;
         private readonly ISharedRepository _sharedRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SeasonsController"/> class.
         /// </summary>
-        /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
-        /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
-        public SeasonsController(ISeasonRepository seasonRepository, ISharedRepository sharedRepository)
+        /// <param name="seasonsIndexViewModel">
+        /// The <see cref="ISeasonsIndexViewModel"/> that will provide ViewModel data to the Index view.
+        /// </param>
+        /// <param name="seasonsDetailsViewModel">
+        /// The <see cref="ISeasonsDetailsViewModel"/> that will provide ViewModel data to the Details view.
+        /// </param>
+        /// <param name="seasonRepository">
+        /// The <see cref="ISeasonRepository"/> by which season data will be accessed.
+        /// </param>
+        /// <param name="sharedRepository">
+        /// The <see cref="ISharedRepository"/> by which shared data resources will be accessed.
+        /// </param>
+        public SeasonsController(
+            ISeasonsIndexViewModel seasonsIndexViewModel,
+            ISeasonsDetailsViewModel seasonsDetailsViewModel,
+            ISeasonRepository seasonRepository,
+            ISharedRepository sharedRepository)
         {
+            _seasonsIndexViewModel = seasonsIndexViewModel;
+            _seasonsDetailsViewModel = seasonsDetailsViewModel;
             _seasonRepository = seasonRepository;
             _sharedRepository = sharedRepository;
         }
@@ -36,12 +54,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var viewModel = new SeasonsIndexViewModel
-            {
-                Seasons = await _seasonRepository.GetSeasonsAsync()
-            };
+            _seasonsIndexViewModel.Seasons = await _seasonRepository.GetSeasonsAsync();
 
-            return View(viewModel);
+            return View(_seasonsIndexViewModel);
         }
 
         // GET: Seasons/Details/5
@@ -58,19 +73,16 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
+            _seasonsDetailsViewModel.Title = "Season";
+
             var season = await _seasonRepository.GetSeasonAsync(id.Value);
             if (season is null)
             {
                 return NotFound();
             }
+            _seasonsDetailsViewModel.Season = season;
 
-            var viewModel = new SeasonsDetailsViewModel
-            {
-                Title = "Season",
-                Season = season
-            };
-
-            return View(viewModel);
+            return View(_seasonsDetailsViewModel);
         }
 
         // GET: Seasons/Create

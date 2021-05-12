@@ -7,12 +7,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.TeamSeasons
     /// <summary>
     /// Represents the model for a team season list view.
     /// </summary>
-    public class TeamSeasonsIndexViewModel
+    public class TeamSeasonsIndexViewModel : ITeamSeasonsIndexViewModel
     {
         /// <summary>
         /// Gets or sets the list that lets users select a season.
         /// </summary>
-        public SelectList Seasons { get; set; }
+        public SelectList? Seasons { get; set; }
 
         /// <summary>
         /// Gets or sets the year of the selected season for the current view model.
@@ -22,6 +22,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.TeamSeasons
         /// <summary>
         /// Gets or sets the collection of team seasons for the current view model.
         /// </summary>
-        public IEnumerable<TeamSeason> TeamSeasons { get; set; }
+        public IEnumerable<TeamSeason>? TeamSeasons { get; set; }
     }
 }

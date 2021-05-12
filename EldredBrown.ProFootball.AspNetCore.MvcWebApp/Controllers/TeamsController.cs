@@ -14,16 +14,34 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     [Authorize(Roles = "Admin")]
     public class TeamsController : Controller
     {
+        private readonly ITeamsIndexViewModel _teamsIndexViewModel;
+        private readonly ITeamsDetailsViewModel _teamsDetailsViewModel;
         private readonly ITeamRepository _teamRepository;
         private readonly ISharedRepository _sharedRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TeamsController"/> class.
         /// </summary>
-        /// <param name="teamRepository">The repository by which team data will be accessed.</param>
-        /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
-        public TeamsController(ITeamRepository teamRepository, ISharedRepository sharedRepository)
+        /// <param name="teamsIndexViewModel">
+        /// The <see cref="ITeamsIndexViewModel"/> that will provide ViewModel data to the Index view.
+        /// </param>
+        /// <param name="teamsDetailsViewModel">
+        /// The <see cref="ITeamsDetailsViewModel"/> that will provide ViewModel data to the Details view.
+        /// </param>
+        /// <param name="teamRepository">
+        /// The <see cref="ITeamRepository"/> by which team data will be accessed.
+        /// </param>
+        /// <param name="sharedRepository">
+        /// The <see cref="ISharedRepository"/> by which shared data resources will be accessed.
+        /// </param>
+        public TeamsController(
+            ITeamsIndexViewModel teamsIndexViewModel,
+            ITeamsDetailsViewModel teamsDetailsViewModel,
+            ITeamRepository teamRepository,
+            ISharedRepository sharedRepository)
         {
+            _teamsIndexViewModel = teamsIndexViewModel;
+            _teamsDetailsViewModel = teamsDetailsViewModel;
             _teamRepository = teamRepository;
             _sharedRepository = sharedRepository;
         }
@@ -36,12 +54,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var viewModel = new TeamsIndexViewModel
-            {
-                Teams = await _teamRepository.GetTeams()
-            };
+            _teamsIndexViewModel.Teams = await _teamRepository.GetTeams();
 
-            return View(viewModel);
+            return View(_teamsIndexViewModel);
         }
 
         // GET: Teams/Details/5
@@ -64,12 +79,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var viewModel = new TeamsDetailsViewModel
-            {
-                Team = team
-            };
+            _teamsDetailsViewModel.Team = team;
 
-            return View(viewModel);
+            return View(_teamsDetailsViewModel);
         }
 
         // GET: Teams/Create

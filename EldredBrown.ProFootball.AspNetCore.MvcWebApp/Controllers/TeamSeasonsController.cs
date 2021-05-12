@@ -10,6 +10,10 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 {
     public class TeamSeasonsController : Controller
     {
+        public static int SelectedSeasonYear = 1920;
+
+        private readonly ITeamSeasonsIndexViewModel _teamSeasonsIndexViewModel;
+        private readonly ITeamSeasonsDetailsViewModel _teamSeasonsDetailsViewModel;
         private readonly ISeasonRepository _seasonRepository;
         private readonly ITeamSeasonRepository _teamSeasonRepository;
         private readonly ITeamSeasonScheduleProfileRepository _teamSeasonScheduleProfileRepository;
@@ -18,19 +22,42 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         private readonly ISharedRepository _sharedRepository;
         private readonly IWeeklyUpdateService _weeklyUpdateService;
 
-        private static int _selectedSeasonYear = 1920;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TeamSeasonsController"/> class.
         /// </summary>
-        /// <param name="seasonRepository">The repository by which season data will be accessed.</param>
-        /// <param name="teamSeasonRepository">The repository by which team season data will be accessed.</param>
-        /// <param name="teamSeasonScheduleProfileRepository">The repository by which team season schedule profile data will be accessed.</param>
-        /// <param name="teamSeasonScheduleTotalsRepository">The repository by which team season schedule totals data will be accessed.</param>
-        /// <param name="teamSeasonScheduleAveragesRepository">The repository by which team season schedule averages data will be accessed.</param>
-        /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
-        /// <param name="weeklyUpdateService">The service that will run weekly updates of the data store.</param>
+        /// <param name="teamSeasonsIndexViewModel">
+        /// The <see cref="ITeamSeasonsIndexViewModel"/> that will provide data to the TeamSeasons index view.
+        /// </param>
+        /// <param name="teamSeasonsDetailsViewModel">
+        /// The <see cref="ITeamSeasonsDetailsViewModel"/> that will provide data to the TeamSeasons details view.
+        /// </param>
+        /// <param name="seasonRepository">
+        /// The <see cref="ISeasonRepository"/> by which season data will be accessed.
+        /// </param>
+        /// <param name="teamSeasonRepository">
+        /// The <see cref="ITeamSeasonRepository"/> by which team season data will be accessed.
+        /// </param>
+        /// <param name="teamSeasonScheduleProfileRepository">
+        /// The <see cref="ITeamSeasonScheduleProfileRepository"/> by which team season schedule profile data will be
+        /// accessed.
+        /// </param>
+        /// <param name="teamSeasonScheduleTotalsRepository">
+        /// The <see cref="ITeamSeasonScheduleTotalsRepository"/> by which team season schedule totals data will be
+        /// accessed.
+        /// </param>
+        /// <param name="teamSeasonScheduleAveragesRepository">
+        /// The <see cref="ITeamSeasonScheduleAveragesRepository"/> by which team season schedule averages data will be
+        /// accessed.
+        /// </param>
+        /// <param name="sharedRepository">
+        /// The <see cref="ISharedRepository"/> by which shared data resources will be accessed.
+        /// </param>
+        /// <param name="weeklyUpdateService">
+        /// The <see cref="IWeeklyUpdateService"/> that will run weekly updates of the data store.
+        /// </param>
         public TeamSeasonsController(
+            ITeamSeasonsIndexViewModel teamSeasonsIndexViewModel,
+            ITeamSeasonsDetailsViewModel teamSeasonsDetailsViewModel,
             ISeasonRepository seasonRepository,
             ITeamSeasonRepository teamSeasonRepository,
             ITeamSeasonScheduleProfileRepository teamSeasonScheduleProfileRepository,
@@ -39,6 +66,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             ISharedRepository sharedRepository,
             IWeeklyUpdateService weeklyUpdateService)
         {
+            _teamSeasonsIndexViewModel = teamSeasonsIndexViewModel;
+            _teamSeasonsDetailsViewModel = teamSeasonsDetailsViewModel;
             _seasonRepository = seasonRepository;
             _teamSeasonRepository = teamSeasonRepository;
             _teamSeasonScheduleProfileRepository = teamSeasonScheduleProfileRepository;
@@ -56,16 +85,15 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var seasons = (await _seasonRepository.GetSeasonsAsync()).OrderByDescending(s => s.Year);
+            var seasons = await _seasonRepository.GetSeasonsAsync();
+            var orderedSeasons = seasons.OrderByDescending(s => s.Year);
 
-            var viewModel = new TeamSeasonsIndexViewModel
-            {
-                Seasons = new SelectList(seasons, "Year", "Year", _selectedSeasonYear),
-                SelectedSeasonYear = _selectedSeasonYear,
-                TeamSeasons = await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(_selectedSeasonYear)
-            };
+            _teamSeasonsIndexViewModel.Seasons = new SelectList(orderedSeasons, "Year", "Year", SelectedSeasonYear);
+            _teamSeasonsIndexViewModel.SelectedSeasonYear = SelectedSeasonYear;
+            _teamSeasonsIndexViewModel.TeamSeasons =
+                await _teamSeasonRepository.GetTeamSeasonsBySeasonAsync(SelectedSeasonYear);
 
-            return View(viewModel);
+            return View(_teamSeasonsIndexViewModel);
         }
 
         // GET: TeamSeasons/Details/5
@@ -87,21 +115,18 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             {
                 return NotFound();
             }
+            _teamSeasonsDetailsViewModel.TeamSeason = teamSeason;
 
             var teamName = teamSeason.TeamName;
             var seasonYear = teamSeason.SeasonYear;
-            var viewModel = new TeamSeasonsDetailsViewModel
-            {
-                TeamSeason = teamSeason,
-                TeamSeasonScheduleProfile = 
-                    await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfileAsync(teamName, seasonYear),
-                TeamSeasonScheduleTotals = 
-                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear),
-                TeamSeasonScheduleAverages =
-                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear)
-            };
+            _teamSeasonsDetailsViewModel.TeamSeasonScheduleProfile =
+                await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfileAsync(teamName, seasonYear);
+            _teamSeasonsDetailsViewModel.TeamSeasonScheduleTotals =
+                await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear);
+            _teamSeasonsDetailsViewModel.TeamSeasonScheduleAverages =
+                await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear);
 
-            return View(viewModel);
+            return View(_teamSeasonsDetailsViewModel);
         }
 
         // TeamSeasons/RunWeeklyUpdate
@@ -112,7 +137,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> RunWeeklyUpdate()
         {
-            await _weeklyUpdateService.RunWeeklyUpdate(_selectedSeasonYear);
+            await _weeklyUpdateService.RunWeeklyUpdate(SelectedSeasonYear);
 
             return RedirectToAction(nameof(Index));
         }
@@ -129,10 +154,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return BadRequest();
             }
 
-            _selectedSeasonYear = seasonYear.Value;
+            SelectedSeasonYear = seasonYear.Value;
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

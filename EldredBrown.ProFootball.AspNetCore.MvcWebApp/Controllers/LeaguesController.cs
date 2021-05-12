@@ -14,16 +14,34 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     [Authorize(Roles = "Admin")]
     public class LeaguesController : Controller
     {
+        private readonly ILeaguesIndexViewModel _leaguesIndexViewModel;
+        private readonly ILeaguesDetailsViewModel _leaguesDetailsViewModel;
         private readonly ILeagueRepository _leagueRepository;
         private readonly ISharedRepository _sharedRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LeaguesController"/> class.
         /// </summary>
-        /// <param name="leagueRepository">The repository by which league data will be accessed.</param>
-        /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
-        public LeaguesController(ILeagueRepository leagueRepository, ISharedRepository sharedRepository)
+        /// <param name="leaguesIndexViewModel">
+        /// The <see cref="ILeaguesIndexViewModel"/> that will provide ViewModel data to the Index view.
+        /// </param>
+        /// <param name="leaguesDetailsViewModel">
+        /// The <see cref="ILeaguesDetailsViewModel"/> that will provide ViewModel data to the Details view.
+        /// </param>
+        /// <param name="leagueRepository">
+        /// The <see cref="ILeagueRepository"/> by which league data will be accessed.
+        /// </param>
+        /// <param name="sharedRepository">
+        /// The <see cref="ISharedRepository"/> by which shared data resources will be accessed.
+        /// </param>
+        public LeaguesController(
+            ILeaguesIndexViewModel leaguesIndexViewModel,
+            ILeaguesDetailsViewModel leaguesDetailsViewModel,
+            ILeagueRepository leagueRepository,
+            ISharedRepository sharedRepository)
         {
+            _leaguesIndexViewModel = leaguesIndexViewModel;
+            _leaguesDetailsViewModel = leaguesDetailsViewModel;
             _leagueRepository = leagueRepository;
             _sharedRepository = sharedRepository;
         }
@@ -36,12 +54,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var viewModel = new LeaguesIndexViewModel
-            {
-                Leagues = await _leagueRepository.GetLeagues()
-            };
+            _leaguesIndexViewModel.Leagues = await _leagueRepository.GetLeagues();
 
-            return View(viewModel);
+            return View(_leaguesIndexViewModel);
         }
 
         // GET: Leagues/Details/5
@@ -64,12 +79,9 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var viewModel = new LeaguesDetailsViewModel
-            {
-                League = league
-            };
+            _leaguesDetailsViewModel.League = league;
 
-            return View(viewModel);
+            return View(_leaguesDetailsViewModel);
         }
 
         // GET: Leagues/Create
@@ -154,7 +166,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _leagueRepository.LeagueExists(league.ID))
+                    if (!(await _leagueRepository.LeagueExists(league.ID)))
                     {
                         return NotFound();
                     }

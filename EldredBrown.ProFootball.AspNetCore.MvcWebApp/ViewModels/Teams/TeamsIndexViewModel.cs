@@ -6,11 +6,11 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Teams
     /// <summary>
     /// Represents the model for a team list view.
     /// </summary>
-    public class TeamsIndexViewModel
+    public class TeamsIndexViewModel : ITeamsIndexViewModel
     {
         /// <summary>
         /// Gets or sets the collection of teams for the current <see cref="TeamsIndexViewModel"/> object.
         /// </summary>
-        public IEnumerable<Team> Teams { get; set; }
+        public IEnumerable<Team>? Teams { get; set; }
     }
 }
