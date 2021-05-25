@@ -4,6 +4,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Divisions
 {
     public interface IDivisionsDetailsViewModel
     {
-        Division? Division { get; set; }
+        Division Division { get; set; }
     }
 }

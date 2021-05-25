@@ -6,10 +6,10 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Games
 {
     public interface IGamesIndexViewModel
     {
-        IEnumerable<Game>? Games { get; set; }
-        SelectList? Seasons { get; set; }
+        IEnumerable<Game> Games { get; set; }
+        SelectList Seasons { get; set; }
         int SelectedSeasonYear { get; set; }
         int? SelectedWeek { get; set; }
-        SelectList? Weeks { get; set; }
+        SelectList Weeks { get; set; }
     }
 }

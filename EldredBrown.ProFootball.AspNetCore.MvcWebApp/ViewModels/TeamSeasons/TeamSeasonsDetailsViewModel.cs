@@ -11,21 +11,21 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.TeamSeasons
         /// <summary>
         /// Gets or sets the team season of the current view model.
         /// </summary>
-        public TeamSeason? TeamSeason { get; set; }
+        public TeamSeason TeamSeason { get; set; }
 
         /// <summary>
         /// Gets or sets the team season schedule profile of the current view model.
         /// </summary>
-        public IEnumerable<TeamSeasonOpponentProfile>? TeamSeasonScheduleProfile { get; set; }
+        public IEnumerable<TeamSeasonOpponentProfile> TeamSeasonScheduleProfile { get; set; }
 
         /// <summary>
         /// Gets or sets the team season schedule totals of the current view model.
         /// </summary>
-        public TeamSeasonScheduleTotals? TeamSeasonScheduleTotals { get; set; }
+        public TeamSeasonScheduleTotals TeamSeasonScheduleTotals { get; set; }
 
         /// <summary>
         /// Gets or sets the team season schedule averages of the current view model.
         /// </summary>
-        public TeamSeasonScheduleAverages? TeamSeasonScheduleAverages { get; set; }
+        public TeamSeasonScheduleAverages TeamSeasonScheduleAverages { get; set; }
     }
 }

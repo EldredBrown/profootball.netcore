@@ -10,6 +10,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Leagues
         /// <summary>
         /// Gets or sets the league of the current <see cref="LeaguesDetailsViewModel"/> object.
         /// </summary>
-        public League? League { get; set; }
+        public League League { get; set; }
     }
 }

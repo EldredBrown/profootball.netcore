@@ -18,7 +18,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
     {
         public static int SelectedSeasonYear = 1920;
         public static int? SelectedWeek;
-        public static Game? OldGame;
+        public static Game OldGame;
 
         private readonly IGamesIndexViewModel _gamesIndexViewModel;
         private readonly IGamesDetailsViewModel _gamesDetailsViewModel;

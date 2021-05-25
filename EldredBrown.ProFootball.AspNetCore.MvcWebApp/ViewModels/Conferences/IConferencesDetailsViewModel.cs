@@ -4,6 +4,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Conferences
 {
     public interface IConferencesDetailsViewModel
     {
-        Conference? Conference { get; set; }
+        Conference Conference { get; set; }
     }
 }

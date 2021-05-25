@@ -11,6 +11,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Divisions
         /// <summary>
         /// Gets or sets the collection of divisions for the current <see cref="DivisionsIndexViewModel"/> object.
         /// </summary>
-        public IEnumerable<Division>? Divisions { get; set; }
+        public IEnumerable<Division> Divisions { get; set; }
     }
 }

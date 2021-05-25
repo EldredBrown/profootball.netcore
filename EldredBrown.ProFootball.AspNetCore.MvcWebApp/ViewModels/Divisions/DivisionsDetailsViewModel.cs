@@ -10,6 +10,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Divisions
         /// <summary>
         /// Gets or sets the division of the current <see cref="DivisionsDetailsViewModel"/> object.
         /// </summary>
-        public Division? Division { get; set; }
+        public Division Division { get; set; }
     }
 }

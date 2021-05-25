@@ -6,8 +6,8 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.SeasonStanding
 {
     public interface ISeasonStandingsIndexViewModel
     {
-        SelectList? Seasons { get; set; }
+        SelectList Seasons { get; set; }
         int SelectedSeasonYear { get; set; }
-        IEnumerable<SeasonTeamStanding>? SeasonStandings { get; set; }
+        IEnumerable<SeasonTeamStanding> SeasonStandings { get; set; }
     }
 }

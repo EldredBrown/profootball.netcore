@@ -5,6 +5,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Seasons
 {
     public interface ISeasonsIndexViewModel
     {
-        IEnumerable<Season>? Seasons { get; set; }
+        IEnumerable<Season> Seasons { get; set; }
     }
 }

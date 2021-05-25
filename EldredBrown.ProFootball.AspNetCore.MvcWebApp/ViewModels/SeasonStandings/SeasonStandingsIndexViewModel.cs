@@ -12,7 +12,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.SeasonStanding
         /// <summary>
         /// Gets or sets the list that lets users select a season.
         /// </summary>
-        public SelectList? Seasons { get; set; }
+        public SelectList Seasons { get; set; }
 
         /// <summary>
         /// Gets or sets the year of the selected season for the current view model.
@@ -22,6 +22,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.SeasonStanding
         /// <summary>
         /// Gets or sets the collection of season standings for the current view model.
         /// </summary>
-        public IEnumerable<SeasonTeamStanding>? SeasonStandings { get; set; }
+        public IEnumerable<SeasonTeamStanding> SeasonStandings { get; set; }
     }
 }

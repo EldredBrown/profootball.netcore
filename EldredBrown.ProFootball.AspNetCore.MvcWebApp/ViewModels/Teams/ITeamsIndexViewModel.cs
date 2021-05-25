@@ -5,6 +5,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Teams
 {
     public interface ITeamsIndexViewModel
     {
-        IEnumerable<Team>? Teams { get; set; }
+        IEnumerable<Team> Teams { get; set; }
     }
 }

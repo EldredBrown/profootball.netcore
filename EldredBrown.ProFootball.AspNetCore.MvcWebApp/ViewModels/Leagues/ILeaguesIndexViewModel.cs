@@ -5,6 +5,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Leagues
 {
     public interface ILeaguesIndexViewModel
     {
-        IEnumerable<League>? Leagues { get; set; }
+        IEnumerable<League> Leagues { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Conferences
         /// <summary>
         /// Gets or sets the conference of the current <see cref="ConferencesDetailsViewModel"/> object.
         /// </summary>
-        public Conference? Conference { get; set; }
+        public Conference Conference { get; set; }
     }
 }

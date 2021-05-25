@@ -11,6 +11,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Conferences
         /// <summary>
         /// Gets or sets the collection of conferences for the current <see cref="ConferencesIndexViewModel"/> object.
         /// </summary>
-        public IEnumerable<Conference>? Conferences { get; set; }
+        public IEnumerable<Conference> Conferences { get; set; }
     }
 }

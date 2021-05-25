@@ -5,6 +5,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.Conferences
 {
     public interface IConferencesIndexViewModel
     {
-        IEnumerable<Conference>? Conferences { get; set; }
+        IEnumerable<Conference> Conferences { get; set; }
     }
 }

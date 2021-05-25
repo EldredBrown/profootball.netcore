@@ -5,6 +5,6 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.ViewModels.LeagueSeasons
 {
     public interface ILeagueSeasonsIndexViewModel
     {
-        IEnumerable<LeagueSeason>? LeagueSeasons { get; set; }
+        IEnumerable<LeagueSeason> LeagueSeasons { get; set; }
     }
 }
