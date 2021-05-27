@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
                 return Page();
             }
 
-            await _leagueRepository.Add(League);
+            await _leagueRepository.AddAsync(League);
             await _sharedRepository.SaveChangesAsync();
 
             return RedirectToPage("./Index");

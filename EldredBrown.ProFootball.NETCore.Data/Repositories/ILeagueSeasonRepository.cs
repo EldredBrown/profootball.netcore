@@ -13,14 +13,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="LeagueSeason"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{LeagueSeason}"/> of all fetched entities.</returns>
-        Task<IEnumerable<LeagueSeason>> GetLeagueSeasons();
+        Task<IEnumerable<LeagueSeason>> GetLeagueSeasonsAsync();
 
         /// <summary>
         /// Gets a single <see cref="LeagueSeason"/> entity from the data store by ID.
         /// </summary>
         /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        Task<LeagueSeason?> GetLeagueSeason(int id);
+        Task<LeagueSeason?> GetLeagueSeasonAsync(int id);
 
         /// <summary>
         /// Gets a single <see cref="LeagueSeason"/> entity from the data store by league name and season year.
@@ -28,7 +28,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="leagueName">The name of the league of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <param name="seasonYear">The year of the season of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        Task<LeagueSeason?> GetLeagueSeasonByLeagueAndSeason(string leagueName, int seasonYear);
+        Task<LeagueSeason?> GetLeagueSeasonByLeagueAndSeasonAsync(string leagueName, int seasonYear);
 
         /// <summary>
         /// Adds a <see cref="LeagueSeason"/> entity to the data store.

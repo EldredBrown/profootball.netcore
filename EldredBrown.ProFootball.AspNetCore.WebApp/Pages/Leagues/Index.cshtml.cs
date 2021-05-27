@@ -19,7 +19,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
 
         public async Task OnGetAsync()
         {
-            Leagues = await _leagueRepository.GetLeagues();
+            Leagues = await _leagueRepository.GetLeaguesAsync();
         }
     }
 }

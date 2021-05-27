@@ -73,7 +73,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var teamSeason = await _teamSeasonRepository.GetTeamSeason(id.Value);
+            var teamSeason = await _teamSeasonRepository.GetTeamSeasonAsync(id.Value);
             if (teamSeason is null)
             {
                 return NotFound();
@@ -131,7 +131,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var teamSeason = await _teamSeasonRepository.GetTeamSeason(id.Value);
+            var teamSeason = await _teamSeasonRepository.GetTeamSeasonAsync(id.Value);
             if (teamSeason is null)
             {
                 return NotFound();
@@ -195,7 +195,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var teamSeason = await _teamSeasonRepository.GetTeamSeason(id.Value);
+            var teamSeason = await _teamSeasonRepository.GetTeamSeasonAsync(id.Value);
             if (teamSeason is null)
             {
                 return NotFound();

@@ -69,7 +69,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
             TeamSeason? teamSeason = null;
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(A<int>.Ignored)).Returns(teamSeason);
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(A<int>.Ignored)).Returns(teamSeason);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamSeasonsAdminController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
@@ -81,7 +81,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Details(id);
 
             // Assert
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -94,7 +94,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
             TeamSeason? teamSeason = new TeamSeason();
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(A<int>.Ignored)).Returns(teamSeason);
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(A<int>.Ignored)).Returns(teamSeason);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamSeasonsAdminController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
@@ -106,7 +106,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Details(id);
 
             // Assert
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(id.Value)).MustHaveHappenedOnceExactly();
             teamSeasonsDetailsViewModel.TeamSeason.ShouldBe(teamSeason);
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(teamSeasonsDetailsViewModel);
@@ -207,7 +207,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
             TeamSeason? teamSeason = null;
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(A<int>.Ignored)).Returns(teamSeason);
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(A<int>.Ignored)).Returns(teamSeason);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamSeasonsAdminController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
@@ -219,7 +219,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Edit(id);
 
             // Assert
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -232,7 +232,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
             TeamSeason? teamSeason = new TeamSeason();
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(A<int>.Ignored)).Returns(teamSeason);
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(A<int>.Ignored)).Returns(teamSeason);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamSeasonsAdminController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
@@ -244,7 +244,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Edit(id);
 
             // Assert
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(teamSeason);
         }
@@ -413,7 +413,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
             TeamSeason? teamSeason = null;
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(A<int>.Ignored)).Returns(teamSeason);
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(A<int>.Ignored)).Returns(teamSeason);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamSeasonsAdminController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
@@ -425,7 +425,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Delete(id);
 
             // Assert
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -438,7 +438,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
             TeamSeason? teamSeason = new TeamSeason();
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(A<int>.Ignored)).Returns(teamSeason);
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(A<int>.Ignored)).Returns(teamSeason);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamSeasonsAdminController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
@@ -450,7 +450,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Delete(id);
 
             // Assert
-            A.CallTo(() => teamSeasonRepository.GetTeamSeason(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(teamSeason);
         }

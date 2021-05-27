@@ -84,7 +84,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 return;
             }
 
-            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear);
+            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear);
             if (leagueSeason is null)
             {
                 return;
@@ -145,7 +145,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 }
 
                 var leagueSeason =
-                    await _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(
+                    await _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(
                         teamSeasonDecorator.LeagueName, teamSeasonDecorator.SeasonYear);
                 if (leagueSeason?.AveragePoints is null)
                 {

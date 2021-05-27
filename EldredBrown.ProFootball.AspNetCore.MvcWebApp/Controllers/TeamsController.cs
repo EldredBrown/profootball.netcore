@@ -54,7 +54,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            _teamsIndexViewModel.Teams = await _teamRepository.GetTeams();
+            _teamsIndexViewModel.Teams = await _teamRepository.GetTeamsAsync();
 
             return View(_teamsIndexViewModel);
         }
@@ -73,7 +73,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var team = await _teamRepository.GetTeam(id.Value);
+            var team = await _teamRepository.GetTeamAsync(id.Value);
             if (team is null)
             {
                 return NotFound();
@@ -131,7 +131,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var team = await _teamRepository.GetTeam(id.Value);
+            var team = await _teamRepository.GetTeamAsync(id.Value);
             if (team is null)
             {
                 return NotFound();
@@ -195,7 +195,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var team = await _teamRepository.GetTeam(id.Value);
+            var team = await _teamRepository.GetTeamAsync(id.Value);
             if (team is null)
             {
                 return NotFound();

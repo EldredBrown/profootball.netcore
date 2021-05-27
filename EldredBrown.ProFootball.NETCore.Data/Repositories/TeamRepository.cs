@@ -25,7 +25,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="Team"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Team}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<Team>> GetTeams()
+        public async Task<IEnumerable<Team>> GetTeamsAsync()
         {
             return await _dbContext.Teams.ToListAsync();
         }
@@ -35,7 +35,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Team"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Team"/> entity.</returns>
-        public async Task<Team?> GetTeam(int id)
+        public async Task<Team?> GetTeamAsync(int id)
         {
             if (_dbContext.Teams is null)
             {
@@ -87,7 +87,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
                 return null;
             }
 
-            var team = await GetTeam(id);
+            var team = await GetTeamAsync(id);
             if (team is null)
             {
                 return null;

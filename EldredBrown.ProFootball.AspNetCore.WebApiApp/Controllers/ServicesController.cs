@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Properties;
 using EldredBrown.ProFootball.NETCore.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
     }

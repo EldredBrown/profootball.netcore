@@ -24,7 +24,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamRepository = A.Fake<ITeamRepository>();
             var teams = new List<Team>();
-            A.CallTo(() => teamRepository.GetTeams()).Returns(teams);
+            A.CallTo(() => teamRepository.GetTeamsAsync()).Returns(teams);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamsController(teamsIndexViewModel, teamsDetailsViewModel,
@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Index();
 
             // Assert
-            A.CallTo(() => teamRepository.GetTeams()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.GetTeamsAsync()).MustHaveHappenedOnceExactly();
             teamsIndexViewModel.Teams.ShouldBe(teams);
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(teamsIndexViewModel);
@@ -69,7 +69,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamRepository = A.Fake<ITeamRepository>();
             Team? team = null;
-            A.CallTo(() => teamRepository.GetTeam(A<int>.Ignored)).Returns(team);
+            A.CallTo(() => teamRepository.GetTeamAsync(A<int>.Ignored)).Returns(team);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamsController(teamsIndexViewModel, teamsDetailsViewModel,
@@ -81,7 +81,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Details(id);
 
             // Assert
-            A.CallTo(() => teamRepository.GetTeam(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.GetTeamAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -94,7 +94,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamRepository = A.Fake<ITeamRepository>();
             Team? team = new Team();
-            A.CallTo(() => teamRepository.GetTeam(A<int>.Ignored)).Returns(team);
+            A.CallTo(() => teamRepository.GetTeamAsync(A<int>.Ignored)).Returns(team);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamsController(teamsIndexViewModel, teamsDetailsViewModel,
@@ -106,7 +106,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Details(id);
 
             // Assert
-            A.CallTo(() => teamRepository.GetTeam(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.GetTeamAsync(id.Value)).MustHaveHappenedOnceExactly();
             teamsDetailsViewModel.Team.ShouldBe(team);
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(teamsDetailsViewModel);
@@ -207,7 +207,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamRepository = A.Fake<ITeamRepository>();
             Team? team = null;
-            A.CallTo(() => teamRepository.GetTeam(A<int>.Ignored)).Returns(team);
+            A.CallTo(() => teamRepository.GetTeamAsync(A<int>.Ignored)).Returns(team);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamsController(teamsIndexViewModel, teamsDetailsViewModel,
@@ -219,7 +219,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Edit(id);
 
             // Assert
-            A.CallTo(() => teamRepository.GetTeam(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.GetTeamAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -232,7 +232,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamRepository = A.Fake<ITeamRepository>();
             Team? team = new Team();
-            A.CallTo(() => teamRepository.GetTeam(A<int>.Ignored)).Returns(team);
+            A.CallTo(() => teamRepository.GetTeamAsync(A<int>.Ignored)).Returns(team);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamsController(teamsIndexViewModel, teamsDetailsViewModel,
@@ -244,7 +244,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Edit(id);
 
             // Assert
-            A.CallTo(() => teamRepository.GetTeam(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.GetTeamAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(team);
         }
@@ -413,7 +413,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamRepository = A.Fake<ITeamRepository>();
             Team? team = null;
-            A.CallTo(() => teamRepository.GetTeam(A<int>.Ignored)).Returns(team);
+            A.CallTo(() => teamRepository.GetTeamAsync(A<int>.Ignored)).Returns(team);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamsController(teamsIndexViewModel, teamsDetailsViewModel,
@@ -425,7 +425,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Delete(id);
 
             // Assert
-            A.CallTo(() => teamRepository.GetTeam(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.GetTeamAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -438,7 +438,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var teamRepository = A.Fake<ITeamRepository>();
             Team? team = new Team();
-            A.CallTo(() => teamRepository.GetTeam(A<int>.Ignored)).Returns(team);
+            A.CallTo(() => teamRepository.GetTeamAsync(A<int>.Ignored)).Returns(team);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new TeamsController(teamsIndexViewModel, teamsDetailsViewModel,
@@ -450,7 +450,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Delete(id);
 
             // Assert
-            A.CallTo(() => teamRepository.GetTeam(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.GetTeamAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(team);
         }

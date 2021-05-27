@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Properties;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
@@ -28,10 +29,21 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="GamesController"/> class.
         /// </summary>
-        /// <param name="gameRepository">The repository by which game data will be accessed.</param>
-        /// <param name="sharedRepository">The repository by which shared data resources will be accessed.</param>
-        /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
-        /// <param name="linkGenerator">The <see cref="LinkGenerator"/> object used to generate URLs.</param>
+        /// <param name="gameRepository">
+        /// The <see cref="IGameRepository"/> by which game data will be accessed.
+        /// </param>
+        /// <param name="sharedRepository">
+        /// The <see cref="ISharedRepository"/> by which shared data resources will be accessed.
+        /// </param>
+        /// <param name="mapper">
+        /// The <see cref="IMapper"/> object used for object-object mapping.
+        /// </param>
+        /// <param name="linkGenerator">
+        /// The <see cref="LinkGenerator"/> object used to generate URLs.
+        /// </param>
+        /// <param name="gameService">
+        /// The <see cref="IGameService"/> object used to process game data.
+        /// </param>
         public GamesController(IGameRepository gameRepository, ISharedRepository sharedRepository,
             IMapper mapper, LinkGenerator linkGenerator, IGameService gameService)
         {
@@ -58,7 +70,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
 
@@ -83,7 +95,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
 
@@ -114,13 +126,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                 {
                     return Created(location, _mapper.Map<GameModel>(game));
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
 
         // PUT: api/Games/5
@@ -139,27 +151,27 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             {
                 var oldGame = _mapper.Map<Game>(models["oldGame"]);
 
-                var newGame = await _gameRepository.GetGameAsync(id);
-                if (newGame is null)
+                var currentGame = await _gameRepository.GetGameAsync(id);
+                if (currentGame is null)
                 {
                     return NotFound($"Could not find game with ID of {id}");
                 }
 
-                _mapper.Map(models["newGame"], newGame);
+                _mapper.Map(models["newGame"], currentGame);
 
-                await _gameService.EditGameAsync(newGame, oldGame);
+                await _gameService.EditGameAsync(currentGame, oldGame);
 
                 if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
-                    return _mapper.Map<GameModel>(newGame);
+                    return _mapper.Map<GameModel>(currentGame);
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
 
         // DELETE: api/Games/5
@@ -185,13 +197,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                 {
                     return Ok();
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
     }
 }

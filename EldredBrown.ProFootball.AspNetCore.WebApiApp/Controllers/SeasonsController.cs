@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Properties;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -54,7 +55,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
 
@@ -79,7 +80,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
 
@@ -113,7 +114,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
 
             return BadRequest();
@@ -148,7 +149,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
 
             return BadRequest();
@@ -177,13 +178,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                 {
                     return Ok();
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
     }
 }

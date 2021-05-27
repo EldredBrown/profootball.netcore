@@ -27,7 +27,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
                 return NotFound();
             }
 
-            League = await _leagueRepository.GetLeague(id.Value);
+            League = await _leagueRepository.GetLeagueAsync(id.Value);
 
             if (League is null)
             {
@@ -43,11 +43,11 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApp.Pages.Leagues
                 return NotFound();
             }
 
-            League = await _leagueRepository.GetLeague(id.Value);
+            League = await _leagueRepository.GetLeagueAsync(id.Value);
 
             if (!(League is null))
             {
-                await _leagueRepository.Delete(League.ID);
+                await _leagueRepository.DeleteAsync(League.ID);
                 await _sharedRepository.SaveChangesAsync();
             }
 

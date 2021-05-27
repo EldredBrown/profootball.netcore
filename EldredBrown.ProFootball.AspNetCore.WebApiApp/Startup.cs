@@ -48,10 +48,10 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
 
             services.AddScoped<ILeagueRepository, LeagueRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<ILeagueSeasonRepository, LeagueSeasonRepository>();
             services.AddScoped<ITeamSeasonRepository, TeamSeasonRepository>();
-            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<ITeamSeasonScheduleProfileRepository, TeamSeasonScheduleProfileRepository>();
             services.AddScoped<ITeamSeasonScheduleTotalsRepository, TeamSeasonScheduleTotalsRepository>();
             services.AddScoped<ITeamSeasonScheduleAveragesRepository, TeamSeasonScheduleAveragesRepository>();

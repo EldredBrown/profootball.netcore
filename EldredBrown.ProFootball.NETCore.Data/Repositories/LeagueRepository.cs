@@ -25,7 +25,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="League"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{League}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<League>> GetLeagues()
+        public async Task<IEnumerable<League>> GetLeaguesAsync()
         {
             return await _dbContext.Leagues.ToListAsync();
         }
@@ -35,7 +35,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="League"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="League"/> entity.</returns>
-        public async Task<League?> GetLeague(int id)
+        public async Task<League?> GetLeagueAsync(int id)
         {
             if (_dbContext.Leagues is null)
             {
@@ -50,7 +50,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="league">The <see cref="League"/> entity to add.</param>
         /// <returns>The added <see cref="League"/> entity.</returns>
-        public async Task<League> Add(League league)
+        public async Task<League> AddAsync(League league)
         {
             await _dbContext.AddAsync(league);
 
@@ -80,14 +80,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="League"/> entity to delete.</param>
         /// <returns>The deleted <see cref="League"/> entity.</returns>
-        public async Task<League?> Delete(int id)
+        public async Task<League?> DeleteAsync(int id)
         {
             if (_dbContext.Leagues is null)
             {
                 return null;
             }
 
-            var league = await GetLeague(id);
+            var league = await GetLeagueAsync(id);
             if (league is null)
             {
                 return null;

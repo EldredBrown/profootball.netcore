@@ -54,7 +54,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            _leaguesIndexViewModel.Leagues = await _leagueRepository.GetLeagues();
+            _leaguesIndexViewModel.Leagues = await _leagueRepository.GetLeaguesAsync();
 
             return View(_leaguesIndexViewModel);
         }
@@ -73,7 +73,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var league = await _leagueRepository.GetLeague(id.Value);
+            var league = await _leagueRepository.GetLeagueAsync(id.Value);
             if (league is null)
             {
                 return NotFound();
@@ -109,7 +109,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _leagueRepository.Add(league);
+                await _leagueRepository.AddAsync(league);
                 await _sharedRepository.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -131,7 +131,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var league = await _leagueRepository.GetLeague(id.Value);
+            var league = await _leagueRepository.GetLeagueAsync(id.Value);
             if (league is null)
             {
                 return NotFound();
@@ -195,7 +195,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var league = await _leagueRepository.GetLeague(id.Value);
+            var league = await _leagueRepository.GetLeagueAsync(id.Value);
             if (league is null)
             {
                 return NotFound();
@@ -214,7 +214,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _leagueRepository.Delete(id);
+            await _leagueRepository.DeleteAsync(id);
             await _sharedRepository.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

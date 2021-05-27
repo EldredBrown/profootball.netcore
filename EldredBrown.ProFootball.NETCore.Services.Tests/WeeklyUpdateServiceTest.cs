@@ -46,7 +46,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeasonTotals);
 
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns<LeagueSeason?>(null);
 
             var seasonYear = 1920;
@@ -71,7 +71,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustNotHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -95,7 +95,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeasonTotals);
 
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns<LeagueSeason?>(null);
 
             var seasonYear = 1920;
@@ -120,7 +120,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustNotHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -144,7 +144,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeasonTotals);
 
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns<LeagueSeason?>(null);
 
             var seasonYear = 1920;
@@ -169,7 +169,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -194,7 +194,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .Returns(leagueSeasonTotals);
 
             var leagueSeason = new LeagueSeason();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeason);
 
             var seasonYear = 1920;
@@ -219,7 +219,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -244,7 +244,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
                 .Returns(leagueSeasonTotals);
 
             var leagueSeason = new LeagueSeason();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeason);
 
             var seasonYear = 1920;
@@ -269,7 +269,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
 
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappened();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -301,7 +301,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             {
                 AveragePoints = null
             };
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeason);
 
             var seasonYear = 1920;
@@ -353,7 +353,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Assert
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -385,7 +385,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             {
                 AveragePoints = null
             };
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeason);
 
             var seasonYear = 1920;
@@ -437,7 +437,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Assert
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -469,7 +469,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             {
                 AveragePoints = null
             };
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeason);
 
             var seasonYear = 1920;
@@ -521,7 +521,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Assert
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappenedOnceExactly();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -549,7 +549,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeasonTotals);
 
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns<LeagueSeason?>(null);
 
             var seasonYear = 1920;
@@ -601,7 +601,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Assert
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappenedTwiceExactly();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -633,7 +633,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             {
                 AveragePoints = null
             };
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeason);
 
             var seasonYear = 1920;
@@ -685,7 +685,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Assert
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappenedTwiceExactly();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();
@@ -717,7 +717,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             {
                 AveragePoints = 0
             };
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(A<string>.Ignored, A<int>.Ignored))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(A<string>.Ignored, A<int>.Ignored))
                 .Returns(leagueSeason);
 
             var seasonYear = 1920;
@@ -769,7 +769,7 @@ namespace EldredBrown.ProFootball.NETCore.Services.Tests
             // Assert
             A.CallTo(() => _leagueSeasonTotalsRepository.GetLeagueSeasonTotals(leagueName, seasonYear))
                 .MustHaveHappened();
-            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeason(leagueName, seasonYear))
+            A.CallTo(() => _leagueSeasonRepository.GetLeagueSeasonByLeagueAndSeasonAsync(leagueName, seasonYear))
                 .MustHaveHappenedTwiceExactly();
             A.CallTo(() => _gameRepository.GetGamesAsync()).MustHaveHappened();
             A.CallTo(() => _seasonRepository.GetSeasonAsync(seasonYear)).MustHaveHappened();

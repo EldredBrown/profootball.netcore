@@ -2,6 +2,13 @@
 import { postData } from "../../data/repository.js";
 import { loadPartial, validateInput } from "./shared.js";
 
+const loadPage = async () => {
+    GamesControl.getCookieValues();
+
+    await loadPartial();
+    selectWeek();
+};
+
 const createGame = async () => {
     let game = validateInput();
 
@@ -12,13 +19,6 @@ const createGame = async () => {
     await postData("Games", game);
 
     return game;
-};
-
-const loadPage = async () => {
-    GamesControl.getCookieValues();
-
-    await loadPartial();
-    selectWeek();
 };
 
 const selectWeek = () => {

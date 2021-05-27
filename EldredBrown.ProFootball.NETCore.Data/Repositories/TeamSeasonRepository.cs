@@ -65,7 +65,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="TeamSeason"/> entity.</returns>
-        public async Task<TeamSeason?> GetTeamSeason(int id)
+        public async Task<TeamSeason?> GetTeamSeasonAsync(int id)
         {
             if (_dbContext.TeamSeasons is null)
             {
@@ -142,7 +142,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
                 return null;
             }
 
-            var teamSeason = await GetTeamSeason(id);
+            var teamSeason = await GetTeamSeasonAsync(id);
             if (teamSeason is null)
             {
                 return null;

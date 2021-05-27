@@ -23,7 +23,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="LeagueSeason"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{LeagueSeason}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<LeagueSeason>> GetLeagueSeasons()
+        public async Task<IEnumerable<LeagueSeason>> GetLeagueSeasonsAsync()
         {
             return await _dbContext.LeagueSeasons.ToListAsync();
         }
@@ -33,7 +33,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        public async Task<LeagueSeason?> GetLeagueSeason(int id)
+        public async Task<LeagueSeason?> GetLeagueSeasonAsync(int id)
         {
             if (_dbContext.LeagueSeasons is null)
             {
@@ -49,7 +49,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// <param name="leagueName">The name of the league of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <param name="seasonYear">The year of the season of the <see cref="LeagueSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="LeagueSeason"/> entity.</returns>
-        public async Task<LeagueSeason?> GetLeagueSeasonByLeagueAndSeason(string leagueName, int seasonYear)
+        public async Task<LeagueSeason?> GetLeagueSeasonByLeagueAndSeasonAsync(string leagueName, int seasonYear)
         {
             return await _dbContext.LeagueSeasons
                 .FirstOrDefaultAsync(ls => ls.LeagueName == leagueName && ls.SeasonYear == seasonYear);
@@ -97,7 +97,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
                 return null;
             }
 
-            var leagueSeason = await GetLeagueSeason(id);
+            var leagueSeason = await GetLeagueSeasonAsync(id);
             if (leagueSeason is null)
             {
                 return null;

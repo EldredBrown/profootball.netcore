@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Properties;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -48,13 +49,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var leagues = await _leagueRepository.GetLeagues();
+                var leagues = await _leagueRepository.GetLeaguesAsync();
 
                 return _mapper.Map<LeagueModel[]>(leagues);
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
 
@@ -69,7 +70,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var league = await _leagueRepository.GetLeague(id);
+                var league = await _leagueRepository.GetLeagueAsync(id);
                 if (league is null)
                 {
                     return NotFound();
@@ -79,7 +80,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
 
@@ -104,19 +105,19 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 var league = _mapper.Map<League>(model);
 
-                await _leagueRepository.Add(league);
+                await _leagueRepository.AddAsync(league);
 
                 if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return Created(location, _mapper.Map<LeagueModel>(league));
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
 
         // PUT: api/Leagues/5
@@ -133,7 +134,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var league = await _leagueRepository.GetLeague(id);
+                var league = await _leagueRepository.GetLeagueAsync(id);
                 if (league is null)
                 {
                     return NotFound($"Could not find league with ID of {id}");
@@ -145,13 +146,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                 {
                     return _mapper.Map<LeagueModel>(league);
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
 
         // DELETE: api/Leagues/5
@@ -165,25 +166,25 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var league = await _leagueRepository.GetLeague(id);
+                var league = await _leagueRepository.GetLeagueAsync(id);
                 if (league is null)
                 {
                     return NotFound($"Could not find league with ID of {id}");
                 }
 
-                await _leagueRepository.Delete(id);
+                await _leagueRepository.DeleteAsync(id);
 
                 if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
                     return Ok();
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
     }
 }

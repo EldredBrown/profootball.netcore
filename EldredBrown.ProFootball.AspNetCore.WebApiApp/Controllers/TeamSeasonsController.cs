@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Properties;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -49,11 +50,12 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             try
             {
                 var teamSeasons = await _teamSeasonRepository.GetTeamSeasonsAsync();
+
                 return _mapper.Map<TeamSeasonModel[]>(teamSeasons);
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
 
@@ -68,7 +70,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var teamSeason = await _teamSeasonRepository.GetTeamSeason(id);
+                var teamSeason = await _teamSeasonRepository.GetTeamSeasonAsync(id);
                 if (teamSeason is null)
                 {
                     return NotFound();
@@ -78,7 +80,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
         }
 
@@ -109,13 +111,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                 {
                     return Created(location, _mapper.Map<TeamSeasonModel>(teamSeason));
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
 
         // PUT: api/TeamSeasons/5
@@ -132,7 +134,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var teamSeason = await _teamSeasonRepository.GetTeamSeason(id);
+                var teamSeason = await _teamSeasonRepository.GetTeamSeasonAsync(id);
                 if (teamSeason is null)
                 {
                     return NotFound($"Could not find teamSeason with ID of {id}");
@@ -144,13 +146,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                 {
                     return _mapper.Map<TeamSeasonModel>(teamSeason);
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
 
         // DELETE: api/TeamSeasons/5
@@ -164,7 +166,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         {
             try
             {
-                var teamSeason = await _teamSeasonRepository.GetTeamSeason(id);
+                var teamSeason = await _teamSeasonRepository.GetTeamSeasonAsync(id);
                 if (teamSeason is null)
                 {
                     return NotFound($"Could not find teamSeason with ID of {id}");
@@ -176,13 +178,13 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                 {
                     return Ok();
                 }
+
+                return BadRequest();
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, Settings.DatabaseFailureString);
             }
-
-            return BadRequest();
         }
     }
 }

@@ -4,6 +4,14 @@ import { getData } from "../../data/repository.js";
 
 let gamesCache = null;
 
+const loadPage = async () => {
+    GamesControl.getCookieValues();
+
+    await loadSeasons(GamesControl.selectedSeasonYear);
+    await loadWeeks(renderWeeks);
+    await loadGames();
+};
+
 const loadGames = async () => {
     if (!gamesCache) {
         gamesCache = await getData("Games");
@@ -18,14 +26,6 @@ const loadGames = async () => {
 
         renderGames(games);
     }
-};
-
-const loadPage = async () => {
-    GamesControl.getCookieValues();
-
-    await loadSeasons(GamesControl.selectedSeasonYear);
-    await loadWeeks(renderWeeks);
-    await loadGames();
 };
 
 const renderGames = (games) => {

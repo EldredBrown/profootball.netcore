@@ -54,7 +54,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            _leagueSeasonsIndexViewModel.LeagueSeasons = await _leagueSeasonRepository.GetLeagueSeasons();
+            _leagueSeasonsIndexViewModel.LeagueSeasons = await _leagueSeasonRepository.GetLeagueSeasonsAsync();
 
             return View(_leagueSeasonsIndexViewModel);
         }
@@ -73,7 +73,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id.Value);
+            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeasonAsync(id.Value);
             if (leagueSeason is null)
             {
                 return NotFound();
@@ -131,7 +131,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id.Value);
+            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeasonAsync(id.Value);
             if (leagueSeason is null)
             {
                 return NotFound();
@@ -195,7 +195,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeason(id.Value);
+            var leagueSeason = await _leagueSeasonRepository.GetLeagueSeasonAsync(id.Value);
             if (leagueSeason is null)
             {
                 return NotFound();

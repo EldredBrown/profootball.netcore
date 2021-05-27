@@ -40,7 +40,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="TeamSeason"/> entity.</returns>
-        Task<TeamSeason?> GetTeamSeason(int id);
+        Task<TeamSeason?> GetTeamSeasonAsync(int id);
 
         /// <summary>
         /// Gets a single <see cref="TeamSeason"/> entity from the data store by team name and season year.
