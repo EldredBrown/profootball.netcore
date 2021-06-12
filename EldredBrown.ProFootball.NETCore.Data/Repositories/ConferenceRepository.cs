@@ -25,7 +25,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="Conference"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Conference}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<Conference>> GetConferences()
+        public async Task<IEnumerable<Conference>> GetConferencesAsync()
         {
             return await _dbContext.Conferences.ToListAsync();
         }
@@ -35,7 +35,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Conference"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Conference"/> entity.</returns>
-        public async Task<Conference?> GetConference(int id)
+        public async Task<Conference?> GetConferenceAsync(int id)
         {
             if (_dbContext.Conferences is null)
             {
@@ -50,7 +50,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="conference">The <see cref="Conference"/> entity to add.</param>
         /// <returns>The added <see cref="Conference"/> entity.</returns>
-        public async Task<Conference> Add(Conference conference)
+        public async Task<Conference> AddAsync(Conference conference)
         {
             await _dbContext.AddAsync(conference);
 
@@ -80,14 +80,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Conference"/> entity to delete.</param>
         /// <returns>The deleted <see cref="Conference"/> entity.</returns>
-        public async Task<Conference?> Delete(int id)
+        public async Task<Conference?> DeleteAsync(int id)
         {
             if (_dbContext.Conferences is null)
             {
                 return null;
             }
 
-            var conference = await GetConference(id);
+            var conference = await GetConferenceAsync(id);
             if (conference is null)
             {
                 return null;
@@ -102,7 +102,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Checks to verify whether a specific <see cref="Conference"/> entity exists in the data store.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Conference"/> entity to verify.</param>
-        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.
+        /// </returns>
         public async Task<bool> ConferenceExists(int id)
         {
             return await _dbContext.Conferences.AnyAsync(l => l.ID == id);

@@ -13,21 +13,21 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="Conference"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Conference}"/> of all fetched entities.</returns>
-        Task<IEnumerable<Conference>> GetConferences();
+        Task<IEnumerable<Conference>> GetConferencesAsync();
 
         /// <summary>
         /// Gets a single <see cref="Conference"/> entity from the data store by ID.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Conference"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Conference"/> entity.</returns>
-        Task<Conference?> GetConference(int id);
+        Task<Conference?> GetConferenceAsync(int id);
 
         /// <summary>
         /// Adds a <see cref="Conference"/> entity to the data store.
         /// </summary>
         /// <param name="conference">The <see cref="Conference"/> entity to add.</param>
         /// <returns>The added <see cref="Conference"/> entity.</returns>
-        Task<Conference> Add(Conference conference);
+        Task<Conference> AddAsync(Conference conference);
 
         /// <summary>
         /// Updates a <see cref="Conference"/> entity in the data store.
@@ -41,13 +41,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Conference"/> entity to delete.</param>
         /// <returns>The deleted <see cref="Conference"/> entity.</returns>
-        Task<Conference?> Delete(int id);
+        Task<Conference?> DeleteAsync(int id);
 
         /// <summary>
         /// Checks to verify whether a specific <see cref="Conference"/> entity exists in the data store.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Conference"/> entity to verify.</param>
-        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.
+        /// </returns>
         Task<bool> ConferenceExists(int id);
     }
 }

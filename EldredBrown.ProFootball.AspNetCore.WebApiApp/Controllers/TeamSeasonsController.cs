@@ -105,7 +105,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 var teamSeason = _mapper.Map<TeamSeason>(model);
 
-                await _teamSeasonRepository.Add(teamSeason);
+                await _teamSeasonRepository.AddAsync(teamSeason);
 
                 if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
@@ -172,7 +172,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                     return NotFound($"Could not find teamSeason with ID of {id}");
                 }
 
-                await _teamSeasonRepository.Delete(id);
+                await _teamSeasonRepository.DeleteAsync(id);
 
                 if (await _sharedRepository.SaveChangesAsync() > 0)
                 {

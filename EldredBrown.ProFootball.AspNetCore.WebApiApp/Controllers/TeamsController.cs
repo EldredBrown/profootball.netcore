@@ -105,7 +105,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 
                 var team = _mapper.Map<Team>(model);
 
-                await _teamRepository.Add(team);
+                await _teamRepository.AddAsync(team);
 
                 if (await _sharedRepository.SaveChangesAsync() > 0)
                 {
@@ -172,7 +172,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
                     return NotFound($"Could not find team with ID of {id}");
                 }
 
-                await _teamRepository.Delete(id);
+                await _teamRepository.DeleteAsync(id);
 
                 if (await _sharedRepository.SaveChangesAsync() > 0)
                 {

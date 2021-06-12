@@ -147,7 +147,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Create(team);
 
             // Assert
-            A.CallTo(() => teamRepository.Add(team)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.AddAsync(team)).MustHaveHappenedOnceExactly();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<RedirectToActionResult>();
             ((RedirectToActionResult)result).ActionName.ShouldBe<string>(nameof(testController.Index));
@@ -172,7 +172,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Create(team);
 
             // Assert
-            A.CallTo(() => teamRepository.Add(team)).MustNotHaveHappened();
+            A.CallTo(() => teamRepository.AddAsync(team)).MustNotHaveHappened();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustNotHaveHappened();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(team);
@@ -472,7 +472,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.DeleteConfirmed(id);
 
             // Assert
-            A.CallTo(() => teamRepository.Delete(id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => teamRepository.DeleteAsync(id)).MustHaveHappenedOnceExactly();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<RedirectToActionResult>();
             ((RedirectToActionResult)result).ActionName.ShouldBe<string>(nameof(testController.Index));

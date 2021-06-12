@@ -54,7 +54,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            _conferencesIndexViewModel.Conferences = await _conferenceRepository.GetConferences();
+            _conferencesIndexViewModel.Conferences = await _conferenceRepository.GetConferencesAsync();
 
             return View(_conferencesIndexViewModel);
         }
@@ -73,7 +73,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var conference = await _conferenceRepository.GetConference(id.Value);
+            var conference = await _conferenceRepository.GetConferenceAsync(id.Value);
             if (conference is null)
             {
                 return NotFound();
@@ -109,7 +109,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _conferenceRepository.Add(conference);
+                await _conferenceRepository.AddAsync(conference);
                 await _sharedRepository.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -131,7 +131,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var conference = await _conferenceRepository.GetConference(id.Value);
+            var conference = await _conferenceRepository.GetConferenceAsync(id.Value);
             if (conference is null)
             {
                 return NotFound();
@@ -195,7 +195,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var conference = await _conferenceRepository.GetConference(id.Value);
+            var conference = await _conferenceRepository.GetConferenceAsync(id.Value);
             if (conference is null)
             {
                 return NotFound();
@@ -214,7 +214,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _conferenceRepository.Delete(id);
+            await _conferenceRepository.DeleteAsync(id);
             await _sharedRepository.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

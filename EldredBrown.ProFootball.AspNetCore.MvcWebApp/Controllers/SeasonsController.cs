@@ -110,7 +110,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _seasonRepository.Add(season);
+                await _seasonRepository.AddAsync(season);
                 await _sharedRepository.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -215,7 +215,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var season = await _seasonRepository.Delete(id);
+            var season = await _seasonRepository.DeleteAsync(id);
             await _sharedRepository.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

@@ -54,7 +54,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            _divisionsIndexViewModel.Divisions = await _divisionRepository.GetDivisions();
+            _divisionsIndexViewModel.Divisions = await _divisionRepository.GetDivisionsAsync();
 
             return View(_divisionsIndexViewModel);
         }
@@ -73,7 +73,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var division = await _divisionRepository.GetDivision(id.Value);
+            var division = await _divisionRepository.GetDivisionAsync(id.Value);
             if (division is null)
             {
                 return NotFound();
@@ -109,7 +109,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _divisionRepository.Add(division);
+                await _divisionRepository.AddAsync(division);
                 await _sharedRepository.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -131,7 +131,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var division = await _divisionRepository.GetDivision(id.Value);
+            var division = await _divisionRepository.GetDivisionAsync(id.Value);
             if (division is null)
             {
                 return NotFound();
@@ -195,7 +195,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
                 return NotFound();
             }
 
-            var division = await _divisionRepository.GetDivision(id.Value);
+            var division = await _divisionRepository.GetDivisionAsync(id.Value);
             if (division is null)
             {
                 return NotFound();
@@ -214,7 +214,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _divisionRepository.Delete(id);
+            await _divisionRepository.DeleteAsync(id);
             await _sharedRepository.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

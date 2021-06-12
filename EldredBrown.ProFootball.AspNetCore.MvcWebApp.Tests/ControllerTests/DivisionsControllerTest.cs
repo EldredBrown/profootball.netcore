@@ -24,7 +24,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var divisionRepository = A.Fake<IDivisionRepository>();
             var divisions = new List<Division>();
-            A.CallTo(() => divisionRepository.GetDivisions()).Returns(divisions);
+            A.CallTo(() => divisionRepository.GetDivisionsAsync()).Returns(divisions);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new DivisionsController(divisionsIndexViewModel, divisionsDetailsViewModel,
@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Index();
 
             // Assert
-            A.CallTo(() => divisionRepository.GetDivisions()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.GetDivisionsAsync()).MustHaveHappenedOnceExactly();
             divisionsIndexViewModel.Divisions.ShouldBe(divisions);
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(divisionsIndexViewModel);
@@ -69,7 +69,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var divisionRepository = A.Fake<IDivisionRepository>();
             Division? division = null;
-            A.CallTo(() => divisionRepository.GetDivision(A<int>.Ignored)).Returns(division);
+            A.CallTo(() => divisionRepository.GetDivisionAsync(A<int>.Ignored)).Returns(division);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new DivisionsController(divisionsIndexViewModel, divisionsDetailsViewModel,
@@ -81,7 +81,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Details(id);
 
             // Assert
-            A.CallTo(() => divisionRepository.GetDivision(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.GetDivisionAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -94,7 +94,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var divisionRepository = A.Fake<IDivisionRepository>();
             Division? division = new Division();
-            A.CallTo(() => divisionRepository.GetDivision(A<int>.Ignored)).Returns(division);
+            A.CallTo(() => divisionRepository.GetDivisionAsync(A<int>.Ignored)).Returns(division);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new DivisionsController(divisionsIndexViewModel, divisionsDetailsViewModel,
@@ -106,7 +106,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Details(id);
 
             // Assert
-            A.CallTo(() => divisionRepository.GetDivision(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.GetDivisionAsync(id.Value)).MustHaveHappenedOnceExactly();
             divisionsDetailsViewModel.Division.ShouldBe(division);
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(divisionsDetailsViewModel);
@@ -147,7 +147,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Create(division);
 
             // Assert
-            A.CallTo(() => divisionRepository.Add(division)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.AddAsync(division)).MustHaveHappenedOnceExactly();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<RedirectToActionResult>();
             ((RedirectToActionResult)result).ActionName.ShouldBe<string>(nameof(testController.Index));
@@ -172,7 +172,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Create(division);
 
             // Assert
-            A.CallTo(() => divisionRepository.Add(division)).MustNotHaveHappened();
+            A.CallTo(() => divisionRepository.AddAsync(division)).MustNotHaveHappened();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustNotHaveHappened();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(division);
@@ -207,7 +207,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var divisionRepository = A.Fake<IDivisionRepository>();
             Division? division = null;
-            A.CallTo(() => divisionRepository.GetDivision(A<int>.Ignored)).Returns(division);
+            A.CallTo(() => divisionRepository.GetDivisionAsync(A<int>.Ignored)).Returns(division);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new DivisionsController(divisionsIndexViewModel, divisionsDetailsViewModel,
@@ -219,7 +219,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Edit(id);
 
             // Assert
-            A.CallTo(() => divisionRepository.GetDivision(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.GetDivisionAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -232,7 +232,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var divisionRepository = A.Fake<IDivisionRepository>();
             Division? division = new Division();
-            A.CallTo(() => divisionRepository.GetDivision(A<int>.Ignored)).Returns(division);
+            A.CallTo(() => divisionRepository.GetDivisionAsync(A<int>.Ignored)).Returns(division);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new DivisionsController(divisionsIndexViewModel, divisionsDetailsViewModel,
@@ -244,7 +244,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Edit(id);
 
             // Assert
-            A.CallTo(() => divisionRepository.GetDivision(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.GetDivisionAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(division);
         }
@@ -413,7 +413,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var divisionRepository = A.Fake<IDivisionRepository>();
             Division? division = null;
-            A.CallTo(() => divisionRepository.GetDivision(A<int>.Ignored)).Returns(division);
+            A.CallTo(() => divisionRepository.GetDivisionAsync(A<int>.Ignored)).Returns(division);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new DivisionsController(divisionsIndexViewModel, divisionsDetailsViewModel,
@@ -425,7 +425,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Delete(id);
 
             // Assert
-            A.CallTo(() => divisionRepository.GetDivision(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.GetDivisionAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -438,7 +438,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var divisionRepository = A.Fake<IDivisionRepository>();
             Division? division = new Division();
-            A.CallTo(() => divisionRepository.GetDivision(A<int>.Ignored)).Returns(division);
+            A.CallTo(() => divisionRepository.GetDivisionAsync(A<int>.Ignored)).Returns(division);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new DivisionsController(divisionsIndexViewModel, divisionsDetailsViewModel,
@@ -450,7 +450,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Delete(id);
 
             // Assert
-            A.CallTo(() => divisionRepository.GetDivision(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.GetDivisionAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(division);
         }
@@ -472,7 +472,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.DeleteConfirmed(id);
 
             // Assert
-            A.CallTo(() => divisionRepository.Delete(id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => divisionRepository.DeleteAsync(id)).MustHaveHappenedOnceExactly();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<RedirectToActionResult>();
             ((RedirectToActionResult)result).ActionName.ShouldBe<string>(nameof(testController.Index));

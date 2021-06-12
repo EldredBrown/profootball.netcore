@@ -147,7 +147,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Create(leagueSeason);
 
             // Assert
-            A.CallTo(() => leagueSeasonRepository.Add(leagueSeason)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => leagueSeasonRepository.AddAsync(leagueSeason)).MustHaveHappenedOnceExactly();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<RedirectToActionResult>();
             ((RedirectToActionResult)result).ActionName.ShouldBe<string>(nameof(testController.Index));
@@ -172,7 +172,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Create(leagueSeason);
 
             // Assert
-            A.CallTo(() => leagueSeasonRepository.Add(leagueSeason)).MustNotHaveHappened();
+            A.CallTo(() => leagueSeasonRepository.AddAsync(leagueSeason)).MustNotHaveHappened();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustNotHaveHappened();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(leagueSeason);
@@ -472,7 +472,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.DeleteConfirmed(id);
 
             // Assert
-            A.CallTo(() => leagueSeasonRepository.Delete(id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => leagueSeasonRepository.DeleteAsync(id)).MustHaveHappenedOnceExactly();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<RedirectToActionResult>();
             ((RedirectToActionResult)result).ActionName.ShouldBe<string>(nameof(testController.Index));

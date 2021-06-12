@@ -27,7 +27,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="team">The <see cref="Team"/> entity to add.</param>
         /// <returns>The added <see cref="Team"/> entity.</returns>
-        Task<Team> Add(Team team);
+        Task<Team> AddAsync(Team team);
 
         /// <summary>
         /// Updates a <see cref="Team"/> entity in the data store.
@@ -41,13 +41,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Team"/> entity to delete.</param>
         /// <returns>The deleted <see cref="Team"/> entity.</returns>
-        Task<Team?> Delete(int id);
+        Task<Team?> DeleteAsync(int id);
 
         /// <summary>
         /// Checks to verify whether a specific <see cref="Team"/> entity exists in the data store.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Team"/> entity to verify.</param>
-        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.
+        /// </returns>
         Task<bool> TeamExists(int id);
     }
 }

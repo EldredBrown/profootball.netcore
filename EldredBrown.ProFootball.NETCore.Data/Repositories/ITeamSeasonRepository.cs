@@ -64,7 +64,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="teamSeason">The <see cref="TeamSeason"/> entity to add.</param>
         /// <returns>The added <see cref="TeamSeason"/> entity.</returns>
-        Task<TeamSeason> Add(TeamSeason teamSeason);
+        Task<TeamSeason> AddAsync(TeamSeason teamSeason);
 
         /// <summary>
         /// Updates a <see cref="TeamSeason"/> entity in the data store.
@@ -78,13 +78,15 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to delete.</param>
         /// <returns>The deleted <see cref="TeamSeason"/> entity.</returns>
-        Task<TeamSeason?> Delete(int id);
+        Task<TeamSeason?> DeleteAsync(int id);
 
         /// <summary>
         /// Checks to verify whether a specific <see cref="TeamSeason"/> entity exists in the data store.
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to verify.</param>
-        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.
+        /// </returns>
         Task<bool> TeamSeasonExists(int id);
     }
 }

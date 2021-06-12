@@ -86,7 +86,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Checks to verify whether a specific <see cref="Game"/> entity exists in the data store.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Game"/> entity to verify.</param>
-        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.
+        /// </returns>
         Task<bool> GameExists(int id);
     }
 }

@@ -50,7 +50,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="team">The <see cref="Team"/> entity to add.</param>
         /// <returns>The added <see cref="Team"/> entity.</returns>
-        public async Task<Team> Add(Team team)
+        public async Task<Team> AddAsync(Team team)
         {
             await _dbContext.AddAsync(team);
 
@@ -80,7 +80,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Team"/> entity to delete.</param>
         /// <returns>The deleted <see cref="Team"/> entity.</returns>
-        public async Task<Team?> Delete(int id)
+        public async Task<Team?> DeleteAsync(int id)
         {
             if (_dbContext.Teams is null)
             {
@@ -102,7 +102,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Checks to verify whether a specific <see cref="Team"/> entity exists in the data store.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Team"/> entity to verify.</param>
-        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.
+        /// </returns>
         public async Task<bool> TeamExists(int id)
         {
             return await _dbContext.Teams.AnyAsync(t => t.ID == id);

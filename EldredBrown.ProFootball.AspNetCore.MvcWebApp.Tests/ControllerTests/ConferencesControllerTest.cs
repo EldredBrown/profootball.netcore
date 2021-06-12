@@ -24,7 +24,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var conferenceRepository = A.Fake<IConferenceRepository>();
             var conferences = new List<Conference>();
-            A.CallTo(() => conferenceRepository.GetConferences()).Returns(conferences);
+            A.CallTo(() => conferenceRepository.GetConferencesAsync()).Returns(conferences);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new ConferencesController(conferencesIndexViewModel, conferencesDetailsViewModel,
@@ -34,7 +34,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Index();
 
             // Assert
-            A.CallTo(() => conferenceRepository.GetConferences()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.GetConferencesAsync()).MustHaveHappenedOnceExactly();
             conferencesIndexViewModel.Conferences.ShouldBe(conferences);
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(conferencesIndexViewModel);
@@ -69,7 +69,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var conferenceRepository = A.Fake<IConferenceRepository>();
             Conference? conference = null;
-            A.CallTo(() => conferenceRepository.GetConference(A<int>.Ignored)).Returns(conference);
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(A<int>.Ignored)).Returns(conference);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new ConferencesController(conferencesIndexViewModel, conferencesDetailsViewModel,
@@ -81,7 +81,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Details(id);
 
             // Assert
-            A.CallTo(() => conferenceRepository.GetConference(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -94,7 +94,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var conferenceRepository = A.Fake<IConferenceRepository>();
             Conference? conference = new Conference();
-            A.CallTo(() => conferenceRepository.GetConference(A<int>.Ignored)).Returns(conference);
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(A<int>.Ignored)).Returns(conference);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new ConferencesController(conferencesIndexViewModel, conferencesDetailsViewModel,
@@ -106,7 +106,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Details(id);
 
             // Assert
-            A.CallTo(() => conferenceRepository.GetConference(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(id.Value)).MustHaveHappenedOnceExactly();
             conferencesDetailsViewModel.Conference.ShouldBe(conference);
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(conferencesDetailsViewModel);
@@ -147,7 +147,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Create(conference);
 
             // Assert
-            A.CallTo(() => conferenceRepository.Add(conference)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.AddAsync(conference)).MustHaveHappenedOnceExactly();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<RedirectToActionResult>();
             ((RedirectToActionResult)result).ActionName.ShouldBe<string>(nameof(testController.Index));
@@ -172,7 +172,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Create(conference);
 
             // Assert
-            A.CallTo(() => conferenceRepository.Add(conference)).MustNotHaveHappened();
+            A.CallTo(() => conferenceRepository.AddAsync(conference)).MustNotHaveHappened();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustNotHaveHappened();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(conference);
@@ -207,7 +207,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var conferenceRepository = A.Fake<IConferenceRepository>();
             Conference? conference = null;
-            A.CallTo(() => conferenceRepository.GetConference(A<int>.Ignored)).Returns(conference);
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(A<int>.Ignored)).Returns(conference);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new ConferencesController(conferencesIndexViewModel, conferencesDetailsViewModel,
@@ -219,7 +219,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Edit(id);
 
             // Assert
-            A.CallTo(() => conferenceRepository.GetConference(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -232,7 +232,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var conferenceRepository = A.Fake<IConferenceRepository>();
             Conference? conference = new Conference();
-            A.CallTo(() => conferenceRepository.GetConference(A<int>.Ignored)).Returns(conference);
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(A<int>.Ignored)).Returns(conference);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new ConferencesController(conferencesIndexViewModel, conferencesDetailsViewModel,
@@ -244,7 +244,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Edit(id);
 
             // Assert
-            A.CallTo(() => conferenceRepository.GetConference(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(conference);
         }
@@ -413,7 +413,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var conferenceRepository = A.Fake<IConferenceRepository>();
             Conference? conference = null;
-            A.CallTo(() => conferenceRepository.GetConference(A<int>.Ignored)).Returns(conference);
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(A<int>.Ignored)).Returns(conference);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new ConferencesController(conferencesIndexViewModel, conferencesDetailsViewModel,
@@ -425,7 +425,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Delete(id);
 
             // Assert
-            A.CallTo(() => conferenceRepository.GetConference(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<NotFoundResult>();
         }
 
@@ -438,7 +438,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
 
             var conferenceRepository = A.Fake<IConferenceRepository>();
             Conference? conference = new Conference();
-            A.CallTo(() => conferenceRepository.GetConference(A<int>.Ignored)).Returns(conference);
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(A<int>.Ignored)).Returns(conference);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var testController = new ConferencesController(conferencesIndexViewModel, conferencesDetailsViewModel,
@@ -450,7 +450,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.Delete(id);
 
             // Assert
-            A.CallTo(() => conferenceRepository.GetConference(id.Value)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.GetConferenceAsync(id.Value)).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<ViewResult>();
             ((ViewResult)result).Model.ShouldBe(conference);
         }
@@ -472,7 +472,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var result = await testController.DeleteConfirmed(id);
 
             // Assert
-            A.CallTo(() => conferenceRepository.Delete(id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => conferenceRepository.DeleteAsync(id)).MustHaveHappenedOnceExactly();
             A.CallTo(() => sharedRepository.SaveChangesAsync()).MustHaveHappenedOnceExactly();
             result.ShouldBeOfType<RedirectToActionResult>();
             ((RedirectToActionResult)result).ActionName.ShouldBe<string>(nameof(testController.Index));

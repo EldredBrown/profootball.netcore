@@ -25,7 +25,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets all <see cref="Division"/> entities in the data store.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Division}"/> of all fetched entities.</returns>
-        public async Task<IEnumerable<Division>> GetDivisions()
+        public async Task<IEnumerable<Division>> GetDivisionsAsync()
         {
             return await _dbContext.Divisions.ToListAsync();
         }
@@ -35,7 +35,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Division"/> entity to fetch.</param>
         /// <returns>The fetched <see cref="Division"/> entity.</returns>
-        public async Task<Division?> GetDivision(int id)
+        public async Task<Division?> GetDivisionAsync(int id)
         {
             if (_dbContext.Divisions is null)
             {
@@ -50,7 +50,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="division">The <see cref="Division"/> entity to add.</param>
         /// <returns>The added <see cref="Division"/> entity.</returns>
-        public async Task<Division> Add(Division division)
+        public async Task<Division> AddAsync(Division division)
         {
             await _dbContext.AddAsync(division);
 
@@ -80,14 +80,14 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="Division"/> entity to delete.</param>
         /// <returns>The deleted <see cref="Division"/> entity.</returns>
-        public async Task<Division?> Delete(int id)
+        public async Task<Division?> DeleteAsync(int id)
         {
             if (_dbContext.Divisions is null)
             {
                 return null;
             }
 
-            var division = await GetDivision(id);
+            var division = await GetDivisionAsync(id);
             if (division is null)
             {
                 return null;
@@ -102,7 +102,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Checks to verify whether a specific <see cref="Division"/> entity exists in the data store.
         /// </summary>
         /// <param name="id">The ID of the <see cref="Division"/> entity to verify.</param>
-        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.
+        /// </returns>
         public async Task<bool> DivisionExists(int id)
         {
             return await _dbContext.Divisions.AnyAsync(l => l.ID == id);

@@ -105,7 +105,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="teamSeason">The <see cref="TeamSeason"/> entity to add.</param>
         /// <returns>The added <see cref="TeamSeason"/> entity.</returns>
-        public async Task<TeamSeason> Add(TeamSeason teamSeason)
+        public async Task<TeamSeason> AddAsync(TeamSeason teamSeason)
         {
             await _dbContext.AddAsync(teamSeason);
 
@@ -135,7 +135,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to delete.</param>
         /// <returns>The deleted <see cref="TeamSeason"/> entity.</returns>
-        public async Task<TeamSeason?> Delete(int id)
+        public async Task<TeamSeason?> DeleteAsync(int id)
         {
             if (_dbContext.TeamSeasons is null)
             {
@@ -157,7 +157,9 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Checks to verify whether a specific <see cref="TeamSeason"/> entity exists in the data store.
         /// </summary>
         /// <param name="id">The ID of the <see cref="TeamSeason"/> entity to verify.</param>
-        /// <returns><c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.</returns>
+        /// <returns>
+        /// <c>true</c> if the entity with the given ID exists in the data store; otherwise, <c>false</c>.
+        /// </returns>
         public async Task<bool> TeamSeasonExists(int id)
         {
             return await _dbContext.TeamSeasons.AnyAsync(ls => ls.ID == id);

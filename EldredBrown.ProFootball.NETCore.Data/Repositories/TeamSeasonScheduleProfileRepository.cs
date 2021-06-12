@@ -26,8 +26,12 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets a single team season schedule profile (<see cref="IEnumerable{OpponentProfile}"/>) from the data store
         /// by team name and season year.
         /// </summary>
-        /// <param name="teamName">The team name of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
-        /// <param name="seasonYear">The season year of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
+        /// <param name="teamName">
+        /// The team name of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.
+        /// </param>
+        /// <param name="seasonYear">
+        /// The season year of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.
+        /// </param>
         /// <returns>The fetched <see cref="IEnumerable{OpponentProfile}"/> collection.</returns>
         public IEnumerable<TeamSeasonOpponentProfile> GetTeamSeasonScheduleProfile(string teamName, int seasonYear)
         {
@@ -39,8 +43,12 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
         /// Gets a single team season schedule profile (<see cref="IEnumerable{OpponentProfile}"/>) asynchronously from
         /// the data store by team name and season year.
         /// </summary>
-        /// <param name="teamName">The team name of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
-        /// <param name="seasonYear">The season year of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.</param>
+        /// <param name="teamName">
+        /// The team name of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.
+        /// </param>
+        /// <param name="seasonYear">
+        /// The season year of the <see cref="TeamSeasonScheduleProfile"/> entity to fetch.
+        /// </param>
         /// <returns>The fetched <see cref="IEnumerable{OpponentProfile}"/> collection.</returns>
         public async Task<IEnumerable<TeamSeasonOpponentProfile>> GetTeamSeasonScheduleProfileAsync(string teamName,
             int seasonYear)
