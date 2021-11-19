@@ -34,15 +34,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var teamSeasons = new List<TeamSeason>();
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonsBySeasonAsync(A<int>.Ignored)).Returns(teamSeasons);
 
-            var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
-            var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
-            var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
+            var teamSeasonScheduleRepository = A.Fake<ITeamSeasonScheduleRepository>();
             var sharedRepository = A.Fake<ISharedRepository>();
             var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
 
             var testController = new TeamSeasonsController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
-                seasonRepository, teamSeasonRepository, teamSeasonScheduleProfileRepository,
-                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository, sharedRepository,
+                seasonRepository, teamSeasonRepository, teamSeasonScheduleRepository, sharedRepository,
                 weeklyUpdateService);
 
             // Act
@@ -71,15 +68,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var teamSeasonsDetailsViewModel = A.Fake<ITeamSeasonsDetailsViewModel>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
-            var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
-            var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
-            var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
+            var teamSeasonScheduleRepository = A.Fake<ITeamSeasonScheduleRepository>();
             var sharedRepository = A.Fake<ISharedRepository>();
             var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
 
             var testController = new TeamSeasonsController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
-                seasonRepository, teamSeasonRepository, teamSeasonScheduleProfileRepository,
-                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository, sharedRepository,
+                seasonRepository, teamSeasonRepository, teamSeasonScheduleRepository, sharedRepository,
                 weeklyUpdateService);
 
             int? id = null;
@@ -103,15 +97,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             TeamSeason? teamSeason = null;
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(A<int>.Ignored)).Returns(teamSeason);
 
-            var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
-            var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
-            var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
+            var teamSeasonScheduleRepository = A.Fake<ITeamSeasonScheduleRepository>();
             var sharedRepository = A.Fake<ISharedRepository>();
             var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
 
             var testController = new TeamSeasonsController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
-                seasonRepository, teamSeasonRepository, teamSeasonScheduleProfileRepository,
-                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository, sharedRepository,
+                seasonRepository, teamSeasonRepository, teamSeasonScheduleRepository, sharedRepository,
                 weeklyUpdateService);
 
             int? id = 1;
@@ -142,27 +133,25 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             };
             A.CallTo(() => teamSeasonRepository.GetTeamSeasonAsync(A<int>.Ignored)).Returns(teamSeason);
 
-            var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
+            var teamSeasonScheduleRepository = A.Fake<ITeamSeasonScheduleRepository>();
+
             var teamSeasonScheduleProfile = new List<TeamSeasonOpponentProfile>();
-            A.CallTo(() => teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfileAsync(A<string>.Ignored,
+            A.CallTo(() => teamSeasonScheduleRepository.GetTeamSeasonScheduleProfileAsync(A<string>.Ignored,
                 A<int>.Ignored)).Returns(teamSeasonScheduleProfile);
 
-            var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
             var teamSeasonScheduleTotals = new TeamSeasonScheduleTotals();
-            A.CallTo(() => teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
+            A.CallTo(() => teamSeasonScheduleRepository.GetTeamSeasonScheduleTotalsAsync(A<string>.Ignored,
                 A<int>.Ignored)).Returns(teamSeasonScheduleTotals);
 
-            var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
             var teamSeasonScheduleAverages = new TeamSeasonScheduleAverages();
-            A.CallTo(() => teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
+            A.CallTo(() => teamSeasonScheduleRepository.GetTeamSeasonScheduleAveragesAsync(A<string>.Ignored,
                 A<int>.Ignored)).Returns(teamSeasonScheduleAverages);
 
             var sharedRepository = A.Fake<ISharedRepository>();
             var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
 
             var testController = new TeamSeasonsController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
-                seasonRepository, teamSeasonRepository, teamSeasonScheduleProfileRepository,
-                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository, sharedRepository,
+                seasonRepository, teamSeasonRepository, teamSeasonScheduleRepository, sharedRepository,
                 weeklyUpdateService);
 
             int? id = 1;
@@ -173,15 +162,15 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             // Assert
             teamSeasonsDetailsViewModel.TeamSeason = teamSeason;
 
-            A.CallTo(() => teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfileAsync(teamName, seasonYear))
+            A.CallTo(() => teamSeasonScheduleRepository.GetTeamSeasonScheduleProfileAsync(teamName, seasonYear))
                 .MustHaveHappenedOnceExactly();
             teamSeasonsDetailsViewModel.TeamSeasonScheduleProfile.ShouldBe(teamSeasonScheduleProfile);
 
-            A.CallTo(() => teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
+            A.CallTo(() => teamSeasonScheduleRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear))
                 .MustHaveHappenedOnceExactly();
             teamSeasonsDetailsViewModel.TeamSeasonScheduleTotals.ShouldBe(teamSeasonScheduleTotals);
 
-            A.CallTo(() => teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName,
+            A.CallTo(() => teamSeasonScheduleRepository.GetTeamSeasonScheduleAveragesAsync(teamName,
                 seasonYear)).MustHaveHappenedOnceExactly();
             teamSeasonsDetailsViewModel.TeamSeasonScheduleAverages.ShouldBe(teamSeasonScheduleAverages);
 
@@ -197,15 +186,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var teamSeasonsDetailsViewModel = A.Fake<ITeamSeasonsDetailsViewModel>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
-            var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
-            var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
-            var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
+            var teamSeasonScheduleRepository = A.Fake<ITeamSeasonScheduleRepository>();
             var sharedRepository = A.Fake<ISharedRepository>();
             var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
 
             var testController = new TeamSeasonsController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
-                seasonRepository, teamSeasonRepository, teamSeasonScheduleProfileRepository,
-                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository, sharedRepository,
+                seasonRepository, teamSeasonRepository, teamSeasonScheduleRepository, sharedRepository,
                 weeklyUpdateService);
 
             // Act
@@ -226,15 +212,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var teamSeasonsDetailsViewModel = A.Fake<ITeamSeasonsDetailsViewModel>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
-            var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
-            var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
-            var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
+            var teamSeasonScheduleRepository = A.Fake<ITeamSeasonScheduleRepository>();
             var sharedRepository = A.Fake<ISharedRepository>();
             var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
 
             var testController = new TeamSeasonsController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
-                seasonRepository, teamSeasonRepository, teamSeasonScheduleProfileRepository,
-                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository, sharedRepository,
+                seasonRepository, teamSeasonRepository, teamSeasonScheduleRepository, sharedRepository,
                 weeklyUpdateService);
 
             int? seasonYear = null;
@@ -254,15 +237,12 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Tests.ControllerTests
             var teamSeasonsDetailsViewModel = A.Fake<ITeamSeasonsDetailsViewModel>();
             var seasonRepository = A.Fake<ISeasonRepository>();
             var teamSeasonRepository = A.Fake<ITeamSeasonRepository>();
-            var teamSeasonScheduleProfileRepository = A.Fake<ITeamSeasonScheduleProfileRepository>();
-            var teamSeasonScheduleTotalsRepository = A.Fake<ITeamSeasonScheduleTotalsRepository>();
-            var teamSeasonScheduleAveragesRepository = A.Fake<ITeamSeasonScheduleAveragesRepository>();
+            var teamSeasonScheduleRepository = A.Fake<ITeamSeasonScheduleRepository>();
             var sharedRepository = A.Fake<ISharedRepository>();
             var weeklyUpdateService = A.Fake<IWeeklyUpdateService>();
 
             var testController = new TeamSeasonsController(teamSeasonsIndexViewModel, teamSeasonsDetailsViewModel,
-                seasonRepository, teamSeasonRepository, teamSeasonScheduleProfileRepository,
-                teamSeasonScheduleTotalsRepository, teamSeasonScheduleAveragesRepository, sharedRepository,
+                seasonRepository, teamSeasonRepository, teamSeasonScheduleRepository, sharedRepository,
                 weeklyUpdateService);
 
             int? seasonYear = 1920;

@@ -12,9 +12,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
     public class TeamSeasonsControlViewModel : ViewModelBase, ITeamSeasonsControlViewModel
     {
         private readonly ITeamSeasonRepository _teamSeasonRepository;
-        private readonly ITeamSeasonScheduleProfileRepository _teamSeasonScheduleProfileRepository;
-        private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
-        private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
+        private readonly ITeamSeasonScheduleRepository _teamSeasonScheduleRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TeamSeasonsControlViewModel"/> class.
@@ -22,7 +20,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
         /// <param name="teamSeasonRepository">
         /// The <see cref="ITeamSeasonRepository"/> object by which team season data will be accessed.
         /// </param>
-        /// <param name="teamSeasonScheduleProfileRepository">
+        /// <param name="teamSeasonScheduleRepository">
         /// The <see cref="ITeamSeasonScheduleProfileRepository"/> object by which team season opponent profile data
         /// will be accessed.
         /// </param>
@@ -36,14 +34,10 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
         /// </param>
         public TeamSeasonsControlViewModel(
             ITeamSeasonRepository teamSeasonRepository,
-            ITeamSeasonScheduleProfileRepository teamSeasonScheduleProfileRepository,
-            ITeamSeasonScheduleTotalsRepository teamSeasonScheduleTotalsRepository,
-            ITeamSeasonScheduleAveragesRepository teamSeasonScheduleAveragesRepository)
+            ITeamSeasonScheduleRepository teamSeasonScheduleRepository)
         {
             _teamSeasonRepository = teamSeasonRepository;
-            _teamSeasonScheduleProfileRepository = teamSeasonScheduleProfileRepository;
-            _teamSeasonScheduleTotalsRepository = teamSeasonScheduleTotalsRepository;
-            _teamSeasonScheduleAveragesRepository = teamSeasonScheduleAveragesRepository;
+            _teamSeasonScheduleRepository = teamSeasonScheduleRepository;
         }
 
         /// <summary>
@@ -204,12 +198,12 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
             var seasonYear = SelectedTeam.SeasonYear;
 
             var teamSeasonOpponentProfiles =
-                _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfile(teamName, seasonYear);
+                _teamSeasonScheduleRepository.GetTeamSeasonScheduleProfile(teamName, seasonYear);
             TeamSeasonScheduleProfile =
                 new ReadOnlyCollection<TeamSeasonOpponentProfile>(teamSeasonOpponentProfiles.ToList());
 
             var teamSeasonScheduleTotals =
-                _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear);
+                _teamSeasonScheduleRepository.GetTeamSeasonScheduleTotals(teamName, seasonYear);
             TeamSeasonScheduleTotals =
                 new ReadOnlyCollection<TeamSeasonScheduleTotals>(
                     new List<TeamSeasonScheduleTotals>
@@ -218,7 +212,7 @@ namespace EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons
                     });
 
             var teamSeasonScheduleAverages =
-                _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear);
+                _teamSeasonScheduleRepository.GetTeamSeasonScheduleAverages(teamName, seasonYear);
             TeamSeasonScheduleAverages =
                 new ReadOnlyCollection<TeamSeasonScheduleAverages>(
                     new List<TeamSeasonScheduleAverages>

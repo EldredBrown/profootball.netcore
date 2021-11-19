@@ -1,4 +1,3 @@
-using AutoMapper;
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
@@ -52,9 +51,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<ILeagueSeasonRepository, LeagueSeasonRepository>();
             services.AddScoped<ITeamSeasonRepository, TeamSeasonRepository>();
-            services.AddScoped<ITeamSeasonScheduleProfileRepository, TeamSeasonScheduleProfileRepository>();
-            services.AddScoped<ITeamSeasonScheduleTotalsRepository, TeamSeasonScheduleTotalsRepository>();
-            services.AddScoped<ITeamSeasonScheduleAveragesRepository, TeamSeasonScheduleAveragesRepository>();
+            services.AddScoped<ITeamSeasonScheduleRepository, TeamSeasonScheduleRepository>();
             services.AddScoped<ISeasonStandingsRepository, SeasonStandingsRepository>();
             services.AddScoped<ISharedRepository, SharedRepository>();
 

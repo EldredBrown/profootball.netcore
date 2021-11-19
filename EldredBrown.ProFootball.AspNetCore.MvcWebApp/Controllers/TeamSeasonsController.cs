@@ -16,9 +16,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
         private readonly ITeamSeasonsDetailsViewModel _teamSeasonsDetailsViewModel;
         private readonly ISeasonRepository _seasonRepository;
         private readonly ITeamSeasonRepository _teamSeasonRepository;
-        private readonly ITeamSeasonScheduleProfileRepository _teamSeasonScheduleProfileRepository;
-        private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
-        private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
+        private readonly ITeamSeasonScheduleRepository _teamSeasonScheduleRepository;
         private readonly ISharedRepository _sharedRepository;
         private readonly IWeeklyUpdateService _weeklyUpdateService;
 
@@ -60,9 +58,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             ITeamSeasonsDetailsViewModel teamSeasonsDetailsViewModel,
             ISeasonRepository seasonRepository,
             ITeamSeasonRepository teamSeasonRepository,
-            ITeamSeasonScheduleProfileRepository teamSeasonScheduleProfileRepository,
-            ITeamSeasonScheduleTotalsRepository teamSeasonScheduleTotalsRepository,
-            ITeamSeasonScheduleAveragesRepository teamSeasonScheduleAveragesRepository,
+            ITeamSeasonScheduleRepository teamSeasonScheduleRepository,
             ISharedRepository sharedRepository,
             IWeeklyUpdateService weeklyUpdateService)
         {
@@ -70,9 +66,7 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             _teamSeasonsDetailsViewModel = teamSeasonsDetailsViewModel;
             _seasonRepository = seasonRepository;
             _teamSeasonRepository = teamSeasonRepository;
-            _teamSeasonScheduleProfileRepository = teamSeasonScheduleProfileRepository;
-            _teamSeasonScheduleTotalsRepository = teamSeasonScheduleTotalsRepository;
-            _teamSeasonScheduleAveragesRepository = teamSeasonScheduleAveragesRepository;
+            _teamSeasonScheduleRepository = teamSeasonScheduleRepository;
             _sharedRepository = sharedRepository;
             _weeklyUpdateService = weeklyUpdateService;
         }
@@ -120,11 +114,11 @@ namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
             var teamName = teamSeason.TeamName;
             var seasonYear = teamSeason.SeasonYear;
             _teamSeasonsDetailsViewModel.TeamSeasonScheduleProfile =
-                await _teamSeasonScheduleProfileRepository.GetTeamSeasonScheduleProfileAsync(teamName, seasonYear);
+                await _teamSeasonScheduleRepository.GetTeamSeasonScheduleProfileAsync(teamName, seasonYear);
             _teamSeasonsDetailsViewModel.TeamSeasonScheduleTotals =
-                await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear);
+                await _teamSeasonScheduleRepository.GetTeamSeasonScheduleTotalsAsync(teamName, seasonYear);
             _teamSeasonsDetailsViewModel.TeamSeasonScheduleAverages =
-                await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear);
+                await _teamSeasonScheduleRepository.GetTeamSeasonScheduleAveragesAsync(teamName, seasonYear);
 
             return View(_teamSeasonsDetailsViewModel);
         }

@@ -19,8 +19,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
         private readonly ILeagueSeasonRepository _leagueSeasonRepository;
         private readonly ILeagueSeasonTotalsRepository _leagueSeasonTotalsRepository;
         private readonly ITeamSeasonRepository _teamSeasonRepository;
-        private readonly ITeamSeasonScheduleTotalsRepository _teamSeasonScheduleTotalsRepository;
-        private readonly ITeamSeasonScheduleAveragesRepository _teamSeasonScheduleAveragesRepository;
+        private readonly ITeamSeasonScheduleRepository _teamSeasonScheduleRepository;
         private readonly ISharedRepository _sharedRepository;
 
         private readonly object _dbLock = new object();
@@ -42,8 +41,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             ILeagueSeasonRepository leagueSeasonRepository,
             ILeagueSeasonTotalsRepository leagueSeasonTotalsRepository,
             ITeamSeasonRepository teamSeasonRepository,
-            ITeamSeasonScheduleTotalsRepository teamSeasonScheduleTotalsRepository,
-            ITeamSeasonScheduleAveragesRepository teamSeasonScheduleAveragesRepository,
+            ITeamSeasonScheduleRepository teamSeasonScheduleRepository,
             ISharedRepository sharedRepository)
         {
             _seasonRepository = seasonRepository;
@@ -51,8 +49,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             _leagueSeasonRepository = leagueSeasonRepository;
             _leagueSeasonTotalsRepository = leagueSeasonTotalsRepository;
             _teamSeasonRepository = teamSeasonRepository;
-            _teamSeasonScheduleTotalsRepository = teamSeasonScheduleTotalsRepository;
-            _teamSeasonScheduleAveragesRepository = teamSeasonScheduleAveragesRepository;
+            _teamSeasonScheduleRepository = teamSeasonScheduleRepository;
             _sharedRepository = sharedRepository;
         }
 
@@ -128,7 +125,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
             try
             {
                 var teamSeasonScheduleTotals =
-                    await _teamSeasonScheduleTotalsRepository.GetTeamSeasonScheduleTotalsAsync(
+                    await _teamSeasonScheduleRepository.GetTeamSeasonScheduleTotalsAsync(
                         teamSeasonDecorator.TeamName, teamSeasonDecorator.SeasonYear);
                 if (teamSeasonScheduleTotals.ScheduleGames is null)
                 {
@@ -136,7 +133,7 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 }
 
                 var teamSeasonScheduleAverages =
-                    await _teamSeasonScheduleAveragesRepository.GetTeamSeasonScheduleAveragesAsync(
+                    await _teamSeasonScheduleRepository.GetTeamSeasonScheduleAveragesAsync(
                         teamSeasonDecorator.TeamName, teamSeasonDecorator.SeasonYear);
                 if (teamSeasonScheduleAverages.PointsFor is null ||
                     teamSeasonScheduleAverages.PointsAgainst is null)

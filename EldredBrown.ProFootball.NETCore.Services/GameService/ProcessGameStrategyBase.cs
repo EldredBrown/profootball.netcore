@@ -52,6 +52,21 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 gameDecorator.HostScore);
         }
 
+        protected void EditWinLossData(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
+        {
+            UpdateGamesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
+            UpdateWinsLossesAndTiesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
+            UpdateWinningPercentageForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
+        }
+
+        protected virtual void UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
+        {
+            throw new NotImplementedException(
+                nameof(UpdateWinsLossesAndTiesForTeamSeasons) + " must be implemented in a subclass.");
+        }
+
         /// <summary>
         /// Processes a <see cref="Game"/> entity into the Teams data store asynchronously.
         /// </summary>
@@ -84,14 +99,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 gameDecorator.HostScore);
         }
 
-        protected void EditWinLossData(TeamSeasonDecorator? guestSeasonDecorator,
-            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
-        {
-            UpdateGamesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
-            UpdateWinsLossesAndTiesForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator, gameDecorator);
-            UpdateWinningPercentageForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
-        }
-
         protected async Task EditWinLossDataAsync(TeamSeasonDecorator? guestSeasonDecorator,
             TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
         {
@@ -100,25 +107,18 @@ namespace EldredBrown.ProFootball.NETCore.Services
             UpdateWinningPercentageForTeamSeasons(guestSeasonDecorator, hostSeasonDecorator);
         }
 
-        protected virtual void UpdateGamesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
-            TeamSeasonDecorator? hostSeasonDecorator)
-        {
-            throw new NotImplementedException(
-                nameof(UpdateGamesForTeamSeasons) + " must be implemented in a subclass.");
-        }
-
-        protected virtual void UpdateWinsLossesAndTiesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
-            TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
-        {
-            throw new NotImplementedException(
-                nameof(UpdateWinsLossesAndTiesForTeamSeasons) + " must be implemented in a subclass.");
-        }
-
         protected virtual Task UpdateWinsLossesAndTiesForTeamSeasonsAsync(TeamSeasonDecorator? guestSeasonDecorator,
             TeamSeasonDecorator? hostSeasonDecorator, IGameDecorator gameDecorator)
         {
             throw new NotImplementedException(
                 nameof(UpdateWinsLossesAndTiesForTeamSeasonsAsync) + " must be implemented in a subclass.");
+        }
+
+        protected virtual void UpdateGamesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator)
+        {
+            throw new NotImplementedException(
+                nameof(UpdateGamesForTeamSeasons) + " must be implemented in a subclass.");
         }
 
         protected void UpdateWinningPercentageForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,

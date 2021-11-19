@@ -17,20 +17,6 @@ namespace EldredBrown.ProFootball.NETCore.Services
         {
         }
 
-        protected override void UpdateGamesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
-            TeamSeasonDecorator? hostSeasonDecorator)
-        {
-            if (!(guestSeasonDecorator is null))
-            {
-                guestSeasonDecorator.Games--;
-            }
-
-            if (!(hostSeasonDecorator is null))
-            {
-                hostSeasonDecorator.Games--;
-            }
-        }
-
         protected override void UpdateWinsLossesAndTiesForTeamSeasons(
             TeamSeasonDecorator? guestSeasonDecorator, TeamSeasonDecorator? hostSeasonDecorator,
             IGameDecorator gameDecorator)
@@ -100,6 +86,20 @@ namespace EldredBrown.ProFootball.NETCore.Services
                 {
                     loserSeason.Losses--;
                 }
+            }
+        }
+
+        protected override void UpdateGamesForTeamSeasons(TeamSeasonDecorator? guestSeasonDecorator,
+            TeamSeasonDecorator? hostSeasonDecorator)
+        {
+            if (!(guestSeasonDecorator is null))
+            {
+                guestSeasonDecorator.Games--;
+            }
+
+            if (!(hostSeasonDecorator is null))
+            {
+                hostSeasonDecorator.Games--;
             }
         }
 
