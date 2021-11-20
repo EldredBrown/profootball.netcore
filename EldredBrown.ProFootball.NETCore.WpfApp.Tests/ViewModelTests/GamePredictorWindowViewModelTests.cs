@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using FakeItEasy;
+using Shouldly;
+using Xunit;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor;
-using FakeItEasy;
-using Shouldly;
-using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
 {

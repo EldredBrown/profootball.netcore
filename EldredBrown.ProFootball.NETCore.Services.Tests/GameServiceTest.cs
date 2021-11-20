@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using FakeItEasy;
+using Shouldly;
+using Xunit;
 using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services.Exceptions;
-using FakeItEasy;
-using Shouldly;
-using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {

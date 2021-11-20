@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
-using EldredBrown.ProFootball.AspNetCore.WebApiApp.Properties;
-using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Properties;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
 
 namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
 {
@@ -26,8 +26,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// </summary>
         /// <param name="teamSeasonScheduleProfileRepository">The repository by which team season schedule profile data will be accessed.</param>
         /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
-        public TeamSeasonScheduleController(
-            ITeamSeasonScheduleRepository teamSeasonScheduleRepository, IMapper mapper)
+        public TeamSeasonScheduleController(ITeamSeasonScheduleRepository teamSeasonScheduleRepository, IMapper mapper)
         {
             _teamSeasonScheduleRepository = teamSeasonScheduleRepository;
             _mapper = mapper;

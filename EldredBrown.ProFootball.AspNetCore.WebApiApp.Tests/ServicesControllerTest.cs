@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
-using EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers;
-using EldredBrown.ProFootball.NETCore.Services;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 using Xunit;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers;
+using EldredBrown.ProFootball.NETCore.Services;
 
 namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Tests
 {

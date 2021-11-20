@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers;
-using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
-using EldredBrown.ProFootball.NETCore.Data.Entities;
-using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 using Xunit;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers;
+using EldredBrown.ProFootball.AspNetCore.WebApiApp.Models;
+using EldredBrown.ProFootball.NETCore.Data.Entities;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
 
 namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Tests
 {

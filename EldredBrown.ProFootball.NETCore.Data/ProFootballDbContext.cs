@@ -1,7 +1,7 @@
-﻿using EldredBrown.ProFootball.NETCore.Data.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.Data
 {

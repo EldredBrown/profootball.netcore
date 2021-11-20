@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using EldredBrown.ProFootball.NETCore.Data.Entities;
-using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using EldredBrown.ProFootball.NETCore.Data.Entities;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
 
 namespace EldredBrown.ProFootball.AspNetCore.MvcWebApp.Controllers
 {

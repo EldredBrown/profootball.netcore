@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
+using FakeItEasy;
+using Xunit;
 using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using FakeItEasy;
-using Xunit;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {

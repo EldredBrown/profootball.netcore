@@ -1,8 +1,8 @@
 using System.Windows;
-using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder;
 using FakeItEasy;
 using Shouldly;
 using Xunit;
+using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp.Tests.ViewModelTests
 {

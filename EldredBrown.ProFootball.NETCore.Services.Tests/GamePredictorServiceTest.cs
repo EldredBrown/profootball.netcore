@@ -1,6 +1,6 @@
-using EldredBrown.ProFootball.NETCore.Data.Entities;
 using Shouldly;
 using Xunit;
+using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
