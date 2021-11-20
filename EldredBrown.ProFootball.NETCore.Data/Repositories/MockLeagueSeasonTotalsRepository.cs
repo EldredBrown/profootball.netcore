@@ -4,7 +4,7 @@ namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
     public class MockLeagueSeasonTotalsRepository : ILeagueSeasonTotalsRepository
     {
-        private LeagueSeasonTotals _leagueSeasonTotals;
+        private readonly LeagueSeasonTotals _leagueSeasonTotals;
 
         public MockLeagueSeasonTotalsRepository()
         {

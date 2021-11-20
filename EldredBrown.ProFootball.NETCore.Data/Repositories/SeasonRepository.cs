@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EldredBrown.ProFootball.NETCore.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.Data.Repositories
 {
