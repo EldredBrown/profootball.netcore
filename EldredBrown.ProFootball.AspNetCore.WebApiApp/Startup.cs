@@ -1,12 +1,12 @@
-using EldredBrown.ProFootball.NETCore.Data;
-using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using EldredBrown.ProFootball.NETCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using EldredBrown.ProFootball.NETCore.Data;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
+using EldredBrown.ProFootball.NETCore.Services;
 
 namespace EldredBrown.ProFootball.AspNetCore.WebApiApp
 {
