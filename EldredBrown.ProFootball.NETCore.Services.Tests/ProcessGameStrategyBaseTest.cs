@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using EldredBrown.ProFootball.NETCore.Data.Decorators;
-using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using FakeItEasy;
 using Shouldly;
 using Xunit;
+using EldredBrown.ProFootball.NETCore.Data.Decorators;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
 
 namespace EldredBrown.ProFootball.NETCore.Services.Tests
 {
