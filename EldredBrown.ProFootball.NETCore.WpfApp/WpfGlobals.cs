@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-
-namespace EldredBrown.ProFootball.WpfApp
+﻿namespace EldredBrown.ProFootball.WpfApp
 {
     /// <summary>
     /// All globals used by the WPF app

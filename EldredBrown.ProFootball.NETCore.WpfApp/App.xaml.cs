@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using EldredBrown.ProFootball.NETCore.Data;
 using EldredBrown.ProFootball.NETCore.Data.Repositories;
 using EldredBrown.ProFootball.NETCore.Services;
@@ -11,8 +13,6 @@ using EldredBrown.ProFootball.NETCore.WpfApp.UserControls.TeamSeasons;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GameFinder;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.GamePredictor;
 using EldredBrown.ProFootball.NETCore.WpfApp.Windows.Games;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace EldredBrown.ProFootball.NETCore.WpfApp
 {
