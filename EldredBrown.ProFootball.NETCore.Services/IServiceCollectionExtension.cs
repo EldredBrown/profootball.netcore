@@ -1,5 +1,5 @@
-﻿using EldredBrown.ProFootball.NETCore.Data.Repositories;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using EldredBrown.ProFootball.NETCore.Data.Repositories;
 
 namespace EldredBrown.ProFootball.NETCore.Services
 {

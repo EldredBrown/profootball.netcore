@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using EldredBrown.ProFootball.NETCore.Data.Decorators;
 using EldredBrown.ProFootball.NETCore.Data.Entities;
 
 namespace EldredBrown.ProFootball.NETCore.Services
