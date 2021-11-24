@@ -26,8 +26,7 @@ namespace EldredBrown.ProFootball.AspNetCore.WebApiApp.Controllers
         /// </summary>
         /// <param name="teamSeasonScheduleProfileRepository">The repository by which team season schedule profile data will be accessed.</param>
         /// <param name="mapper">The AutoMapper object used for object-object mapping.</param>
-        public TeamSeasonScheduleController(
-            ITeamSeasonScheduleRepository teamSeasonScheduleRepository, IMapper mapper)
+        public TeamSeasonScheduleController(ITeamSeasonScheduleRepository teamSeasonScheduleRepository, IMapper mapper)
         {
             _teamSeasonScheduleRepository = teamSeasonScheduleRepository;
             _mapper = mapper;
